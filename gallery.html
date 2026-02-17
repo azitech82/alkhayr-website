@@ -277,16 +277,12 @@
             
             <div id="gallery-container" class="space-y-12">
                 <!-- Top: Video Frame (Centered) -->
-                <div class="flex justify-center w-full px-4">
-                     <div class="w-full max-w-4xl bamboo-frame relative group">
-                        <video id="galleryVideo" autoplay muted playsinline loop controls class="w-full h-auto aspect-video object-cover">
+                <div class="grid grid-cols-1 gap-8 px-4">
+                    <div class="w-full max-w-4xl mx-auto bamboo-frame relative group">
+                        <video class="w-full h-auto aspect-video object-cover" autoplay muted playsinline loop controls preload="metadata">
                             <source src="Video/2025%20TEBUK%20CHALLENGE%20JUL%202025_AAK.mp4" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
-                        <!-- Mute/Unmute Button -->
-                        <button id="muteToggle" class="absolute bottom-6 right-6 z-10 bg-black/50 hover:bg-black/70 text-white rounded-full p-3 transition-all duration-300 backdrop-blur-sm focus:outline-none transform hover:scale-110">
-                            <i id="muteIcon" class="fas fa-volume-mute text-lg w-6 h-6 flex items-center justify-center"></i>
-                        </button>
                     </div>
                 </div>
 
@@ -485,6 +481,7 @@
         });
     </script>
 
+
     <!-- Watermarks -->
     <div class="fixed bottom-[-5%] left-[-5%] z-0 pointer-events-none opacity-[0.03] select-none" style="width: 40vw; max-width: 500px;">
         <img src="logo%20AAK%20(white%20BG).png" class="w-full h-auto grayscale" alt="">
@@ -501,39 +498,5 @@
         </svg>
     </div>
 
-    <script>
-        // Video Mute Toggle Logic
-        document.addEventListener('DOMContentLoaded', () => {
-            const video = document.getElementById('galleryVideo');
-            const muteBtn = document.getElementById('muteToggle');
-            const muteIcon = document.getElementById('muteIcon');
-            
-            if (video && muteBtn && muteIcon) {
-                // Initial state check
-                updateIcon();
-
-                muteBtn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    
-                    video.muted = !video.muted;
-                    updateIcon();
-                });
-
-                // Update icon if controls are used
-                video.addEventListener('volumechange', updateIcon);
-
-                function updateIcon() {
-                    if (video.muted || video.volume === 0) {
-                        muteIcon.className = 'fas fa-volume-mute text-lg w-6 h-6 flex items-center justify-center';
-                        muteBtn.title = "Unmute";
-                    } else {
-                        muteIcon.className = 'fas fa-volume-up text-lg w-6 h-6 flex items-center justify-center';
-                        muteBtn.title = "Mute";
-                    }
-                }
-            }
-        });
-    </script>
 </body>
 </html>
