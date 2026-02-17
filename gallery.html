@@ -99,91 +99,33 @@
         /* Bamboo Frame Style */
         .bamboo-frame {
             position: relative;
-            padding: 30px;
-            background-color: #2d1b15;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
-            border-radius: 2px;
-            margin: 20px; /* Space for extending sticks */
+            padding: 24px;
+            background-color: #ffffff;
+            box-shadow: 0 18px 28px rgba(15, 23, 42, 0.15);
+            border-radius: 20px;
+            border: 2px solid #1e3a8a;
+            margin: 20px;
         }
 
         /* Vertical Sticks (Left & Right) */
         .bamboo-frame::before {
-            content: '';
-            position: absolute;
-            top: -30px;
-            bottom: -30px;
-            left: 0;
-            right: 0;
-            z-index: 10;
-            pointer-events: none;
-            
-            /* Bamboo Texture Vertical */
-            background-image: 
-                /* Left Nodes */
-                repeating-linear-gradient(0deg, transparent 0px, transparent 58px, rgba(20, 10, 5, 0.5) 59px, rgba(255,255,255,0.1) 60px, transparent 61px),
-                /* Left Texture */
-                repeating-linear-gradient(90deg, #3e2723 0px, #5d4037 3px, #8d6e63 6px, #5d4037 9px, #3e2723 12px),
-                
-                /* Right Nodes */
-                repeating-linear-gradient(0deg, transparent 0px, transparent 58px, rgba(20, 10, 5, 0.5) 59px, rgba(255,255,255,0.1) 60px, transparent 61px),
-                /* Right Texture */
-                repeating-linear-gradient(90deg, #3e2723 0px, #5d4037 3px, #8d6e63 6px, #5d4037 9px, #3e2723 12px);
-            
-            background-size: 
-                30px 100%, 30px 100%,
-                30px 100%, 30px 100%;
-                
-            background-position: 
-                left top, left top,
-                right top, right top;
-                
-            background-repeat: no-repeat;
-            
-            filter: drop-shadow(2px 0 4px rgba(0,0,0,0.4));
+            content: none;
         }
 
         /* Horizontal Sticks (Top & Bottom) */
         .bamboo-frame::after {
-            content: '';
-            position: absolute;
-            left: -40px;
-            right: -40px;
-            top: 0;
-            bottom: 0;
-            z-index: 11;
-            pointer-events: none;
-
-            /* Bamboo Texture Horizontal */
-            background-image: 
-                /* Top Nodes */
-                repeating-linear-gradient(90deg, transparent 0px, transparent 58px, rgba(20, 10, 5, 0.5) 59px, rgba(255,255,255,0.1) 60px, transparent 61px),
-                /* Top Texture */
-                repeating-linear-gradient(0deg, #3e2723 0px, #5d4037 3px, #8d6e63 6px, #5d4037 9px, #3e2723 12px),
-                
-                /* Bottom Nodes */
-                repeating-linear-gradient(90deg, transparent 0px, transparent 58px, rgba(20, 10, 5, 0.5) 59px, rgba(255,255,255,0.1) 60px, transparent 61px),
-                /* Bottom Texture */
-                repeating-linear-gradient(0deg, #3e2723 0px, #5d4037 3px, #8d6e63 6px, #5d4037 9px, #3e2723 12px);
-                
-            background-size: 
-                100% 30px, 100% 30px,
-                100% 30px, 100% 30px;
-                
-            background-position: 
-                top left, top left,
-                bottom left, bottom left;
-                
-            background-repeat: no-repeat;
-            
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
+            content: none;
         }
 
-        .bamboo-frame video {
-            border: 2px solid #1a100e;
-            box-shadow: 0 0 15px rgba(0,0,0,0.7);
+        .bamboo-frame video,
+        .bamboo-frame iframe {
+            border: none;
+            box-shadow: none;
             position: relative;
             z-index: 5;
             display: block;
+            border-radius: 14px;
+            background-color: #000000;
         }
     </style>
 </head>
@@ -278,11 +220,8 @@
             <div id="gallery-container" class="space-y-12">
                 <!-- Top: Video Frame (Centered) -->
                 <div class="grid grid-cols-1 gap-8 px-4">
-                    <div class="w-full max-w-4xl mx-auto bamboo-frame relative group">
-                        <video class="w-full h-auto aspect-video object-cover" autoplay muted playsinline loop controls preload="metadata">
-                            <source src="Video/2025%20TEBUK%20CHALLENGE%20JUL%202025_AAK.mp4" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
+                    <div id="campus-tour-video" class="w-full max-w-4xl mx-auto bamboo-frame relative group">
+                        <iframe class="w-full aspect-video object-cover" src="https://www.youtube.com/embed/_Nbv7n74c0Y" title="Akademi Al Khayr Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                     </div>
                 </div>
 

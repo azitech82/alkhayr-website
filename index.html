@@ -207,7 +207,7 @@
                         <span class="text-xs font-normal opacity-90 mt-0.5">اكتشف المزيد</span>
                     </div>
                 </a>
-                <a id="campusTourButton" href="Video/AAK_commercial.mp4" class="bg-transparent border-2 border-white hover:bg-white hover:text-purple-800 text-white font-bold py-3 px-10 rounded-full transition duration-300 transform hover:-translate-y-1 text-center">
+                <a id="campusTourButton" href="campus_tour.html" class="bg-transparent border-2 border-white hover:bg-white hover:text-purple-800 text-white font-bold py-3 px-10 rounded-full transition duration-300 transform hover:-translate-y-1 text-center">
                     <div class="flex flex-col items-center leading-tight">
                         <span>Campus Tour</span>
                         <span class="text-xs font-normal opacity-90 mt-0.5">جولة في الحرم المدرسي</span>
@@ -581,16 +581,6 @@
         </div>
     </footer>
 
-    <div id="campusTourOverlay" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/90">
-        <div id="campusTourWrap" class="relative w-[92vw] h-[52vw] max-w-5xl max-h-[70vh] flex items-center justify-center">
-            <a href="index.html" class="absolute -top-10 left-0 text-white text-sm font-semibold border border-white/60 px-4 py-1.5 rounded-full hover:bg-white hover:text-purple-800 transition">Home</a>
-            <button id="campusTourClose" class="absolute -top-10 right-0 text-white text-3xl leading-none">&times;</button>
-            <video id="campusTourVideo" class="w-full h-full rounded-lg shadow-2xl object-contain bg-black" autoplay muted playsinline controls>
-                <source src="Video/AAK_commercial.mp4" type="video/mp4">
-            </video>
-        </div>
-    </div>
-
     <script>
         const navbar = document.getElementById('navbar');
         const navbarLogo = document.getElementById('navbar-logo');
@@ -687,49 +677,6 @@
         });
     </script>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const button = document.getElementById('campusTourButton');
-            const overlay = document.getElementById('campusTourOverlay');
-            const wrap = document.getElementById('campusTourWrap');
-            const closeBtn = document.getElementById('campusTourClose');
-            const video = document.getElementById('campusTourVideo');
-
-            if (!button || !overlay || !wrap || !closeBtn || !video) return;
-
-            const openOverlay = (event) => {
-                event.preventDefault();
-                overlay.classList.remove('hidden');
-                video.currentTime = 0;
-                video.play().catch(() => {});
-                overlay.requestFullscreen?.();
-            };
-
-            const closeOverlay = () => {
-                overlay.classList.add('hidden');
-                video.pause();
-                if (document.fullscreenElement) {
-                    document.exitFullscreen();
-                }
-            };
-
-            button.addEventListener('click', openOverlay);
-            closeBtn.addEventListener('click', closeOverlay);
-            overlay.addEventListener('click', (event) => {
-                if (event.target === overlay) {
-                    closeOverlay();
-                }
-            });
-            wrap.addEventListener('click', (event) => {
-                event.stopPropagation();
-            });
-            document.addEventListener('keydown', (event) => {
-                if (event.key === 'Escape' && !overlay.classList.contains('hidden')) {
-                    closeOverlay();
-                }
-            });
-        });
-    </script>
 
     <!-- Watermarks -->
     <div class="fixed bottom-[-5%] left-[-5%] z-0 pointer-events-none opacity-[0.03] select-none" style="width: 40vw; max-width: 500px;">
