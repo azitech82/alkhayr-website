@@ -118,6 +118,9 @@
         .flashing-btn {
             animation: flash-animation 1.5s infinite ease-in-out;
         }
+        .mobile-menu-panel {
+            backdrop-filter: blur(8px);
+        }
     </style>
 </head>
 <body class="text-gray-800 relative">
@@ -125,12 +128,12 @@
     <!-- Navigation -->
     <nav id="navbar" class="fixed w-full z-50 transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-20 items-center">
+            <div class="flex justify-between h-16 sm:h-20 items-center">
                 <div class="flex items-center">
-                    <img id="navbar-logo" src="logo%20AAK%20(white%20BG).png" alt="Akademi Al Khayr Logo" class="h-16 w-auto object-contain mr-3 transition-transform duration-700">
+                    <img id="navbar-logo" src="logo%20AAK%20(white%20BG).png" alt="Akademi Al Khayr Logo" class="h-12 sm:h-16 w-auto object-contain mr-3 transition-transform duration-700">
                     <div>
-                        <h1 class="text-xl font-bold leading-none tracking-tight nav-text-main">AKADEMI</h1>
-                        <h1 class="text-xl font-bold leading-none tracking-tight nav-text-accent">AL KHAYR</h1>
+                        <h1 class="text-base sm:text-xl font-bold leading-none tracking-tight nav-text-main">AKADEMI</h1>
+                        <h1 class="text-base sm:text-xl font-bold leading-none tracking-tight nav-text-accent">AL KHAYR</h1>
                     </div>
                 </div>
                 <div class="hidden md:flex space-x-8">
@@ -183,21 +186,57 @@
                         <i class="fas fa-user"></i>
                     </a>
                 </div>
+                <button id="mobile-menu-button" class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-full border border-white/30 text-white hover:bg-white/10 transition">
+                    <i id="mobile-menu-icon" class="fas fa-bars text-lg"></i>
+                </button>
+            </div>
+            <div id="mobile-menu" class="md:hidden hidden pb-4">
+                <div class="mobile-menu-panel bg-white/95 rounded-2xl shadow-xl border border-white/40 px-4 py-4 space-y-3">
+                    <a href="#" class="block font-semibold text-gray-800">Home</a>
+                    <a href="about.html" class="block font-semibold text-gray-800">About</a>
+                    <a href="#programs" class="block font-semibold text-gray-800">Programs</a>
+                    <a href="#contact" class="block font-semibold text-gray-800">Contact</a>
+                    <a href="fees.html" class="block font-semibold text-gray-800">Fees payment</a>
+                    <a href="Download/AAK%20TAKWIM%202026.pdf" target="_blank" class="block font-semibold text-gray-800">AAK Takwim 2026</a>
+                    <a href="Download/GuideBook%20AAK_2026%20(1).pdf" target="_blank" class="block font-semibold text-gray-800">Guidebook AAK 2026</a>
+                    <a href="gallery.html" class="block font-semibold text-gray-800">Gallery</a>
+                    <a href="#location" class="block font-semibold text-gray-800">Visit</a>
+                    <div class="flex items-center gap-4 pt-2">
+                        <a href="https://wa.me/60193818616" target="_blank" class="text-gray-600 hover:text-purple-600 transition">
+                            <i class="fab fa-whatsapp text-xl"></i>
+                        </a>
+                        <a href="https://www.facebook.com/akademialkhayrofficial/" target="_blank" class="text-gray-600 hover:text-purple-600 transition">
+                            <i class="fab fa-facebook-f text-xl"></i>
+                        </a>
+                        <a href="https://www.instagram.com/akademialkhayrofficial/?hl=en" target="_blank" class="text-gray-600 hover:text-purple-600 transition">
+                            <i class="fab fa-instagram text-xl"></i>
+                        </a>
+                        <a href="https://class.akademialkhayr.com/login" target="_blank" class="w-9 h-9 flex items-center justify-center rounded-full bg-white text-purple-600 border border-purple-100 shadow-sm">
+                            <i class="fas fa-user"></i>
+                        </a>
+                    </div>
+                    <a href="registration.html" class="mt-2 inline-flex items-center justify-center w-full px-6 py-3 text-sm font-semibold rounded-full text-white bg-purple-600 hover:bg-purple-700 transition shadow-md text-center">
+                        <div class="flex flex-col items-center leading-tight">
+                            <span>Apply Now</span>
+                            <span class="text-[10px] font-normal opacity-90">سجل الآن</span>
+                        </div>
+                    </a>
+                </div>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section class="hero-bg min-h-[85vh] flex items-center justify-center pt-20 text-white text-center px-4 relative">
+    <section class="hero-bg min-h-[70vh] sm:min-h-[85vh] flex items-center justify-center pt-16 sm:pt-20 text-white text-center px-4 relative">
         <!-- Background Slider -->
         <div id="hero-slider" class="absolute inset-0 w-full h-full z-0"></div>
         <!-- Gradient Overlay -->
         <div class="absolute inset-0 bg-gradient-to-b from-purple-900/85 to-purple-900/75 z-0 pointer-events-none"></div>
 
         <div class="max-w-4xl mx-auto z-10 relative">
-            <h2 class="text-purple-300 font-semibold tracking-widest uppercase text-lg mb-4 animate-fade-in-up">اهلا وسهلا الى اكادمية الخير</h2>
-            <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight">Explore The <br><span class="text-black font-extrabold text-6xl md:text-8xl">Al Khayr</span> Journey</h1>
-            <p class="text-xl md:text-2xl text-gray-100 mb-10 font-light max-w-5xl mx-auto">
+            <h2 class="text-purple-300 font-semibold tracking-widest uppercase text-sm sm:text-lg mb-3 sm:mb-4 animate-fade-in-up">اهلا وسهلا الى اكادمية الخير</h2>
+            <h1 class="text-3xl sm:text-5xl md:text-7xl font-bold mb-5 sm:mb-6 leading-tight">Explore The <br><span class="text-black font-extrabold text-4xl sm:text-6xl md:text-8xl">Al Khayr</span> Journey</h1>
+            <p class="text-base sm:text-xl md:text-2xl text-gray-100 mb-8 sm:mb-10 font-light max-w-5xl mx-auto">
                 Holistic Hifz & Education Made Accessible.<br>Empowering the next generation with knowledge, character, and faith.
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
@@ -225,7 +264,7 @@
     <!-- Stats Section -->
     <section id="stats-section" class="bg-gray-900 text-white py-8 relative z-20 -mt-8 mx-4 md:mx-12 rounded-2xl shadow-2xl">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x divide-gray-700">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 text-center divide-y divide-gray-700 md:divide-y-0 md:divide-x">
                 <div class="p-4">
                     <div class="text-4xl md:text-5xl font-bold text-white mb-2"><span class="count-up" data-target="180">0</span>+</div>
                     <div class="text-sm md:text-base text-gray-400 uppercase tracking-wide font-medium">STUDENTS MALE & FEMALE<br><span class="text-xs font-normal text-gray-500">طلاب وطالبات</span></div>
@@ -247,9 +286,9 @@
     </section>
 
     <!-- Partners Section -->
-    <section class="py-16 bg-white border-b border-gray-100">
+    <section class="py-12 sm:py-16 bg-white border-b border-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-12 items-center opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 items-center opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
                 <div class="flex flex-col items-center">
                     <p class="text-xs text-gray-400 uppercase mb-4 tracking-widest">Integrated Curriculum</p>
                     <div class="min-h-[5rem] flex flex-col items-center justify-center font-bold text-lg text-gray-700 text-center leading-tight py-2">
@@ -283,18 +322,18 @@
     </section>
 
     <!-- Core Programs Section -->
-    <section id="programs" class="py-24 bg-gray-50">
+    <section id="programs" class="py-16 sm:py-24 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-gray-900 mb-4">Explore Our Embedded Programs<br><span class="text-lg font-normal text-gray-500">استكشف برامجنا المضمنة</span></h2>
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Explore Our Embedded Programs<br><span class="text-base sm:text-lg font-normal text-gray-500">استكشف برامجنا المضمنة</span></h2>
                 <div class="w-48 h-1 bg-purple-500 mx-auto rounded-full mb-6"></div>
-                <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                <p class="text-base sm:text-xl text-gray-600 max-w-2xl mx-auto">
                     Pathways to a Future-Ready World. Our programs empower students to explore knowledge, character, and innovation.
                 </p>
             </div>
 
             <!-- Windows Phone / Metro Style Grid -->
-            <div class="grid grid-cols-2 md:grid-cols-4 auto-rows-[200px] gap-2">
+            <div class="grid grid-cols-2 md:grid-cols-4 auto-rows-[160px] sm:auto-rows-[200px] gap-2">
 
                 <!-- Program 1: Quran Memorisation (Large Tile: 2x2) -->
                 <div class="flip-card col-span-2 row-span-2">
@@ -462,12 +501,12 @@
     </section>
 
     <!-- Our Location Section -->
-    <section id="location" class="py-16 bg-white">
+    <section id="location" class="py-12 sm:py-16 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 class="text-3xl font-bold text-gray-900 mb-2">Our Location<br><span class="text-lg font-normal text-gray-500">موقعنا</span></h2>
+            <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Our Location<br><span class="text-base sm:text-lg font-normal text-gray-500">موقعنا</span></h2>
             <div class="w-48 h-1 bg-purple-500 mx-auto rounded-full mb-8"></div>
             
-            <div class="relative w-full h-[400px] rounded-2xl overflow-hidden shadow-lg group">
+            <div class="relative w-full h-[320px] sm:h-[400px] rounded-2xl overflow-hidden shadow-lg group">
                 <!-- Google Maps Embed -->
                 <iframe 
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3972.568778434789!2d100.2171937!3d5.3232738!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x304aebc4bea41f17%3A0x545b0d348b5bf94e!2sAkademi%20Al%20Khayr%20(Penang)!5e0!3m2!1sen!2smy!4v1709666000000!5m2!1sen!2smy" 
@@ -490,12 +529,12 @@
     </section>
 
     <!-- Contact Us Section -->
-    <section id="contact" class="py-16 bg-gray-50">
+    <section id="contact" class="py-12 sm:py-16 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
                 <!-- Contact Information -->
                 <div>
-                    <h2 class="text-3xl font-bold text-gray-900 mb-4">Contact Us<br><span class="text-lg font-normal text-gray-500">اتصل بنا</span></h2>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">Contact Us<br><span class="text-base sm:text-lg font-normal text-gray-500">اتصل بنا</span></h2>
                     <div class="w-48 h-1 bg-purple-500 rounded-full mb-6"></div>
                     <p class="text-gray-600 mb-8">
                         Have questions or want to make a reservation? Reach out to us directly or fill out the form.
@@ -594,6 +633,24 @@
                 if (navbarLogo) navbarLogo.classList.remove('flipped');
             }
         });
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuIcon = document.getElementById('mobile-menu-icon');
+        if (mobileMenuButton && mobileMenu && mobileMenuIcon) {
+            mobileMenuButton.addEventListener('click', () => {
+                const isOpen = !mobileMenu.classList.contains('hidden');
+                mobileMenu.classList.toggle('hidden');
+                mobileMenuIcon.classList.toggle('fa-bars', isOpen);
+                mobileMenuIcon.classList.toggle('fa-times', !isOpen);
+            });
+            mobileMenu.querySelectorAll('a').forEach((link) => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                    mobileMenuIcon.classList.add('fa-bars');
+                    mobileMenuIcon.classList.remove('fa-times');
+                });
+            });
+        }
     </script>
 
     <script>
