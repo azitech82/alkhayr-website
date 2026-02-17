@@ -37,6 +37,8 @@
         #navbar.scrolled .nav-item { color: #4b5563; }
         #navbar .nav-item:hover { color: #ffffff; }
         #navbar.scrolled .nav-item:hover { color: #9333ea; }
+        #navbar.scrolled #mobile-menu-button { color: #4b5563; border-color: #e5e7eb; }
+        #navbar.scrolled #mobile-menu-button:hover { background-color: #f3f4f6; }
 
         #navbar .social-icon { color: rgba(255, 255, 255, 0.8); }
         #navbar.scrolled .social-icon { color: #9ca3af; }
@@ -148,6 +150,42 @@
                 </div>
                 <div class="hidden md:flex items-center space-x-4">
                     <a href="registration.html" class="inline-flex items-center justify-center px-6 py-2 border border-transparent text-sm font-medium rounded-full text-white bg-purple-600 hover:bg-purple-700 transition shadow-md text-center">
+                        <div class="flex flex-col items-center leading-tight">
+                            <span>Apply Now</span>
+                            <span class="text-[10px] font-normal opacity-90">سجل الآن</span>
+                        </div>
+                    </a>
+                </div>
+                <button id="mobile-menu-button" class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-full border border-white/30 text-white hover:bg-white/10 transition">
+                    <i id="mobile-menu-icon" class="fas fa-bars text-lg"></i>
+                </button>
+            </div>
+            <div id="mobile-menu" class="md:hidden hidden pb-4">
+                <div class="mobile-menu-panel bg-white/95 rounded-2xl shadow-xl border border-white/40 px-4 py-4 space-y-3">
+                    <a href="index.html" class="block font-semibold text-gray-800">Home</a>
+                    <a href="about.html" class="block font-semibold text-gray-800">About</a>
+                    <a href="index.html#programs" class="block font-semibold text-gray-800">Programs</a>
+                    <a href="index.html#contact" class="block font-semibold text-gray-800">Contact</a>
+                    <a href="fees.html" class="block font-semibold text-gray-800">Fees payment</a>
+                    <a href="Download/AAK%20TAKWIM%202026.pdf" target="_blank" class="block font-semibold text-gray-800">AAK Takwim 2026</a>
+                    <a href="Download/GuideBook%20AAK_2026%20(1).pdf" target="_blank" class="block font-semibold text-gray-800">Guidebook AAK 2026</a>
+                    <a href="gallery.html" class="block font-semibold text-gray-800">Gallery</a>
+                    <a href="index.html#location" class="block font-semibold text-gray-800">Visit</a>
+                    <div class="flex items-center gap-4 pt-2">
+                        <a href="https://wa.me/60193818616" target="_blank" class="text-gray-600 hover:text-purple-600 transition">
+                            <i class="fab fa-whatsapp text-xl"></i>
+                        </a>
+                        <a href="https://www.facebook.com/akademialkhayrofficial/" target="_blank" class="text-gray-600 hover:text-purple-600 transition">
+                            <i class="fab fa-facebook-f text-xl"></i>
+                        </a>
+                        <a href="https://www.instagram.com/akademialkhayrofficial/?hl=en" target="_blank" class="text-gray-600 hover:text-purple-600 transition">
+                            <i class="fab fa-instagram text-xl"></i>
+                        </a>
+                        <a href="https://class.akademialkhayr.com/login" target="_blank" class="w-9 h-9 flex items-center justify-center rounded-full bg-white text-purple-600 border border-purple-100 shadow-sm">
+                            <i class="fas fa-user"></i>
+                        </a>
+                    </div>
+                    <a href="registration.html" class="mt-2 inline-flex items-center justify-center w-full px-6 py-3 text-sm font-semibold rounded-full text-white bg-purple-600 hover:bg-purple-700 transition shadow-md text-center">
                         <div class="flex flex-col items-center leading-tight">
                             <span>Apply Now</span>
                             <span class="text-[10px] font-normal opacity-90">سجل الآن</span>
@@ -304,7 +342,7 @@
                     </div>
 
                     <!-- Session 1: Left -->
-                    <div class="relative group w-full md:w-[72%] self-start flex items-center gap-6">
+                    <div class="relative group w-full md:w-[72%] self-start flex flex-col-reverse md:flex-row items-center gap-6">
                         <!-- Card Container with Organic Shape -->
                         <div class="flex-1 bg-white rounded-tr-[50px] rounded-bl-[50px] rounded-tl-xl rounded-br-xl shadow-lg border border-gray-100 p-6 relative overflow-hidden transition-transform transform hover:-translate-y-1 duration-300">
                             <!-- Colored Header/Accent Top Left -->
@@ -341,7 +379,7 @@
                             </div>
                         </div>
                         <!-- Vertical Text -->
-                        <div class="flex flex-col items-center justify-center space-y-2 select-none">
+                        <div class="hidden md:flex flex-col items-center justify-center space-y-2 select-none">
                             <span class="text-3xl font-bold text-gray-400">P</span>
                             <span class="text-3xl font-bold text-gray-400">R</span>
                             <span class="text-3xl font-bold text-gray-400">E</span>
@@ -354,7 +392,7 @@
                     </div>
 
                     <!-- Session 2: Right -->
-                    <div class="relative group w-full md:w-[72%] self-end flex items-center justify-end gap-6">
+                    <div class="relative group w-full md:w-[72%] self-end flex flex-col md:flex-row items-center justify-end gap-6">
                         <!-- Number Card 2 -->
                         <div class="flex-shrink-0 w-14 h-14 md:w-16 md:h-16 bg-white rounded-2xl shadow-md border border-gray-100 flex items-center justify-center transform -rotate-6 z-20">
                             <span class="font-arabic text-2xl md:text-3xl font-bold text-red-500">٢</span>
@@ -408,7 +446,7 @@
                     </div>
 
                     <!-- Session 3: Left -->
-                    <div class="relative group w-full md:w-[72%] self-start flex items-center gap-6">
+                    <div class="relative group w-full md:w-[72%] self-start flex flex-col-reverse md:flex-row items-center gap-6">
                         <div class="flex-1 bg-white rounded-tl-[50px] rounded-br-[50px] rounded-tr-xl rounded-bl-xl shadow-lg border border-gray-100 p-6 relative overflow-hidden transition-transform transform hover:-translate-y-1 duration-300">
                             <!-- Colored Header/Accent Top Right (Mirrored) -->
                             <div class="absolute top-0 right-0 bg-amber-500 w-32 h-32 rounded-bl-[100%] opacity-10 z-0"></div>
@@ -444,7 +482,7 @@
                             </div>
                         </div>
                         <!-- Vertical Text -->
-                        <div class="flex flex-col items-center justify-center space-y-2 select-none">
+                        <div class="hidden md:flex flex-col items-center justify-center space-y-2 select-none">
                             <span class="text-3xl font-bold text-gray-400">P</span>
                             <span class="text-3xl font-bold text-gray-400">R</span>
                             <span class="text-3xl font-bold text-gray-400">E</span>
@@ -457,7 +495,7 @@
                     </div>
 
                     <!-- Session 4: Right -->
-                    <div class="relative group w-full md:w-[72%] self-end flex items-center justify-end gap-6">
+                    <div class="relative group w-full md:w-[72%] self-end flex flex-col md:flex-row items-center justify-end gap-6">
                         <!-- Number Card 4 -->
                         <div class="flex-shrink-0 w-14 h-14 md:w-16 md:h-16 bg-white rounded-2xl shadow-md border border-gray-100 flex items-center justify-center transform -rotate-6 z-20">
                             <span class="font-arabic text-2xl md:text-3xl font-bold text-amber-500">٤</span>
@@ -631,6 +669,26 @@
                 navbar.classList.remove('scrolled');
             }
         });
+    </script>
+    <script>
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuIcon = document.getElementById('mobile-menu-icon');
+        if (mobileMenuButton && mobileMenu && mobileMenuIcon) {
+            mobileMenuButton.addEventListener('click', () => {
+                const isOpen = !mobileMenu.classList.contains('hidden');
+                mobileMenu.classList.toggle('hidden');
+                mobileMenuIcon.classList.toggle('fa-bars', isOpen);
+                mobileMenuIcon.classList.toggle('fa-times', !isOpen);
+            });
+            mobileMenu.querySelectorAll('a').forEach((link) => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                    mobileMenuIcon.classList.add('fa-bars');
+                    mobileMenuIcon.classList.remove('fa-times');
+                });
+            });
+        }
     </script>
 </body>
 </html>
