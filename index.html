@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akademi Al Khayr | Holistic Education Journey</title>
+    <meta name="description" content="Explore the academic programs at Akademi Al Khayr.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .hero-bg {
+            /* Background managed by JS slider */
+            position: relative;
+            overflow: hidden;
+        }
+        .program-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .program-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        /* Flip Card Styles */
+        .flip-card {
+            background-color: transparent;
+            perspective: 1000px;
+            height: 100%; /* Dynamic height for grid */
+            min-height: 200px;
+        }
+        
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border-radius: 0.25rem; /* Windows Phone style (sharper) */
+        }
+        
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 0.25rem; /* Windows Phone style (sharper) */
+            display: flex;
+            flex-direction: column;
+            padding: 1.5rem;
+        }
+        
+        .flip-card-front {
+            /* Background color set inline for variety */
+            color: white;
+            justify-content: flex-end; /* Align content to bottom */
+            align-items: flex-start; /* Align content to left */
+            text-align: left;
+        }
+        
+        .flip-card-back {
+            background-color: #333; /* Dark neutral back or match front */
+            color: white;
+            transform: rotateY(180deg);
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* Navbar Scroll Effects */
+        #navbar {
+            background-color: transparent;
+            box-shadow: none;
+        }
+        #navbar.scrolled {
+            background-color: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(8px);
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+        
+        #navbar .nav-text-main { color: #ffffff; }
+        #navbar.scrolled .nav-text-main { color: #111827; }
+        
+        #navbar .nav-text-accent { color: #e9d5ff; }
+        #navbar.scrolled .nav-text-accent { color: #9333ea; }
+        
+        #navbar .nav-item { color: rgba(255, 255, 255, 0.9); }
+        #navbar.scrolled .nav-item { color: #4b5563; }
+        #navbar .nav-item:hover { color: #ffffff; }
+        #navbar.scrolled .nav-item:hover { color: #9333ea; }
+
+        #navbar .social-icon { color: rgba(255, 255, 255, 0.8); }
+        #navbar.scrolled .social-icon { color: #9ca3af; }
+        #navbar .social-icon:hover { color: #ffffff; }
+        #navbar.scrolled .social-icon:hover { color: #9333ea; }
+
+        /* Logo Flip Animation */
+        #navbar-logo {
+            transform-style: preserve-3d;
+        }
+        #navbar-logo.flipped {
+            transform: perspective(1000px) rotateY(360deg);
+        }
+        
+        @keyframes flash-animation {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+        }
+        .flashing-btn {
+            animation: flash-animation 1.5s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="text-gray-800 relative">
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <div class="flex items-center">
+                    <img id="navbar-logo" src="logo%20AAK%20(white%20BG).png" alt="Akademi Al Khayr Logo" class="h-16 w-auto object-contain mr-3 transition-transform duration-700">
+                    <div>
+                        <h1 class="text-xl font-bold leading-none tracking-tight nav-text-main">AKADEMI</h1>
+                        <h1 class="text-xl font-bold leading-none tracking-tight nav-text-accent">AL KHAYR</h1>
+                    </div>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#" class="font-medium transition nav-item">Home</a>
+                    <a href="about.html" class="font-medium transition nav-item">About</a>
+                    <a href="#programs" class="font-medium transition nav-item">Programs</a>
+                    <a href="#contact" class="font-medium transition nav-item">Contact</a>
+                
+                <!-- More Dropdown -->
+                    <div class="relative group">
+                        <button class="font-medium transition flex items-center focus:outline-none nav-item">
+                            More <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                        </button>
+                        <div class="absolute top-full left-0 mt-2 w-64 bg-white rounded-xl shadow-xl border border-gray-100 py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top z-50">
+                            <a href="fees.html" class="block px-4 py-3 text-sm text-gray-600 hover:bg-purple-50 hover:text-purple-600 transition border-b border-gray-50 last:border-0">
+                                <i class="fas fa-credit-card mr-2 text-purple-400"></i> Fees payment
+                            </a>
+                            <a href="Download/AAK%20TAKWIM%202026.pdf" target="_blank" class="block px-4 py-3 text-sm text-gray-600 hover:bg-purple-50 hover:text-purple-600 transition border-b border-gray-50">
+                                <i class="fas fa-calendar-alt mr-2 text-purple-400"></i> AAK Takwim 2026
+                            </a>
+                            <a href="Download/GuideBook%20AAK_2026%20(1).pdf" target="_blank" class="block px-4 py-3 text-sm text-gray-600 hover:bg-purple-50 hover:text-purple-600 transition border-b border-gray-50">
+                                <i class="fas fa-book-open mr-2 text-purple-400"></i> Guidebook AAK 2026
+                            </a>
+                            <a href="gallery.html" class="block px-4 py-3 text-sm text-gray-600 hover:bg-purple-50 hover:text-purple-600 transition border-b border-gray-50">
+                                <i class="fas fa-images mr-2 text-purple-400"></i> Gallery
+                            </a>
+                            <a href="#location" class="block px-4 py-3 text-sm text-gray-600 hover:bg-purple-50 hover:text-purple-600 transition">
+                                <i class="fas fa-map-marker-alt mr-2 text-purple-400"></i> Visit
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="https://wa.me/60193818616" target="_blank" class="transition social-icon">
+                        <i class="fab fa-whatsapp text-xl"></i>
+                    </a>
+                    <a href="https://www.facebook.com/akademialkhayrofficial/" target="_blank" class="transition social-icon">
+                        <i class="fab fa-facebook-f text-xl"></i>
+                    </a>
+                    <a href="https://www.instagram.com/akademialkhayrofficial/?hl=en" target="_blank" class="transition social-icon">
+                        <i class="fab fa-instagram text-xl"></i>
+                    </a>
+                    <a href="registration.html" class="inline-flex items-center justify-center px-6 py-2 border border-transparent text-sm font-medium rounded-full text-white bg-purple-600 hover:bg-purple-700 transition shadow-md text-center">
+                        <div class="flex flex-col items-center leading-tight">
+                            <span>Apply Now</span>
+                            <span class="text-[10px] font-normal opacity-90">سجل الآن</span>
+                        </div>
+                    </a>
+                    <a href="https://class.akademialkhayr.com/login" target="_blank" class="w-10 h-10 flex items-center justify-center rounded-full bg-white text-purple-600 hover:bg-purple-50 transition shadow-md border border-purple-100" title="Parent & Staff Login">
+                        <i class="fas fa-user"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-bg min-h-[85vh] flex items-center justify-center pt-20 text-white text-center px-4 relative">
+        <!-- Background Slider -->
+        <div id="hero-slider" class="absolute inset-0 w-full h-full z-0"></div>
+        <!-- Gradient Overlay -->
+        <div class="absolute inset-0 bg-gradient-to-b from-purple-900/85 to-purple-900/75 z-0 pointer-events-none"></div>
+
+        <div class="max-w-4xl mx-auto z-10 relative">
+            <h2 class="text-purple-300 font-semibold tracking-widest uppercase text-lg mb-4 animate-fade-in-up">اهلا وسهلا الى اكادمية الخير</h2>
+            <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight">Explore The <br><span class="text-black font-extrabold text-6xl md:text-8xl">Al Khayr</span> Journey</h1>
+            <p class="text-xl md:text-2xl text-gray-100 mb-10 font-light max-w-5xl mx-auto">
+                Holistic Hifz & Education Made Accessible.<br>Empowering the next generation with knowledge, character, and faith.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#programs" class="bg-purple-500 hover:bg-purple-600 text-white font-bold py-3 px-10 rounded-full transition duration-300 shadow-lg hover:shadow-purple-500/30 transform hover:-translate-y-1 text-center">
+                    <div class="flex flex-col items-center leading-tight">
+                        <span>Explore More</span>
+                        <span class="text-xs font-normal opacity-90 mt-0.5">اكتشف المزيد</span>
+                    </div>
+                </a>
+                <a href="campus_tour.html" class="bg-transparent border-2 border-white hover:bg-white hover:text-purple-800 text-white font-bold py-3 px-10 rounded-full transition duration-300 transform hover:-translate-y-1 text-center">
+                    <div class="flex flex-col items-center leading-tight">
+                        <span>Campus Tour</span>
+                        <span class="text-xs font-normal opacity-90 mt-0.5">جولة في الحرم المدرسي</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Animated Scroll Indicator -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <i class="fas fa-chevron-down text-2xl text-white/50"></i>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section id="stats-section" class="bg-gray-900 text-white py-8 relative z-20 -mt-8 mx-4 md:mx-12 rounded-2xl shadow-2xl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x divide-gray-700">
+                <div class="p-4">
+                    <div class="text-4xl md:text-5xl font-bold text-white mb-2"><span class="count-up" data-target="180">0</span>+</div>
+                    <div class="text-sm md:text-base text-gray-400 uppercase tracking-wide font-medium">STUDENTS MALE & FEMALE<br><span class="text-xs font-normal text-gray-500">طلاب وطالبات</span></div>
+                </div>
+                <div class="p-4">
+                    <div class="text-4xl md:text-5xl font-bold text-white mb-2"><span class="count-up" data-target="5">0</span></div>
+                    <div class="text-sm md:text-base text-gray-400 uppercase tracking-wide font-medium">YEARS OF EXCELLENT<br><span class="text-xs font-normal text-gray-500">سنوات من التميز</span></div>
+                </div>
+                <div class="p-4">
+                    <div class="text-4xl md:text-5xl font-bold text-white mb-2"><span class="count-up" data-target="20">0</span>+</div>
+                    <div class="text-sm md:text-base text-gray-400 uppercase tracking-wide font-medium">EDUCATORS<br><span class="text-xs font-normal text-gray-500">معلمون ومربّون</span></div>
+                </div>
+                <div class="p-4">
+                    <div class="text-4xl md:text-5xl font-bold text-white mb-2"><span class="count-up" data-target="3">0</span></div>
+                    <div class="text-sm md:text-base text-gray-400 uppercase tracking-wide font-medium">MAIN LANGUAGES<br><span class="text-xs font-normal text-gray-500">لغات رئيسية</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partners Section -->
+    <section class="py-16 bg-white border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-12 items-center opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
+                <div class="flex flex-col items-center">
+                    <p class="text-xs text-gray-400 uppercase mb-4 tracking-widest">Integrated Curriculum</p>
+                    <div class="min-h-[5rem] flex flex-col items-center justify-center font-bold text-lg text-gray-700 text-center leading-tight py-2">
+                        <div class="flex items-center justify-center mb-1"><i class="fas fa-university mr-2 text-3xl"></i>Hifz, Arabic & Academic modules</div>
+                        <span class="text-sm font-normal text-gray-500">وحدات متكاملة للحفظ واللغة العربية والمواد الأكاديمية</span>
+                    </div>
+                </div>
+                <div class="flex flex-col items-center">
+                    <p class="text-xs text-gray-400 uppercase mb-4 tracking-widest">Unique Memorisation</p>
+                    <div class="min-h-[5rem] flex flex-col items-center justify-center font-bold text-lg text-gray-700 text-center leading-tight py-2">
+                        <div class="flex items-center justify-center mb-1"><i class="fas fa-brain mr-2 text-3xl"></i> Photo Memory Memorisation Method</div>
+                        <span class="text-sm font-normal text-gray-500">طريقة الحفظ بالذاكرة الصورية</span>
+                    </div>
+                </div>
+                <div class="flex flex-col items-center">
+                    <p class="text-xs text-gray-400 uppercase mb-4 tracking-widest">Eco Campus</p>
+                    <div class="min-h-[5rem] flex flex-col items-center justify-center font-bold text-xl text-gray-700 text-center leading-tight py-2">
+                        <div class="flex items-center justify-center mb-1"><i class="fas fa-tree mr-2 text-3xl"></i> White Resort Camp</div>
+                        <span class="text-sm font-normal text-gray-500">مخيم المنتجع الأبيض</span>
+                    </div>
+                </div>
+                <div class="flex flex-col items-center">
+                    <p class="text-xs text-gray-400 uppercase mb-4 tracking-widest">Learning Style</p>
+                    <div class="min-h-[5rem] flex flex-col items-center justify-center font-bold text-xl text-gray-700 text-center leading-tight py-2">
+                        <div class="flex items-center justify-center mb-1"><i class="fas fa-lightbulb mr-2 text-3xl"></i> Ability Based Learning</div>
+                        <span class="text-sm font-normal text-gray-500">التعلم القائم على القدرات</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Programs Section -->
+    <section id="programs" class="py-24 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Explore Our Embedded Programs<br><span class="text-lg font-normal text-gray-500">استكشف برامجنا المضمنة</span></h2>
+                <div class="w-48 h-1 bg-purple-500 mx-auto rounded-full mb-6"></div>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                    Pathways to a Future-Ready World. Our programs empower students to explore knowledge, character, and innovation.
+                </p>
+            </div>
+
+            <!-- Windows Phone / Metro Style Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-4 auto-rows-[200px] gap-2">
+
+                <!-- Program 1: Quran Memorisation (Large Tile: 2x2) -->
+                <div class="flip-card col-span-2 row-span-2">
+                    <div class="flip-card-inner">
+                        <!-- Front -->
+                        <div class="flip-card-front bg-purple-600 !justify-center !items-center !text-center">
+                            <div class="mb-6">
+                                <i class="fas fa-quran text-6xl text-white opacity-90"></i>
+                            </div>
+                            <div class="w-full">
+                                <h3 class="text-2xl font-bold leading-none mb-1">Memorisation of Quran</h3>
+                                <p class="text-lg text-purple-100 font-arabic">تحفيظ القرآن</p>
+                                <p class="text-xs text-purple-200 mt-1 opacity-80">(Photo Memory Memorisation Method)</p>
+                            </div>
+                        </div>
+                        <!-- Back -->
+                        <div class="flip-card-back bg-purple-700">
+                            <h3 class="text-xl font-bold mb-2">Quran Memorisation</h3>
+                            <p class="text-sm mb-4">Photo Memory Method (PMMM)</p>
+                            <p class="text-xs mb-4">
+                                Unique methodology focusing on visualization for strong retention.
+                            </p>
+                            <a href="memorisation.html" class="inline-block border border-white px-8 py-3 rounded-sm hover:bg-white hover:text-purple-700 transition text-lg font-bold uppercase flashing-btn">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Program 2: Arabic Language (Standard Tile: 1x1) -->
+                <div class="flip-card col-span-1 row-span-1">
+                    <div class="flip-card-inner">
+                        <!-- Front -->
+                        <div class="flip-card-front bg-green-500">
+                            <div class="flex-grow flex items-center justify-center">
+                                <i class="fas fa-language text-4xl text-white"></i>
+                            </div>
+                            <div class="w-full">
+                                <h3 class="text-lg font-bold leading-none mb-1">Arabic Course</h3>
+                                <p class="text-sm text-green-100 font-arabic">دورة اللغة العربية</p>
+                            </div>
+                        </div>
+                        <!-- Back -->
+                        <div class="flip-card-back bg-green-600">
+                            <h3 class="text-lg font-bold mb-2">Arabic</h3>
+                            <p class="text-xs mb-2">Language of the Quran</p>
+                            <a href="arabic_course.html" class="inline-block border border-white px-6 py-2 rounded-sm hover:bg-white hover:text-green-600 transition text-base font-bold uppercase flashing-btn">More</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Program 3: Islamic & Leadership (Standard Tile: 1x1) -->
+                <div class="flip-card col-span-1 row-span-1">
+                    <div class="flip-card-inner">
+                        <!-- Front -->
+                        <div class="flip-card-front bg-blue-500">
+                            <div class="flex-grow flex items-center justify-center">
+                                <i class="fas fa-users text-4xl text-white"></i>
+                            </div>
+                            <div class="w-full">
+                                <h3 class="text-lg font-bold leading-none mb-1">Character Development</h3>
+                                <p class="text-sm text-blue-100 font-arabic">تطوير الشخصية</p>
+                            </div>
+                        </div>
+                        <!-- Back -->
+                        <div class="flip-card-back bg-blue-600">
+                            <h3 class="text-lg font-bold mb-2">Character Building</h3>
+                            <p class="text-xs mb-2">Future Leaders</p>
+                            <a href="islamic_leadership_course.html" class="inline-block border border-white px-6 py-2 rounded-sm hover:bg-white hover:text-blue-600 transition text-base font-bold uppercase flashing-btn">More</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Program 4: Primary Education (Wide Tile: 2x1) -->
+                <div class="flip-card col-span-2 row-span-1">
+                    <div class="flip-card-inner">
+                        <!-- Front -->
+                        <div class="flip-card-front bg-orange-500">
+                            <div class="flex-grow flex items-center justify-center">
+                                <i class="fas fa-book-reader text-5xl text-white"></i>
+                            </div>
+                            <div class="w-full">
+                                <h3 class="text-xl font-bold leading-none mb-1">Primary Education</h3>
+                                <p class="text-base text-orange-100 font-arabic">التعليم الابتدائي</p>
+                                <p class="text-xs text-orange-200 opacity-80">(Blend KSSR syllabus)</p>
+                            </div>
+                        </div>
+                        <!-- Back -->
+                        <div class="flip-card-back bg-orange-600">
+                            <h3 class="text-xl font-bold mb-2">Primary School</h3>
+                            <p class="text-sm mb-4">MOE Syllabus + Islamic Values</p>
+                            <a href="academic_levels.html" class="inline-block border border-white px-8 py-3 rounded-sm hover:bg-white hover:text-orange-600 transition text-lg font-bold uppercase flashing-btn">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Program 5: Co-Curriculum (Moved Up) -->
+                <div class="flip-card col-span-2 row-span-1">
+                    <div class="flip-card-inner">
+                        <!-- Front -->
+                        <div class="flip-card-front bg-indigo-500">
+                            <div class="flex-grow flex items-center justify-center">
+                                <i class="fas fa-running text-5xl text-white"></i>
+                            </div>
+                            <div class="w-full">
+                                <h3 class="text-xl font-bold leading-none mb-1">Co-Curriculum</h3>
+                                <p class="text-base text-indigo-100 font-arabic">الأنشطة اللاصفية</p>
+                                <p class="text-xs text-indigo-200 opacity-80">(Sports, Arts & Clubs)</p>
+                            </div>
+                        </div>
+                        <!-- Back -->
+                        <div class="flip-card-back bg-indigo-600">
+                            <h3 class="text-xl font-bold mb-2">Co-Curriculum Activities</h3>
+                            <p class="text-sm mb-4">Sunnah Sports, Outdoor Activities & Clubs</p>
+                            <a href="co_curriculum.html" class="inline-block border border-white px-8 py-3 rounded-sm hover:bg-white hover:text-indigo-600 transition text-lg font-bold uppercase flashing-btn">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Program 6: Secondary Education (Wide Tile: 2x1) -->
+                <div class="flip-card col-span-2 row-span-1">
+                    <div class="flip-card-inner">
+                        <!-- Front -->
+                        <div class="flip-card-front bg-red-500">
+                            <div class="flex-grow flex items-center justify-center">
+                                <i class="fas fa-microscope text-5xl text-white"></i>
+                            </div>
+                            <div class="w-full">
+                                <h3 class="text-xl font-bold leading-none mb-1">Secondary Education</h3>
+                                <p class="text-base text-red-100 font-arabic">التعليم الثانوي</p>
+                                <p class="text-xs text-red-200 opacity-80">(Blend curriculum)</p>
+                            </div>
+                        </div>
+                        <!-- Back -->
+                        <div class="flip-card-back bg-red-600">
+                            <h3 class="text-xl font-bold mb-2">Secondary School</h3>
+                            <p class="text-sm mb-4">Dual Syllabus (KSSM & Cambridge)</p>
+                            <a href="academic_levels.html" class="inline-block border border-white px-8 py-3 rounded-sm hover:bg-white hover:text-red-600 transition text-lg font-bold uppercase flashing-btn">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Program 7: Online Tahfiz (Moved Down) -->
+                <div class="flip-card col-span-2 md:col-span-4 row-span-1">
+                    <div class="flip-card-inner">
+                        <!-- Front -->
+                        <div class="flip-card-front bg-cyan-500 !justify-center !items-center !text-center">
+                            <div class="mb-4">
+                                <i class="fas fa-laptop text-5xl text-white"></i>
+                            </div>
+                            <div class="w-full">
+                                <h3 class="text-xl font-bold leading-none mb-1">Online Tahfiz & Arabic</h3>
+                                <p class="text-base text-cyan-100 font-arabic">دورة التحفيظ عبر الإنترنت</p>
+                            </div>
+                        </div>
+                        <!-- Back -->
+                        <div class="flip-card-back bg-cyan-600">
+                            <h3 class="text-xl font-bold mb-2">Online Learning</h3>
+                            <p class="text-sm mb-4">Flexible Tahfiz & Arabic</p>
+                            <a href="online_tahfiz_arabic.html" class="inline-block border border-white px-8 py-3 rounded-sm hover:bg-white hover:text-cyan-600 transition text-lg font-bold uppercase flashing-btn">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Location Section -->
+    <section id="location" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl font-bold text-gray-900 mb-2">Our Location<br><span class="text-lg font-normal text-gray-500">موقعنا</span></h2>
+            <div class="w-48 h-1 bg-purple-500 mx-auto rounded-full mb-8"></div>
+            
+            <div class="relative w-full h-[400px] rounded-2xl overflow-hidden shadow-lg group">
+                <!-- Google Maps Embed -->
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3972.568778434789!2d100.2171937!3d5.3232738!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x304aebc4bea41f17%3A0x545b0d348b5bf94e!2sAkademi%20Al%20Khayr%20(Penang)!5e0!3m2!1sen!2smy!4v1709666000000!5m2!1sen!2smy" 
+                    width="100%" 
+                    height="100%" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+
+                <!-- Open in Google Maps Button Overlay -->
+                <a href="https://www.google.com.my/maps/place/Akademi+Al+Khayr+(Penang)/@5.3232738,100.2171937,17z/data=!3m1!4b1!4m6!3m5!1s0x304aebc4bea41f17:0x545b0d348b5bf94e!8m2!3d5.3232738!4d100.2197686!16s%2Fg%2F11vhw49q3q?entry=ttu" 
+                   target="_blank" 
+                   class="absolute bottom-4 right-4 bg-white hover:bg-gray-50 text-gray-800 font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300 flex items-center gap-2 text-sm z-10 border border-gray-200">
+                    <i class="fas fa-external-link-alt text-purple-600"></i> Open in Google Maps
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Us Section -->
+    <section id="contact" class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <!-- Contact Information -->
+                <div>
+                    <h2 class="text-3xl font-bold text-gray-900 mb-4">Contact Us<br><span class="text-lg font-normal text-gray-500">اتصل بنا</span></h2>
+                    <div class="w-48 h-1 bg-purple-500 rounded-full mb-6"></div>
+                    <p class="text-gray-600 mb-8">
+                        Have questions or want to make a reservation? Reach out to us directly or fill out the form.
+                    </p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-map-marker-alt text-purple-600 text-xl mt-1"></i>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-gray-700 font-medium">AKADEMI AL KHAYR, White Resort Camp,</p>
+                                <p class="text-gray-700">Kampung Genting, 11000 Balik Pulau, Penang</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <i class="fab fa-whatsapp text-purple-600 text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <a href="https://wa.me/60193818616" target="_blank" class="text-gray-700 font-medium hover:text-purple-600 transition">Call/Whatsapp : +60 19-381 8616</a>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-envelope text-purple-600 text-xl"></i>
+                            </div>
+                            <div class="ml-4 flex flex-col">
+                                <a href="mailto:admin@akademialkhayr.com" class="text-gray-700 font-medium hover:text-purple-600 transition">admin@akademialkhayr.com</a>
+                                <a href="mailto:akademialkhayrofficial@gmail.com" class="text-gray-700 font-medium hover:text-purple-600 transition">akademialkhayrofficial@gmail.com</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+                    <form id="contactForm" action="#" method="POST" class="space-y-6">
+                        <div>
+                            <label for="name" class="block text-sm font-bold text-gray-900 mb-2">Name</label>
+                            <input type="text" id="name" name="name" placeholder="Your Name" class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition bg-gray-50">
+                        </div>
+                        
+                        <div>
+                            <label for="email" class="block text-sm font-bold text-gray-900 mb-2">Email</label>
+                            <input type="email" id="email" name="email" placeholder="Your Email" class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition bg-gray-50">
+                        </div>
+
+                        <div>
+                            <label for="contact" class="block text-sm font-bold text-gray-900 mb-2">Contact No</label>
+                            <input type="tel" id="contact" name="contact" placeholder="Your Contact Number" class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition bg-gray-50">
+                        </div>
+                        
+                        <div>
+                            <label for="message" class="block text-sm font-bold text-gray-900 mb-2">Message</label>
+                            <textarea id="message" name="message" rows="4" placeholder="Your Message" class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition bg-gray-50"></textarea>
+                        </div>
+                        
+                        <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300 shadow-md">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-6 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex space-x-6 mb-6 md:mb-0">
+                    <a href="https://www.facebook.com/akademialkhayrofficial/" target="_blank" class="text-gray-400 hover:text-white transition"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/akademialkhayrofficial/?hl=en" target="_blank" class="text-gray-400 hover:text-white transition"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-youtube"></i></a>
+                </div>
+                <div class="text-gray-400 text-sm">
+                    &copy; 2026 Akademi Al Khayr. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const navbar = document.getElementById('navbar');
+        const navbarLogo = document.getElementById('navbar-logo');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+                if (navbarLogo) navbarLogo.classList.add('flipped');
+            } else {
+                navbar.classList.remove('scrolled');
+                if (navbarLogo) navbarLogo.classList.remove('flipped');
+            }
+        });
+    </script>
+
+    <script>
+        // Number Animation
+        document.addEventListener('DOMContentLoaded', () => {
+            const counters = document.querySelectorAll('.count-up');
+            const duration = 2000; // 2 seconds animation duration
+
+            const animateCounters = () => {
+                counters.forEach(counter => {
+                    const target = +counter.getAttribute('data-target');
+                    const startTime = performance.now();
+                    
+                    const updateCount = (currentTime) => {
+                        const elapsed = currentTime - startTime;
+                        const progress = Math.min(elapsed / duration, 1);
+                        
+                        // Cubic ease out function for smooth animation
+                        const ease = 1 - Math.pow(1 - progress, 3);
+                        
+                        counter.innerText = Math.floor(ease * target);
+                        
+                        if (progress < 1) {
+                            requestAnimationFrame(updateCount);
+                        } else {
+                            counter.innerText = target;
+                        }
+                    };
+                    requestAnimationFrame(updateCount);
+                });
+            };
+
+            const statsSection = document.getElementById('stats-section');
+            if (statsSection) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            animateCounters();
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.5 });
+                
+                observer.observe(statsSection);
+            }
+
+            // Hero Background Slider
+            const sliderContainer = document.getElementById('hero-slider');
+            const images = [
+                "photo banner/WhatsApp Image 2026-02-13 at 16.30.29 (2).jpeg",
+                "photo banner/WhatsApp Image 2026-02-13 at 12.28.26 (1).jpeg",
+                "photo banner/WhatsApp Image 2026-02-13 at 16.33.57 (1).jpeg",
+                "photo banner/WhatsApp Image 2026-02-01 at 10.31.54.jpeg"
+            ];
+            
+            // Create slide elements
+            if (sliderContainer) {
+                images.forEach((src, index) => {
+                    const slide = document.createElement('div');
+                    slide.className = `absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out ${index === 0 ? 'opacity-100' : 'opacity-0'}`;
+                    // URL encode spaces and parentheses for CSS url()
+                    const encodedSrc = encodeURI(src).replace(/\(/g, '%28').replace(/\)/g, '%29');
+                    slide.style.backgroundImage = `url('${encodedSrc}')`;
+                    sliderContainer.appendChild(slide);
+                });
+
+                let currentSlide = 0;
+                const slides = sliderContainer.children;
+                const totalSlides = slides.length;
+
+                setInterval(() => {
+                    slides[currentSlide].classList.remove('opacity-100');
+                    slides[currentSlide].classList.add('opacity-0');
+                    
+                    currentSlide = (currentSlide + 1) % totalSlides;
+                    
+                    slides[currentSlide].classList.remove('opacity-0');
+                    slides[currentSlide].classList.add('opacity-100');
+                }, 5000); // 5 seconds
+            }
+        });
+    </script>
+
+    <!-- Watermarks -->
+    <div class="fixed bottom-[-5%] left-[-5%] z-0 pointer-events-none opacity-[0.03] select-none" style="width: 40vw; max-width: 500px;">
+        <img src="logo%20AAK%20(white%20BG).png" class="w-full h-auto grayscale" alt="">
+    </div>
+
+    <div class="fixed top-0 right-0 z-0 pointer-events-none opacity-[0.08] select-none" style="width: 30vw; max-width: 400px; height: 30vw; max-height: 400px;">
+        <svg viewBox="0 0 200 200" class="w-full h-full text-gray-900" fill="none" stroke="currentColor" stroke-width="0.5">
+            <defs>
+                <pattern id="hexagons" x="0" y="0" width="50" height="43.4" patternUnits="userSpaceOnUse" patternTransform="scale(1)">
+                    <path d="M25 0 L50 14.4 L50 43.3 L25 57.7 L0 43.3 L0 14.4 Z" />
+                </pattern>
+            </defs>
+            <rect width="200" height="200" fill="url(#hexagons)" />
+        </svg>
+    </div>
+
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Gather form data
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const contact = document.getElementById('contact').value;
+            const message = document.getElementById('message').value;
+            
+            // Email Recipients
+            const recipients = "admin@akademialkhayr.com,akademialkhayrofficial@gmail.com";
+            
+            // Construct Email Subject and Body
+            const emailSubject = `New Contact Message from ${name}`;
+            const emailBody = `
+AKADEMI AL KHAYR - WEBSITE CONTACT FORM
+========================================
+
+SENDER INFORMATION
+------------------
+Name           : ${name}
+Email          : ${email}
+Contact No     : ${contact}
+
+MESSAGE
+-------
+${message}
+
+========================================
+This message was submitted via the website contact form.
+            `.trim();
+
+            // Construct mailto link
+            const mailtoLink = `mailto:${recipients}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+            
+            // Open Email Client
+            window.location.href = mailtoLink;
+        });
+    </script>
+
+</body>
+</html>

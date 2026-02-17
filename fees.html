@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fees & Payment | Akademi Al Khayr</title>
+    <meta name="description" content="Secure online payment gateway for Akademi Al Khayr fees and contributions.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        /* Navbar Scroll Effects */
+        #navbar {
+            background-color: transparent;
+            box-shadow: none;
+        }
+        #navbar.scrolled {
+            background-color: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(8px);
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+        
+        #navbar .nav-text-main { color: #ffffff; }
+        #navbar.scrolled .nav-text-main { color: #111827; }
+        
+        #navbar .nav-text-accent { color: #e9d5ff; }
+        #navbar.scrolled .nav-text-accent { color: #9333ea; }
+        
+        #navbar .nav-item { color: rgba(255, 255, 255, 0.9); }
+        #navbar.scrolled .nav-item { color: #4b5563; }
+        #navbar .nav-item:hover { color: #ffffff; }
+        #navbar.scrolled .nav-item:hover { color: #9333ea; }
+
+        #navbar .social-icon { color: rgba(255, 255, 255, 0.8); }
+        #navbar.scrolled .social-icon { color: #9ca3af; }
+        #navbar .social-icon:hover { color: #ffffff; }
+        #navbar.scrolled .social-icon:hover { color: #9333ea; }
+
+        /* Payment Card Hover Effect */
+        .payment-card {
+            transition: all 0.3s ease;
+        }
+        .payment-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(147, 51, 234, 0.15);
+        }
+    </style>
+</head>
+<body class="text-gray-800 relative bg-gray-50">
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <div class="flex items-center">
+                    <img src="logo%20AAK%20(white%20BG).png" alt="Akademi Al Khayr Logo" class="h-16 w-auto object-contain mr-3">
+                    <div>
+                        <h1 class="text-xl font-bold leading-none tracking-tight nav-text-main">AKADEMI</h1>
+                        <h1 class="text-xl font-bold leading-none tracking-tight nav-text-accent">AL KHAYR</h1>
+                    </div>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="index.html" class="font-medium transition nav-item">Home</a>
+                    <a href="about.html" class="font-medium transition nav-item">About</a>
+                    <a href="index.html#programs" class="font-medium transition nav-item">Programs</a>
+                    <a href="index.html#contact" class="font-medium transition nav-item">Contact</a>
+                
+                <!-- More Dropdown -->
+                    <div class="relative group">
+                        <button class="font-medium transition flex items-center focus:outline-none nav-item">
+                            More <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                        </button>
+                        <div class="absolute top-full left-0 mt-2 w-64 bg-white rounded-xl shadow-xl border border-gray-100 py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top z-50">
+                            <a href="fees.html" class="block px-4 py-3 text-sm text-gray-600 bg-purple-50 text-purple-600 border-b border-gray-50 last:border-0">
+                                <i class="fas fa-credit-card mr-2 text-purple-400"></i> Fees payment
+                            </a>
+                            <a href="Download/AAK%20TAKWIM%202026.pdf" target="_blank" class="block px-4 py-3 text-sm text-gray-600 hover:bg-purple-50 hover:text-purple-600 transition border-b border-gray-50">
+                                <i class="fas fa-calendar-alt mr-2 text-purple-400"></i> AAK Takwim 2026
+                            </a>
+                            <a href="Download/GuideBook%20AAK_2026%20(1).pdf" target="_blank" class="block px-4 py-3 text-sm text-gray-600 hover:bg-purple-50 hover:text-purple-600 transition border-b border-gray-50">
+                                <i class="fas fa-book-open mr-2 text-purple-400"></i> Guidebook AAK 2026
+                            </a>
+                            <a href="gallery.html" class="block px-4 py-3 text-sm text-gray-600 hover:bg-purple-50 hover:text-purple-600 transition border-b border-gray-50">
+                                <i class="fas fa-images mr-2 text-purple-400"></i> Gallery
+                            </a>
+                            <a href="index.html#location" class="block px-4 py-3 text-sm text-gray-600 hover:bg-purple-50 hover:text-purple-600 transition">
+                                <i class="fas fa-map-marker-alt mr-2 text-purple-400"></i> Visit
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="https://wa.me/60193818616" target="_blank" class="transition social-icon">
+                        <i class="fab fa-whatsapp text-xl"></i>
+                    </a>
+                    <a href="https://www.facebook.com/akademialkhayrofficial/" target="_blank" class="transition social-icon">
+                        <i class="fab fa-facebook-f text-xl"></i>
+                    </a>
+                    <a href="https://www.instagram.com/akademialkhayrofficial/?hl=en" target="_blank" class="transition social-icon">
+                        <i class="fab fa-instagram text-xl"></i>
+                    </a>
+                    <a href="registration.html" class="inline-flex items-center justify-center px-6 py-2 border border-transparent text-sm font-medium rounded-full text-white bg-purple-600 hover:bg-purple-700 transition shadow-md">
+                        Apply Now
+                    </a>
+                    <a href="https://class.akademialkhayr.com/login" target="_blank" class="w-10 h-10 flex items-center justify-center rounded-full bg-white text-purple-600 hover:bg-purple-50 transition shadow-md border border-purple-100" title="Parent & Staff Login">
+                        <i class="fas fa-user"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <section class="bg-purple-900 text-white pt-32 pb-16 text-center px-4 relative overflow-hidden">
+        <div class="absolute inset-0 bg-purple-800 opacity-50 z-0"></div>
+        <!-- Decorative background elements -->
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden opacity-10 pointer-events-none">
+            <i class="fas fa-shapes absolute top-10 left-10 text-6xl text-white animate-pulse"></i>
+            <i class="fas fa-wallet absolute bottom-10 right-10 text-6xl text-white animate-bounce"></i>
+        </div>
+        
+        <div class="max-w-4xl mx-auto relative z-10">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">Fees & Payments</h1>
+            <p class="text-xl text-purple-200">Secure and convenient payment gateway via OnPay</p>
+        </div>
+    </section>
+
+    <!-- Payment Options Section -->
+    <section class="py-16 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Select Payment Category</h2>
+                <div class="w-24 h-1 bg-purple-500 mx-auto rounded-full mb-6"></div>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    Please choose the appropriate category below to proceed with your payment. You will be redirected to our secure OnPay system.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- School Fees 2025 -->
+                <div class="bg-white rounded-xl shadow-lg border border-purple-50 p-8 payment-card flex flex-col items-center text-center">
+                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-6 text-purple-600">
+                        <i class="fas fa-school text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">School Fees 2026</h3>
+                    <p class="text-gray-500 mb-6 text-sm">Payment for 2026 academic session school fees.</p>
+                    <a href="https://akademialkhayr.onpay.my/order/form/yuransekolah25" target="_blank" class="mt-auto inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition w-full justify-center">
+                        Pay Now <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+
+                <!-- Infaq Ramadhan 2026 -->
+                <div class="bg-white rounded-xl shadow-lg border border-purple-50 p-8 payment-card flex flex-col items-center text-center">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-6 text-green-600">
+                        <i class="fas fa-hand-holding-heart text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Infaq Ramadhan 2026</h3>
+                    <p class="text-gray-500 mb-6 text-sm">Contribute to our Ramadhan charity and programs.</p>
+                    <a href="https://akademialkhayr.onpay.my/order/form/inf26" target="_blank" class="mt-auto inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition w-full justify-center">
+                        Contribute <i class="fas fa-heart ml-2"></i>
+                    </a>
+                </div>
+
+                <!-- Online Tahfiz Fees -->
+                <div class="bg-white rounded-xl shadow-lg border border-purple-50 p-8 payment-card flex flex-col items-center text-center">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-6 text-blue-600">
+                        <i class="fas fa-laptop-house text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Online Tahfiz Fees</h3>
+                    <p class="text-gray-500 mb-6 text-sm">Monthly fees for Online Tahfiz program students.</p>
+                    <a href="https://akademialkhayr.onpay.my/order/form/yuranto" target="_blank" class="mt-auto inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition w-full justify-center">
+                        Pay Now <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+
+
+
+                <!-- Activities -->
+                <div class="bg-white rounded-xl shadow-lg border border-purple-50 p-8 payment-card flex flex-col items-center text-center lg:col-span-3 lg:w-2/3 lg:mx-auto">
+                    <div class="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mb-6 text-pink-600">
+                        <i class="fas fa-running text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Activities</h3>
+                    <p class="text-gray-500 mb-6 text-sm">Payments for school activities, trips, and events.</p>
+                    <a href="https://akademialkhayr.onpay.my/order/form/aktiviti" target="_blank" class="mt-auto inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500 transition w-full justify-center">
+                        Pay Now <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+
+
+            </div>
+            
+            <div class="mt-16 bg-purple-100 rounded-2xl p-8 text-center">
+                <h3 class="text-xl font-bold text-purple-900 mb-2">Need Help?</h3>
+                <p class="text-purple-700 mb-6">If you encounter any issues with the payment system or need clarification on fees.</p>
+                <a href="https://wa.me/60193818616" target="_blank" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-green-500 hover:bg-green-600 transition">
+                    <i class="fab fa-whatsapp mr-2 text-xl"></i> Contact Support
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-6 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex space-x-6 mb-6 md:mb-0">
+                    <a href="https://www.facebook.com/akademialkhayrofficial/" target="_blank" class="text-gray-400 hover:text-white transition"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/akademialkhayrofficial/?hl=en" target="_blank" class="text-gray-400 hover:text-white transition"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-youtube"></i></a>
+                </div>
+                <div class="text-gray-400 text-sm">
+                    &copy; 2026 Akademi Al Khayr. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const navbar = document.getElementById('navbar');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>

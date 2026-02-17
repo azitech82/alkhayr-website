@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Tour | Akademi Al Khayr</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Poppins', sans-serif; }
+    </style>
+</head>
+<body class="bg-black h-screen w-screen overflow-hidden flex items-center justify-center relative">
+
+    <!-- Video -->
+    <video id="tour-video" class="w-full h-full object-cover" autoplay controls>
+        <source src="Video/AAK_commercial.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <!-- Overlay Controls -->
+    <div class="absolute top-0 left-0 w-full h-full pointer-events-none flex flex-col justify-end p-6">
+        
+        <!-- Bottom Bar -->
+        <div class="flex justify-between items-end pointer-events-auto">
+            <!-- Home Button -->
+            <a href="index.html" class="bg-white/20 hover:bg-white/40 backdrop-blur-md text-white px-6 py-3 rounded-full flex items-center gap-2 transition-all group shadow-lg">
+                <i class="fas fa-home group-hover:scale-110 transition-transform"></i>
+                <span class="font-medium">Home</span>
+            </a>
+
+            <!-- Mute Button -->
+            <button id="mute-btn" class="bg-white/20 hover:bg-white/40 backdrop-blur-md text-white w-12 h-12 rounded-full flex items-center justify-center transition-all shadow-lg">
+                <i class="fas fa-volume-up text-lg" id="mute-icon"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const video = document.getElementById('tour-video');
+        const muteBtn = document.getElementById('mute-btn');
+        const muteIcon = document.getElementById('mute-icon');
+
+        // Initial Mute State Check
+        if (video.muted) {
+            updateMuteIcon(true);
+        }
+
+        // Mute Toggle Logic
+        muteBtn.addEventListener('click', () => {
+            video.muted = !video.muted;
+            updateMuteIcon(video.muted);
+        });
+
+        function updateMuteIcon(isMuted) {
+            if (isMuted) {
+                muteIcon.classList.remove('fa-volume-up');
+                muteIcon.classList.add('fa-volume-mute');
+                muteBtn.classList.add('bg-red-500/50');
+                muteBtn.classList.remove('bg-white/20');
+            } else {
+                muteIcon.classList.remove('fa-volume-mute');
+                muteIcon.classList.add('fa-volume-up');
+                muteBtn.classList.remove('bg-red-500/50');
+                muteBtn.classList.add('bg-white/20');
+            }
+        }
+        
+        // Handle video end - maybe redirect to home or show replay?
+        video.addEventListener('ended', () => {
+             // Optional: Redirect to home automatically?
+             // window.location.href = 'index.html';
+        });
+    </script>
+</body>
+</html>

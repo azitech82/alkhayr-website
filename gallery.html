@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery | Akademi Al Khayr</title>
+    <meta name="description" content="Photo gallery of Akademi Al Khayr activities and campus life.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        /* Navbar Scroll Effects */
+        #navbar {
+            background-color: transparent;
+            box-shadow: none;
+        }
+        #navbar.scrolled {
+            background-color: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(8px);
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+        
+        /* Default Navbar Text (White on Hero, Dark on Scrolled) */
+        #navbar .nav-text-main { color: #ffffff; }
+        #navbar.scrolled .nav-text-main { color: #111827; }
+        
+        #navbar .nav-text-accent { color: #e9d5ff; }
+        #navbar.scrolled .nav-text-accent { color: #9333ea; }
+        
+        #navbar .nav-item { color: rgba(255, 255, 255, 0.9); }
+        #navbar.scrolled .nav-item { color: #4b5563; }
+        #navbar .nav-item:hover { color: #ffffff; }
+        #navbar.scrolled .nav-item:hover { color: #9333ea; }
+
+        #navbar .social-icon { color: rgba(255, 255, 255, 0.8); }
+        #navbar.scrolled .social-icon { color: #9ca3af; }
+        #navbar .social-icon:hover { color: #ffffff; }
+        #navbar.scrolled .social-icon:hover { color: #9333ea; }
+
+        /* Force dark text for navbar on this page since header is smaller? 
+           Actually, let's keep the purple header and white text for consistency 
+        */
+        
+        .gallery-item {
+            break-inside: avoid;
+            margin-bottom: 1rem;
+        }
+
+        /* Lightbox */
+        #lightbox {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+            cursor: zoom-out;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        #lightbox.active {
+            display: flex;
+            opacity: 1;
+        }
+        #lightbox img {
+            max-width: 95%;
+            max-height: 95%;
+            object-fit: contain;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            border: 4px solid white;
+            border-radius: 4px;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+        #lightbox.active img {
+            transform: scale(1);
+        }
+
+        /* Entry Animation */
+        @keyframes zoomInEntry {
+            0% {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+        }
+        
+        .zoom-in-entry {
+            animation: zoomInEntry 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+        }
+
+        /* Bamboo Frame Style */
+        .bamboo-frame {
+            position: relative;
+            padding: 30px;
+            background-color: #2d1b15;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+            border-radius: 2px;
+            margin: 20px; /* Space for extending sticks */
+        }
+
+        /* Vertical Sticks (Left & Right) */
+        .bamboo-frame::before {
+            content: '';
+            position: absolute;
+            top: -30px;
+            bottom: -30px;
+            left: 0;
+            right: 0;
+            z-index: 10;
+            pointer-events: none;
+            
+            /* Bamboo Texture Vertical */
+            background-image: 
+                /* Left Nodes */
+                repeating-linear-gradient(0deg, transparent 0px, transparent 58px, rgba(20, 10, 5, 0.5) 59px, rgba(255,255,255,0.1) 60px, transparent 61px),
+                /* Left Texture */
+                repeating-linear-gradient(90deg, #3e2723 0px, #5d4037 3px, #8d6e63 6px, #5d4037 9px, #3e2723 12px),
+                
+                /* Right Nodes */
+                repeating-linear-gradient(0deg, transparent 0px, transparent 58px, rgba(20, 10, 5, 0.5) 59px, rgba(255,255,255,0.1) 60px, transparent 61px),
+                /* Right Texture */
+                repeating-linear-gradient(90deg, #3e2723 0px, #5d4037 3px, #8d6e63 6px, #5d4037 9px, #3e2723 12px);
+            
+            background-size: 
+                30px 100%, 30px 100%,
+                30px 100%, 30px 100%;
+                
+            background-position: 
+                left top, left top,
+                right top, right top;
+                
+            background-repeat: no-repeat;
+            
+            filter: drop-shadow(2px 0 4px rgba(0,0,0,0.4));
+        }
+
+        /* Horizontal Sticks (Top & Bottom) */
+        .bamboo-frame::after {
+            content: '';
+            position: absolute;
+            left: -40px;
+            right: -40px;
+            top: 0;
+            bottom: 0;
+            z-index: 11;
+            pointer-events: none;
+
+            /* Bamboo Texture Horizontal */
+            background-image: 
+                /* Top Nodes */
+                repeating-linear-gradient(90deg, transparent 0px, transparent 58px, rgba(20, 10, 5, 0.5) 59px, rgba(255,255,255,0.1) 60px, transparent 61px),
+                /* Top Texture */
+                repeating-linear-gradient(0deg, #3e2723 0px, #5d4037 3px, #8d6e63 6px, #5d4037 9px, #3e2723 12px),
+                
+                /* Bottom Nodes */
+                repeating-linear-gradient(90deg, transparent 0px, transparent 58px, rgba(20, 10, 5, 0.5) 59px, rgba(255,255,255,0.1) 60px, transparent 61px),
+                /* Bottom Texture */
+                repeating-linear-gradient(0deg, #3e2723 0px, #5d4037 3px, #8d6e63 6px, #5d4037 9px, #3e2723 12px);
+                
+            background-size: 
+                100% 30px, 100% 30px,
+                100% 30px, 100% 30px;
+                
+            background-position: 
+                top left, top left,
+                bottom left, bottom left;
+                
+            background-repeat: no-repeat;
+            
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
+        }
+
+        .bamboo-frame video {
+            border: 2px solid #1a100e;
+            box-shadow: 0 0 15px rgba(0,0,0,0.7);
+            position: relative;
+            z-index: 5;
+            display: block;
+        }
+    </style>
+</head>
+<body class="text-gray-800 relative bg-stone-100">
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <div class="flex items-center">
+                    <img src="logo%20AAK%20(white%20BG).png" alt="Akademi Al Khayr Logo" class="h-16 w-auto object-contain mr-3">
+                    <div>
+                        <h1 class="text-xl font-bold leading-none tracking-tight nav-text-main">AKADEMI</h1>
+                        <h1 class="text-xl font-bold leading-none tracking-tight nav-text-accent">AL KHAYR</h1>
+                    </div>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="index.html" class="font-medium transition nav-item">Home</a>
+                    <a href="about.html" class="font-medium transition nav-item">About</a>
+                    <a href="index.html#programs" class="font-medium transition nav-item">Programs</a>
+                    <a href="index.html#contact" class="font-medium transition nav-item">Contact</a>
+                
+                <!-- More Dropdown -->
+                    <div class="relative group">
+                        <button class="font-medium transition flex items-center focus:outline-none nav-item">
+                            More <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                        </button>
+                        <div class="absolute top-full left-0 mt-2 w-64 bg-white rounded-xl shadow-xl border border-gray-100 py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top z-50">
+                            <a href="fees.html" class="block px-4 py-3 text-sm text-gray-600 hover:bg-purple-50 hover:text-purple-600 transition border-b border-gray-50 last:border-0">
+                                <i class="fas fa-credit-card mr-2 text-purple-400"></i> Fees payment
+                            </a>
+                            <a href="Download/AAK%20TAKWIM%202026.pdf" target="_blank" class="block px-4 py-3 text-sm text-gray-600 hover:bg-purple-50 hover:text-purple-600 transition border-b border-gray-50">
+                                <i class="fas fa-calendar-alt mr-2 text-purple-400"></i> AAK Takwim 2026
+                            </a>
+                            <a href="Download/GuideBook%20AAK_2026%20(1).pdf" target="_blank" class="block px-4 py-3 text-sm text-gray-600 hover:bg-purple-50 hover:text-purple-600 transition border-b border-gray-50">
+                                <i class="fas fa-book-open mr-2 text-purple-400"></i> Guidebook AAK 2026
+                            </a>
+                            <a href="gallery.html" class="block px-4 py-3 text-sm text-gray-600 hover:bg-purple-50 hover:text-purple-600 transition border-b border-gray-50">
+                                <i class="fas fa-images mr-2 text-purple-400"></i> Gallery
+                            </a>
+                            <a href="index.html#location" class="block px-4 py-3 text-sm text-gray-600 hover:bg-purple-50 hover:text-purple-600 transition">
+                                <i class="fas fa-map-marker-alt mr-2 text-purple-400"></i> Visit
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="https://www.facebook.com/akademialkhayrofficial/" target="_blank" class="transition social-icon">
+                        <i class="fab fa-facebook-f text-xl"></i>
+                    </a>
+                    <a href="https://www.instagram.com/akademialkhayrofficial/?hl=en" target="_blank" class="transition social-icon">
+                        <i class="fab fa-instagram text-xl"></i>
+                    </a>
+                    <a href="registration.html" class="inline-flex items-center justify-center px-6 py-2 border border-transparent text-sm font-medium rounded-full text-white bg-purple-600 hover:bg-purple-700 transition shadow-md">
+                        Apply Now
+                    </a>
+                    <a href="https://class.akademialkhayr.com/login" target="_blank" class="w-10 h-10 flex items-center justify-center rounded-full bg-white text-purple-600 hover:bg-purple-50 transition shadow-md border border-purple-100" title="Parent & Staff Login">
+                        <i class="fas fa-user"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <section class="bg-purple-900 text-white pt-32 pb-16 text-center px-4 relative overflow-hidden">
+        <div class="absolute inset-0 bg-purple-800 opacity-50 z-0"></div>
+        <div class="max-w-4xl mx-auto relative z-10">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">Our Gallery</h1>
+            <p class="text-xl text-purple-200">Glimpses of life, learning, and growth at Akademi Al Khayr</p>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="py-16 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-10">
+                <div class="flex flex-col sm:flex-row justify-center gap-4 mb-4">
+                    <a href="https://www.facebook.com/akademialkhayrofficial/photos" target="_blank" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 transition shadow-lg">
+                        <i class="fab fa-facebook-f mr-2"></i> View Full Gallery on Facebook
+                    </a>
+                    <a href="https://www.instagram.com/akademialkhayrofficial/?hl=en" target="_blank" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-full text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 transition shadow-lg">
+                        <i class="fab fa-instagram mr-2"></i> View Full Gallery on Instagram
+                    </a>
+                    <a href="https://www.youtube.com/@akademialkhayrofficial" target="_blank" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-full text-white bg-red-600 hover:bg-red-700 transition shadow-lg">
+                        <i class="fab fa-youtube mr-2"></i> Video Gallery
+                    </a>
+                </div>
+                <p class="text-sm text-gray-500">For the latest updates and photos, please visit our official social media pages.</p>
+            </div>
+            
+            <div id="gallery-container" class="space-y-12">
+                <!-- Top: Video Frame (Centered) -->
+                <div class="flex justify-center w-full px-4">
+                     <div class="w-full max-w-4xl bamboo-frame relative group">
+                        <video id="galleryVideo" autoplay muted playsinline loop controls class="w-full h-auto aspect-video object-cover">
+                            <source src="Video/2025%20TEBUK%20CHALLENGE%20JUL%202025_AAK.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <!-- Mute/Unmute Button -->
+                        <button id="muteToggle" class="absolute bottom-6 right-6 z-10 bg-black/50 hover:bg-black/70 text-white rounded-full p-3 transition-all duration-300 backdrop-blur-sm focus:outline-none transform hover:scale-110">
+                            <i id="muteIcon" class="fas fa-volume-mute text-lg w-6 h-6 flex items-center justify-center"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Photo Grid -->
+<div class="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-8 space-y-8 p-4">
+                    <div class="break-inside-avoid bg-stone-50 p-4 pb-16 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.2)] border border-gray-200 rotate-1 hover:rotate-0 transition duration-500 ease-in-out transform hover:scale-105 hover:z-10 relative">
+                        <img src="Gallery/480409144_631640739414910_1639360021761228736_n.jpg" alt="Gallery Image" class="w-full h-auto shadow-inner sepia brightness-90 contrast-85 hover:sepia-0 hover:brightness-100 hover:contrast-100 transition duration-500">
+                    </div>
+                    <div class="break-inside-avoid bg-white p-4 pb-16 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.2)] border border-gray-200 -rotate-1 hover:rotate-0 transition duration-500 ease-in-out transform hover:scale-105 hover:z-10 relative">
+                        <img src="Gallery/480506390_631640786081572_4431412821148856643_n.jpg" alt="Gallery Image" class="w-full h-auto shadow-inner contrast-110 saturate-110 transition duration-500">
+                    </div>
+                    <div class="break-inside-avoid bg-stone-50 p-4 pb-16 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.2)] border border-gray-200 rotate-2 hover:rotate-0 transition duration-500 ease-in-out transform hover:scale-105 hover:z-10 relative">
+                        <img src="Gallery/494481421_686502203928763_2849760136621143672_n.jpg" alt="Gallery Image" class="w-full h-auto shadow-inner sepia brightness-90 contrast-85 hover:sepia-0 hover:brightness-100 hover:contrast-100 transition duration-500">
+                    </div>
+                    <div class="break-inside-avoid bg-white p-4 pb-16 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.2)] border border-gray-200 -rotate-2 hover:rotate-0 transition duration-500 ease-in-out transform hover:scale-105 hover:z-10 relative">
+                        <img src="Gallery/565806577_819316423980673_1245878657240932955_n.jpg" alt="Gallery Image" class="w-full h-auto shadow-inner contrast-110 saturate-110 transition duration-500">
+                    </div>
+                    <div class="break-inside-avoid bg-stone-50 p-4 pb-16 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.2)] border border-gray-200 rotate-3 hover:rotate-0 transition duration-500 ease-in-out transform hover:scale-105 hover:z-10 relative">
+                        <img src="Gallery/572039952_825255220053460_8092779179774866476_n.jpg" alt="Gallery Image" class="w-full h-auto shadow-inner sepia brightness-90 contrast-85 hover:sepia-0 hover:brightness-100 hover:contrast-100 transition duration-500">
+                    </div>
+                    <div class="break-inside-avoid bg-white p-4 pb-16 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.2)] border border-gray-200 -rotate-3 hover:rotate-0 transition duration-500 ease-in-out transform hover:scale-105 hover:z-10 relative">
+                        <img src="Gallery/572467888_831125469466435_8220124982302683678_n.jpg" alt="Gallery Image" class="w-full h-auto shadow-inner contrast-110 saturate-110 transition duration-500">
+                    </div>
+                    <div class="break-inside-avoid bg-stone-50 p-4 pb-16 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.2)] border border-gray-200 rotate-1 hover:rotate-0 transition duration-500 ease-in-out transform hover:scale-105 hover:z-10 relative">
+                        <img src="Gallery/573483658_831125556133093_5193186745928079528_n.jpg" alt="Gallery Image" class="w-full h-auto shadow-inner sepia brightness-90 contrast-85 hover:sepia-0 hover:brightness-100 hover:contrast-100 transition duration-500">
+                    </div>
+                    <div class="break-inside-avoid bg-white p-4 pb-16 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.2)] border border-gray-200 -rotate-1 hover:rotate-0 transition duration-500 ease-in-out transform hover:scale-105 hover:z-10 relative">
+                        <img src="Gallery/578555688_837706398808342_1553853706806290757_n.jpg" alt="Gallery Image" class="w-full h-auto shadow-inner contrast-110 saturate-110 transition duration-500">
+                    </div>
+                    <div class="break-inside-avoid bg-stone-50 p-4 pb-16 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.2)] border border-gray-200 rotate-2 hover:rotate-0 transition duration-500 ease-in-out transform hover:scale-105 hover:z-10 relative">
+                        <img src="Gallery/589827054_851068027472179_2683156619955303707_n.jpg" alt="Gallery Image" class="w-full h-auto shadow-inner sepia brightness-90 contrast-85 hover:sepia-0 hover:brightness-100 hover:contrast-100 transition duration-500">
+                    </div>
+                    <div class="break-inside-avoid bg-white p-4 pb-16 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.2)] border border-gray-200 -rotate-2 hover:rotate-0 transition duration-500 ease-in-out transform hover:scale-105 hover:z-10 relative">
+                        <img src="Gallery/617135034_894449729800675_3618302032493286360_n.jpg" alt="Gallery Image" class="w-full h-auto shadow-inner contrast-110 saturate-110 transition duration-500">
+                    </div>
+                    <div class="break-inside-avoid bg-stone-50 p-4 pb-16 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.2)] border border-gray-200 rotate-3 hover:rotate-0 transition duration-500 ease-in-out transform hover:scale-105 hover:z-10 relative">
+                        <img src="Gallery/WhatsApp%20Image%202026-02-13%20at%2012.28.24.jpeg" alt="Gallery Image" class="w-full h-auto shadow-inner sepia brightness-90 contrast-85 hover:sepia-0 hover:brightness-100 hover:contrast-100 transition duration-500">
+                    </div>
+                    <div class="break-inside-avoid bg-white p-4 pb-16 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.2)] border border-gray-200 -rotate-3 hover:rotate-0 transition duration-500 ease-in-out transform hover:scale-105 hover:z-10 relative">
+                        <img src="Gallery/WhatsApp%20Image%202026-02-13%20at%2012.28.25.jpeg" alt="Gallery Image" class="w-full h-auto shadow-inner contrast-110 saturate-110 transition duration-500">
+                    </div>
+                    <div class="break-inside-avoid bg-stone-50 p-4 pb-16 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.2)] border border-gray-200 rotate-1 hover:rotate-0 transition duration-500 ease-in-out transform hover:scale-105 hover:z-10 relative">
+                        <img src="Gallery/WhatsApp%20Image%202026-02-13%20at%2012.28.26%20%281%29.jpeg" alt="Gallery Image" class="w-full h-auto shadow-inner sepia brightness-90 contrast-85 hover:sepia-0 hover:brightness-100 hover:contrast-100 transition duration-500">
+                    </div>
+                    <div class="break-inside-avoid bg-white p-4 pb-16 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.2)] border border-gray-200 -rotate-1 hover:rotate-0 transition duration-500 ease-in-out transform hover:scale-105 hover:z-10 relative">
+                        <img src="Gallery/WhatsApp%20Image%202026-02-13%20at%2012.28.26%20%282%29.jpeg" alt="Gallery Image" class="w-full h-auto shadow-inner contrast-110 saturate-110 transition duration-500">
+                    </div>
+                    <div class="break-inside-avoid bg-stone-50 p-4 pb-16 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.2)] border border-gray-200 rotate-2 hover:rotate-0 transition duration-500 ease-in-out transform hover:scale-105 hover:z-10 relative">
+                        <img src="Gallery/WhatsApp%20Image%202026-02-13%20at%2012.28.26%20%283%29.jpeg" alt="Gallery Image" class="w-full h-auto shadow-inner sepia brightness-90 contrast-85 hover:sepia-0 hover:brightness-100 hover:contrast-100 transition duration-500">
+                    </div>
+                    <div class="break-inside-avoid bg-white p-4 pb-16 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.2)] border border-gray-200 -rotate-2 hover:rotate-0 transition duration-500 ease-in-out transform hover:scale-105 hover:z-10 relative">
+                        <img src="Gallery/WhatsApp%20Image%202026-02-13%20at%2012.28.26.jpeg" alt="Gallery Image" class="w-full h-auto shadow-inner contrast-110 saturate-110 transition duration-500">
+                    </div>
+                    <div class="break-inside-avoid bg-stone-50 p-4 pb-16 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.2)] border border-gray-200 rotate-3 hover:rotate-0 transition duration-500 ease-in-out transform hover:scale-105 hover:z-10 relative">
+                        <img src="Gallery/WhatsApp%20Image%202026-02-13%20at%2012.31.04%20%281%29.jpeg" alt="Gallery Image" class="w-full h-auto shadow-inner sepia brightness-90 contrast-85 hover:sepia-0 hover:brightness-100 hover:contrast-100 transition duration-500">
+                    </div>
+                    <div class="break-inside-avoid bg-white p-4 pb-16 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.2)] border border-gray-200 -rotate-3 hover:rotate-0 transition duration-500 ease-in-out transform hover:scale-105 hover:z-10 relative">
+                        <img src="Gallery/WhatsApp%20Image%202026-02-13%20at%2012.31.04.jpeg" alt="Gallery Image" class="w-full h-auto shadow-inner contrast-110 saturate-110 transition duration-500">
+                    </div>
+                    <div class="break-inside-avoid bg-stone-50 p-4 pb-16 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.2)] border border-gray-200 rotate-1 hover:rotate-0 transition duration-500 ease-in-out transform hover:scale-105 hover:z-10 relative">
+                        <img src="Gallery/WhatsApp%20Image%202026-02-13%20at%2012.31.05.jpeg" alt="Gallery Image" class="w-full h-auto shadow-inner sepia brightness-90 contrast-85 hover:sepia-0 hover:brightness-100 hover:contrast-100 transition duration-500">
+                    </div>
+                    <div class="break-inside-avoid bg-white p-4 pb-16 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.2)] border border-gray-200 -rotate-1 hover:rotate-0 transition duration-500 ease-in-out transform hover:scale-105 hover:z-10 relative">
+                        <img src="Gallery/WhatsApp%20Image%202026-02-13%20at%2012.31.27.jpeg" alt="Gallery Image" class="w-full h-auto shadow-inner contrast-110 saturate-110 transition duration-500">
+                    </div>
+                    <div class="break-inside-avoid bg-stone-50 p-4 pb-16 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.2)] border border-gray-200 rotate-2 hover:rotate-0 transition duration-500 ease-in-out transform hover:scale-105 hover:z-10 relative">
+                        <img src="Gallery/WhatsApp%20Image%202026-02-13%20at%2016.30.27.jpeg" alt="Gallery Image" class="w-full h-auto shadow-inner sepia brightness-90 contrast-85 hover:sepia-0 hover:brightness-100 hover:contrast-100 transition duration-500">
+                    </div>
+                    <div class="break-inside-avoid bg-white p-4 pb-16 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.2)] border border-gray-200 -rotate-2 hover:rotate-0 transition duration-500 ease-in-out transform hover:scale-105 hover:z-10 relative">
+                        <img src="Gallery/WhatsApp%20Image%202026-02-13%20at%2016.30.28%20%281%29.jpeg" alt="Gallery Image" class="w-full h-auto shadow-inner contrast-110 saturate-110 transition duration-500">
+                    </div>
+                    <div class="break-inside-avoid bg-stone-50 p-4 pb-16 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.2)] border border-gray-200 rotate-3 hover:rotate-0 transition duration-500 ease-in-out transform hover:scale-105 hover:z-10 relative">
+                        <img src="Gallery/WhatsApp%20Image%202026-02-13%20at%2016.30.28.jpeg" alt="Gallery Image" class="w-full h-auto shadow-inner sepia brightness-90 contrast-85 hover:sepia-0 hover:brightness-100 hover:contrast-100 transition duration-500">
+                    </div>
+                    <div class="break-inside-avoid bg-white p-4 pb-16 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.2)] border border-gray-200 -rotate-3 hover:rotate-0 transition duration-500 ease-in-out transform hover:scale-105 hover:z-10 relative">
+                        <img src="Gallery/WhatsApp%20Image%202026-02-13%20at%2016.30.29%20%281%29.jpeg" alt="Gallery Image" class="w-full h-auto shadow-inner contrast-110 saturate-110 transition duration-500">
+                    </div>
+                    <div class="break-inside-avoid bg-stone-50 p-4 pb-16 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.2)] border border-gray-200 rotate-1 hover:rotate-0 transition duration-500 ease-in-out transform hover:scale-105 hover:z-10 relative">
+                        <img src="Gallery/WhatsApp%20Image%202026-02-13%20at%2016.30.29%20%282%29.jpeg" alt="Gallery Image" class="w-full h-auto shadow-inner sepia brightness-90 contrast-85 hover:sepia-0 hover:brightness-100 hover:contrast-100 transition duration-500">
+                    </div>
+                    <div class="break-inside-avoid bg-white p-4 pb-16 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.2)] border border-gray-200 -rotate-1 hover:rotate-0 transition duration-500 ease-in-out transform hover:scale-105 hover:z-10 relative">
+                        <img src="Gallery/WhatsApp%20Image%202026-02-13%20at%2016.30.29.jpeg" alt="Gallery Image" class="w-full h-auto shadow-inner contrast-110 saturate-110 transition duration-500">
+                    </div>
+                    <div class="break-inside-avoid bg-stone-50 p-4 pb-16 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.2)] border border-gray-200 rotate-2 hover:rotate-0 transition duration-500 ease-in-out transform hover:scale-105 hover:z-10 relative">
+                        <img src="Gallery/WhatsApp%20Image%202026-02-13%20at%2016.30.32%20%281%29.jpeg" alt="Gallery Image" class="w-full h-auto shadow-inner sepia brightness-90 contrast-85 hover:sepia-0 hover:brightness-100 hover:contrast-100 transition duration-500">
+                    </div>
+                    <div class="break-inside-avoid bg-white p-4 pb-16 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.2)] border border-gray-200 -rotate-2 hover:rotate-0 transition duration-500 ease-in-out transform hover:scale-105 hover:z-10 relative">
+                        <img src="Gallery/WhatsApp%20Image%202026-02-13%20at%2016.30.32.jpeg" alt="Gallery Image" class="w-full h-auto shadow-inner contrast-110 saturate-110 transition duration-500">
+                    </div>
+                    <div class="break-inside-avoid bg-stone-50 p-4 pb-16 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.2)] border border-gray-200 rotate-3 hover:rotate-0 transition duration-500 ease-in-out transform hover:scale-105 hover:z-10 relative">
+                        <img src="Gallery/WhatsApp%20Image%202026-02-13%20at%2016.30.33%20%281%29.jpeg" alt="Gallery Image" class="w-full h-auto shadow-inner sepia brightness-90 contrast-85 hover:sepia-0 hover:brightness-100 hover:contrast-100 transition duration-500">
+                    </div>
+                    <div class="break-inside-avoid bg-white p-4 pb-16 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.2)] border border-gray-200 -rotate-3 hover:rotate-0 transition duration-500 ease-in-out transform hover:scale-105 hover:z-10 relative">
+                        <img src="Gallery/WhatsApp%20Image%202026-02-13%20at%2016.30.33.jpeg" alt="Gallery Image" class="w-full h-auto shadow-inner contrast-110 saturate-110 transition duration-500">
+                    </div>
+                    <div class="break-inside-avoid bg-stone-50 p-4 pb-16 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.2)] border border-gray-200 rotate-1 hover:rotate-0 transition duration-500 ease-in-out transform hover:scale-105 hover:z-10 relative">
+                        <img src="Gallery/WhatsApp%20Image%202026-02-13%20at%2016.30.34.jpeg" alt="Gallery Image" class="w-full h-auto shadow-inner sepia brightness-90 contrast-85 hover:sepia-0 hover:brightness-100 hover:contrast-100 transition duration-500">
+                    </div>
+                    <div class="break-inside-avoid bg-white p-4 pb-16 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.2)] border border-gray-200 -rotate-1 hover:rotate-0 transition duration-500 ease-in-out transform hover:scale-105 hover:z-10 relative">
+                        <img src="Gallery/WhatsApp%20Image%202026-02-13%20at%2016.33.54%20%281%29.jpeg" alt="Gallery Image" class="w-full h-auto shadow-inner contrast-110 saturate-110 transition duration-500">
+                    </div>
+                    <div class="break-inside-avoid bg-stone-50 p-4 pb-16 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.2)] border border-gray-200 rotate-2 hover:rotate-0 transition duration-500 ease-in-out transform hover:scale-105 hover:z-10 relative">
+                        <img src="Gallery/WhatsApp%20Image%202026-02-13%20at%2016.33.54%20%282%29.jpeg" alt="Gallery Image" class="w-full h-auto shadow-inner sepia brightness-90 contrast-85 hover:sepia-0 hover:brightness-100 hover:contrast-100 transition duration-500">
+                    </div>
+                    <div class="break-inside-avoid bg-white p-4 pb-16 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.2)] border border-gray-200 -rotate-2 hover:rotate-0 transition duration-500 ease-in-out transform hover:scale-105 hover:z-10 relative">
+                        <img src="Gallery/WhatsApp%20Image%202026-02-13%20at%2016.33.54.jpeg" alt="Gallery Image" class="w-full h-auto shadow-inner contrast-110 saturate-110 transition duration-500">
+                    </div>
+                    <div class="break-inside-avoid bg-stone-50 p-4 pb-16 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.2)] border border-gray-200 rotate-3 hover:rotate-0 transition duration-500 ease-in-out transform hover:scale-105 hover:z-10 relative">
+                        <img src="Gallery/WhatsApp%20Image%202026-02-13%20at%2016.33.55.jpeg" alt="Gallery Image" class="w-full h-auto shadow-inner sepia brightness-90 contrast-85 hover:sepia-0 hover:brightness-100 hover:contrast-100 transition duration-500">
+                    </div>
+                    <div class="break-inside-avoid bg-white p-4 pb-16 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.2)] border border-gray-200 -rotate-3 hover:rotate-0 transition duration-500 ease-in-out transform hover:scale-105 hover:z-10 relative">
+                        <img src="Gallery/WhatsApp%20Image%202026-02-13%20at%2016.33.56%20%281%29.jpeg" alt="Gallery Image" class="w-full h-auto shadow-inner contrast-110 saturate-110 transition duration-500">
+                    </div>
+                    <div class="break-inside-avoid bg-stone-50 p-4 pb-16 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.2)] border border-gray-200 rotate-1 hover:rotate-0 transition duration-500 ease-in-out transform hover:scale-105 hover:z-10 relative">
+                        <img src="Gallery/WhatsApp%20Image%202026-02-13%20at%2016.33.56%20%282%29.jpeg" alt="Gallery Image" class="w-full h-auto shadow-inner sepia brightness-90 contrast-85 hover:sepia-0 hover:brightness-100 hover:contrast-100 transition duration-500">
+                    </div>
+                    <div class="break-inside-avoid bg-white p-4 pb-16 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.2)] border border-gray-200 -rotate-1 hover:rotate-0 transition duration-500 ease-in-out transform hover:scale-105 hover:z-10 relative">
+                        <img src="Gallery/WhatsApp%20Image%202026-02-13%20at%2016.33.56.jpeg" alt="Gallery Image" class="w-full h-auto shadow-inner contrast-110 saturate-110 transition duration-500">
+                    </div>
+                    <div class="break-inside-avoid bg-stone-50 p-4 pb-16 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.2)] border border-gray-200 rotate-2 hover:rotate-0 transition duration-500 ease-in-out transform hover:scale-105 hover:z-10 relative">
+                        <img src="Gallery/WhatsApp%20Image%202026-02-13%20at%2016.33.57%20%281%29.jpeg" alt="Gallery Image" class="w-full h-auto shadow-inner sepia brightness-90 contrast-85 hover:sepia-0 hover:brightness-100 hover:contrast-100 transition duration-500">
+                    </div>
+                    <div class="break-inside-avoid bg-white p-4 pb-16 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.2)] border border-gray-200 -rotate-2 hover:rotate-0 transition duration-500 ease-in-out transform hover:scale-105 hover:z-10 relative">
+                        <img src="Gallery/WhatsApp%20Image%202026-02-13%20at%2016.33.57.jpeg" alt="Gallery Image" class="w-full h-auto shadow-inner contrast-110 saturate-110 transition duration-500">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-6 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0 flex items-center">
+                    <img src="logo%20AAK%20(white%20BG).png" alt="Akademi Al Khayr Logo" class="h-16 w-auto object-contain mr-3">
+                    <div>
+                        <h3 class="text-lg font-bold text-white leading-none">AKADEMI</h3>
+                        <h3 class="text-lg font-bold text-purple-500 leading-none">AL KHAYR</h3>
+                    </div>
+                </div>
+                <div class="flex space-x-6 mb-6 md:mb-0">
+                    <a href="https://www.facebook.com/akademialkhayrofficial/" target="_blank" class="text-gray-400 hover:text-white transition"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/akademialkhayrofficial/?hl=en" target="_blank" class="text-gray-400 hover:text-white transition"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.youtube.com/@akademialkhayrofficial" target="_blank" class="text-gray-400 hover:text-white transition"><i class="fab fa-youtube"></i></a>
+                </div>
+                <div class="text-gray-400 text-sm">
+                    &copy; 2026 Akademi Al Khayr. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const navbar = document.getElementById('navbar');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Lightbox Functionality
+        const lightbox = document.createElement('div');
+        lightbox.id = 'lightbox';
+        const lightboxImg = document.createElement('img');
+        lightbox.appendChild(lightboxImg);
+        document.body.appendChild(lightbox);
+
+        // Select images inside the gallery container
+        const galleryContainer = document.getElementById('gallery-container'); // Use ID selector
+        if (galleryContainer) {
+            const galleryImages = galleryContainer.querySelectorAll('img');
+            
+            galleryImages.forEach(img => {
+                img.style.cursor = 'zoom-in';
+                img.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Prevent bubbling if needed
+                    lightboxImg.src = img.src;
+                    lightbox.classList.add('active');
+                });
+            });
+
+            // Entry Animation
+            const galleryItems = galleryContainer.querySelectorAll('.break-inside-avoid');
+            galleryItems.forEach((item, index) => {
+                item.classList.add('zoom-in-entry');
+                item.style.animationDelay = `${index * 0.05}s`;
+            });
+        }
+
+        lightbox.addEventListener('click', () => {
+            lightbox.classList.remove('active');
+        });
+    </script>
+
+    <!-- Watermarks -->
+    <div class="fixed bottom-[-5%] left-[-5%] z-0 pointer-events-none opacity-[0.03] select-none" style="width: 40vw; max-width: 500px;">
+        <img src="logo%20AAK%20(white%20BG).png" class="w-full h-auto grayscale" alt="">
+    </div>
+
+    <div class="fixed top-0 right-0 z-0 pointer-events-none opacity-[0.08] select-none" style="width: 30vw; max-width: 400px; height: 30vw; max-height: 400px;">
+        <svg viewBox="0 0 200 200" class="w-full h-full text-gray-900" fill="none" stroke="currentColor" stroke-width="0.5">
+            <defs>
+                <pattern id="hexagons" x="0" y="0" width="50" height="43.4" patternUnits="userSpaceOnUse" patternTransform="scale(1)">
+                    <path d="M25 0 L50 14.4 L50 43.3 L25 57.7 L0 43.3 L0 14.4 Z" />
+                </pattern>
+            </defs>
+            <rect width="200" height="200" fill="url(#hexagons)" />
+        </svg>
+    </div>
+
+    <script>
+        // Video Mute Toggle Logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const video = document.getElementById('galleryVideo');
+            const muteBtn = document.getElementById('muteToggle');
+            const muteIcon = document.getElementById('muteIcon');
+            
+            if (video && muteBtn && muteIcon) {
+                // Initial state check
+                updateIcon();
+
+                muteBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    video.muted = !video.muted;
+                    updateIcon();
+                });
+
+                // Update icon if controls are used
+                video.addEventListener('volumechange', updateIcon);
+
+                function updateIcon() {
+                    if (video.muted || video.volume === 0) {
+                        muteIcon.className = 'fas fa-volume-mute text-lg w-6 h-6 flex items-center justify-center';
+                        muteBtn.title = "Unmute";
+                    } else {
+                        muteIcon.className = 'fas fa-volume-up text-lg w-6 h-6 flex items-center justify-center';
+                        muteBtn.title = "Mute";
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

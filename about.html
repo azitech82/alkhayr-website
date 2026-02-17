@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | Akademi Al Khayr</title>
+    <meta name="description" content="Learn about the history of Akademi Al Khayr and our founder, Dr. Kamilin Jamilin.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #fdfbf7; /* Vintage cream background */
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Vintage Paper Texture Effect (Optional, keeping it subtle with color) */
+        
+        /* Navbar Scroll Effects */
+        #navbar {
+            background-color: transparent;
+            box-shadow: none;
+            transition: all 0.3s ease;
+        }
+        #navbar.scrolled {
+            background-color: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(8px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        
+        #navbar .nav-text-main { color: #ffffff; }
+        #navbar.scrolled .nav-text-main { color: #2d2a26; }
+        
+        #navbar .nav-text-accent { color: #e9d5ff; }
+        #navbar.scrolled .nav-text-accent { color: #7e22ce; }
+        
+        #navbar .nav-item { color: rgba(255, 255, 255, 0.9); }
+        #navbar.scrolled .nav-item { color: #57534e; }
+        #navbar .nav-item:hover { color: #ffffff; }
+        #navbar.scrolled .nav-item:hover { color: #7e22ce; }
+
+        #navbar .social-icon { color: rgba(255, 255, 255, 0.8); }
+        #navbar.scrolled .social-icon { color: #a8a29e; }
+        #navbar .social-icon:hover { color: #ffffff; }
+        #navbar.scrolled .social-icon:hover { color: #7e22ce; }
+        
+        .page-header {
+            background: linear-gradient(rgba(45, 10, 78, 0.85), rgba(45, 10, 78, 0.75)), url('About/490773897_674426268469690_802389534179275086_n.jpg');
+            background-size: cover;
+            background-position: center 30%;
+            height: 450px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+        }
+
+        /* Custom Vintage Borders */
+        .vintage-border {
+            border: 1px solid #e5e7eb;
+            outline: 1px solid #f3f4f6;
+            outline-offset: 4px;
+        }
+
+        /* Lightbox */
+        #lightbox {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+            cursor: zoom-out;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        #lightbox.active {
+            display: flex;
+            opacity: 1;
+        }
+        #lightbox img {
+            max-width: 95%;
+            max-height: 95%;
+            object-fit: contain;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            border: 4px solid white;
+            border-radius: 4px;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+        #lightbox.active img {
+            transform: scale(1);
+        }
+    </style>
+</head>
+<body class="text-stone-800 antialiased">
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center">
+                        <img src="logo%20AAK%20(white%20BG).png" alt="Akademi Al Khayr Logo" class="h-16 w-auto object-contain mr-3">
+                        <div>
+                            <h1 class="text-xl font-bold leading-none tracking-tight nav-text-main">AKADEMI</h1>
+                            <h1 class="text-xl font-bold leading-none tracking-tight nav-text-accent">AL KHAYR</h1>
+                        </div>
+                    </a>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="index.html" class="font-medium transition nav-item">Home</a>
+                    <a href="about.html" class="font-medium transition nav-item text-purple-300">About</a>
+                    <a href="index.html#programs" class="font-medium transition nav-item">Programs</a>
+                    <a href="index.html#contact" class="font-medium transition nav-item">Contact</a>
+                
+                <!-- More Dropdown -->
+                    <div class="relative group">
+                        <button class="font-medium transition flex items-center focus:outline-none nav-item">
+                            More <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                        </button>
+                        <div class="absolute top-full left-0 mt-2 w-64 bg-white rounded-xl shadow-xl border border-gray-100 py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top z-50">
+                            <a href="fees.html" class="block px-4 py-3 text-sm text-gray-600 hover:bg-purple-50 hover:text-purple-600 transition border-b border-gray-50 last:border-0">
+                                <i class="fas fa-credit-card mr-2 text-purple-400"></i> Fees payment
+                            </a>
+                            <a href="Download/AAK%20TAKWIM%202026.pdf" target="_blank" class="block px-4 py-3 text-sm text-gray-600 hover:bg-purple-50 hover:text-purple-600 transition border-b border-gray-50">
+                                <i class="fas fa-calendar-alt mr-2 text-purple-400"></i> AAK Takwim 2026
+                            </a>
+                            <a href="Download/GuideBook%20AAK_2026%20(1).pdf" target="_blank" class="block px-4 py-3 text-sm text-gray-600 hover:bg-purple-50 hover:text-purple-600 transition border-b border-gray-50">
+                                <i class="fas fa-book-open mr-2 text-purple-400"></i> Guidebook AAK 2026
+                            </a>
+                            <a href="gallery.html" class="block px-4 py-3 text-sm text-gray-600 hover:bg-purple-50 hover:text-purple-600 transition border-b border-gray-50">
+                                <i class="fas fa-images mr-2 text-purple-400"></i> Gallery
+                            </a>
+                            <a href="index.html#location" class="block px-4 py-3 text-sm text-gray-600 hover:bg-purple-50 hover:text-purple-600 transition">
+                                <i class="fas fa-map-marker-alt mr-2 text-purple-400"></i> Visit
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="https://www.facebook.com/akademialkhayrofficial/" target="_blank" class="transition social-icon">
+                        <i class="fab fa-facebook-f text-xl"></i>
+                    </a>
+                    <a href="https://www.instagram.com/akademialkhayrofficial/?hl=en" target="_blank" class="transition social-icon">
+                        <i class="fab fa-instagram text-xl"></i>
+                    </a>
+                    <a href="registration.html" class="inline-flex items-center justify-center px-6 py-2 border border-transparent text-sm font-medium rounded-full text-white bg-purple-600 hover:bg-purple-700 transition shadow-md text-center">
+                        <div class="flex flex-col items-center leading-tight">
+                            <span>Apply Now</span>
+                            <span class="text-[10px] font-normal opacity-90">سجل الآن</span>
+                        </div>
+                    </a>
+                    <a href="https://class.akademialkhayr.com/login" target="_blank" class="w-10 h-10 flex items-center justify-center rounded-full bg-white text-purple-600 hover:bg-purple-50 transition shadow-md border border-purple-100" title="Parent & Staff Login">
+                        <i class="fas fa-user"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="max-w-4xl mx-auto px-4 z-10">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">About Us</h1>
+            <p class="text-lg md:text-xl opacity-90">Discover our history and leadership</p>
+        </div>
+    </header>
+
+    <!-- Content Section -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        
+        <!-- History Section - Redesigned (Side-by-Side) -->
+        <div class="max-w-7xl mx-auto mb-32">
+            <div class="flex flex-col md:flex-row items-center gap-12 md:gap-16">
+                <!-- Text Content (Left) -->
+                <div class="w-full md:w-1/2 order-2 md:order-1">
+                    <div class="flex items-center mb-6">
+                        <span class="h-px w-12 bg-purple-400 mr-4"></span>
+                        <span class="uppercase tracking-widest text-xs font-bold text-purple-700">Our Origins</span>
+                    </div>
+                    <h2 class="text-4xl md:text-5xl font-bold text-stone-900 mb-8 leading-tight">History of <br/><span class="text-purple-900">Establishment</span></h2>
+                    <div class="prose prose-lg text-stone-600 leading-relaxed space-y-6 text-justify">
+                        <p>
+                            Akademi Al Khayr is a tahfiz centre offering Tahfiz studies for Qur’an memorisation, Arabic language studies in Islamic disciplines, and academic programmes for general subjects. Under the management of Dr. Kamilin Jamilin since 2022, Akademi Al Khayr focuses on nurturing students who are balanced in their pursuit of worldly knowledge and the Hereafter.
+                        </p>
+                        <p>
+                            From 2022 until September 2024, Akademi Al Khayr operated from its Shah Alam campus, and since September 2024 it has continued its development at the Penang campus, strengthening its educational reach and environment.
+                        </p>
+                        <p>
+                            By harmonising modern, comfortable facilities with a setting conducive to the teachings of the Qur’an and Sunnah, the institution strives to produce students capable of applying authentic Islamic knowledge within the contemporary world.
+                        </p>
+                        <p>
+                            The tahfiz education concept — specially designed by Dr. Kamilin Jamilin — adopts a fun, engaging, and attractive learning approach through the PMMM methodology. This framework prioritises memorisation quality rather than quantity, aiming to draw students closer to the Qur’an and deepen their understanding in accordance with the Sunnah of Prophet Muhammad SAW.
+                        </p>
+                        <p>
+                            In addition, Akademi Al Khayr aspires to cultivate strong Arabic communication skills among students through qualified teaching staff and international volunteers whose primary language is Arabic, enabling immersive and practical language exposure.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Image (Right) -->
+                <div class="w-full md:w-1/2 order-1 md:order-2 relative group">
+                    <!-- Decorative Elements -->
+                    <div class="absolute -top-4 -right-4 w-full h-full border-2 border-purple-200 rounded-3xl -z-10 transform translate-x-4 translate-y-4"></div>
+                    <div class="absolute -bottom-6 -left-6 w-24 h-24 bg-purple-100 rounded-full -z-20 opacity-50"></div>
+                    
+                    <div class="relative rounded-3xl overflow-hidden shadow-2xl aspect-[4/5]">
+                        <img src="About/604836474_871682165410765_6995021694293166796_n.jpg" alt="Akademi Al Khayr History" class="w-full h-full object-cover transform group-hover:scale-105 transition duration-700 ease-in-out grayscale-[10%] sepia-[10%]">
+                        <div class="absolute inset-0 bg-purple-900/10 mix-blend-overlay"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dr. Kamilin Jamilin Section - Redesigned -->
+        <div class="max-w-7xl mx-auto mb-24">
+            <!-- Main Heading -->
+            <h2 class="text-4xl md:text-5xl font-bold text-purple-900 uppercase mb-12 tracking-wide text-center md:text-left">Chairman's Profile</h2>
+        
+            <div class="flex flex-col md:flex-row gap-12 md:gap-16 items-start">
+                <!-- Image Column -->
+                <div class="w-full md:w-5/12 relative">
+                    <!-- Decorative Background Shape -->
+                    <div class="absolute top-4 -left-4 w-full h-full bg-[#f3e8ff] rounded-tr-[80px] rounded-bl-[80px] -z-10 transform scale-105 opacity-60"></div>
+                    <div class="absolute -bottom-6 -right-6 w-24 h-24 bg-purple-100 rounded-full -z-20 opacity-60"></div>
+                    
+                    <!-- Image Container -->
+                    <div class="relative w-full aspect-[3/4] rounded-tr-[80px] rounded-bl-[80px] overflow-hidden shadow-2xl border-4 border-white group">
+                        <img src="About/515830220_736460832266233_4375186729121496588_n.jpg" alt="Dr. Kamilin Jamilin" class="w-full h-full object-cover transform group-hover:scale-105 transition duration-700 ease-in-out">
+                    </div>
+                    
+                    <!-- Name Tag -->
+                    <div class="mt-6 text-center">
+                        <h3 class="font-serif text-2xl font-bold text-gray-900">Dr. Kamilin Jamilin</h3>
+                        <p class="text-purple-700 font-medium tracking-widest text-sm uppercase">Chairman of Akademi Al Khayr</p>
+                    </div>
+                </div>
+        
+                <!-- Text Column -->
+                <div class="w-full md:w-7/12">
+                    <h3 class="text-2xl font-bold text-purple-800 uppercase mb-6 tracking-wider border-l-4 border-purple-400 pl-4">
+                        A Distinguished Figure
+                    </h3>
+                    
+                    <div class="prose prose-lg text-stone-600 leading-relaxed space-y-5 text-justify">
+                        <p>
+                            Dr. Kamilin Jamilin is a distinguished intellectual of Hadith and a prominent figure in contemporary Islamic scholarship in Malaysia. Recognised as the youngest former Member of the Fatwa Council of the Federal Territories and Perlis, his academic and professional journey reflects deep commitment to the preservation and dissemination of authentic Islamic knowledge.
+                        </p>
+                        <p>
+                            He obtained his Bachelor’s Degree in Hadith with first-class honours from the Islamic University of Madinah in 2008, followed by a Master’s Degree in Hadith and Tafsir from King Saud University, Riyadh, in 2013, also with first-class honours. His master’s research produced an extensive 1,800-page thesis titled “Mawarid Al-Hafizh Mughlatay fi Ikmal Tahdzib Al-Kamal.” He later completed his Ph.D. in Hadith (Al-Jarh wa Al-Ta’dil) at the Islamic Science University of Malaysia with excellent first-class distinction, authoring a substantial 1,500-page thesis titled “Madlul Mustalah Laysa Bilqawiy wa Laysa Biqawiy ‘Inda Abi Hatim Al-Raziy Muqaranah ma‘a Al-A’immah Al-Mutaqaddimin: Dirasah Tatbiqiyyah.”
+                        </p>
+                        <p>
+                            Beyond academia, Dr. Kamilin has served as Exco for Publications for the State of Perlis and currently chairs Akademi Al Khayr, where his leadership contributes to shaping a balanced model of Islamic and academic education. His scholarly contributions extend through numerous writings in the science of Hadith, as well as frequent invitations to serve as a speaker, panelist, and juror on national television platforms — reflecting both scholarly authority and public trust.
+                        </p>
+                        <p class="font-medium text-stone-800 pt-2">
+                            As an author, his works aim to bridge scholarship with accessible understanding for the wider community. Among his notable publications are:
+                        </p>
+                        <ul class="list-none space-y-3 pl-0 mt-2">
+                            <li class="flex items-start">
+                                <span class="text-purple-500 mr-3 mt-1.5 text-xs"><i class="fas fa-square"></i></span>
+                                <span><strong>Muhammad: The Epitome of Perfection / Muhammad SAW — Insan Paling Sempurna Pernah Dilahirkan</strong> — highlighting the exemplary character of the Prophet beyond chronological narration</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-purple-500 mr-3 mt-1.5 text-xs"><i class="fas fa-square"></i></span>
+                                <span><strong>200 Soal Jawab Hadis — Hadis Itu Ada Disiplinnya</strong> — introducing readers to the structure and discipline of Hadith studies</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-purple-500 mr-3 mt-1.5 text-xs"><i class="fas fa-square"></i></span>
+                                <span><strong>Ulama Hadis: Makhluk Asing Dari Bumi</strong> — presenting reflections on the lives and contributions of Hadith scholars</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-purple-500 mr-3 mt-1.5 text-xs"><i class="fas fa-square"></i></span>
+                                <span><strong>‘Abd Allah bin Al-Mubarak: Seorang Insan Agung</strong> — exploring the legacy of a distinguished figure among the early righteous generations</span>
+                            </li>
+                        </ul>
+                        <p class="italic text-stone-500 border-l-4 border-purple-200 pl-4 mt-6 bg-purple-50/50 p-4 rounded-r-lg">
+                            Through his scholarship, leadership, and public engagement, Dr. Kamilin Jamilin continues to contribute meaningfully to intellectual discourse and Islamic education, embodying a vision that connects classical tradition with contemporary relevance.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Principal Section - Card Style -->
+        <div class="max-w-7xl mx-auto mb-24 px-4 sm:px-6 lg:px-8">
+            <div class="bg-white rounded-[3rem] shadow-2xl overflow-hidden flex flex-col md:flex-row relative">
+                <!-- Close button style (decorative) -->
+                <div class="absolute top-6 right-8 text-stone-300 hover:text-stone-500 cursor-pointer transition">
+                    <i class="fas fa-times text-2xl"></i>
+                </div>
+
+                <!-- Image Column (Left - Curved) -->
+                <div class="w-full md:w-4/12 relative min-h-[400px] md:min-h-[600px]">
+                     <div class="absolute inset-0 w-full h-full bg-stone-100 rounded-r-[12rem] md:rounded-r-[14rem] shadow-xl overflow-hidden">
+                        <img src="About/633030099_909400641638917_7067234487648392676_n.jpg" alt="Azmir Hashim" class="w-full h-full object-cover object-center scale-110 -translate-x-8">
+                     </div>
+                </div>
+
+                <!-- Text Column (Right) -->
+                <div class="w-full md:w-8/12 p-8 md:p-12 lg:p-16 flex flex-col justify-center bg-white z-10">
+                    <div class="mb-8">
+                        <h2 class="text-4xl md:text-5xl font-bold text-purple-700 mb-2 font-serif tracking-tight">PRINCIPAL</h2>
+                        <h3 class="text-xl md:text-2xl font-bold text-stone-900 uppercase tracking-wider">Akademi Al Khayr</h3>
+                    </div>
+                    
+                    <div class="prose prose-lg text-stone-600 leading-relaxed space-y-5 text-justify">
+                        <p>
+                            Azmir Hashim is an education practitioner, school leader, and researcher whose journey reflects a deep commitment to lifelong learning, leadership, and meaningful contribution to educational communities. He holds a Master of Philosophy (MPhil) in Education (Management and Administration) from Universiti Teknologi Malaysia (UTM). His research on Collegial Supervision in Malaysian Public Secondary Schools has contributed to scholarly discourse through publications addressing teacher development, professional collaboration, and evidence-based supervisory frameworks.
+                        </p>
+                        <p>
+                            Beginning his academic path in engineering, he earned a Bachelor of Engineering (Hons) in Mechanical Engineering (Automotive) from the International Islamic University Malaysia (IIUM). This technical background cultivated analytical and problem-solving capabilities that continue to shape his leadership approach. He also pursued Arabic language studies in Qortoba Institute (Cairo), further broadening his intellectual and cultural outlook.
+                        </p>
+                        <p>
+                            Serving as Principal of Al Khayr Academy since 2023, he oversees both physical and online learning environments while guiding institutional growth and academic direction. Bringing more than a decade of experience in school principalship; across both Principal and Assistant Principal roles, his leadership spans diverse educational settings.
+                        </p>
+                        <p>
+                            He previously served as Principal of Al Ansar Learning Centre for Refugees, coordinating free educational services for refugee communities, and earlier as Principal of Integrated Islamic School Shah Alam. He also held Assistant Principal positions at Idrissi International School and The Sunnah School, contributing to academic management, curriculum oversight, and instructional leadership, while continuing to teach mathematics and science at the secondary level. His advisory engagements further include contributions to tarbiyyah development initiatives and community welfare outreach for underserved populations.
+                        </p>
+
+                        <p>
+                            Across these engagements, he demonstrates a consistent passion for nurturing growth; institutional, professional, and personal, through research-driven practice, collaborative leadership, and reflective learning. His interests centre on strengthening teacher professionalism, advancing supervisory methodologies, and developing robust measurement tools that support sustainable educational improvement.
+                        </p>
+                        <p class="italic text-stone-500 border-l-4 border-green-200 pl-4 mt-6 bg-green-50/50 p-4 rounded-r-lg">
+                            He remains dedicated to serving educational and community ecosystems through scholarship, mentorship, and initiatives that empower learners and educators to realise their fullest potential.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Principal Keynote Section -->
+        <div class="max-w-7xl mx-auto mb-24 relative">
+            <div class="absolute inset-0 bg-purple-900 rounded-3xl transform -rotate-1 opacity-5"></div>
+            <div class="relative bg-white rounded-3xl p-8 md:p-12 shadow-xl border border-purple-100">
+                <div class="max-w-4xl mx-auto text-center">
+                    <blockquote class="text-xl md:text-2xl font-serif text-stone-700 italic leading-relaxed">
+                        "Education is not just about academic excellence, but about nurturing the soul and character. At Akademi Al Khayr, we strive to build a generation that is knowledgeable, pious, and ready to contribute to the ummah."
+                    </blockquote>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-6 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex space-x-6 mb-6 md:mb-0">
+                    <a href="https://www.facebook.com/akademialkhayrofficial/" target="_blank" class="text-gray-400 hover:text-white transition"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/akademialkhayrofficial/?hl=en" target="_blank" class="text-gray-400 hover:text-white transition"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-youtube"></i></a>
+                </div>
+                <div class="text-gray-400 text-sm">
+                    &copy; 2026 Akademi Al Khayr. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const navbar = document.getElementById('navbar');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Lightbox Functionality
+        const lightbox = document.createElement('div');
+        lightbox.id = 'lightbox';
+        const lightboxImg = document.createElement('img');
+        lightbox.appendChild(lightboxImg);
+        document.body.appendChild(lightbox);
+
+        // Select images in the content area (excluding logo/icons if any)
+        // Targeting the main content wrapper
+        const contentArea = document.querySelector('.py-20');
+        if (contentArea) {
+            const contentImages = contentArea.querySelectorAll('img');
+            
+            contentImages.forEach(img => {
+                img.style.cursor = 'zoom-in';
+                img.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    lightboxImg.src = img.src;
+                    lightbox.classList.add('active');
+                });
+            });
+        }
+
+        lightbox.addEventListener('click', () => {
+            lightbox.classList.remove('active');
+        });
+    </script>
+
+</body>
+</html>

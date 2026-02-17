@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration | Akademi Al Khayr</title>
+    <meta name="description" content="Register for Akademi Al Khayr programs.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Navigation -->
+    <nav class="bg-white/75 backdrop-blur fixed w-full z-50 shadow-sm transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <a href="index.html" class="flex items-center">
+                    <img src="logo%20AAK%20(white%20BG).png" alt="Akademi Al Khayr Logo" class="h-16 w-auto object-contain mr-3">
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-900 leading-none tracking-tight">AKADEMI</h1>
+                        <h1 class="text-xl font-bold text-purple-600 leading-none tracking-tight">AL KHAYR</h1>
+                    </div>
+                </a>
+                <div class="hidden md:flex space-x-8">
+                    <a href="index.html" class="text-gray-600 hover:text-purple-600 font-medium transition">Home</a>
+                    <a href="about.html" class="text-gray-600 hover:text-purple-600 font-medium transition">About</a>
+                    <a href="index.html#programs" class="text-gray-600 hover:text-purple-600 font-medium transition">Programs</a>
+                    <a href="index.html#contact" class="text-gray-600 hover:text-purple-600 font-medium transition">Contact</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Registration Form Section -->
+    <section class="min-h-screen pt-32 pb-16 px-4 sm:px-6 lg:px-8 bg-gray-50 flex items-center justify-center">
+        <div class="max-w-3xl w-full bg-white rounded-2xl shadow-xl overflow-hidden">
+            <div class="bg-purple-600 py-6 px-8 text-center">
+                <h2 class="text-3xl font-bold text-white">School Registration Form</h2>
+                <p class="text-purple-100 mt-2">Join Akademi Al Khayr today</p>
+            </div>
+            
+            <form id="registrationForm" class="py-8 px-8 sm:px-12 space-y-6" action="https://formsubmit.co/admin@akademialkhayr.com" method="POST">
+                <!-- Formsubmit.co Configuration -->
+                <input type="hidden" name="_cc" value="akademialkhayrofficial@gmail.com">
+                <input type="hidden" name="_subject" value="New Student Registration">
+                <input type="hidden" name="_template" value="table">
+                <input type="hidden" name="_captcha" value="false">
+
+                <!-- Student Details -->
+                <div class="space-y-6">
+                    <h3 class="text-xl font-semibold text-gray-900 border-b pb-2">Student Information</h3>
+                    
+                    <div>
+                        <label for="studentName" class="block text-sm font-medium text-gray-700 mb-1">Name of Student</label>
+                        <input type="text" id="studentName" name="studentName" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition" placeholder="Enter student's full name" required>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="age" class="block text-sm font-medium text-gray-700 mb-1">Age</label>
+                            <input type="number" id="age" name="age" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition" placeholder="Enter age" required>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Level of Education</label>
+                            <div class="flex space-x-4 mt-2">
+                                <label class="inline-flex items-center">
+                                    <input type="radio" name="educationLevel" value="primary" class="form-radio text-purple-600 focus:ring-purple-500 h-4 w-4" required>
+                                    <span class="ml-2 text-gray-700">Primary Level</span>
+                                </label>
+                                <label class="inline-flex items-center">
+                                    <input type="radio" name="educationLevel" value="secondary" class="form-radio text-purple-600 focus:ring-purple-500 h-4 w-4">
+                                    <span class="ml-2 text-gray-700">Secondary Level</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="currentSchool" class="block text-sm font-medium text-gray-700 mb-1">Current School</label>
+                        <input type="text" id="currentSchool" name="currentSchool" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition" placeholder="Enter current school name">
+                    </div>
+                </div>
+
+                <!-- Parent/Guardian Details -->
+                <div class="space-y-6 pt-6">
+                    <h3 class="text-xl font-semibold text-gray-900 border-b pb-2">Parent/Guardian Information</h3>
+                    
+                    <div>
+                        <label for="parentName" class="block text-sm font-medium text-gray-700 mb-1">Name of Parent/Guardian</label>
+                        <input type="text" id="parentName" name="parentName" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition" placeholder="Enter parent/guardian's full name" required>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="contactNo" class="block text-sm font-medium text-gray-700 mb-1">Contact No</label>
+                            <input type="tel" id="contactNo" name="contactNo" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition" placeholder="Enter contact number" required>
+                        </div>
+                        
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                            <input type="email" id="email" name="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition" placeholder="Enter email address" required>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="occupation" class="block text-sm font-medium text-gray-700 mb-1">Parent/Guardian Occupation</label>
+                        <input type="text" id="occupation" name="occupation" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition" placeholder="Enter occupation">
+                    </div>
+                </div>
+
+                <div class="pt-6">
+                    <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-4 rounded-lg shadow-md hover:shadow-lg transition duration-300 transform hover:-translate-y-0.5">
+                        Submit Registration
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer (Simplified) -->
+    <footer class="bg-gray-900 text-white py-8 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-gray-400 text-sm">&copy; 2026 Akademi Al Khayr. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('registrationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const form = this;
+
+            // Gather form data
+            const studentName = document.getElementById('studentName').value;
+            const age = document.getElementById('age').value;
+            const educationLevel = document.querySelector('input[name="educationLevel"]:checked').value;
+            const currentSchool = document.getElementById('currentSchool').value || 'N/A';
+            const parentName = document.getElementById('parentName').value;
+            const contactNo = document.getElementById('contactNo').value;
+            const email = document.getElementById('email').value;
+            const occupation = document.getElementById('occupation').value || 'N/A';
+            const date = new Date().toLocaleDateString();
+
+            // Construct WhatsApp Message
+            const whatsappText = `
+*New Student Registration*
+------------------------
+*Student:* ${studentName}
+*Age:* ${age}
+*Level:* ${educationLevel}
+*Parent:* ${parentName}
+*Contact:* ${contactNo}
+            `.trim();
+
+            // WhatsApp Link
+            const whatsappLink = `https://wa.me/60193818616?text=${encodeURIComponent(whatsappText)}`;
+
+            // Open WhatsApp immediately
+            window.open(whatsappLink, '_blank');
+            
+            // Generate Image Receipt
+            const formElement = document.querySelector('.max-w-3xl'); // Capture the card
+            
+            // Show loading state
+            const submitBtn = document.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Generating Receipt...';
+            submitBtn.disabled = true;
+
+            html2canvas(formElement, {
+                scale: 2, // Better quality
+                backgroundColor: '#ffffff',
+                useCORS: true
+            }).then(canvas => {
+                // Convert to image
+                const image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+                
+                // Create download link
+                const link = document.createElement('a');
+                link.download = `AAK-Registration-${studentName.replace(/\s+/g, '-')}.png`;
+                link.href = image;
+                link.click();
+
+                // Restore button
+                submitBtn.innerHTML = originalBtnText;
+                submitBtn.disabled = false;
+
+                // Inform user
+                alert(`Registration Receipt Downloaded!\n\nPlease ATTACH the downloaded image to the WhatsApp chat (opening now).\n\nThe registration form will now be submitted automatically.`);
+
+                // Submit form to Formsubmit.co
+                form.submit();
+            }).catch(err => {
+                console.error('Image generation failed:', err);
+                alert('Could not generate image receipt, but proceeding with submission.');
+                
+                // Submit form to Formsubmit.co even if image generation fails
+                form.submit();
+            });
+        });
+    </script>
+
+    <!-- Watermarks -->
+    <div class="fixed bottom-[-5%] left-[-5%] z-0 pointer-events-none opacity-[0.03] select-none" style="width: 40vw; max-width: 500px;">
+        <img src="logo%20AAK%20(white%20BG).png" class="w-full h-auto grayscale" alt="">
+    </div>
+
+    <div class="fixed top-0 right-0 z-0 pointer-events-none opacity-[0.08] select-none" style="width: 30vw; max-width: 400px; height: 30vw; max-height: 400px;">
+        <svg viewBox="0 0 200 200" class="w-full h-full text-gray-900" fill="none" stroke="currentColor" stroke-width="0.5">
+            <defs>
+                <pattern id="hexagons" x="0" y="0" width="50" height="43.4" patternUnits="userSpaceOnUse" patternTransform="scale(1)">
+                    <path d="M25 0 L50 14.4 L50 43.3 L25 57.7 L0 43.3 L0 14.4 Z" />
+                </pattern>
+            </defs>
+            <rect width="200" height="200" fill="url(#hexagons)" />
+        </svg>
+    </div>
+
+</body>
+</html>

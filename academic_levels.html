@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic Levels | Akademi Al Khayr</title>
+    <meta name="description" content="Academic Levels at Akademi Al Khayr - Primary and Secondary Education.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Amiri:wght@400;700&display=swap');
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .font-arabic {
+            font-family: 'Amiri', serif;
+            line-height: 1.6;
+        }
+        /* Navbar Scroll Effects */
+        #navbar {
+            background-color: transparent;
+            box-shadow: none;
+        }
+        #navbar.scrolled {
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(8px);
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+        
+        #navbar .nav-text-main { color: #ffffff; }
+        #navbar.scrolled .nav-text-main { color: #111827; }
+        
+        #navbar .nav-text-accent { color: #e9d5ff; }
+        #navbar.scrolled .nav-text-accent { color: #9333ea; }
+        
+        #navbar .nav-item { color: rgba(255, 255, 255, 0.9); }
+        #navbar.scrolled .nav-item { color: #4b5563; }
+        #navbar .nav-item:hover { color: #ffffff; }
+        #navbar.scrolled .nav-item:hover { color: #9333ea; }
+
+        #navbar .social-icon { color: rgba(255, 255, 255, 0.8); }
+        #navbar.scrolled .social-icon { color: #9ca3af; }
+        #navbar .social-icon:hover { color: #ffffff; }
+        #navbar.scrolled .social-icon:hover { color: #9333ea; }
+    </style>
+</head>
+<body class="text-gray-800 bg-gray-50">
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center">
+                        <img src="logo%20AAK%20(white%20BG).png" alt="Akademi Al Khayr Logo" class="h-16 w-auto object-contain mr-3">
+                        <div>
+                            <h1 class="text-xl font-bold leading-none tracking-tight nav-text-main">AKADEMI</h1>
+                            <h1 class="text-xl font-bold leading-none tracking-tight nav-text-accent">AL KHAYR</h1>
+                        </div>
+                    </a>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="index.html" class="font-medium transition nav-item">Home</a>
+                    <a href="about.html" class="font-medium transition nav-item">About</a>
+                    <a href="index.html#programs" class="font-medium transition nav-item">Programs</a>
+                    <a href="index.html#contact" class="font-medium transition nav-item">Contact</a>
+                    
+                    <!-- More Dropdown -->
+                    <div class="relative group">
+                        <button class="font-medium transition flex items-center focus:outline-none nav-item">
+                            More <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                        </button>
+                        <div class="absolute top-full left-0 mt-2 w-64 bg-white rounded-xl shadow-xl border border-gray-100 py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top z-50">
+                            <a href="fees.html" class="block px-4 py-3 text-sm text-gray-600 hover:bg-purple-50 hover:text-purple-600 transition border-b border-gray-50 last:border-0">
+                                <i class="fas fa-credit-card mr-2 text-purple-400"></i> Fees payment
+                            </a>
+                            <a href="Download/AAK%20TAKWIM%202026.pdf" target="_blank" class="block px-4 py-3 text-sm text-gray-600 hover:bg-purple-50 hover:text-purple-600 transition border-b border-gray-50">
+                                <i class="fas fa-calendar-alt mr-2 text-purple-400"></i> AAK Takwim 2026
+                            </a>
+                            <a href="Download/GuideBook%20AAK_2026%20(1).pdf" target="_blank" class="block px-4 py-3 text-sm text-gray-600 hover:bg-purple-50 hover:text-purple-600 transition border-b border-gray-50">
+                                <i class="fas fa-book-open mr-2 text-purple-400"></i> Guidebook AAK 2026
+                            </a>
+                            <a href="gallery.html" class="block px-4 py-3 text-sm text-gray-600 hover:bg-purple-50 hover:text-purple-600 transition border-b border-gray-50">
+                                <i class="fas fa-images mr-2 text-purple-400"></i> Gallery
+                            </a>
+                            <a href="index.html#location" class="block px-4 py-3 text-sm text-gray-600 hover:bg-purple-50 hover:text-purple-600 transition">
+                                <i class="fas fa-map-marker-alt mr-2 text-purple-400"></i> Visit
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="registration.html" class="inline-flex items-center justify-center px-6 py-2 border border-transparent text-sm font-medium rounded-full text-white bg-purple-600 hover:bg-purple-700 transition shadow-md text-center">
+                        <div class="flex flex-col items-center leading-tight">
+                            <span>Apply Now</span>
+                            <span class="text-[10px] font-normal opacity-90">سجل الآن</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <header class="bg-gradient-to-r from-orange-700 to-red-700 text-white pt-32 pb-16 text-center relative overflow-hidden">
+        <!-- You might want to update the background image -->
+        <div class="absolute inset-0 bg-cover bg-center opacity-20" style="background-image: url('photo%20banner/WhatsApp%20Image%202026-02-13%20at%2016.30.29%20(2).jpeg');"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-orange-700/90 to-red-700/80"></div>
+        <div class="max-w-4xl mx-auto px-4 relative z-10">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">Academic Journey</h1>
+            <p class="text-xl text-purple-200 font-arabic mb-6">المراحل الدراسية</p>
+            <p class="text-lg text-gray-300 max-w-3xl mx-auto">
+                A comprehensive educational journey from Primary to Secondary, integrating National Syllabus (KSSR/KSSM) & Cambridge with Islamic values.
+            </p>
+        </div>
+    </header>
+
+    <!-- Secondary Navigation (Pill) -->
+    <div class="w-full flex justify-center py-8 relative z-20 bg-gray-50">
+        <nav class="max-w-[95%] w-auto transition-all duration-300">
+            <div class="bg-gradient-to-r from-orange-700 to-red-700 backdrop-blur-md text-white rounded-full p-1.5 flex items-center shadow-2xl border border-white/10 gap-1 sm:gap-2">
+                
+                <!-- Round Home Button -->
+                <a href="index.html" class="flex-shrink-0 w-10 h-10 bg-white rounded-full flex items-center justify-center hover:scale-105 transition-transform group" title="Home">
+                    <i class="fas fa-home text-black text-lg group-hover:text-orange-600 transition-colors"></i>
+                </a>
+
+                <!-- Links -->
+                <div class="flex items-center px-1 sm:px-2 space-x-0.5 sm:space-x-1 overflow-x-auto no-scrollbar">
+                    <a href="#academic-levels" class="px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium text-white hover:text-white hover:bg-white/20 rounded-full transition-colors whitespace-nowrap">Academic Levels</a>
+                    <a href="#study-path" class="px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium text-white hover:text-white hover:bg-white/20 rounded-full transition-colors whitespace-nowrap">Study Path</a>
+                    <a href="#exam-stream" class="px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium text-white hover:text-white hover:bg-white/20 rounded-full transition-colors whitespace-nowrap">Examination Class Stream</a>
+                </div>
+                
+            </div>
+        </nav>
+    </div>
+
+
+
+    <!-- Academic Level Section -->
+    <section id="academic-levels" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Academic Levels<br><span class="text-lg font-normal text-gray-500">المستويات الأكاديمية</span></h2>
+                <div class="w-48 h-1 bg-gradient-to-r from-orange-600 to-red-600 mx-auto rounded-full mb-6"></div>
+            </div>
+
+            <!-- Quadrant Layout -->
+            <div class="relative max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-0">
+                
+                <!-- Center Connector (Hidden on mobile, visible on desktop) -->
+                <div class="hidden md:block absolute inset-0 pointer-events-none z-0">
+                   <!-- This could be an SVG or absolute positioned divs to create the connector look -->
+                   <!-- For simplicity, I'll use borders on the cards or a background image approach if needed.
+                        However, to mimic the image exactly requires complex CSS or SVG. 
+                        I will use a simpler grid with colored borders and numbers. -->
+                </div>
+
+                <!-- Lower Primary (01) -->
+                <div class="bg-white p-8 rounded-3xl shadow-lg relative z-10 m-4 border-l-8 border-red-600 transform transition hover:-translate-y-2">
+                    <div class="absolute -right-4 top-1/2 transform -translate-y-1/2 w-12 h-12 bg-white border-4 border-red-600 rounded-full flex items-center justify-center font-bold text-xl text-red-600 z-20 shadow-sm hidden md:flex">01</div>
+                    <h3 class="text-3xl font-bold text-red-600 mb-2 leading-tight">Lower<br>Primary</h3>
+                    <!-- <p class="text-gray-500">Year 1 - Year 3</p> -->
+                </div>
+
+                <!-- Upper Primary (02) -->
+                <div class="bg-white p-8 rounded-3xl shadow-lg relative z-10 m-4 border-r-8 border-yellow-500 transform transition hover:-translate-y-2 md:text-right">
+                    <div class="absolute -left-4 top-1/2 transform -translate-y-1/2 w-12 h-12 bg-white border-4 border-yellow-500 rounded-full flex items-center justify-center font-bold text-xl text-yellow-500 z-20 shadow-sm hidden md:flex">02</div>
+                    <h3 class="text-3xl font-bold text-yellow-500 mb-2 leading-tight">Upper<br>Primary</h3>
+                    <!-- <p class="text-gray-500">Year 4 - Year 6</p> -->
+                </div>
+
+                <!-- Lower Secondary (03) -->
+                <div class="bg-white p-8 rounded-3xl shadow-lg relative z-10 m-4 border-l-8 border-green-500 transform transition hover:-translate-y-2">
+                    <div class="absolute -right-4 top-1/2 transform -translate-y-1/2 w-12 h-12 bg-white border-4 border-green-500 rounded-full flex items-center justify-center font-bold text-xl text-green-500 z-20 shadow-sm hidden md:flex">03</div>
+                    <h3 class="text-3xl font-bold text-green-500 mb-2 leading-tight">Lower<br>Secondary</h3>
+                    <!-- <p class="text-gray-500">Form 1 - Form 3</p> -->
+                </div>
+
+                <!-- Examination Classes (04) -->
+                <div class="bg-white p-8 rounded-3xl shadow-lg relative z-10 m-4 border-r-8 border-blue-600 transform transition hover:-translate-y-2 md:text-right">
+                    <div class="absolute -left-4 top-1/2 transform -translate-y-1/2 w-12 h-12 bg-white border-4 border-blue-600 rounded-full flex items-center justify-center font-bold text-xl text-blue-600 z-20 shadow-sm hidden md:flex">04</div>
+                    <h3 class="text-3xl font-bold text-blue-600 mb-2 leading-tight">Examination<br>Classes</h3>
+                    <!-- <p class="text-gray-500">Form 4 - Form 5</p> -->
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Study Path Section -->
+    <section id="study-path" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Study Path<br><span class="text-lg font-normal text-gray-500">مسار الدراسة</span></h2>
+                <div class="w-48 h-1 bg-gradient-to-r from-orange-600 to-red-600 mx-auto rounded-full mb-6"></div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+                
+                <!-- Left Column: Primary Programmes -->
+                <div class="space-y-8 order-2 lg:order-1">
+                    <!-- 1. Lower Primary -->
+                    <div class="bg-orange-500 text-white rounded-xl shadow-lg overflow-hidden relative">
+                        <div class="bg-orange-700 px-4 py-2 flex items-center">
+                            <span class="bg-white text-orange-700 font-bold rounded-md w-8 h-8 flex items-center justify-center mr-3">1</span>
+                            <h3 class="font-bold text-lg uppercase">Lower Primary Programme</h3>
+                        </div>
+                        <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <h4 class="font-bold text-orange-100 mb-2 border-b border-orange-400 pb-1">Islamic & Arabic Module</h4>
+                                <ul class="list-disc list-inside space-y-1 text-orange-50">
+                                    <li>Ta'bir</li>
+                                    <li>Qiraah</li>
+                                    <li>Kitabah</li>
+                                    <li>Hadeeth</li>
+                                    <li>Seerah</li>
+                                    <li>Aqeedah</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-orange-100 mb-2 border-b border-orange-400 pb-1">Basic Academic Module</h4>
+                                <ul class="list-disc list-inside space-y-1 text-orange-50">
+                                    <li>Bahasa Melayu</li>
+                                    <li>Arts</li>
+                                    <li>English</li>
+                                    <li>Science</li>
+                                    <li>Mathematics</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. Upper Primary -->
+                    <div class="bg-orange-400 text-white rounded-xl shadow-lg overflow-hidden relative">
+                        <div class="bg-orange-600 px-4 py-2 flex items-center">
+                            <span class="bg-white text-orange-600 font-bold rounded-md w-8 h-8 flex items-center justify-center mr-3">2</span>
+                            <h3 class="font-bold text-lg uppercase">Upper Primary Programme</h3>
+                        </div>
+                        <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <h4 class="font-bold text-orange-100 mb-2 border-b border-orange-300 pb-1">Islamic & Arabic Module</h4>
+                                <ul class="list-disc list-inside space-y-1 text-orange-50">
+                                    <li>Ta'bir</li>
+                                    <li>Qiraah</li>
+                                    <li>Hadeeth</li>
+                                    <li>Seerah</li>
+                                    <li>Aqeedah</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-orange-100 mb-2 border-b border-orange-300 pb-1">Basic Academic Module</h4>
+                                <ul class="list-disc list-inside space-y-1 text-orange-50">
+                                    <li>Bahasa Melayu</li>
+                                    <li>Arts</li>
+                                    <li>English</li>
+                                    <li>Science</li>
+                                    <li>Mathematics</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Center Column: PMMM & Transition -->
+                <div class="space-y-8 flex flex-col items-center order-1 lg:order-2">
+                    
+                    <!-- PMMM Circle -->
+                    <div class="w-64 h-64 bg-white rounded-full border-8 border-purple-200 shadow-2xl flex flex-col items-center justify-center text-center p-4 relative z-10">
+                        <i class="fas fa-book-open text-4xl text-purple-600 mb-2"></i>
+                        <h3 class="text-3xl font-bold text-purple-800 leading-none">PMMM</h3>
+                        <p class="text-sm font-semibold text-purple-600 uppercase tracking-wide mt-1">Photography<br>Memory<br>Memorization<br>Method</p>
+                    </div>
+
+                    <!-- 3. Transition Programme -->
+                    <div class="bg-cyan-500 text-white rounded-xl shadow-lg overflow-hidden relative w-full">
+                        <div class="bg-cyan-700 px-4 py-2 flex items-center">
+                            <span class="bg-white text-cyan-700 font-bold rounded-md w-8 h-8 flex items-center justify-center mr-3">3</span>
+                            <h3 class="font-bold text-lg uppercase">Transition Programme</h3>
+                        </div>
+                        <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <h4 class="font-bold text-cyan-100 mb-2 border-b border-cyan-400 pb-1">Islamic & Arabic Module</h4>
+                                <ul class="list-disc list-inside space-y-1 text-cyan-50">
+                                    <li>Ta'bir</li>
+                                    <li>Qiraah</li>
+                                    <li>Hadeeth</li>
+                                    <li>Fiqh</li>
+                                    <li>Aqeedah</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-cyan-100 mb-2 border-b border-cyan-400 pb-1">Intermediate Academic</h4>
+                                <ul class="list-disc list-inside space-y-1 text-cyan-50">
+                                    <li>Bahasa Melayu</li>
+                                    <li>Sejarah</li>
+                                    <li>English</li>
+                                    <li>Science</li>
+                                    <li>Mathematics</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Right Column: Secondary Programmes -->
+                <div class="space-y-8 order-3 lg:order-3">
+
+                    <!-- 4. Lower Secondary -->
+                    <div class="bg-cyan-600 text-white rounded-xl shadow-lg overflow-hidden relative">
+                        <div class="bg-cyan-800 px-4 py-2 flex items-center">
+                            <span class="bg-white text-cyan-800 font-bold rounded-md w-8 h-8 flex items-center justify-center mr-3">4</span>
+                            <h3 class="font-bold text-lg uppercase">Lower Secondary Programme</h3>
+                        </div>
+                        <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <h4 class="font-bold text-cyan-100 mb-2 border-b border-cyan-500 pb-1">Islamic & Arabic Module</h4>
+                                <ul class="list-disc list-inside space-y-1 text-cyan-50">
+                                    <li>Ta'bir</li>
+                                    <li>Qiraah</li>
+                                    <li>Hadeeth</li>
+                                    <li>Fiqh</li>
+                                    <li>Arabic Language</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-cyan-100 mb-2 border-b border-cyan-500 pb-1">Intermediate Academic</h4>
+                                <ul class="list-disc list-inside space-y-1 text-cyan-50">
+                                    <li>Bahasa Melayu</li>
+                                    <li>Sejarah</li>
+                                    <li>English</li>
+                                    <li>Science</li>
+                                    <li>Geography</li>
+                                    <li>Mathematics</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 5. Examination Programme -->
+                    <div class="bg-pink-600 text-white rounded-xl shadow-lg overflow-hidden relative">
+                        <div class="bg-pink-800 px-4 py-2 flex items-center">
+                            <span class="bg-white text-pink-800 font-bold rounded-md w-8 h-8 flex items-center justify-center mr-3">5</span>
+                            <h3 class="font-bold text-lg uppercase">Examination Programme</h3>
+                        </div>
+                        <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <h4 class="font-bold text-pink-100 mb-2 border-b border-pink-500 pb-1">Islamic & Arabic Module</h4>
+                                <ul class="list-disc list-inside space-y-1 text-pink-50 text-xs">
+                                    <li>Pen. Quran & Sunnah</li>
+                                    <li>Pen. Syariah Islamiah</li>
+                                    <li>Arabic Language</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-pink-100 mb-2 border-b border-pink-500 pb-1">Advance Academic Module</h4>
+                                <ul class="list-disc list-inside space-y-1 text-pink-50 text-xs">
+                                    <li>Bahasa Melayu</li>
+                                    <li>English</li>
+                                    <li>Sejarah</li>
+                                    <li>Science</li>
+                                    <li>Physics</li>
+                                    <li>Chemistry</li>
+                                    <li>Biology</li>
+                                    <li>Perniagaan</li>
+                                    <li>Mathematics</li>
+                                    <li>Add Mathematics</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Examination Class Stream Section -->
+    <section id="exam-stream" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Examination Class Stream<br><span class="text-lg font-normal text-gray-500">مسار فصول الامتحانات</span></h2>
+                <div class="w-48 h-1 bg-gradient-to-r from-orange-600 to-red-600 mx-auto rounded-full mb-6"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+                
+                <!-- 1. SPM Aliran Ikhtisas Agama (Green) -->
+                <div class="bg-white rounded-3xl shadow-xl overflow-hidden transform transition hover:-translate-y-2 h-full flex flex-col">
+                    <div class="bg-green-500 text-white p-6 text-center relative">
+                        <div class="absolute top-0 left-0 w-full h-2 bg-green-600"></div>
+                        <h3 class="text-2xl font-bold leading-tight">SPM<br><span class="text-lg font-normal">Aliran Ikhtisas<br>Agama</span></h3>
+                        <div class="w-16 h-1 bg-white mx-auto mt-4 rounded-full opacity-50"></div>
+                    </div>
+                    <div class="p-8 flex-grow flex flex-col justify-between">
+                        <ul class="space-y-3 text-center text-gray-700 font-medium">
+                            <li>Bahasa Melayu</li>
+                            <li>Sejarah</li>
+                            <li>Mathematik</li>
+                            <li>English</li>
+                            <li>Sains</li>
+                            <li>Bahasa Arab</li>
+                            <li>Pendidikan Quraan Sunnah</li>
+                            <li>Pendidikan Syariah Islamiah</li>
+                            <li>Perniagaan</li>
+                            <li class="text-gray-500">Matematik Tambahan**</li>
+                            <li class="text-gray-500">Pendidikan Agama Islam**</li>
+                        </ul>
+                        <div class="mt-8 pt-4 border-t border-gray-100 text-center text-xs font-bold text-gray-500 italic">
+                            ** Optional subject
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. SPM Aliran Ikhtisas Sains (Orange) -->
+                <div class="bg-white rounded-3xl shadow-xl overflow-hidden transform transition hover:-translate-y-2 h-full flex flex-col">
+                    <div class="bg-orange-500 text-white p-6 text-center relative">
+                        <div class="absolute top-0 left-0 w-full h-2 bg-orange-600"></div>
+                        <h3 class="text-2xl font-bold leading-tight">SPM<br><span class="text-lg font-normal">Aliran Ikhtisas<br>Sains</span></h3>
+                        <div class="w-16 h-1 bg-white mx-auto mt-4 rounded-full opacity-50"></div>
+                    </div>
+                    <div class="p-8 flex-grow flex flex-col justify-between">
+                        <ul class="space-y-3 text-center text-gray-700 font-medium">
+                            <li>Bahasa Melayu</li>
+                            <li>Sejarah</li>
+                            <li>Mathematik</li>
+                            <li>English</li>
+                            <li>Kimia</li>
+                            <li>Biologi *</li>
+                            <li>Fizik *</li>
+                            <li>Pendidikan Quraan Sunnah</li>
+                            <li>Pendidikan Syariah Islamiah</li>
+                            <li>Matematik Tambahan</li>
+                            <li class="text-gray-500">Bahasa Arab**</li>
+                            <li class="text-gray-500">Pendidikan Agama Islam**</li>
+                        </ul>
+                        <div class="mt-8 pt-4 border-t border-gray-100 text-center text-xs font-bold text-gray-500 italic">
+                            ** Optional subject
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. IGCSE Cambridge (Blue) -->
+                <div class="bg-white rounded-3xl shadow-xl overflow-hidden transform transition hover:-translate-y-2 h-full flex flex-col">
+                    <div class="bg-blue-500 text-white p-6 text-center relative">
+                        <div class="absolute top-0 left-0 w-full h-2 bg-blue-600"></div>
+                        <h3 class="text-2xl font-bold leading-tight">IGCSE<br><span class="text-lg font-normal">Cambridge<br>&nbsp;</span></h3>
+                        <div class="w-16 h-1 bg-white mx-auto mt-4 rounded-full opacity-50"></div>
+                    </div>
+                    <div class="p-8 flex-grow flex flex-col justify-between">
+                        <ul class="space-y-3 text-center text-gray-700 font-medium">
+                            <li>English as 2nd language</li>
+                            <li>Bahasa Melayu as foreign language</li>
+                            <li>Arabic as foreign language</li>
+                            <li>Mathematics</li>
+                            <li>Chemistry</li>
+                            <li>Physics *</li>
+                            <li>Biology *</li>
+                            <li class="text-gray-500">Add Mathematics **</li>
+                        </ul>
+                        <div class="mt-8 pt-4 border-t border-gray-100 text-center text-xs font-bold text-gray-500 italic">
+                            ** Additional subject
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Quote Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl md:text-4xl font-arabic text-purple-700 mb-8 leading-relaxed">
+                من اتخذ القرآن منهجا أعطاه الله جميع العلوم
+            </h2>
+            <p class="text-lg md:text-xl font-serif italic text-gray-800 mb-6 leading-relaxed">
+                "Whoever makes the Quran the curriculum of his life, Allah will bestow upon him all the sciences"
+            </p>
+            <p class="text-lg font-bold text-gray-600 uppercase tracking-wide">
+                - Ibn Qayyim -
+            </p>
+        </div>
+    </section>
+
+    <!-- Watermarks -->
+    <div class="fixed bottom-[-5%] left-[-5%] z-0 pointer-events-none opacity-[0.03] select-none" style="width: 40vw; max-width: 500px;">
+        <img src="logo%20AAK%20(white%20BG).png" class="w-full h-auto grayscale" alt="">
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-gray-400 text-sm">&copy; 2026 Akademi Al Khayr. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const navbar = document.getElementById('navbar');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>
