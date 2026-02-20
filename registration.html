@@ -165,7 +165,6 @@
             const occupation = document.getElementById('occupation').value || 'N/A';
             const date = new Date().toLocaleDateString();
 
-            // Construct WhatsApp Message
             const whatsappText = `
 *New Student Registration*
 ------------------------
@@ -176,11 +175,35 @@
 *Contact:* ${contactNo}
             `.trim();
 
-            // WhatsApp Link
             const whatsappLink = `https://wa.me/60193818616?text=${encodeURIComponent(whatsappText)}`;
 
-            // Open WhatsApp immediately
             window.open(whatsappLink, '_blank');
+            
+            const recipients = "admin@akademialkhayr.com,akademialkhayrofficial@gmail.com";
+            const emailSubject = `New Student Registration - ${studentName}`;
+            const emailBody = `
+AKADEMI AL KHAYR - STUDENT REGISTRATION FORM
+========================================
+
+STUDENT INFORMATION
+-------------------
+Name           : ${studentName}
+Age            : ${age}
+Level          : ${educationLevel}
+Current School : ${currentSchool}
+
+PARENT/GUARDIAN INFORMATION
+---------------------------
+Name           : ${parentName}
+Contact No     : ${contactNo}
+Email          : ${email}
+Occupation     : ${occupation}
+
+Submitted On   : ${date}
+            `.trim();
+
+            const mailtoLink = `mailto:${recipients}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+            window.location.href = mailtoLink;
             
             // Generate Image Receipt
             const formElement = document.querySelector('.max-w-3xl'); // Capture the card
