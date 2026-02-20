@@ -147,99 +147,6 @@
     </footer>
 
     <script>
-        function createReceiptCard(data) {
-            const overlay = document.createElement('div');
-            overlay.id = 'receiptOverlay';
-            overlay.className = 'fixed inset-0 flex items-center justify-center bg-gray-100 z-[9999] p-4';
-            overlay.innerHTML = `
-                <div class="receipt-card bg-white rounded-2xl shadow-xl border border-gray-200 max-w-2xl w-full p-8">
-                    <div class="text-center mb-6">
-                        <h2 class="text-2xl font-bold text-purple-700">Akademi Al Khayr</h2>
-                        <p class="text-gray-600 text-sm mt-1">Student Registration Receipt</p>
-                    </div>
-                    <div class="space-y-4 text-sm text-gray-800">
-                        <div>
-                            <div class="font-semibold mb-1">Name of Student</div>
-                            <div class="border border-gray-300 rounded-lg px-4 py-2 min-h-[42px] flex items-center">
-                                <span id="receiptStudentName" class="break-words"></span>
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <div class="font-semibold mb-1">Age</div>
-                                <div class="border border-gray-300 rounded-lg px-4 py-2 min-h-[42px] flex items-center">
-                                    <span id="receiptAge" class="break-words"></span>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="font-semibold mb-1">Level of Education</div>
-                                <div class="border border-gray-300 rounded-lg px-4 py-2 min-h-[42px] flex items-center">
-                                    <span id="receiptLevel" class="break-words"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="font-semibold mb-1">Current School</div>
-                            <div class="border border-gray-300 rounded-lg px-4 py-2 min-h-[42px] flex items-center">
-                                <span id="receiptCurrentSchool" class="break-words"></span>
-                            </div>
-                        </div>
-                        <div class="pt-4 border-t border-dashed border-gray-300 mt-2"></div>
-                        <div class="mt-2">
-                            <h3 class="font-semibold text-gray-900 mb-2">Parent/Guardian Information</h3>
-                            <div class="space-y-3">
-                                <div>
-                                    <div class="font-semibold mb-1">Name of Parent/Guardian</div>
-                                    <div class="border border-gray-300 rounded-lg px-4 py-2 min-h-[42px] flex items-center">
-                                        <span id="receiptParentName" class="break-words"></span>
-                                    </div>
-                                </div>
-                                <div class="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <div class="font-semibold mb-1">Contact No</div>
-                                        <div class="border border-gray-300 rounded-lg px-4 py-2 min-h-[42px] flex items-center">
-                                            <span id="receiptContactNo" class="break-words"></span>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="font-semibold mb-1">Email Address</div>
-                                        <div class="border border-gray-300 rounded-lg px-4 py-2 min-h-[42px] flex items-center">
-                                            <span id="receiptEmail" class="break-words"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="font-semibold mb-1">Parent/Guardian Occupation</div>
-                                    <div class="border border-gray-300 rounded-lg px-4 py-2 min-h-[42px] flex items-center">
-                                        <span id="receiptOccupation" class="break-words"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mt-4 text-xs text-gray-500 flex justify-between">
-                            <span>Submitted on: <span id="receiptDate"></span></span>
-                            <span>Ref: AAK-${new Date().getFullYear()}</span>
-                        </div>
-                    </div>
-                </div>
-            `;
-            document.body.appendChild(overlay);
-            const setText = (id, value) => {
-                const el = overlay.querySelector(`#${id}`);
-                if (el) el.textContent = value || 'N/A';
-            };
-            setText('receiptStudentName', data.studentName);
-            setText('receiptAge', data.age);
-            setText('receiptLevel', data.educationLevel);
-            setText('receiptCurrentSchool', data.currentSchool);
-            setText('receiptParentName', data.parentName);
-            setText('receiptContactNo', data.contactNo);
-            setText('receiptEmail', data.email);
-            setText('receiptOccupation', data.occupation);
-            setText('receiptDate', data.date);
-            return overlay.querySelector('.receipt-card');
-        }
-
         document.getElementById('registrationForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const form = this;
@@ -268,17 +175,7 @@
 
             window.open(whatsappLink, '_blank');
             
-            const receiptCardElement = createReceiptCard({
-                studentName,
-                age,
-                educationLevel: educationLevel === 'primary' ? 'Primary Level' : educationLevel === 'secondary' ? 'Secondary Level' : educationLevel,
-                currentSchool,
-                parentName,
-                contactNo,
-                email,
-                occupation,
-                date
-            });
+            const formElement = document.querySelector('.max-w-3xl');
             
             const submitBtn = document.querySelector('button[type="submit"]');
             const originalBtnText = submitBtn.innerHTML;
@@ -316,7 +213,7 @@
                 });
             };
 
-            html2canvas(receiptCardElement, {
+            html2canvas(formElement, {
                 scale: 2,
                 backgroundColor: '#ffffff',
                 useCORS: true
@@ -326,9 +223,6 @@
                 link.download = `AAK-Registration-${studentName.replace(/\s+/g, '-')}.png`;
                 link.href = image;
                 link.click();
-                const overlay = document.getElementById('receiptOverlay');
-                if (overlay) overlay.remove();
-
                 alert(`Registration Receipt Downloaded!\n\nPlease ATTACH the downloaded image to the WhatsApp chat (opening now).`);
 
                 submitFormAjax();
@@ -336,8 +230,6 @@
             }).catch(err => {
                 console.error('Image generation failed:', err);
                 alert('Could not generate image receipt, but proceeding with submission.');
-                const overlay = document.getElementById('receiptOverlay');
-                if (overlay) overlay.remove();
                 submitFormAjax();
             });
         });
