@@ -62,13 +62,9 @@
                 <p class="text-purple-100 mt-2">Join Akademi Al Khayr today</p>
             </div>
             
-            <form id="registrationForm" class="py-8 px-8 sm:px-12 space-y-6" action="https://formsubmit.co/akademialkhayrofficial@gmail.com" method="POST">
-                <!-- Formsubmit.co Configuration -->
-                <input type="hidden" name="_cc" value="akademialkhayrofficial@gmail.com">
-                <input type="hidden" name="_subject" value="New Student Registration">
-                <input type="hidden" name="_template" value="table">
-                <input type="hidden" name="_captcha" value="false">
-                <input type="hidden" name="_next" value="https://www.akademialkhayr.com/registration.html">
+            <form id="registrationForm" class="py-8 px-8 sm:px-12 space-y-6" action="https://akademialkhayrofficial.getform.com/nmoz3" method="POST">
+                <!-- Getform Configuration -->
+                <input type="hidden" name="_gotcha" style="display:none !important">
 
                 <!-- Student Details -->
                 <div class="space-y-6">
@@ -270,32 +266,6 @@
             const whatsappLink = `https://wa.me/60193818616?text=${encodeURIComponent(whatsappText)}`;
 
             window.open(whatsappLink, '_blank');
-            
-            const recipients = "akademialkhayrofficial@gmail.com";
-            const emailSubject = `New Student Registration - ${studentName}`;
-            const emailBody = `
-AKADEMI AL KHAYR - STUDENT REGISTRATION FORM
-========================================
-
-STUDENT INFORMATION
--------------------
-Name           : ${studentName}
-Age            : ${age}
-Level          : ${educationLevel}
-Current School : ${currentSchool}
-
-PARENT/GUARDIAN INFORMATION
----------------------------
-Name           : ${parentName}
-Contact No     : ${contactNo}
-Email          : ${email}
-Occupation     : ${occupation}
-
-Submitted On   : ${date}
-            `.trim();
-
-            const mailtoLink = `mailto:${recipients}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
-            window.location.href = mailtoLink;
             
             const receiptCardElement = createReceiptCard({
                 studentName,
