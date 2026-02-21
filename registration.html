@@ -138,8 +138,7 @@
                 <p class="text-purple-100 mt-2">Join Akademi Al Khayr today</p>
             </div>
             
-            <form id="registrationForm" class="py-8 px-8 sm:px-12 space-y-6" action="https://akademialkhayrofficial.getform.com/nmoz3" method="POST">
-                <!-- Getform Configuration -->
+            <form id="registrationForm" class="py-8 px-8 sm:px-12 space-y-6" action="https://formsubmit.co/ajax/el/rovevo" method="POST">
                 <input type="hidden" name="_gotcha" style="display:none !important">
 
                 <!-- Student Details -->
@@ -345,14 +344,14 @@
                         console.log('Form submitted successfully');
                     } else {
                         console.warn('Form submission issue:', response.status);
-                        alert("Note: We couldn't automatically submit the form data to our database. Please ensure you send the receipt via WhatsApp.");
+                        alert("Note: We couldn't automatically send the registration to our system. Please ensure you send the receipt via WhatsApp.");
                     }
                 })
                 .catch(error => {
                     console.error('Form submission error:', error);
                     submitBtn.innerHTML = originalBtnText;
                     submitBtn.disabled = false;
-                    alert("Note: We couldn't automatically submit the form data to our database. Please ensure you send the receipt via WhatsApp.");
+                    alert("Note: We couldn't automatically send the registration to our system. Please ensure you send the receipt via WhatsApp.");
                 });
             };
 
