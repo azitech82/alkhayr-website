@@ -59,6 +59,9 @@
     <section class="min-h-screen pt-32 pb-16 px-4 sm:px-6 lg:px-8 bg-gray-50 flex items-center justify-center">
         <div class="max-w-3xl w-full bg-white rounded-2xl shadow-xl overflow-hidden">
             <div class="bg-purple-600 py-6 px-8 text-center">
+                <div class="flex justify-center mb-4">
+                    <img src="logo%20AAK%20(white%20BG).png" alt="Akademi Al Khayr Logo" class="h-20 w-auto object-contain">
+                </div>
                 <h2 class="text-3xl font-bold text-white">School Registration Form</h2>
                 <p class="text-purple-100 mt-2">Join Akademi Al Khayr today</p>
             </div>
@@ -198,7 +201,6 @@
                     submitBtn.innerHTML = originalBtnText;
                     submitBtn.disabled = false;
                     if (response.ok) {
-                        // Success silently
                         console.log('Form submitted successfully');
                     } else {
                         console.warn('Form submission issue:', response.status);
@@ -213,25 +215,32 @@
                 });
             };
 
-            html2canvas(formElement, {
-                scale: 2,
-                backgroundColor: '#ffffff',
-                useCORS: true
-            }).then(canvas => {
-                const image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
-                const link = document.createElement('a');
-                link.download = `AAK-Registration-${studentName.replace(/\s+/g, '-')}.png`;
-                link.href = image;
-                link.click();
-                alert(`Registration Receipt Downloaded!\n\nPlease ATTACH the downloaded image to the WhatsApp chat (opening now).`);
+            const generateReceipt = (scale) => {
+                html2canvas(formElement, {
+                    scale,
+                    backgroundColor: '#ffffff',
+                    useCORS: true
+                }).then(canvas => {
+                    const image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+                    const link = document.createElement('a');
+                    link.download = `AAK-Registration-${studentName.replace(/\s+/g, '-')}.png`;
+                    link.href = image;
+                    link.click();
+                    alert(`Registration Receipt Downloaded!\n\nPlease ATTACH the downloaded image to the WhatsApp chat (opening now).`);
 
-                submitFormAjax();
+                    submitFormAjax();
+                }).catch(err => {
+                    console.error('Image generation failed at scale', scale, err);
+                    if (scale > 1) {
+                        generateReceipt(1);
+                    } else {
+                        alert('Could not generate image receipt, but proceeding with submission.');
+                        submitFormAjax();
+                    }
+                });
+            };
 
-            }).catch(err => {
-                console.error('Image generation failed:', err);
-                alert('Could not generate image receipt, but proceeding with submission.');
-                submitFormAjax();
-            });
+            generateReceipt(2);
         });
     </script>
 
