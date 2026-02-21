@@ -323,11 +323,14 @@
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Generating Receipt...';
             submitBtn.disabled = true;
 
-            const submitFormAjax = () => {
+            const submitFormAjax = (receiptBlob, receiptFileName) => {
                 submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Submitting...';
                 submitBtn.disabled = true;
                 
                 const formData = new FormData(form);
+                if (receiptBlob) {
+                    formData.append('receipt_image', receiptBlob, receiptFileName || 'AAK-Registration-Receipt.png');
+                }
                 fetch(form.action, {
                     method: 'POST',
                     body: formData,
@@ -359,14 +362,25 @@
                     backgroundColor: '#ffffff',
                     useCORS: true
                 }).then(canvas => {
-                    const image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
-                    const link = document.createElement('a');
-                    link.download = `AAK-Registration-${studentName.replace(/\s+/g, '-')}.png`;
-                    link.href = image;
-                    link.click();
-                    alert(`Registration Receipt Downloaded!\n\nPlease ATTACH the downloaded image to the WhatsApp chat (opening now).`);
+                    const fileName = `AAK-Registration-${studentName.replace(/\s+/g, '-')}.png`;
+                    canvas.toBlob((blob) => {
+                        if (blob) {
+                            const url = URL.createObjectURL(blob);
+                            const link = document.createElement('a');
+                            link.download = fileName;
+                            link.href = url;
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                            URL.revokeObjectURL(url);
 
-                    submitFormAjax();
+                            alert(`Registration Receipt Downloaded!\n\nA copy is also being sent to the school email automatically.`);
+                            submitFormAjax(blob, fileName);
+                        } else {
+                            alert('Could not generate image receipt file, but proceeding with submission.');
+                            submitFormAjax();
+                        }
+                    }, 'image/png');
                 }).catch(err => {
                     console.error('Image generation failed at scale', scale, err);
                     if (scale > 1) {
