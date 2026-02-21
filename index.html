@@ -627,8 +627,8 @@
                         </div>
 
                         <div>
-                            <label for="contact" class="block text-sm font-bold text-gray-900 mb-2">Contact No</label>
-                            <input type="tel" id="contact" name="contact" placeholder="Your Contact Number" class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition bg-gray-50">
+                            <label for="contactNo" class="block text-sm font-bold text-gray-900 mb-2">Contact No</label>
+                            <input type="tel" id="contactNo" name="contactNo" placeholder="Your Contact Number" class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition bg-gray-50">
                         </div>
                         
                         <div>
@@ -636,9 +636,14 @@
                             <textarea id="message" name="message" rows="4" placeholder="Your Message" class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition bg-gray-50"></textarea>
                         </div>
                         
-                        <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300 shadow-md">
-                            Send Message
-                        </button>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <button type="button" id="sendEmail" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300 shadow-md">
+                                Send via Email
+                            </button>
+                            <button type="button" id="sendWhatsapp" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg transition duration-300 shadow-md">
+                                Send via WhatsApp
+                            </button>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -793,17 +798,12 @@
     </div>
 
     <script>
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+        const buildContactMessage = () => {
+            const name = document.getElementById('name').value || '-';
+            const email = document.getElementById('email').value || '-';
+            const contactNo = document.getElementById('contactNo').value || '-';
+            const message = document.getElementById('message').value || '-';
 
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const contact = document.getElementById('contact').value;
-            const message = document.getElementById('message').value;
-
-            const recipients = "akademialkhayrofficial@gmail.com";
-            const whatsappNumber = "60193818616";
-            
             const emailSubject = `New Contact Message from ${name}`;
             const emailBody = `
 AKADEMI AL KHAYR - WEBSITE CONTACT FORM
@@ -813,7 +813,7 @@ SENDER INFORMATION
 ------------------
 Name           : ${name}
 Email          : ${email}
-Contact No     : ${contact}
+Contact No     : ${contactNo}
 
 MESSAGE
 -------
@@ -823,15 +823,30 @@ ${message}
 This message was submitted via the website contact form.
             `.trim();
 
-            const whatsappMessage = emailBody;
-            const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+            return { emailSubject, emailBody };
+        };
 
-            window.open(whatsappUrl, '_blank');
+        const recipients = "akademialkhayrofficial@gmail.com";
+        const whatsappNumber = "60193818616";
 
-            const mailtoLink = `mailto:${recipients}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
-            
-            window.location.href = mailtoLink;
-        });
+        const emailBtn = document.getElementById('sendEmail');
+        const whatsappBtn = document.getElementById('sendWhatsapp');
+
+        if (emailBtn) {
+            emailBtn.addEventListener('click', () => {
+                const { emailSubject, emailBody } = buildContactMessage();
+                const mailtoLink = `mailto:${recipients}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+                window.location.href = mailtoLink;
+            });
+        }
+
+        if (whatsappBtn) {
+            whatsappBtn.addEventListener('click', () => {
+                const { emailBody } = buildContactMessage();
+                const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(emailBody)}`;
+                window.open(whatsappUrl, '_blank');
+            });
+        }
     </script>
 
 </body>
