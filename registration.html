@@ -15,15 +15,34 @@
             font-family: 'Poppins', sans-serif;
         }
         .receipt-input {
-            font-size: 1.05rem;
+            font-size: 1rem;
             font-weight: 400;
-            line-height: 1.6;
-            letter-spacing: 0.02em;
-            text-rendering: optimizeLegibility;
-            -webkit-font-smoothing: antialiased;
-            padding-top: 0.6rem;
-            padding-bottom: 1rem;
             color: #111827;
+        }
+        .receipt-view {
+            position: absolute;
+            top: -9999px;
+            left: -9999px;
+            width: 1024px;
+            background: #ffffff;
+            padding: 2.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
+            color: #111827;
+        }
+        .receipt-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 2rem;
+            margin-bottom: 0.75rem;
+            font-size: 0.95rem;
+        }
+        .receipt-label {
+            font-weight: 600;
+        }
+        .receipt-value {
+            font-weight: 400;
+            text-align: right;
         }
     </style>
 </head>
@@ -150,6 +169,58 @@
                     </button>
                 </div>
             </form>
+
+            <div id="receiptView" class="receipt-view">
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold">Akademi Al Khayr</h2>
+                        <p class="text-sm text-gray-500">Student Registration Receipt</p>
+                    </div>
+                    <div class="text-right text-sm text-gray-500">
+                        <div id="receiptDate"></div>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <h3 class="text-lg font-semibold mb-2">Student Information</h3>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Name of Student</span>
+                        <span class="receipt-value" id="receiptStudentName"></span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Age</span>
+                        <span class="receipt-value" id="receiptAge"></span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Level of Education</span>
+                        <span class="receipt-value" id="receiptEducationLevel"></span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Current School</span>
+                        <span class="receipt-value" id="receiptCurrentSchool"></span>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <h3 class="text-lg font-semibold mb-2">Parent/Guardian Information</h3>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Name of Parent/Guardian</span>
+                        <span class="receipt-value" id="receiptParentName"></span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Contact No</span>
+                        <span class="receipt-value" id="receiptContactNo"></span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Email Address</span>
+                        <span class="receipt-value" id="receiptEmail"></span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Occupation</span>
+                        <span class="receipt-value" id="receiptOccupation"></span>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -187,9 +258,19 @@
 
             const whatsappLink = `https://wa.me/60193818616?text=${encodeURIComponent(whatsappText)}`;
 
+            document.getElementById('receiptStudentName').textContent = studentName || '-';
+            document.getElementById('receiptAge').textContent = age || '-';
+            document.getElementById('receiptEducationLevel').textContent = educationLevel || '-';
+            document.getElementById('receiptCurrentSchool').textContent = currentSchool || '-';
+            document.getElementById('receiptParentName').textContent = parentName || '-';
+            document.getElementById('receiptContactNo').textContent = contactNo || '-';
+            document.getElementById('receiptEmail').textContent = email || '-';
+            document.getElementById('receiptOccupation').textContent = occupation || '-';
+            document.getElementById('receiptDate').textContent = date;
+
             window.open(whatsappLink, '_blank');
             
-            const formElement = document.querySelector('.max-w-3xl');
+            const formElement = document.getElementById('receiptView');
             
             const submitBtn = document.querySelector('button[type="submit"]');
             const originalBtnText = submitBtn.innerHTML;
