@@ -46,10 +46,61 @@
         /* Payment Card Hover Effect */
         .payment-card {
             transition: all 0.3s ease;
+            min-height: 360px;
         }
         .payment-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 25px -5px rgba(147, 51, 234, 0.15);
+        }
+
+        .flip-card {
+            background-color: transparent;
+            perspective: 1000px;
+            position: relative;
+            min-height: 380px;
+        }
+        
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: left;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+        
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        
+        .flip-card-front {
+            background-color: white;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .flip-card-back {
+            background-color: #f3f4f6;
+            transform: rotateY(180deg);
+            display: flex;
+            flex-direction: column;
+            z-index: 1;
+        }
+
+        .school-fees-photo {
+            height: 100%;
         }
     </style>
 </head>
@@ -182,53 +233,116 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 
                 <!-- School Fees 2025 -->
-                <div class="bg-white rounded-xl shadow-lg border border-purple-50 p-8 payment-card flex flex-col items-center text-center">
-                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-6 text-purple-600">
-                        <i class="fas fa-school text-3xl"></i>
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front payment-card flex flex-col items-center text-center bg-white rounded-xl border border-purple-50 p-8">
+                            <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-6 text-purple-600">
+                                <i class="fas fa-school text-3xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">School Fees 2026</h3>
+                            <p class="text-gray-500 mb-6 text-sm">Payment for 2026 academic session school fees.</p>
+                            <a href="https://akademialkhayr.onpay.my/order/form/yuransekolah25" target="_blank" class="mt-auto inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition w-full justify-center">
+                                Pay Now <i class="fas fa-arrow-right ml-2"></i>
+                            </a>
+                        </div>
+                        <div class="flip-card-back bg-purple-50">
+                            <div class="h-full w-full flex flex-col px-6 py-4">
+                                <h4 class="text-lg font-semibold text-purple-900 mb-3 text-center w-full">School Fees</h4>
+                                <div class="grid grid-cols-3 gap-3 flex-1">
+                                    <div class="rounded-xl overflow-hidden shadow-sm bg-white school-fees-photo">
+                                        <img src="Fees payment/School fees/WhatsApp Image 2026-02-21 at 18.30.33.jpeg" alt="Yuran Bulanan Pelajar Harian 2026" class="w-full h-full object-cover cursor-pointer">
+                                    </div>
+                                    <div class="rounded-xl overflow-hidden shadow-sm bg-white school-fees-photo">
+                                        <img src="Fees payment/School fees/WhatsApp Image 2026-02-21 at 18.30.33 (1).jpeg" alt="Yuran Tahunan Asrama 2026" class="w-full h-full object-cover cursor-pointer">
+                                    </div>
+                                    <div class="rounded-xl overflow-hidden shadow-sm bg-white school-fees-photo">
+                                        <img src="Fees payment/School fees/WhatsApp Image 2026-02-21 at 18.30.33 (2).jpeg" alt="Yuran Bulanan Asrama 2026" class="w-full h-full object-cover cursor-pointer">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-2">School Fees 2026</h3>
-                    <p class="text-gray-500 mb-6 text-sm">Payment for 2026 academic session school fees.</p>
-                    <a href="https://akademialkhayr.onpay.my/order/form/yuransekolah25" target="_blank" class="mt-auto inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition w-full justify-center">
-                        Pay Now <i class="fas fa-arrow-right ml-2"></i>
-                    </a>
                 </div>
 
                 <!-- Infaq Ramadhan 2026 -->
-                <div class="bg-white rounded-xl shadow-lg border border-purple-50 p-8 payment-card flex flex-col items-center text-center">
-                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-6 text-green-600">
-                        <i class="fas fa-hand-holding-heart text-3xl"></i>
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front payment-card flex flex-col items-center text-center bg-white rounded-xl border border-purple-50 p-8">
+                            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-6 text-green-600">
+                                <i class="fas fa-hand-holding-heart text-3xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Infaq Ramadhan 2026</h3>
+                            <p class="text-gray-500 mb-6 text-sm">Contribute to our Ramadhan charity and programs.</p>
+                            <a href="https://akademialkhayr.onpay.my/order/form/inf26" target="_blank" class="mt-auto inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition w-full justify-center">
+                                Contribute <i class="fas fa-heart ml-2"></i>
+                            </a>
+                        </div>
+                        <div class="flip-card-back bg-green-50">
+                            <div class="h-full w-full flex flex-col">
+                                <div class="h-2/3 w-full overflow-hidden">
+                                    <img src="Fees payment/Infaq ramadhan/615811461_888064763772505_1085213726545611816_n.jpg" alt="Ramadhan activities" class="w-full h-full object-cover">
+                                </div>
+                                <div class="flex-1 px-6 py-4 flex flex-col justify-center items-center text-center">
+                                    <h4 class="text-lg font-semibold text-green-900 mb-1">Iftar Moment</h4>
+                                    <p class="text-sm text-green-700">See how your contribution supports our programs.</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-2">Infaq Ramadhan 2026</h3>
-                    <p class="text-gray-500 mb-6 text-sm">Contribute to our Ramadhan charity and programs.</p>
-                    <a href="https://akademialkhayr.onpay.my/order/form/inf26" target="_blank" class="mt-auto inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition w-full justify-center">
-                        Contribute <i class="fas fa-heart ml-2"></i>
-                    </a>
                 </div>
 
                 <!-- Online Tahfiz Fees -->
-                <div class="bg-white rounded-xl shadow-lg border border-purple-50 p-8 payment-card flex flex-col items-center text-center">
-                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-6 text-blue-600">
-                        <i class="fas fa-laptop-house text-3xl"></i>
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front payment-card flex flex-col items-center text-center bg-white rounded-xl border border-purple-50 p-8">
+                            <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-6 text-blue-600">
+                                <i class="fas fa-laptop-house text-3xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Online Tahfiz Fees</h3>
+                            <p class="text-gray-500 mb-6 text-sm">Monthly fees for Online Tahfiz program students.</p>
+                            <a href="https://akademialkhayr.onpay.my/order/form/yuranto" target="_blank" class="mt-auto inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition w-full justify-center">
+                                Pay Now <i class="fas fa-arrow-right ml-2"></i>
+                            </a>
+                        </div>
+                        <div class="flip-card-back bg-blue-50">
+                            <div class="h-full w-full flex flex-col">
+                                <div class="h-2/3 w-full overflow-hidden">
+                                    <img src="Fees payment/Tahfiz online fees/476115848_613702964749990_2468152404229939250_n.jpg" alt="Online learning" class="w-full h-full object-cover">
+                                </div>
+                                <div class="flex-1 px-6 py-4 flex flex-col justify-center items-center text-center">
+                                    <h4 class="text-lg font-semibold text-blue-900 mb-1">Online Class</h4>
+                                    <p class="text-sm text-blue-700">Preview our virtual learning environment.</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-2">Online Tahfiz Fees</h3>
-                    <p class="text-gray-500 mb-6 text-sm">Monthly fees for Online Tahfiz program students.</p>
-                    <a href="https://akademialkhayr.onpay.my/order/form/yuranto" target="_blank" class="mt-auto inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition w-full justify-center">
-                        Pay Now <i class="fas fa-arrow-right ml-2"></i>
-                    </a>
                 </div>
 
-
-
                 <!-- Activities -->
-                <div class="bg-white rounded-xl shadow-lg border border-purple-50 p-8 payment-card flex flex-col items-center text-center lg:col-span-3 lg:w-2/3 lg:mx-auto">
-                    <div class="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mb-6 text-pink-600">
-                        <i class="fas fa-running text-3xl"></i>
+                <div class="flip-card lg:col-span-3 lg:w-2/3 lg:mx-auto">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front payment-card flex flex-col items-center text-center bg-white rounded-xl border border-purple-50 p-8">
+                            <div class="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mb-6 text-pink-600">
+                                <i class="fas fa-running text-3xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Activities</h3>
+                            <p class="text-gray-500 mb-6 text-sm">Payments for school activities, trips, and events.</p>
+                            <a href="https://akademialkhayr.onpay.my/order/form/aktiviti" target="_blank" class="mt-auto inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500 transition w-full justify-center">
+                                Pay Now <i class="fas fa-arrow-right ml-2"></i>
+                            </a>
+                        </div>
+                        <div class="flip-card-back bg-pink-50">
+                            <div class="h-full w-full flex flex-col">
+                                <div class="h-2/3 w-full overflow-hidden">
+                                    <img src="Fees payment/activities/630650135_908016661777315_2742795643063223762_n.jpg" alt="School activities" class="w-full h-full object-cover">
+                                </div>
+                                <div class="flex-1 px-6 py-4 flex flex-col justify-center items-center text-center">
+                                    <h4 class="text-lg font-semibold text-pink-900 mb-1">Activities Highlights</h4>
+                                    <p class="text-sm text-pink-700">Sports, trips, and events that your payments support.</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-2">Activities</h3>
-                    <p class="text-gray-500 mb-6 text-sm">Payments for school activities, trips, and events.</p>
-                    <a href="https://akademialkhayr.onpay.my/order/form/aktiviti" target="_blank" class="mt-auto inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500 transition w-full justify-center">
-                        Pay Now <i class="fas fa-arrow-right ml-2"></i>
-                    </a>
                 </div>
 
 
@@ -260,6 +374,15 @@
         </div>
     </footer>
 
+    <div id="school-fees-modal" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 hidden">
+        <div class="max-w-4xl max-h-[90vh] relative">
+            <button id="school-fees-modal-close" class="absolute -top-3 -right-3 bg-white rounded-full w-8 h-8 flex items-center justify-center text-gray-700 shadow">
+                <i class="fas fa-times text-sm"></i>
+            </button>
+            <img id="school-fees-modal-img" src="" alt="" class="max-w-full max-h-[90vh] object-contain rounded-xl bg-white">
+        </div>
+    </div>
+
     <script>
         const navbar = document.getElementById('navbar');
         
@@ -288,6 +411,32 @@
                     mobileMenuIcon.classList.add('fa-bars');
                     mobileMenuIcon.classList.remove('fa-times');
                 });
+            });
+        }
+
+        const schoolFeesModal = document.getElementById('school-fees-modal');
+        const schoolFeesModalImg = document.getElementById('school-fees-modal-img');
+        const schoolFeesModalClose = document.getElementById('school-fees-modal-close');
+        const schoolFeesImages = document.querySelectorAll('.school-fees-photo img');
+
+        if (schoolFeesModal && schoolFeesModalImg && schoolFeesModalClose && schoolFeesImages.length > 0) {
+            schoolFeesImages.forEach((img) => {
+                img.addEventListener('click', () => {
+                    schoolFeesModalImg.src = img.src;
+                    schoolFeesModal.classList.remove('hidden');
+                });
+            });
+
+            const closeSchoolFeesModal = () => {
+                schoolFeesModal.classList.add('hidden');
+                schoolFeesModalImg.src = '';
+            };
+
+            schoolFeesModalClose.addEventListener('click', closeSchoolFeesModal);
+            schoolFeesModal.addEventListener('click', (event) => {
+                if (event.target === schoolFeesModal) {
+                    closeSchoolFeesModal();
+                }
             });
         }
     </script>
