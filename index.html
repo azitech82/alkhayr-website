@@ -796,14 +796,14 @@
         document.getElementById('contactForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
-            // Gather form data
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
             const contact = document.getElementById('contact').value;
             const message = document.getElementById('message').value;
+
             const recipients = "akademialkhayrofficial@gmail.com";
+            const whatsappNumber = "60193818616";
             
-            // Construct Email Subject and Body
             const emailSubject = `New Contact Message from ${name}`;
             const emailBody = `
 AKADEMI AL KHAYR - WEBSITE CONTACT FORM
@@ -823,10 +823,13 @@ ${message}
 This message was submitted via the website contact form.
             `.trim();
 
-            // Construct mailto link
+            const whatsappMessage = emailBody;
+            const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+
+            window.open(whatsappUrl, '_blank');
+
             const mailtoLink = `mailto:${recipients}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
             
-            // Open Email Client
             window.location.href = mailtoLink;
         });
     </script>
