@@ -106,6 +106,25 @@
         .school-fees-photo {
             height: 280px;
         }
+
+        @media (max-width: 767px) {
+            .flip-card {
+                min-height: auto;
+            }
+            .flip-card-inner {
+                transform: none !important;
+            }
+            .flip-card:hover .flip-card-inner {
+                transform: none;
+            }
+            .flip-card-front {
+                position: relative;
+                height: auto;
+            }
+            .flip-card-back {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body class="text-gray-800 relative bg-gray-50">
