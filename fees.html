@@ -73,9 +73,10 @@
             transform-style: preserve-3d;
         }
         
-        .flip-card:hover .flip-card-inner,
-        .flip-card.flipped .flip-card-inner {
-            transform: rotateY(180deg);
+        @media (hover: hover) {
+            .flip-card:hover .flip-card-inner {
+                transform: rotateY(180deg);
+            }
         }
         
         .flip-card-front, .flip-card-back {
@@ -106,6 +107,27 @@
 
         .school-fees-photo {
             height: 280px;
+        }
+
+        @media (hover: none) and (max-width: 767px) {
+            .flip-card {
+                min-height: 380px;
+                perspective: none;
+            }
+            .flip-card-inner {
+                transform: none !important;
+            }
+            .flip-card-back {
+                position: relative;
+                transform: none;
+                display: none;
+            }
+            .flip-card.show-back .flip-card-front {
+                display: none;
+            }
+            .flip-card.show-back .flip-card-back {
+                display: flex;
+            }
         }
     </style>
 </head>
@@ -436,10 +458,10 @@
                     });
                 });
                 card.addEventListener('click', () => {
-                    const isFlipped = card.classList.contains('flipped');
-                    flipCards.forEach((c) => c.classList.remove('flipped'));
-                    if (!isFlipped) {
-                        card.classList.add('flipped');
+                    const showBack = card.classList.contains('show-back');
+                    flipCards.forEach((c) => c.classList.remove('show-back'));
+                    if (!showBack) {
+                        card.classList.add('show-back');
                     }
                 });
             });
