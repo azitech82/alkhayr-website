@@ -57,15 +57,25 @@
         #navbar.scrolled .social-icon:hover { color: #7e22ce; }
         
         .page-header {
-            background: linear-gradient(rgba(45, 10, 78, 0.85), rgba(45, 10, 78, 0.75)), url('About/604836474_871682165410765_6995021694293166796_n.jpg');
+            background: linear-gradient(rgba(45, 10, 78, 0.85), rgba(45, 10, 78, 0.75)), url('photo%20banner/599720250_866304712615177_1772794688501084699_n.jpg');
             background-size: cover;
-            background-position: center 30%;
+            background-position: center 0%;
             height: 400px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             text-align: center;
+            animation: headerPan 10s ease-in-out infinite alternate;
+        }
+
+        @keyframes headerPan {
+            0% {
+                background-position: center 0%;
+            }
+            100% {
+                background-position: center 40%;
+            }
         }
     </style>
 </head>
