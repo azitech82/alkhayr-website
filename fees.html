@@ -110,16 +110,20 @@
         @media (max-width: 767px) {
             .flip-card {
                 min-height: auto;
+                perspective: none;
             }
             .flip-card-inner {
+                position: static;
                 transform: none !important;
             }
             .flip-card:hover .flip-card-inner {
                 transform: none;
             }
-            .flip-card-front {
-                position: relative;
+            .flip-card-front,
+            .flip-card-back {
+                position: static;
                 height: auto;
+                transform: none;
             }
             .flip-card-back {
                 display: none;
