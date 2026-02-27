@@ -140,6 +140,11 @@
             
             <form id="registrationForm" class="py-8 px-8 sm:px-12 space-y-6" action="https://formsubmit.co/ajax/akademialkhayrofficial@gmail.com" method="POST">
                 <input type="hidden" name="_gotcha" style="display:none !important">
+                <div style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">
+                    <label for="aak_hp">Do not fill</label>
+                    <input id="aak_hp" type="text" name="aak_hp" tabindex="-1" autocomplete="off" inputmode="text">
+                </div>
+                <input id="aak_time" type="hidden" name="aak_time" value="">
 
                 <!-- Student Details -->
                 <div class="space-y-6">
@@ -277,7 +282,25 @@
     </footer>
 
     <script>
-        document.getElementById('registrationForm').addEventListener('submit', function(e) {
+        const registrationForm = document.getElementById('registrationForm');
+        const registrationInitAt = Date.now();
+        const registrationHoneypot = document.getElementById('aak_hp');
+        const registrationLoadTime = document.getElementById('aak_time');
+        if (registrationLoadTime) {
+            registrationLoadTime.value = String(registrationInitAt);
+        }
+
+        let registrationFirstInteractionAt = null;
+        const markRegistrationInteraction = () => {
+            if (registrationFirstInteractionAt === null) {
+                registrationFirstInteractionAt = Date.now();
+            }
+        };
+        ['pointerdown', 'keydown', 'touchstart', 'focusin'].forEach((eventName) => {
+            window.addEventListener(eventName, markRegistrationInteraction, { once: true, capture: true });
+        });
+
+        registrationForm.addEventListener('submit', function(e) {
             e.preventDefault();
             const form = this;
 
@@ -290,6 +313,34 @@
             const email = document.getElementById('email').value;
             const occupation = document.getElementById('occupation').value || 'N/A';
             const date = new Date().toLocaleDateString();
+
+            const now = Date.now();
+            const elapsedMs = now - registrationInitAt;
+            const isWebDriver = navigator.webdriver === true;
+            const rateLimitKey = 'aak_registration_last_submit_at';
+            const lastSubmitAt = Number(localStorage.getItem(rateLimitKey) || '0');
+
+            if (registrationHoneypot && registrationHoneypot.value.trim() !== '') {
+                alert('Please try again.');
+                return;
+            }
+
+            if (registrationFirstInteractionAt === null) {
+                alert('Please interact with the page and try again.');
+                return;
+            }
+
+            if (elapsedMs < 3500 || (isWebDriver && elapsedMs < 8000)) {
+                alert('Please wait a moment and submit again.');
+                return;
+            }
+
+            if (lastSubmitAt && now - lastSubmitAt < 45000) {
+                alert('Please wait a moment before submitting again.');
+                return;
+            }
+
+            localStorage.setItem(rateLimitKey, String(now));
 
             const whatsappText = `
 *New Student Registration*
@@ -351,6 +402,7 @@
                     console.error('Form submission error:', error);
                     submitBtn.innerHTML = originalBtnText;
                     submitBtn.disabled = false;
+                    localStorage.removeItem(rateLimitKey);
                     alert("Note: We couldn't automatically send the registration to our system. Please ensure you send the receipt via WhatsApp.");
                 });
             };

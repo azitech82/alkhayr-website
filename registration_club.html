@@ -68,6 +68,12 @@
                 <input type="hidden" name="_template" value="table">
                 <input type="hidden" name="_captcha" value="false">
                 <input type="hidden" name="_next" value="https://www.akademialkhayr.com/registration_club.html">
+                <input type="hidden" name="_gotcha" style="display:none !important">
+                <div style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">
+                    <label for="aak_hp_club">Do not fill</label>
+                    <input id="aak_hp_club" type="text" name="aak_hp" tabindex="-1" autocomplete="off" inputmode="text">
+                </div>
+                <input id="aak_time_club" type="hidden" name="aak_time" value="">
 
                 <!-- Student Info -->
                 <div class="border-b border-gray-100 pb-6 mb-6">
@@ -197,7 +203,25 @@
     </footer>
 
     <script>
-        document.getElementById('clubRegistrationForm').addEventListener('submit', function(e) {
+        const clubRegistrationForm = document.getElementById('clubRegistrationForm');
+        const clubRegistrationInitAt = Date.now();
+        const clubRegistrationHoneypot = document.getElementById('aak_hp_club');
+        const clubRegistrationLoadTime = document.getElementById('aak_time_club');
+        if (clubRegistrationLoadTime) {
+            clubRegistrationLoadTime.value = String(clubRegistrationInitAt);
+        }
+
+        let clubRegistrationFirstInteractionAt = null;
+        const markClubRegistrationInteraction = () => {
+            if (clubRegistrationFirstInteractionAt === null) {
+                clubRegistrationFirstInteractionAt = Date.now();
+            }
+        };
+        ['pointerdown', 'keydown', 'touchstart', 'focusin'].forEach((eventName) => {
+            window.addEventListener(eventName, markClubRegistrationInteraction, { once: true, capture: true });
+        });
+
+        clubRegistrationForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
             const form = this;
@@ -205,6 +229,34 @@
             const studentName = formData.get('student_name');
             const parentName = formData.get('parent_name');
             const activityValue = formData.get('activity');
+
+            const now = Date.now();
+            const elapsedMs = now - clubRegistrationInitAt;
+            const isWebDriver = navigator.webdriver === true;
+            const rateLimitKey = 'aak_club_registration_last_submit_at';
+            const lastSubmitAt = Number(localStorage.getItem(rateLimitKey) || '0');
+
+            if (clubRegistrationHoneypot && clubRegistrationHoneypot.value.trim() !== '') {
+                alert('Please try again.');
+                return;
+            }
+
+            if (clubRegistrationFirstInteractionAt === null) {
+                alert('Please interact with the page and try again.');
+                return;
+            }
+
+            if (elapsedMs < 3500 || (isWebDriver && elapsedMs < 8000)) {
+                alert('Please wait a moment and submit again.');
+                return;
+            }
+
+            if (lastSubmitAt && now - lastSubmitAt < 45000) {
+                alert('Please wait a moment before submitting again.');
+                return;
+            }
+
+            localStorage.setItem(rateLimitKey, String(now));
             
             // Get readable activity name
             let activityName = activityValue;
@@ -260,6 +312,7 @@
                 console.error('Form submission error:', error);
                 submitBtn.innerHTML = originalBtnText;
                 submitBtn.disabled = false;
+                localStorage.removeItem(rateLimitKey);
                 alert("Note: We couldn't automatically submit the form data to our database. Please ensure you send the message via WhatsApp.");
             });
         });
