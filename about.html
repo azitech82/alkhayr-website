@@ -223,24 +223,111 @@
         </div>
     </header>
 
-    <div class="bg-black">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-            <div class="grid grid-cols-3 gap-3 justify-items-center md:flex md:flex-wrap md:justify-center">
-                <a href="#our-origins" class="px-4 py-2 rounded-full text-sm font-semibold text-white bg-black border border-amber-300 hover:bg-black hover:border-amber-300 hover:text-white transition col-span-3 w-full text-center md:w-auto md:order-1">
-                    Our origins
-                </a>
-                <a href="#chairman" class="px-3 md:px-4 py-2 rounded-full text-sm font-semibold text-white border border-white hover:bg-white hover:text-black transition text-center md:w-auto flex items-center justify-center md:order-2">
-                    Chairman
-                </a>
-                <a href="#aak-family" class="px-6 md:px-4 py-2 rounded-full text-sm font-semibold text-white border border-white hover:bg-white hover:text-black transition w-full text-center md:w-auto flex items-center justify-center md:order-4">
-                    AAK's family
-                </a>
-                <a href="#principal" class="px-3 md:px-4 py-2 rounded-full text-sm font-semibold text-white border border-white hover:bg-white hover:text-black transition text-center md:w-auto flex items-center justify-center md:order-3">
-                    Principal
-                </a>
-            </div>
+    <!-- Navigation (Redesigned) -->
+    <div class="w-full py-8 sticky top-20 z-40 pointer-events-none">
+        <div class="pointer-events-auto w-fit mx-auto bg-pink-50/95 backdrop-blur-sm rounded-full p-2 shadow-xl border border-pink-100 flex items-center justify-center gap-3 sm:gap-8 px-4 sm:px-8 transition-all duration-300">
+            
+            <!-- Our Origins -->
+            <a href="#our-origins" class="nav-pill group flex flex-col items-center gap-1 min-w-[60px] p-1 cursor-pointer no-underline" data-target="our-origins">
+                <div class="icon-container w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 bg-purple-900 text-white shadow-md">
+                    <i class="fas fa-history text-sm"></i>
+                </div>
+                <span class="label text-[10px] font-bold text-purple-900 tracking-wide uppercase mt-1">Origins</span>
+            </a>
+
+            <!-- Chairman -->
+            <a href="#chairman" class="nav-pill group flex flex-col items-center gap-1 min-w-[60px] p-1 cursor-pointer no-underline" data-target="chairman">
+                <div class="icon-container w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 border-2 border-purple-900 text-purple-900 bg-transparent group-hover:bg-purple-100">
+                    <i class="fas fa-user-tie text-sm"></i>
+                </div>
+                <span class="label text-[10px] font-medium text-gray-500 group-hover:text-purple-900 tracking-wide uppercase mt-1 transition-colors">Chairman</span>
+            </a>
+
+            <!-- Principal -->
+            <a href="#principal" class="nav-pill group flex flex-col items-center gap-1 min-w-[60px] p-1 cursor-pointer no-underline" data-target="principal">
+                <div class="icon-container w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 border-2 border-purple-900 text-purple-900 bg-transparent group-hover:bg-purple-100">
+                    <i class="fas fa-user-graduate text-sm"></i>
+                </div>
+                <span class="label text-[10px] font-medium text-gray-500 group-hover:text-purple-900 tracking-wide uppercase mt-1 transition-colors">Principal</span>
+            </a>
+
+            <!-- Family -->
+            <a href="#aak-family" class="nav-pill group flex flex-col items-center gap-1 min-w-[60px] p-1 cursor-pointer no-underline" data-target="aak-family">
+                <div class="icon-container w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 border-2 border-purple-900 text-purple-900 bg-transparent group-hover:bg-purple-100">
+                    <i class="fas fa-users text-sm"></i>
+                </div>
+                <span class="label text-[10px] font-medium text-gray-500 group-hover:text-purple-900 tracking-wide uppercase mt-1 transition-colors">Family</span>
+            </a>
+            
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navPills = document.querySelectorAll('.nav-pill');
+            const sections = ['our-origins', 'chairman', 'principal', 'aak-family'];
+            
+            function setActive(targetId) {
+                navPills.forEach(pill => {
+                    const iconContainer = pill.querySelector('.icon-container');
+                    const label = pill.querySelector('.label');
+                    const isTarget = pill.getAttribute('href') === '#' + targetId;
+                    
+                    if (isTarget) {
+                        // Active State
+                        iconContainer.classList.remove('border-2', 'border-purple-900', 'text-purple-900', 'bg-transparent', 'group-hover:bg-purple-100');
+                        iconContainer.classList.add('bg-purple-900', 'text-white', 'shadow-md');
+                        
+                        label.classList.remove('font-medium', 'text-gray-500');
+                        label.classList.add('font-bold', 'text-purple-900');
+                    } else {
+                        // Inactive State
+                        iconContainer.classList.add('border-2', 'border-purple-900', 'text-purple-900', 'bg-transparent', 'group-hover:bg-purple-100');
+                        iconContainer.classList.remove('bg-purple-900', 'text-white', 'shadow-md');
+                        
+                        label.classList.add('font-medium', 'text-gray-500');
+                        label.classList.remove('font-bold', 'text-purple-900');
+                    }
+                });
+            }
+
+            // Click event
+            navPills.forEach(pill => {
+                pill.addEventListener('click', (e) => {
+                    const targetId = pill.getAttribute('href').substring(1);
+                    setActive(targetId);
+                });
+            });
+
+            // Scroll Spy
+            window.addEventListener('scroll', () => {
+                let current = '';
+                
+                // Find the current section
+                for (const section of sections) {
+                    const element = document.getElementById(section);
+                    if (element) {
+                        const rect = element.getBoundingClientRect();
+                        // If the top of the section is within the viewport (or close to top)
+                        // We check if the top is less than half the screen height, and bottom is still visible
+                        if (rect.top <= window.innerHeight / 2 && rect.bottom >= 100) {
+                            current = section;
+                            // Don't break here, because we want the last one that satisfies this?
+                            // Actually, if multiple satisfy, usually the one closest to top but not scrolled past.
+                            // Simple logic: The one that covers the middle of the screen.
+                        }
+                    }
+                }
+                
+                if (current) {
+                    setActive(current);
+                }
+            });
+            
+            // Initial check
+            setActive('our-origins');
+        });
+    </script>
 
     <!-- Content Section -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
