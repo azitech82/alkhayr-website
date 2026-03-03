@@ -138,8 +138,12 @@
                 <p class="text-purple-100 mt-2">Join Akademi Al Khayr today</p>
             </div>
             
-            <form id="registrationForm" class="py-8 px-8 sm:px-12 space-y-6" action="https://formsubmit.co/ajax/akademialkhayrofficial@gmail.com" method="POST">
-                <input type="hidden" name="_gotcha" style="display:none !important">
+            <form id="registrationForm" class="py-8 px-8 sm:px-12 space-y-6">
+                <!-- Anti-spam fields -->
+                <input type="text" name="_honey" style="display:none">
+                <input type="hidden" name="_captcha" value="true">
+                <input type="hidden" name="_template" value="table">
+                
                 <div style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">
                     <label for="aak_hp">Do not fill</label>
                     <input id="aak_hp" type="text" name="aak_hp" tabindex="-1" autocomplete="off" inputmode="text">
@@ -283,6 +287,8 @@
 
     <script>
         const registrationForm = document.getElementById('registrationForm');
+        // Define action here to avoid scraping
+        const formAction = 'https://formsubmit.co/ajax/akademialkhayrofficial@gmail.com';
         const registrationInitAt = Date.now();
         const registrationHoneypot = document.getElementById('aak_hp');
         const registrationLoadTime = document.getElementById('aak_time');
@@ -319,6 +325,23 @@
             const isWebDriver = navigator.webdriver === true;
             const rateLimitKey = 'aak_registration_last_submit_at';
             const lastSubmitAt = Number(localStorage.getItem(rateLimitKey) || '0');
+
+            
+            // Enhanced Validation
+            const ageNum = parseInt(age, 10);
+            if (educationLevel === 'primary' && ageNum > 13) {
+                alert('Age for Primary Level must be 13 or below. Please check your details.');
+                return;
+            }
+            if (educationLevel === 'secondary' && (ageNum < 13 || ageNum > 20)) {
+                alert('Age for Secondary Level must be between 13 and 20. Please check your details.');
+                return;
+            }
+            if (studentName.length < 3 || parentName.length < 3) {
+                 alert('Please enter full names.');
+                 return;
+            }
+            // End Enhanced Validation
 
             if (registrationHoneypot && registrationHoneypot.value.trim() !== '') {
                 alert('Please try again.');
@@ -381,7 +404,7 @@
                 if (receiptBlob) {
                     formData.append('receipt_image', receiptBlob, receiptFileName || 'AAK-Registration-Receipt.png');
                 }
-                fetch(form.action, {
+                fetch(formAction, {
                     method: 'POST',
                     body: formData,
                     headers: {
