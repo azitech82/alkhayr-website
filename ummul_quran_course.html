@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ummul Quran Arabic Course | Akademi Al Khayr</title>
+    <link rel="icon" type="image/png" href="logo%20AAK%20(white%20BG).png">
+    <meta name="description" content="Register for Ummul Quran Arabic Course at Akademi Al Khayr.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .receipt-input {
+            font-size: 1rem;
+            font-weight: 400;
+            color: #111827;
+        }
+        .receipt-view {
+            position: absolute;
+            top: -9999px;
+            left: -9999px;
+            width: 1024px;
+            background: #ffffff;
+            padding: 2.5rem 2.75rem 2.25rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 18px 45px rgba(15, 23, 42, 0.18);
+            color: #111827;
+            border: 1px solid rgba(148, 163, 184, 0.35);
+        }
+        .receipt-header-strip {
+            height: 6px;
+            width: 100%;
+            border-radius: 9999px;
+            background: linear-gradient(90deg, #059669, #34d399, #10b981);
+            margin-bottom: 1.75rem;
+        }
+        .receipt-header-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 1.25rem;
+        }
+        .receipt-subtitle {
+            font-size: 0.9rem;
+            color: #9ca3af;
+        }
+        .receipt-date {
+            font-size: 0.9rem;
+            color: #6b7280;
+        }
+        .receipt-date span {
+            color: #059669;
+            font-weight: 500;
+        }
+        .receipt-section {
+            margin-bottom: 1.25rem;
+            padding: 1rem 1.25rem;
+            border-radius: 1rem;
+            background: linear-gradient(135deg, #f9fafb, #eef2ff);
+            border: 1px solid rgba(148, 163, 184, 0.35);
+        }
+        .receipt-section-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 0.75rem;
+        }
+        .receipt-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 2rem;
+            margin-bottom: 0.45rem;
+            font-size: 0.95rem;
+        }
+        .receipt-label {
+            font-weight: 500;
+            color: #374151;
+        }
+        .receipt-value {
+            font-weight: 500;
+            text-align: right;
+            color: #111827;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Navigation -->
+    <nav class="bg-white/75 backdrop-blur fixed w-full z-50 shadow-sm transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <a href="index.html" class="flex items-center">
+                    <img src="logo%20AAK%20(white%20BG).png" alt="Akademi Al Khayr Logo" class="h-16 w-auto object-contain mr-3">
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-900 leading-none tracking-tight">AKADEMI</h1>
+                        <h1 class="text-xl font-bold text-emerald-600 leading-none tracking-tight">AL KHAYR</h1>
+                    </div>
+                </a>
+                <div class="hidden md:flex space-x-8">
+                    <a href="index.html" class="text-gray-600 hover:text-emerald-600 font-medium transition">Home</a>
+                    <a href="about.html" class="text-gray-600 hover:text-emerald-600 font-medium transition">About</a>
+                    <a href="index.html#programs" class="text-gray-600 hover:text-emerald-600 font-medium transition">Programs</a>
+                    <a href="index.html#contact" class="text-gray-600 hover:text-emerald-600 font-medium transition">Contact</a>
+                </div>
+                <button id="mobile-menu-button" class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-full border border-gray-300 text-gray-600 hover:bg-gray-100 transition">
+                    <i id="mobile-menu-icon" class="fas fa-bars text-lg"></i>
+                </button>
+            </div>
+            <div id="mobile-menu" class="md:hidden hidden pb-4">
+                <div class="mobile-menu-panel bg-white/95 rounded-2xl shadow-xl border border-white/40 px-4 py-4 space-y-3">
+                    <a href="index.html" class="block font-semibold text-gray-800">Home</a>
+                    <a href="about.html" class="block font-semibold text-gray-800">About</a>
+                    <a href="index.html#programs" class="block font-semibold text-gray-800">Programs</a>
+                    <a href="index.html#contact" class="block font-semibold text-gray-800">Contact</a>
+                    <a href="fees.html" class="block font-semibold text-gray-800">Fees payment</a>
+                    <a href="forms.html" class="block font-semibold text-gray-800">Forms</a>
+                    <a href="Download/AAK%20TAKWIM%202026.pdf" target="_blank" class="block font-semibold text-gray-800">AAK Takwim 2026</a>
+                    <a href="Download/GuideBook%20AAK_2026%20(1).pdf" target="_blank" class="block font-semibold text-gray-800">Guidebook AAK 2026</a>
+                    <a href="gallery.html" class="block font-semibold text-gray-800">Gallery</a>
+                    <a href="index.html#location" class="block font-semibold text-gray-800">Visit</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Ummul Quran Course Form Section -->
+    <section class="min-h-screen pt-32 pb-16 px-4 sm:px-6 lg:px-8 bg-gray-50 flex items-center justify-center">
+        <div class="max-w-3xl w-full bg-white rounded-2xl shadow-xl overflow-hidden">
+            <div class="bg-emerald-600 py-6 px-8 text-center">
+                <div class="flex justify-center mb-4">
+                    <img src="logo%20AAK%20(white%20BG).png" alt="Akademi Al Khayr Logo" class="h-20 w-auto object-contain">
+                </div>
+                <h2 class="text-3xl font-bold text-white">Ummul Quran Arabic Course</h2>
+                <p class="text-emerald-100 mt-2">Master the language of the Quran</p>
+            </div>
+            
+            <form id="courseForm" class="py-8 px-8 sm:px-12 space-y-6">
+                <!-- Anti-spam fields -->
+                <input type="text" name="_honey" style="display:none">
+                <input type="hidden" name="_captcha" value="true">
+                <input type="hidden" name="_template" value="table">
+                <input type="hidden" name="_subject" value="New Ummul Quran Course Registration">
+                
+                <div style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">
+                    <label for="aak_hp">Do not fill</label>
+                    <input id="aak_hp" type="text" name="aak_hp" tabindex="-1" autocomplete="off" inputmode="text">
+                </div>
+                <input id="aak_time" type="hidden" name="aak_time" value="">
+
+                <!-- Student Details -->
+                <div class="space-y-6">
+                    <h3 class="text-xl font-semibold text-gray-900 border-b pb-2">Participant Information</h3>
+                    
+                    <div>
+                        <label for="studentName" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                        <input type="text" id="studentName" name="studentName" class="w-full px-5 pt-1 pb-5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition receipt-input" placeholder="Enter full name" required>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="age" class="block text-sm font-medium text-gray-700 mb-1">Age</label>
+                            <input type="number" id="age" name="age" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition receipt-input" placeholder="Enter age" required>
+                        </div>
+                        <div>
+                            <label for="level" class="block text-sm font-medium text-gray-700 mb-1">Course Level</label>
+                            <select id="level" name="level" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition receipt-input" required>
+                                <option value="" disabled selected>Select Level</option>
+                                <option value="Beginner">Beginner</option>
+                                <option value="Intermediate">Intermediate</option>
+                                <option value="Advanced">Advanced</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="classOption" class="block text-sm font-medium text-gray-700 mb-1">Class</label>
+                            <select id="classOption" name="classOption" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition receipt-input" required>
+                                <option value="" disabled selected>Select Class</option>
+                                <option value="Fasl Bukhari">Fasl Bukhari</option>
+                                <option value="Fasl Muslim">Fasl Muslim</option>
+                                <option value="Fasl Ahmad">Fasl Ahmad</option>
+                                <option value="Fasl Tirmidhi">Fasl Tirmidhi</option>
+                                <option value="Fasl Abu Dawood">Fasl Abu Dawood</option>
+                                <option value="Fasl Bayhaqi">Fasl Bayhaqi</option>
+                                <option value="Fasl Tabrani">Fasl Tabrani</option>
+                                <option value="Fasl Ad Darimi">Fasl Ad Darimi</option>
+                                <option value="Fasl An Nasa'ei">Fasl An Nasa'ei</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="sessionYear" class="block text-sm font-medium text-gray-700 mb-1">Session/Year</label>
+                            <select id="sessionYear" name="sessionYear" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition receipt-input" required>
+                                <option value="" disabled selected>Select Session/Year</option>
+                                <option value="2026">2026</option>
+                                <option value="2027">2027</option>
+                                <option value="2028">2028</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Details -->
+                <div class="space-y-6 pt-6">
+                    <h3 class="text-xl font-semibold text-gray-900 border-b pb-2">Contact Information</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="contactNo" class="block text-sm font-medium text-gray-700 mb-1">Contact No</label>
+                            <input type="tel" id="contactNo" name="contactNo" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition receipt-input" placeholder="Enter contact number" required>
+                        </div>
+                        
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                            <input type="email" id="email" name="email" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition receipt-input" placeholder="Enter email address" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-6">
+                    <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-4 rounded-lg shadow-md hover:shadow-lg transition duration-300 transform hover:-translate-y-0.5">
+                        Register for Course
+                    </button>
+                </div>
+            </form>
+
+            <div id="receiptView" class="receipt-view">
+                <div class="receipt-header-strip"></div>
+                <div class="receipt-header-main">
+                    <div class="flex items-center gap-3">
+                        <img src="logo%20AAK%20(white%20BG).png" alt="Akademi Al Khayr Logo" class="h-14 w-auto object-contain">
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-900">Akademi Al Khayr</h2>
+                            <p class="receipt-subtitle">Course Registration Receipt</p>
+                        </div>
+                    </div>
+                    <div class="text-right receipt-date">
+                        <span id="receiptDate"></span>
+                    </div>
+                </div>
+
+                <div class="receipt-section">
+                    <h3 class="receipt-section-title">Participant Information</h3>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Name</span>
+                        <span class="receipt-value" id="receiptStudentName"></span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Age</span>
+                        <span class="receipt-value" id="receiptAge"></span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Course Level</span>
+                        <span class="receipt-value" id="receiptLevel"></span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Class</span>
+                        <span class="receipt-value" id="receiptClassOption"></span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Session/Year</span>
+                        <span class="receipt-value" id="receiptSessionYear"></span>
+                    </div>
+                </div>
+
+                <div class="receipt-section">
+                    <h3 class="receipt-section-title">Contact Information</h3>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Contact No</span>
+                        <span class="receipt-value" id="receiptContactNo"></span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Email</span>
+                        <span class="receipt-value" id="receiptEmail"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer (Simplified) -->
+    <footer class="bg-gray-900 text-white py-8 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-gray-400 text-sm">&copy; 2026 Akademi Al Khayr. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const courseForm = document.getElementById('courseForm');
+        // Define action here to avoid scraping
+        const formAction = 'https://formsubmit.co/ajax/akademialkhayrofficial@gmail.com';
+        const registrationInitAt = Date.now();
+        const registrationHoneypot = document.getElementById('aak_hp');
+        const registrationLoadTime = document.getElementById('aak_time');
+        if (registrationLoadTime) {
+            registrationLoadTime.value = String(registrationInitAt);
+        }
+
+        let registrationFirstInteractionAt = null;
+        const markRegistrationInteraction = () => {
+            if (registrationFirstInteractionAt === null) {
+                registrationFirstInteractionAt = Date.now();
+            }
+        };
+        ['pointerdown', 'keydown', 'touchstart', 'focusin'].forEach((eventName) => {
+            window.addEventListener(eventName, markRegistrationInteraction, { once: true, capture: true });
+        });
+
+        courseForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const form = this;
+
+            const studentName = document.getElementById('studentName').value;
+            const age = document.getElementById('age').value;
+            const level = document.getElementById('level').value;
+            const classOption = document.getElementById('classOption').value;
+            const sessionYear = document.getElementById('sessionYear').value;
+            const contactNo = document.getElementById('contactNo').value;
+            const email = document.getElementById('email').value;
+            
+            const now = Date.now();
+            const elapsedMs = now - registrationInitAt;
+            const isWebDriver = navigator.webdriver === true;
+            const rateLimitKey = 'aak_course_last_submit_at';
+            const lastSubmitAt = Number(localStorage.getItem(rateLimitKey) || '0');
+
+            // Basic Validation
+            if (studentName.length < 3) {
+                 alert('Please enter full name.');
+                 return;
+            }
+
+            if (!level) {
+                alert('Please select course level.');
+                return;
+            }
+
+            if (!classOption) {
+                alert('Please select class.');
+                return;
+            }
+
+            if (!sessionYear) {
+                alert('Please select session/year.');
+                return;
+            }
+
+            if (registrationHoneypot && registrationHoneypot.value.trim() !== '') {
+                alert('Please try again.');
+                return;
+            }
+
+            if (registrationFirstInteractionAt === null) {
+                alert('Please interact with the page and try again.');
+                return;
+            }
+
+            if (elapsedMs < 3500 || (isWebDriver && elapsedMs < 8000)) {
+                alert('Please wait a moment and submit again.');
+                return;
+            }
+
+            if (lastSubmitAt && now - lastSubmitAt < 45000) {
+                alert('Please wait a moment before submitting again.');
+                return;
+            }
+
+            localStorage.setItem(rateLimitKey, String(now));
+
+            const whatsappText = `
+*New Ummul Quran Course Registration*
+------------------------
+*Name:* ${studentName}
+*Age:* ${age}
+*Level:* ${level}
+*Class:* ${classOption}
+*Session/Year:* ${sessionYear}
+*Contact:* ${contactNo}
+*Email:* ${email}
+            `.trim();
+
+            const whatsappLink = `https://wa.me/60193818616?text=${encodeURIComponent(whatsappText)}`;
+
+            document.getElementById('receiptStudentName').textContent = studentName || '-';
+            document.getElementById('receiptAge').textContent = age || '-';
+            document.getElementById('receiptLevel').textContent = level || '-';
+            document.getElementById('receiptClassOption').textContent = classOption || '-';
+            document.getElementById('receiptSessionYear').textContent = sessionYear || '-';
+            document.getElementById('receiptContactNo').textContent = contactNo || '-';
+            document.getElementById('receiptEmail').textContent = email || '-';
+
+            const receiptView = document.getElementById('receiptView');
+            const receiptDate = document.getElementById('receiptDate');
+            receiptDate.textContent = new Date().toLocaleDateString();
+
+            // Submit form to FormSubmit
+            const formData = new FormData(form);
+            fetch(formAction, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Generate PDF Receipt
+                    html2canvas(receiptView, {
+                        scale: 2,
+                        backgroundColor: '#ffffff'
+                    }).then(canvas => {
+                        const link = document.createElement('a');
+                        link.download = `AAK_Course_Registration_${studentName.replace(/\s+/g, '_')}.png`;
+                        link.href = canvas.toDataURL('image/png');
+                        link.click();
+
+                        alert('Registration submitted successfully! A copy of your registration has been downloaded.');
+                        window.location.href = whatsappLink;
+                    });
+                } else {
+                    alert('There was an error submitting the form. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('There was an error submitting the form. Please try again.');
+            });
+        });
+    </script>
+</body>
+</html>
