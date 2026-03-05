@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parcel Delivery Form | Akademi Al Khayr</title>
+    <link rel="icon" type="image/png" href="logo%20AAK%20(white%20BG).png">
+    <meta name="description" content="Parcel Delivery Request Form for Akademi Al Khayr.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .receipt-input {
+            font-size: 1rem;
+            font-weight: 400;
+            color: #111827;
+        }
+        .receipt-view {
+            position: absolute;
+            top: -9999px;
+            left: -9999px;
+            width: 1024px;
+            background: #ffffff;
+            padding: 2.5rem 2.75rem 2.25rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 18px 45px rgba(15, 23, 42, 0.18);
+            color: #111827;
+            border: 1px solid rgba(148, 163, 184, 0.35);
+        }
+        .receipt-header-strip {
+            height: 6px;
+            width: 100%;
+            border-radius: 9999px;
+            background: linear-gradient(90deg, #f97316, #fb923c, #ea580c);
+            margin-bottom: 1.75rem;
+        }
+        .receipt-header-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 1.25rem;
+        }
+        .receipt-subtitle {
+            font-size: 0.9rem;
+            color: #9ca3af;
+        }
+        .receipt-date {
+            font-size: 0.9rem;
+            color: #6b7280;
+        }
+        .receipt-date span {
+            color: #f97316;
+            font-weight: 500;
+        }
+        .receipt-section {
+            margin-bottom: 1.25rem;
+            padding: 1rem 1.25rem;
+            border-radius: 1rem;
+            background: linear-gradient(135deg, #fff7ed, #ffedd5);
+            border: 1px solid rgba(148, 163, 184, 0.35);
+        }
+        .receipt-section-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 0.75rem;
+        }
+        .receipt-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 2rem;
+            margin-bottom: 0.45rem;
+            font-size: 0.95rem;
+        }
+        .receipt-label {
+            font-weight: 500;
+            color: #374151;
+        }
+        .receipt-value {
+            font-weight: 500;
+            text-align: right;
+            color: #111827;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Navigation -->
+    <nav class="bg-white/75 backdrop-blur fixed w-full z-50 shadow-sm transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <a href="index.html" class="flex items-center">
+                    <img src="logo%20AAK%20(white%20BG).png" alt="Akademi Al Khayr Logo" class="h-16 w-auto object-contain mr-3">
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-900 leading-none tracking-tight">AKADEMI</h1>
+                        <h1 class="text-xl font-bold text-orange-600 leading-none tracking-tight">AL KHAYR</h1>
+                    </div>
+                </a>
+                <div class="hidden md:flex space-x-8">
+                    <a href="index.html" class="text-gray-600 hover:text-orange-600 font-medium transition">Home</a>
+                    <a href="about.html" class="text-gray-600 hover:text-orange-600 font-medium transition">About</a>
+                    <a href="index.html#programs" class="text-gray-600 hover:text-orange-600 font-medium transition">Programs</a>
+                    <a href="index.html#contact" class="text-gray-600 hover:text-orange-600 font-medium transition">Contact</a>
+                </div>
+                <button id="mobile-menu-button" class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-full border border-gray-300 text-gray-600 hover:bg-gray-100 transition">
+                    <i id="mobile-menu-icon" class="fas fa-bars text-lg"></i>
+                </button>
+            </div>
+            <div id="mobile-menu" class="md:hidden hidden pb-4">
+                <div class="mobile-menu-panel bg-white/95 rounded-2xl shadow-xl border border-white/40 px-4 py-4 space-y-3">
+                    <a href="index.html" class="block font-semibold text-gray-800">Home</a>
+                    <a href="about.html" class="block font-semibold text-gray-800">About</a>
+                    <a href="index.html#programs" class="block font-semibold text-gray-800">Programs</a>
+                    <a href="index.html#contact" class="block font-semibold text-gray-800">Contact</a>
+                    <a href="fees.html" class="block font-semibold text-gray-800">Fees payment</a>
+                    <a href="forms.html" class="block font-semibold text-gray-800">Forms</a>
+                    <a href="Download/AAK%20TAKWIM%202026.pdf" target="_blank" class="block font-semibold text-gray-800">AAK Takwim 2026</a>
+                    <a href="Download/GuideBook%20AAK_2026%20(1).pdf" target="_blank" class="block font-semibold text-gray-800">Guidebook AAK 2026</a>
+                    <a href="gallery.html" class="block font-semibold text-gray-800">Gallery</a>
+                    <a href="index.html#location" class="block font-semibold text-gray-800">Visit</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Parcel Form Section -->
+    <section class="min-h-screen pt-32 pb-16 px-4 sm:px-6 lg:px-8 bg-gray-50 flex items-center justify-center">
+        <div class="max-w-3xl w-full bg-white rounded-2xl shadow-xl overflow-hidden">
+            <div class="bg-orange-600 py-6 px-8 text-center">
+                <div class="flex justify-center mb-4">
+                    <img src="logo%20AAK%20(white%20BG).png" alt="Akademi Al Khayr Logo" class="h-20 w-auto object-contain">
+                </div>
+                <h2 class="text-3xl font-bold text-white">Parcel Delivery Request</h2>
+                <p class="text-orange-100 mt-2">From parent to student via courier</p>
+            </div>
+            
+            <form id="parcelForm" class="py-8 px-8 sm:px-12 space-y-6">
+                <!-- Anti-spam fields -->
+                <input type="text" name="_honey" style="display:none">
+                <input type="hidden" name="_captcha" value="true">
+                <input type="hidden" name="_template" value="table">
+                <input type="hidden" name="_subject" value="New Parcel Delivery Request">
+                
+                <div style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">
+                    <label for="aak_hp">Do not fill</label>
+                    <input id="aak_hp" type="text" name="aak_hp" tabindex="-1" autocomplete="off" inputmode="text">
+                </div>
+                <input id="aak_time" type="hidden" name="aak_time" value="">
+
+                <!-- Student Details -->
+                <div class="space-y-6">
+                    <h3 class="text-xl font-semibold text-gray-900 border-b pb-2">Delivery Details</h3>
+                    
+                    <div>
+                        <label for="studentName" class="block text-sm font-medium text-gray-700 mb-1">Name of Student (Receiver)</label>
+                        <input type="text" id="studentName" name="studentName" class="w-full px-5 pt-1 pb-5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition receipt-input" placeholder="Enter student's full name" required>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="deliveryDate" class="block text-sm font-medium text-gray-700 mb-1">Date of Delivery</label>
+                            <input type="date" id="deliveryDate" name="deliveryDate" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition receipt-input" required>
+                        </div>
+                        <div>
+                             <label for="courierService" class="block text-sm font-medium text-gray-700 mb-1">Courier Service</label>
+                            <input type="text" id="courierService" name="courierService" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition receipt-input" placeholder="e.g. J&T, PosLaju" required>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="trackingNo" class="block text-sm font-medium text-gray-700 mb-1">Tracking Number</label>
+                        <input type="text" id="trackingNo" name="trackingNo" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition receipt-input" placeholder="Enter tracking number" required>
+                    </div>
+
+                    <div>
+                        <label for="parcelContent" class="block text-sm font-medium text-gray-700 mb-1">Parcel Content Description</label>
+                        <textarea id="parcelContent" name="parcelContent" rows="3" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition receipt-input" placeholder="Describe parcel content" required></textarea>
+                    </div>
+                </div>
+
+                <!-- Parent/Guardian Details -->
+                <div class="space-y-6 pt-6">
+                    <h3 class="text-xl font-semibold text-gray-900 border-b pb-2">Sender Information</h3>
+                    
+                    <div>
+                        <label for="parentName" class="block text-sm font-medium text-gray-700 mb-1">Name of Sender (Parent/Guardian)</label>
+                        <input type="text" id="parentName" name="parentName" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition receipt-input" placeholder="Enter sender's full name" required>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="contactNo" class="block text-sm font-medium text-gray-700 mb-1">Contact No</label>
+                            <input type="tel" id="contactNo" name="contactNo" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition receipt-input" placeholder="Enter contact number" required>
+                        </div>
+                         <div>
+                            <label for="relationship" class="block text-sm font-medium text-gray-700 mb-1">Relationship</label>
+                            <select id="relationship" name="relationship" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition receipt-input" required>
+                                <option value="" disabled selected>Select Relationship</option>
+                                <option value="Father">Father</option>
+                                <option value="Mother">Mother</option>
+                                <option value="Guardian">Guardian</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-6">
+                    <button type="submit" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-4 rounded-lg shadow-md hover:shadow-lg transition duration-300 transform hover:-translate-y-0.5">
+                        Submit Delivery Request
+                    </button>
+                </div>
+            </form>
+
+            <div id="receiptView" class="receipt-view">
+                <div class="receipt-header-strip"></div>
+                <div class="receipt-header-main">
+                    <div class="flex items-center gap-3">
+                        <img src="logo%20AAK%20(white%20BG).png" alt="Akademi Al Khayr Logo" class="h-14 w-auto object-contain">
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-900">Akademi Al Khayr</h2>
+                            <p class="receipt-subtitle">Parcel Delivery Receipt</p>
+                        </div>
+                    </div>
+                    <div class="text-right receipt-date">
+                        <span id="receiptDate"></span>
+                    </div>
+                </div>
+
+                <div class="receipt-section">
+                    <h3 class="receipt-section-title">Delivery Details</h3>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Receiver (Student)</span>
+                        <span class="receipt-value" id="receiptStudentName"></span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Delivery Date</span>
+                        <span class="receipt-value" id="receiptDeliveryDate"></span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Courier Service</span>
+                        <span class="receipt-value" id="receiptCourierService"></span>
+                    </div>
+                     <div class="receipt-row">
+                        <span class="receipt-label">Tracking No</span>
+                        <span class="receipt-value" id="receiptTrackingNo"></span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Content</span>
+                        <span class="receipt-value" id="receiptParcelContent"></span>
+                    </div>
+                </div>
+
+                <div class="receipt-section">
+                    <h3 class="receipt-section-title">Sender Information</h3>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Name</span>
+                        <span class="receipt-value" id="receiptParentName"></span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Contact No</span>
+                        <span class="receipt-value" id="receiptContactNo"></span>
+                    </div>
+                     <div class="receipt-row">
+                        <span class="receipt-label">Relationship</span>
+                        <span class="receipt-value" id="receiptRelationship"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer (Simplified) -->
+    <footer class="bg-gray-900 text-white py-8 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-gray-400 text-sm">&copy; 2026 Akademi Al Khayr. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const parcelForm = document.getElementById('parcelForm');
+        // Define action here to avoid scraping
+        const formAction = 'https://formsubmit.co/ajax/akademialkhayrofficial@gmail.com';
+        const registrationInitAt = Date.now();
+        const registrationHoneypot = document.getElementById('aak_hp');
+        const registrationLoadTime = document.getElementById('aak_time');
+        if (registrationLoadTime) {
+            registrationLoadTime.value = String(registrationInitAt);
+        }
+
+        let registrationFirstInteractionAt = null;
+        const markRegistrationInteraction = () => {
+            if (registrationFirstInteractionAt === null) {
+                registrationFirstInteractionAt = Date.now();
+            }
+        };
+        ['pointerdown', 'keydown', 'touchstart', 'focusin'].forEach((eventName) => {
+            window.addEventListener(eventName, markRegistrationInteraction, { once: true, capture: true });
+        });
+
+        parcelForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const form = this;
+
+            const studentName = document.getElementById('studentName').value;
+            const deliveryDate = document.getElementById('deliveryDate').value;
+            const courierService = document.getElementById('courierService').value;
+            const trackingNo = document.getElementById('trackingNo').value;
+            const parcelContent = document.getElementById('parcelContent').value;
+            const parentName = document.getElementById('parentName').value;
+            const contactNo = document.getElementById('contactNo').value;
+            const relationship = document.getElementById('relationship').value;
+            
+            const now = Date.now();
+            const elapsedMs = now - registrationInitAt;
+            const isWebDriver = navigator.webdriver === true;
+            const rateLimitKey = 'aak_parcel_last_submit_at';
+            const lastSubmitAt = Number(localStorage.getItem(rateLimitKey) || '0');
+
+            // Basic Validation
+            if (studentName.length < 3 || parentName.length < 3) {
+                 alert('Please enter full names.');
+                 return;
+            }
+
+            if (registrationHoneypot && registrationHoneypot.value.trim() !== '') {
+                alert('Please try again.');
+                return;
+            }
+
+            if (registrationFirstInteractionAt === null) {
+                alert('Please interact with the page and try again.');
+                return;
+            }
+
+            if (elapsedMs < 3500 || (isWebDriver && elapsedMs < 8000)) {
+                alert('Please wait a moment and submit again.');
+                return;
+            }
+
+            if (lastSubmitAt && now - lastSubmitAt < 45000) {
+                alert('Please wait a moment before submitting again.');
+                return;
+            }
+
+            localStorage.setItem(rateLimitKey, String(now));
+
+            const whatsappText = `
+*New Parcel Delivery Request*
+------------------------
+*Receiver:* ${studentName}
+*Date:* ${deliveryDate}
+*Courier:* ${courierService}
+*Tracking No:* ${trackingNo}
+*Content:* ${parcelContent}
+*Sender:* ${parentName} (${relationship})
+*Contact:* ${contactNo}
+            `.trim();
+
+            const whatsappLink = `https://wa.me/60193818616?text=${encodeURIComponent(whatsappText)}`;
+
+            document.getElementById('receiptStudentName').textContent = studentName || '-';
+            document.getElementById('receiptDeliveryDate').textContent = deliveryDate || '-';
+            document.getElementById('receiptCourierService').textContent = courierService || '-';
+            document.getElementById('receiptTrackingNo').textContent = trackingNo || '-';
+            document.getElementById('receiptParcelContent').textContent = parcelContent || '-';
+            document.getElementById('receiptParentName').textContent = parentName || '-';
+            document.getElementById('receiptContactNo').textContent = contactNo || '-';
+            document.getElementById('receiptRelationship').textContent = relationship || '-';
+
+            const receiptView = document.getElementById('receiptView');
+            const receiptDate = document.getElementById('receiptDate');
+            receiptDate.textContent = new Date().toLocaleDateString();
+
+            // Submit form to FormSubmit
+            const formData = new FormData(form);
+            fetch(formAction, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Generate PDF Receipt
+                    html2canvas(receiptView, {
+                        scale: 2,
+                        backgroundColor: '#ffffff'
+                    }).then(canvas => {
+                        const link = document.createElement('a');
+                        link.download = `AAK_Parcel_Request_${studentName.replace(/\s+/g, '_')}.png`;
+                        link.href = canvas.toDataURL('image/png');
+                        link.click();
+
+                        alert('Parcel delivery request submitted successfully! A copy of your request has been downloaded.');
+                        window.location.href = whatsappLink;
+                    });
+                } else {
+                    alert('There was an error submitting the form. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('There was an error submitting the form. Please try again.');
+            });
+        });
+    </script>
+</body>
+</html>
