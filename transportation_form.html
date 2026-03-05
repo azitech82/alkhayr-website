@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transportation / Pickup Form | Akademi Al Khayr</title>
+    <link rel="icon" type="image/png" href="logo%20AAK%20(white%20BG).png">
+    <meta name="description" content="Transportation / Pickup request form for Akademi Al Khayr.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .receipt-input {
+            font-size: 1rem;
+            font-weight: 400;
+            color: #111827;
+        }
+        .receipt-view {
+            position: absolute;
+            top: -9999px;
+            left: -9999px;
+            width: 1024px;
+            background: #ffffff;
+            padding: 2.5rem 2.75rem 2.25rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 18px 45px rgba(15, 23, 42, 0.18);
+            color: #111827;
+            border: 1px solid rgba(148, 163, 184, 0.35);
+        }
+        .receipt-header-strip {
+            height: 6px;
+            width: 100%;
+            border-radius: 9999px;
+            background: linear-gradient(90deg, #0284c7, #38bdf8, #0ea5e9);
+            margin-bottom: 1.75rem;
+        }
+        .receipt-header-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 1.25rem;
+        }
+        .receipt-subtitle {
+            font-size: 0.9rem;
+            color: #9ca3af;
+        }
+        .receipt-date {
+            font-size: 0.9rem;
+            color: #6b7280;
+        }
+        .receipt-date span {
+            color: #0284c7;
+            font-weight: 500;
+        }
+        .receipt-section {
+            margin-bottom: 1.25rem;
+            padding: 1rem 1.25rem;
+            border-radius: 1rem;
+            background: linear-gradient(135deg, #f0f9ff, #eff6ff);
+            border: 1px solid rgba(148, 163, 184, 0.35);
+        }
+        .receipt-section-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 0.75rem;
+        }
+        .receipt-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 2rem;
+            margin-bottom: 0.45rem;
+            font-size: 0.95rem;
+        }
+        .receipt-label {
+            font-weight: 500;
+            color: #374151;
+        }
+        .receipt-value {
+            font-weight: 500;
+            text-align: right;
+            color: #111827;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <nav class="bg-white/75 backdrop-blur fixed w-full z-50 shadow-sm transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <a href="index.html" class="flex items-center">
+                    <img src="logo%20AAK%20(white%20BG).png" alt="Akademi Al Khayr Logo" class="h-16 w-auto object-contain mr-3">
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-900 leading-none tracking-tight">AKADEMI</h1>
+                        <h1 class="text-xl font-bold text-sky-600 leading-none tracking-tight">AL KHAYR</h1>
+                    </div>
+                </a>
+                <div class="hidden md:flex space-x-8">
+                    <a href="index.html" class="text-gray-600 hover:text-sky-600 font-medium transition">Home</a>
+                    <a href="about.html" class="text-gray-600 hover:text-sky-600 font-medium transition">About</a>
+                    <a href="index.html#programs" class="text-gray-600 hover:text-sky-600 font-medium transition">Programs</a>
+                    <a href="index.html#contact" class="text-gray-600 hover:text-sky-600 font-medium transition">Contact</a>
+                </div>
+                <button id="mobile-menu-button" class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-full border border-gray-300 text-gray-600 hover:bg-gray-100 transition">
+                    <i id="mobile-menu-icon" class="fas fa-bars text-lg"></i>
+                </button>
+            </div>
+            <div id="mobile-menu" class="md:hidden hidden pb-4">
+                <div class="mobile-menu-panel bg-white/95 rounded-2xl shadow-xl border border-white/40 px-4 py-4 space-y-3">
+                    <a href="index.html" class="block font-semibold text-gray-800">Home</a>
+                    <a href="about.html" class="block font-semibold text-gray-800">About</a>
+                    <a href="index.html#programs" class="block font-semibold text-gray-800">Programs</a>
+                    <a href="index.html#contact" class="block font-semibold text-gray-800">Contact</a>
+                    <a href="fees.html" class="block font-semibold text-gray-800">Fees payment</a>
+                    <a href="forms.html" class="block font-semibold text-gray-800">Forms</a>
+                    <a href="Download/AAK%20TAKWIM%202026.pdf" target="_blank" class="block font-semibold text-gray-800">AAK Takwim 2026</a>
+                    <a href="Download/GuideBook%20AAK_2026%20(1).pdf" target="_blank" class="block font-semibold text-gray-800">Guidebook AAK 2026</a>
+                    <a href="gallery.html" class="block font-semibold text-gray-800">Gallery</a>
+                    <a href="index.html#location" class="block font-semibold text-gray-800">Visit</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="min-h-screen pt-32 pb-16 px-4 sm:px-6 lg:px-8 bg-gray-50 flex items-center justify-center">
+        <div class="max-w-3xl w-full bg-white rounded-2xl shadow-xl overflow-hidden">
+            <div class="bg-sky-600 py-6 px-8 text-center">
+                <div class="flex justify-center mb-4">
+                    <img src="logo%20AAK%20(white%20BG).png" alt="Akademi Al Khayr Logo" class="h-20 w-auto object-contain">
+                </div>
+                <h2 class="text-3xl font-bold text-white">Transportation / Pickup</h2>
+                <p class="text-sky-100 mt-2">Select pickup point, destination, and proceed to payment</p>
+            </div>
+            
+            <form id="transportationForm" class="py-8 px-8 sm:px-12 space-y-6">
+                <input type="text" name="_honey" style="display:none">
+                <input type="hidden" name="_captcha" value="true">
+                <input type="hidden" name="_template" value="table">
+                <input type="hidden" name="_subject" value="New Transportation / Pickup Request">
+                <input type="hidden" id="paymentLink" name="paymentLink" value="https://akademialkhayr.onpay.my/order/form/trans">
+                
+                <div style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">
+                    <label for="aak_hp">Do not fill</label>
+                    <input id="aak_hp" type="text" name="aak_hp" tabindex="-1" autocomplete="off" inputmode="text">
+                </div>
+                <input id="aak_time" type="hidden" name="aak_time" value="">
+
+                <div class="space-y-6">
+                    <h3 class="text-xl font-semibold text-gray-900 border-b pb-2">Trip Details</h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="pickupPoint" class="block text-sm font-medium text-gray-700 mb-1">Pick up point</label>
+                            <select id="pickupPoint" name="pickupPoint" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none transition receipt-input" required>
+                                <option value="" disabled selected>Select pick up point</option>
+                                <option value="Akademi Al Khayr">Akademi Al Khayr</option>
+                                <option value="Bayan Lepas Airport">Bayan Lepas Airport</option>
+                                <option value="Bus Station Sg Nibong">Bus Station Sg Nibong</option>
+                                <option value="Penang Sentral">Penang Sentral</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="destination" class="block text-sm font-medium text-gray-700 mb-1">Destination</label>
+                            <select id="destination" name="destination" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none transition receipt-input" required>
+                                <option value="" disabled selected>Select destination</option>
+                                <option value="Akademi Al Khayr">Akademi Al Khayr</option>
+                                <option value="Bayan Lepas Airport">Bayan Lepas Airport</option>
+                                <option value="Bus Station Sg Nibong">Bus Station Sg Nibong</option>
+                                <option value="Penang Sentral">Penang Sentral</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-sky-50 border border-sky-100 rounded-xl p-5">
+                    <div class="flex items-start gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-white border border-sky-200 flex items-center justify-center text-sky-600 flex-shrink-0">
+                            <i class="fas fa-credit-card"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-semibold text-gray-900">Payment</h4>
+                            <p class="text-sm text-gray-600 mt-1">Proceed to our secure OnPay payment page after submitting this form.</p>
+                            <a id="onpayLink" href="https://akademialkhayr.onpay.my/order/form/trans" target="_blank" class="inline-flex items-center mt-3 text-sky-700 font-semibold hover:text-sky-800 transition">
+                                Open OnPay <i class="fas fa-arrow-right ml-2 text-sm"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-2">
+                    <button type="submit" class="w-full bg-sky-600 hover:bg-sky-700 text-white font-bold py-3 px-4 rounded-lg shadow-md hover:shadow-lg transition duration-300 transform hover:-translate-y-0.5">
+                        Proceed to Payment
+                    </button>
+                </div>
+            </form>
+
+            <div id="receiptView" class="receipt-view">
+                <div class="receipt-header-strip"></div>
+                <div class="receipt-header-main">
+                    <div class="flex items-center gap-3">
+                        <img src="logo%20AAK%20(white%20BG).png" alt="Akademi Al Khayr Logo" class="h-14 w-auto object-contain">
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-900">Akademi Al Khayr</h2>
+                            <p class="receipt-subtitle">Transportation / Pickup Request Receipt</p>
+                        </div>
+                    </div>
+                    <div class="receipt-date">Date: <span id="receiptDate"></span></div>
+                </div>
+
+                <div class="receipt-section">
+                    <h3 class="receipt-section-title">Trip Details</h3>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Pick up point</span>
+                        <span class="receipt-value" id="receiptPickupPoint"></span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Destination</span>
+                        <span class="receipt-value" id="receiptDestination"></span>
+                    </div>
+                </div>
+
+                <div class="receipt-section">
+                    <h3 class="receipt-section-title">Payment</h3>
+                    <div class="receipt-row">
+                        <span class="receipt-label">OnPay</span>
+                        <span class="receipt-value" id="receiptPaymentLink"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-900 text-white py-8 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-gray-400 text-sm">&copy; 2026 Akademi Al Khayr. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const transportationForm = document.getElementById('transportationForm');
+        const formAction = 'https://formsubmit.co/ajax/akademialkhayrofficial@gmail.com';
+        const onpayUrl = 'https://akademialkhayr.onpay.my/order/form/trans';
+        const requestInitAt = Date.now();
+        const requestHoneypot = document.getElementById('aak_hp');
+        const requestLoadTime = document.getElementById('aak_time');
+        if (requestLoadTime) {
+            requestLoadTime.value = String(requestInitAt);
+        }
+
+        let requestFirstInteractionAt = null;
+        const markRequestInteraction = () => {
+            if (requestFirstInteractionAt === null) {
+                requestFirstInteractionAt = Date.now();
+            }
+        };
+        ['pointerdown', 'keydown', 'touchstart', 'focusin'].forEach((eventName) => {
+            window.addEventListener(eventName, markRequestInteraction, { once: true, capture: true });
+        });
+
+        transportationForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const form = this;
+
+            const pickupPoint = document.getElementById('pickupPoint').value;
+            const destination = document.getElementById('destination').value;
+
+            const now = Date.now();
+            const elapsedMs = now - requestInitAt;
+            const isWebDriver = navigator.webdriver === true;
+            const rateLimitKey = 'aak_transport_last_submit_at';
+            const lastSubmitAt = Number(localStorage.getItem(rateLimitKey) || '0');
+
+            if (!pickupPoint) {
+                alert('Please select pick up point.');
+                return;
+            }
+
+            if (!destination) {
+                alert('Please select destination.');
+                return;
+            }
+
+            if (pickupPoint === destination) {
+                alert('Pick up point and destination cannot be the same.');
+                return;
+            }
+
+            if (requestHoneypot && requestHoneypot.value.trim() !== '') {
+                alert('Please try again.');
+                return;
+            }
+
+            if (requestFirstInteractionAt === null) {
+                alert('Please interact with the page and try again.');
+                return;
+            }
+
+            if (elapsedMs < 2500 || (isWebDriver && elapsedMs < 7000)) {
+                alert('Please wait a moment and submit again.');
+                return;
+            }
+
+            if (lastSubmitAt && now - lastSubmitAt < 45000) {
+                alert('Please wait a moment before submitting again.');
+                return;
+            }
+
+            localStorage.setItem(rateLimitKey, String(now));
+
+            document.getElementById('receiptPickupPoint').textContent = pickupPoint || '-';
+            document.getElementById('receiptDestination').textContent = destination || '-';
+            document.getElementById('receiptPaymentLink').textContent = onpayUrl;
+
+            const receiptView = document.getElementById('receiptView');
+            const receiptDate = document.getElementById('receiptDate');
+            receiptDate.textContent = new Date().toLocaleDateString();
+
+            const formData = new FormData(form);
+            fetch(formAction, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    html2canvas(receiptView, {
+                        scale: 2,
+                        backgroundColor: '#ffffff'
+                    }).then(canvas => {
+                        const link = document.createElement('a');
+                        const safePickup = String(pickupPoint).replace(/[^a-z0-9]+/gi, '_').replace(/^_+|_+$/g, '');
+                        const safeDest = String(destination).replace(/[^a-z0-9]+/gi, '_').replace(/^_+|_+$/g, '');
+                        link.download = `AAK_Transportation_Pickup_${safePickup}_to_${safeDest}.png`;
+                        link.href = canvas.toDataURL('image/png');
+                        link.click();
+
+                        window.location.href = onpayUrl;
+                    });
+                } else {
+                    alert('There was an error submitting the form. Please try again.');
+                }
+            })
+            .catch(() => {
+                alert('There was an error submitting the form. Please try again.');
+            });
+        });
+
+        const btn = document.getElementById('mobile-menu-button');
+        const menu = document.getElementById('mobile-menu');
+        const icon = document.getElementById('mobile-menu-icon');
+
+        if (btn && menu && icon) {
+            btn.addEventListener('click', () => {
+                menu.classList.toggle('hidden');
+                if (menu.classList.contains('hidden')) {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                } else {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
