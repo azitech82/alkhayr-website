@@ -151,6 +151,29 @@
                 <input id="aak_time" type="hidden" name="aak_time" value="">
 
                 <div class="space-y-6">
+                    <h3 class="text-xl font-semibold text-gray-900 border-b pb-2">Personal Details</h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="studentName" class="block text-sm font-medium text-gray-700 mb-1">Student Name</label>
+                            <input type="text" id="studentName" name="studentName" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none transition receipt-input" placeholder="Enter student name" required>
+                        </div>
+                        <div>
+                            <label for="studentContact" class="block text-sm font-medium text-gray-700 mb-1">Student Contact Number</label>
+                            <input type="tel" id="studentContact" name="studentContact" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none transition receipt-input" placeholder="Enter student contact" required>
+                        </div>
+                        <div>
+                            <label for="parentName" class="block text-sm font-medium text-gray-700 mb-1">Parent Name</label>
+                            <input type="text" id="parentName" name="parentName" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none transition receipt-input" placeholder="Enter parent name" required>
+                        </div>
+                        <div>
+                            <label for="parentContact" class="block text-sm font-medium text-gray-700 mb-1">Parent Contact Number</label>
+                            <input type="tel" id="parentContact" name="parentContact" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none transition receipt-input" placeholder="Enter parent contact" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-6">
                     <h3 class="text-xl font-semibold text-gray-900 border-b pb-2">Trip Details</h3>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -213,6 +236,26 @@
                 </div>
 
                 <div class="receipt-section">
+                    <h3 class="receipt-section-title">Personal Details</h3>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Student Name</span>
+                        <span class="receipt-value" id="receiptStudentName"></span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Student Contact</span>
+                        <span class="receipt-value" id="receiptStudentContact"></span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Parent Name</span>
+                        <span class="receipt-value" id="receiptParentName"></span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Parent Contact</span>
+                        <span class="receipt-value" id="receiptParentContact"></span>
+                    </div>
+                </div>
+
+                <div class="receipt-section">
                     <h3 class="receipt-section-title">Trip Details</h3>
                     <div class="receipt-row">
                         <span class="receipt-label">Pick up point</span>
@@ -266,6 +309,10 @@
             e.preventDefault();
             const form = this;
 
+            const studentName = document.getElementById('studentName').value;
+            const studentContact = document.getElementById('studentContact').value;
+            const parentName = document.getElementById('parentName').value;
+            const parentContact = document.getElementById('parentContact').value;
             const pickupPoint = document.getElementById('pickupPoint').value;
             const destination = document.getElementById('destination').value;
 
@@ -274,6 +321,23 @@
             const isWebDriver = navigator.webdriver === true;
             const rateLimitKey = 'aak_transport_last_submit_at';
             const lastSubmitAt = Number(localStorage.getItem(rateLimitKey) || '0');
+
+            if (!studentName) {
+                alert('Please enter student name.');
+                return;
+            }
+            if (!studentContact) {
+                alert('Please enter student contact number.');
+                return;
+            }
+            if (!parentName) {
+                alert('Please enter parent name.');
+                return;
+            }
+            if (!parentContact) {
+                alert('Please enter parent contact number.');
+                return;
+            }
 
             if (!pickupPoint) {
                 alert('Please select pick up point.');
@@ -312,6 +376,10 @@
 
             localStorage.setItem(rateLimitKey, String(now));
 
+            document.getElementById('receiptStudentName').textContent = studentName || '-';
+            document.getElementById('receiptStudentContact').textContent = studentContact || '-';
+            document.getElementById('receiptParentName').textContent = parentName || '-';
+            document.getElementById('receiptParentContact').textContent = parentContact || '-';
             document.getElementById('receiptPickupPoint').textContent = pickupPoint || '-';
             document.getElementById('receiptDestination').textContent = destination || '-';
             document.getElementById('receiptPaymentLink').textContent = onpayUrl;
@@ -332,9 +400,10 @@
                         backgroundColor: '#ffffff'
                     }).then(canvas => {
                         const link = document.createElement('a');
+                        const safeStudentName = String(studentName).replace(/[^a-z0-9]+/gi, '_').replace(/^_+|_+$/g, '');
                         const safePickup = String(pickupPoint).replace(/[^a-z0-9]+/gi, '_').replace(/^_+|_+$/g, '');
                         const safeDest = String(destination).replace(/[^a-z0-9]+/gi, '_').replace(/^_+|_+$/g, '');
-                        link.download = `AAK_Transportation_Pickup_${safePickup}_to_${safeDest}.png`;
+                        link.download = `AAK_Transportation_Pickup_${safeStudentName}_${safePickup}_to_${safeDest}.png`;
                         link.href = canvas.toDataURL('image/png');
                         link.click();
 
