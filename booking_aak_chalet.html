@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking AAK Chalet | Akademi Al Khayr</title>
+    <link rel="icon" type="image/png" href="logo%20AAK%20(white%20BG).png">
+    <meta name="description" content="Book your stay at AAK Chalet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        #navbar {
+            background-color: transparent;
+            box-shadow: none;
+        }
+        #navbar.scrolled {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+        
+        #navbar .nav-text-main { color: #111827; }
+        #navbar.scrolled .nav-text-main { color: #111827; }
+        
+        #navbar .nav-text-accent { color: #9333ea; }
+        #navbar.scrolled .nav-text-accent { color: #9333ea; }
+        
+        #navbar .nav-item { color: #4b5563; }
+        #navbar.scrolled .nav-item { color: #4b5563; }
+        #navbar .nav-item:hover { color: #9333ea; }
+        #navbar.scrolled .nav-item:hover { color: #9333ea; }
+        #navbar.scrolled #mobile-menu-button { color: #4b5563; border-color: #e5e7eb; }
+        #navbar.scrolled #mobile-menu-button:hover { background-color: #f3f4f6; }
+
+        #navbar .social-icon { color: #9ca3af; }
+        #navbar.scrolled .social-icon { color: #9ca3af; }
+        #navbar .social-icon:hover { color: #9333ea; }
+        #navbar.scrolled .social-icon:hover { color: #9333ea; }
+
+        /* Logo Flip Animation */
+        #navbar-logo {
+            transform-style: preserve-3d;
+        }
+        #navbar-logo.flipped {
+            transform: perspective(1000px) rotateY(360deg);
+        }
+        .mobile-menu-panel {
+            backdrop-filter: blur(8px);
+        }
+    </style>
+</head>
+<body class="text-gray-800 relative bg-gray-50">
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 bg-white/95 shadow-sm">
+        <div class="max-w-7xl lg:max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-12">
+            <div class="flex justify-between h-16 sm:h-20 landscape:h-16 lg:h-20 items-center">
+                <div class="flex items-center">
+                    <img id="navbar-logo" src="logo%20AAK%20(white%20BG).png" alt="Akademi Al Khayr Logo" class="h-12 sm:h-16 landscape:h-12 lg:h-16 w-auto object-contain mr-3 transition-transform duration-700">
+                    <div>
+                        <h1 class="text-base sm:text-xl landscape:text-lg lg:text-xl font-bold leading-none tracking-tight nav-text-main">AKADEMI</h1>
+                        <h1 class="text-base sm:text-xl landscape:text-lg lg:text-xl font-bold leading-none tracking-tight nav-text-accent">AL KHAYR</h1>
+                    </div>
+                </div>
+                <div class="hidden lg:flex space-x-8">
+                    <a href="index.html" class="font-medium transition nav-item">Home</a>
+                    <a href="about.html" class="font-medium transition nav-item">About</a>
+                    <a href="index.html#programs" class="font-medium transition nav-item">Programs</a>
+                    <a href="index.html#contact" class="font-medium transition nav-item">Contact</a>
+                
+                <!-- More Dropdown -->
+                    <div class="relative group">
+                        <button class="font-medium transition flex items-center focus:outline-none nav-item text-purple-600">
+                            More <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                        </button>
+                        <div class="absolute top-full left-0 mt-2 w-64 bg-white rounded-xl shadow-xl border border-gray-100 py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top z-50">
+                            <a href="fees.html" class="block px-4 py-3 text-sm text-gray-600 hover:bg-purple-50 hover:text-purple-600 transition border-b border-gray-50 last:border-0">
+                                <i class="fas fa-credit-card mr-2 text-purple-400"></i> Fees payment
+                            </a>
+                            <a href="forms.html" class="block px-4 py-3 text-sm text-gray-600 hover:bg-purple-50 hover:text-purple-600 transition border-b border-gray-50">
+                                <i class="fas fa-file-alt mr-2 text-purple-400"></i> Forms
+                            </a>
+                            <a href="Download/AAK%20TAKWIM%202026.pdf" target="_blank" class="block px-4 py-3 text-sm text-gray-600 hover:bg-purple-50 hover:text-purple-600 transition border-b border-gray-50">
+                                <i class="fas fa-calendar-alt mr-2 text-purple-400"></i> AAK Takwim 2026
+                            </a>
+                            <a href="Download/GuideBook%20AAK_2026%20(1).pdf" target="_blank" class="block px-4 py-3 text-sm text-gray-600 hover:bg-purple-50 hover:text-purple-600 transition border-b border-gray-50">
+                                <i class="fas fa-book-open mr-2 text-purple-400"></i> Guidebook AAK 2026
+                            </a>
+                            <a href="gallery.html" class="block px-4 py-3 text-sm text-gray-600 hover:bg-purple-50 hover:text-purple-600 transition border-b border-gray-50">
+                                <i class="fas fa-images mr-2 text-purple-400"></i> Gallery
+                            </a>
+                            <a href="booking_aak_chalet.html" class="block px-4 py-3 text-sm text-gray-600 hover:bg-purple-50 hover:text-purple-600 transition border-b border-gray-50 bg-purple-50">
+                                <i class="fas fa-home mr-2 text-purple-400"></i> Booking AAK Chalet
+                            </a>
+                            <a href="index.html#location" class="block px-4 py-3 text-sm text-gray-600 hover:bg-purple-50 hover:text-purple-600 transition">
+                                <i class="fas fa-map-marker-alt mr-2 text-purple-400"></i> Visit
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="hidden lg:flex items-center space-x-4">
+                    <a href="https://wa.me/60193818616" target="_blank" class="transition social-icon">
+                        <i class="fab fa-whatsapp text-xl"></i>
+                    </a>
+                    <a href="https://www.facebook.com/akademialkhayrofficial/" target="_blank" class="transition social-icon">
+                        <i class="fab fa-facebook-f text-xl"></i>
+                    </a>
+                    <a href="https://www.instagram.com/akademialkhayrofficial/?hl=en" target="_blank" class="transition social-icon">
+                        <i class="fab fa-instagram text-xl"></i>
+                    </a>
+                    <a href="registration.html" class="inline-flex items-center justify-center px-6 py-2 border border-transparent text-sm font-medium rounded-full text-white bg-purple-600 hover:bg-purple-700 transition shadow-md text-center">
+                        <div class="flex flex-col items-center leading-tight">
+                            <span>Apply Now</span>
+                            <span class="text-[10px] font-normal opacity-90">سجل الآن</span>
+                        </div>
+                    </a>
+                    <a href="https://class.akademialkhayr.com/login" target="_blank" class="w-10 h-10 flex items-center justify-center rounded-full bg-white text-purple-600 hover:bg-purple-50 transition shadow-md border border-purple-100" title="Parent & Staff Login">
+                        <i class="fas fa-user"></i>
+                    </a>
+                </div>
+                <div class="lg:hidden flex items-center gap-3">
+                    <a href="https://wa.me/60193818616" target="_blank" class="transition social-icon">
+                        <i class="fab fa-whatsapp text-lg"></i>
+                    </a>
+                    <a href="https://www.facebook.com/akademialkhayrofficial/" target="_blank" class="transition social-icon">
+                        <i class="fab fa-facebook-f text-lg"></i>
+                    </a>
+                    <a href="https://www.instagram.com/akademialkhayrofficial/?hl=en" target="_blank" class="transition social-icon">
+                        <i class="fab fa-instagram text-lg"></i>
+                    </a>
+                    <a href="https://class.akademialkhayr.com/login" target="_blank" class="w-9 h-9 flex items-center justify-center rounded-full bg-white/90 text-purple-700 hover:bg-white transition shadow-sm border border-white/40" title="Parent & Staff Login">
+                        <i class="fas fa-user text-sm"></i>
+                    </a>
+                    <button id="mobile-menu-button" class="inline-flex items-center justify-center w-10 h-10 rounded-full border border-gray-300 text-gray-700 hover:bg-gray-100 transition">
+                        <i id="mobile-menu-icon" class="fas fa-bars text-lg"></i>
+                    </button>
+                </div>
+            </div>
+            <div id="mobile-menu" class="lg:hidden hidden pb-4">
+                <div class="mobile-menu-panel bg-white/95 rounded-2xl shadow-xl border border-white/40 px-4 py-4 space-y-3 max-h-[85vh] overflow-y-auto">
+                    <a href="index.html" class="block font-semibold text-gray-800">Home</a>
+                    <a href="about.html" class="block font-semibold text-gray-800">About</a>
+                    <a href="index.html#programs" class="block font-semibold text-gray-800">Programs</a>
+                    <a href="index.html#contact" class="block font-semibold text-gray-800">Contact</a>
+                    <a href="fees.html" class="block font-semibold text-gray-800">Fees payment</a>
+                    <a href="forms.html" class="block font-semibold text-gray-800">Forms</a>
+                    <a href="Download/AAK%20TAKWIM%202026.pdf" target="_blank" class="block font-semibold text-gray-800">AAK Takwim 2026</a>
+                    <a href="Download/GuideBook%20AAK_2026%20(1).pdf" target="_blank" class="block font-semibold text-gray-800">Guidebook AAK 2026</a>
+                    <a href="gallery.html" class="block font-semibold text-gray-800">Gallery</a>
+                    <a href="booking_aak_chalet.html" class="block font-semibold text-purple-600 bg-purple-50 rounded-lg px-2 py-1">Booking AAK Chalet</a>
+                    <a href="index.html#location" class="block font-semibold text-gray-800">Visit</a>
+                    <a href="registration.html" class="mt-2 inline-flex items-center justify-center w-full px-6 py-3 text-sm font-semibold rounded-full text-white bg-purple-600 hover:bg-purple-700 transition shadow-md text-center">
+                        <div class="flex flex-col items-center leading-tight">
+                            <span>Apply Now</span>
+                            <span class="text-[10px] font-normal opacity-90">سجل الآن</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="bg-purple-900 text-white pt-32 pb-16 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-purple-800 to-purple-900 opacity-90"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">Booking AAK Chalet</h1>
+            <p class="text-xl text-purple-200">Experience comfort and tranquility at our chalet</p>
+        </div>
+    </section>
+
+    <!-- YouTube Section -->
+    <section class="py-16 bg-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Discover AAK Chalet</h2>
+                <div class="w-24 h-1 bg-purple-500 rounded-full mx-auto"></div>
+            </div>
+            
+            <div class="relative w-full pb-[56.25%] rounded-2xl overflow-hidden shadow-2xl bg-gray-100">
+                <!-- Replace src with actual YouTube embed link -->
+                <iframe 
+                    class="absolute top-0 left-0 w-full h-full"
+                    src="https://www.youtube.com/embed/MNfMqJ7Wl-c" 
+                    title="AAK Chalet Video" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reservation Form Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Make a Reservation</h2>
+                <p class="text-gray-600">Fill out the form below to book your stay with us.</p>
+                <div class="w-24 h-1 bg-purple-500 rounded-full mx-auto mt-4"></div>
+            </div>
+
+            <div class="bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
+                <form id="reservationForm" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="firstName" class="block text-sm font-bold text-gray-900 mb-2">First Name</label>
+                            <input type="text" id="firstName" name="firstName" required class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition bg-gray-50">
+                        </div>
+                        <div>
+                            <label for="lastName" class="block text-sm font-bold text-gray-900 mb-2">Last Name</label>
+                            <input type="text" id="lastName" name="lastName" required class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition bg-gray-50">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="email" class="block text-sm font-bold text-gray-900 mb-2">Email Address</label>
+                            <input type="email" id="email" name="email" required class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition bg-gray-50">
+                        </div>
+                        <div>
+                            <label for="phone" class="block text-sm font-bold text-gray-900 mb-2">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" required class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition bg-gray-50">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="checkIn" class="block text-sm font-bold text-gray-900 mb-2">Check-In Date</label>
+                            <input type="date" id="checkIn" name="checkIn" required class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition bg-gray-50">
+                        </div>
+                        <div>
+                            <label for="checkOut" class="block text-sm font-bold text-gray-900 mb-2">Check-Out Date</label>
+                            <input type="date" id="checkOut" name="checkOut" required class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition bg-gray-50">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="guests" class="block text-sm font-bold text-gray-900 mb-2">Number of Guests</label>
+                        <select id="guests" name="guests" class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition bg-gray-50">
+                            <option value="1">1 Guest</option>
+                            <option value="2">2 Guests</option>
+                            <option value="3">3 Guests</option>
+                            <option value="4">4 Guests</option>
+                            <option value="5+">5+ Guests</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="message" class="block text-sm font-bold text-gray-900 mb-2">Special Requests</label>
+                        <textarea id="message" name="message" rows="4" class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition bg-gray-50"></textarea>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
+                        <button type="button" id="submitEmail" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 shadow-md flex items-center justify-center">
+                            <i class="fas fa-envelope mr-2"></i> Book via Email
+                        </button>
+                        <button type="button" id="submitWhatsapp" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300 shadow-md flex items-center justify-center">
+                            <i class="fab fa-whatsapp mr-2"></i> Book via WhatsApp
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-6 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex space-x-6 mb-6 md:mb-0">
+                    <a href="https://www.facebook.com/akademialkhayrofficial/" target="_blank" class="text-gray-400 hover:text-white transition"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/akademialkhayrofficial/?hl=en" target="_blank" class="text-gray-400 hover:text-white transition"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-youtube"></i></a>
+                </div>
+                <div class="text-gray-400 text-sm">
+                    &copy; 2026 Akademi Al Khayr. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        const navbarLogo = document.getElementById('navbar-logo');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+                if (navbarLogo) navbarLogo.classList.add('flipped');
+            } else {
+                navbar.classList.remove('scrolled');
+                if (navbarLogo) navbarLogo.classList.remove('flipped');
+            }
+        });
+
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuIcon = document.getElementById('mobile-menu-icon');
+        if (mobileMenuButton && mobileMenu && mobileMenuIcon) {
+            mobileMenuButton.addEventListener('click', () => {
+                const isOpen = !mobileMenu.classList.contains('hidden');
+                mobileMenu.classList.toggle('hidden');
+                mobileMenuIcon.classList.toggle('fa-bars', isOpen);
+                mobileMenuIcon.classList.toggle('fa-times', !isOpen);
+            });
+            mobileMenu.querySelectorAll('a').forEach((link) => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                    mobileMenuIcon.classList.add('fa-bars');
+                    mobileMenuIcon.classList.remove('fa-times');
+                });
+            });
+        }
+
+        // Form handling
+        const buildReservationMessage = () => {
+            const firstName = document.getElementById('firstName').value || '-';
+            const lastName = document.getElementById('lastName').value || '-';
+            const email = document.getElementById('email').value || '-';
+            const phone = document.getElementById('phone').value || '-';
+            const checkIn = document.getElementById('checkIn').value || '-';
+            const checkOut = document.getElementById('checkOut').value || '-';
+            const guests = document.getElementById('guests').value || '-';
+            const message = document.getElementById('message').value || '-';
+
+            const emailSubject = `New Chalet Booking Request: ${firstName} ${lastName}`;
+            const emailBody = `
+AAK CHALET BOOKING REQUEST
+==========================
+
+GUEST INFORMATION
+----------------
+Name           : ${firstName} ${lastName}
+Email          : ${email}
+Phone          : ${phone}
+
+RESERVATION DETAILS
+------------------
+Check-In       : ${checkIn}
+Check-Out      : ${checkOut}
+Guests         : ${guests}
+
+SPECIAL REQUESTS
+---------------
+${message}
+
+==========================
+Submitted via AAK Website
+            `.trim();
+
+            return { emailSubject, emailBody };
+        };
+
+        const recipients = "akademialkhayrofficial@gmail.com";
+        const whatsappNumber = "60193818616";
+
+        document.getElementById('submitEmail').addEventListener('click', () => {
+            const { emailSubject, emailBody } = buildReservationMessage();
+            const mailtoLink = `mailto:${recipients}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+            window.location.href = mailtoLink;
+        });
+
+        document.getElementById('submitWhatsapp').addEventListener('click', () => {
+            const { emailBody } = buildReservationMessage();
+            const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(emailBody)}`;
+            window.open(whatsappUrl, '_blank');
+        });
+    </script>
+
+    <!-- Watermark -->
+    <div class="fixed bottom-[-5%] left-[-5%] z-0 pointer-events-none opacity-[0.03] select-none" style="width: 40vw; max-width: 500px;">
+        <img src="logo%20AAK%20(white%20BG).png" class="w-full h-auto grayscale" alt="">
+    </div>
+
+</body>
+</html>
