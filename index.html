@@ -1240,21 +1240,65 @@ This message was submitted via the website contact form.
             aliimran: 3,
             aalimran: 3
         };
-        const arabicDictionary = {
-            بقرة: {
-                arabic: 'بقرة',
-                english: 'cow',
-                malay: 'lembu',
-                exampleSearch: 'cow'
-            },
-            قرد: {
-                arabic: 'قرد',
-                english: 'monkey',
-                malay: 'monyet',
-                exampleSearch: 'monkey'
+        const arabicDictionaryDefaults = {
+            الله: { arabic: 'الله', english: 'allah', malay: 'allah', exampleSearch: 'allah' },
+            كتاب: { arabic: 'كتاب', english: 'book', malay: 'buku', exampleSearch: 'book' },
+            مدرسة: { arabic: 'مدرسة', english: 'school', malay: 'sekolah', exampleSearch: 'school' },
+            طالب: { arabic: 'طالب', english: 'student', malay: 'pelajar', exampleSearch: 'student' },
+            معلم: { arabic: 'معلم', english: 'teacher', malay: 'guru', exampleSearch: 'teacher' },
+            قرآن: { arabic: 'قرآن', english: 'quran', malay: 'al-quran', exampleSearch: 'quran' },
+            صلاة: { arabic: 'صلاة', english: 'prayer', malay: 'solat', exampleSearch: 'prayer' },
+            صوم: { arabic: 'صوم', english: 'fasting', malay: 'puasa', exampleSearch: 'fasting' },
+            زكاة: { arabic: 'زكاة', english: 'alms', malay: 'zakat', exampleSearch: 'alms' },
+            صدقة: { arabic: 'صدقة', english: 'charity', malay: 'sedekah', exampleSearch: 'charity' },
+            حج: { arabic: 'حج', english: 'pilgrimage', malay: 'haji', exampleSearch: 'pilgrimage' },
+            دعاء: { arabic: 'دعاء', english: 'supplication', malay: 'doa', exampleSearch: 'supplication' },
+            مسجد: { arabic: 'مسجد', english: 'mosque', malay: 'masjid', exampleSearch: 'mosque' },
+            صبر: { arabic: 'صبر', english: 'patience', malay: 'sabar', exampleSearch: 'patience' },
+            رحمة: { arabic: 'رحمة', english: 'mercy', malay: 'rahmat', exampleSearch: 'mercy' },
+            نور: { arabic: 'نور', english: 'light', malay: 'cahaya', exampleSearch: 'light' },
+            علم: { arabic: 'علم', english: 'knowledge', malay: 'ilmu', exampleSearch: 'knowledge' },
+            إيمان: { arabic: 'إيمان', english: 'faith', malay: 'iman', exampleSearch: 'faith' },
+            سلام: { arabic: 'سلام', english: 'peace', malay: 'damai', exampleSearch: 'peace' },
+            خير: { arabic: 'خير', english: 'goodness', malay: 'kebaikan', exampleSearch: 'goodness' },
+            شر: { arabic: 'شر', english: 'evil', malay: 'kejahatan', exampleSearch: 'evil' },
+            حق: { arabic: 'حق', english: 'truth', malay: 'kebenaran', exampleSearch: 'truth' },
+            جنة: { arabic: 'جنة', english: 'paradise', malay: 'syurga', exampleSearch: 'paradise' },
+            نار: { arabic: 'نار', english: 'fire', malay: 'api', exampleSearch: 'fire' },
+            ماء: { arabic: 'ماء', english: 'water', malay: 'air', exampleSearch: 'water' },
+            شمس: { arabic: 'شمس', english: 'sun', malay: 'matahari', exampleSearch: 'sun' },
+            قمر: { arabic: 'قمر', english: 'moon', malay: 'bulan', exampleSearch: 'moon' },
+            يوم: { arabic: 'يوم', english: 'day', malay: 'hari', exampleSearch: 'day' },
+            ليلة: { arabic: 'ليلة', english: 'night', malay: 'malam', exampleSearch: 'night' },
+            وقت: { arabic: 'وقت', english: 'time', malay: 'masa', exampleSearch: 'time' },
+            بيت: { arabic: 'بيت', english: 'house', malay: 'rumah', exampleSearch: 'house' },
+            أب: { arabic: 'أب', english: 'father', malay: 'bapa', exampleSearch: 'father' },
+            أم: { arabic: 'أم', english: 'mother', malay: 'ibu', exampleSearch: 'mother' },
+            ولد: { arabic: 'ولد', english: 'boy', malay: 'budak lelaki', exampleSearch: 'boy' },
+            بنت: { arabic: 'بنت', english: 'girl', malay: 'budak perempuan', exampleSearch: 'girl' },
+            بقرة: { arabic: 'بقرة', english: 'cow', malay: 'lembu', exampleSearch: 'cow' },
+            قرد: { arabic: 'قرد', english: 'monkey', malay: 'monyet', exampleSearch: 'monkey' }
+        };
+        const arabicDictionaryStorageKey = 'aak_arabic_dictionary_v1';
+        const loadArabicDictionary = () => {
+            try {
+                const raw = localStorage.getItem(arabicDictionaryStorageKey);
+                const parsed = raw ? JSON.parse(raw) : null;
+                return parsed && typeof parsed === 'object' ? parsed : null;
+            } catch {
+                return null;
             }
         };
-        const aiDictionaryEndpoint = 'https://libretranslate.de/translate';
+        const persistArabicDictionary = (dictionary) => {
+            try {
+                localStorage.setItem(arabicDictionaryStorageKey, JSON.stringify(dictionary));
+            } catch {}
+        };
+        let arabicDictionary = { ...arabicDictionaryDefaults, ...(loadArabicDictionary() || {}) };
+        const aiDictionaryEndpoints = [
+            'https://libretranslate.de/translate',
+            'https://translate.argosopentech.com/translate'
+        ];
 
         const addMessage = (text, type) => {
             const message = document.createElement('div');
@@ -1427,16 +1471,37 @@ This message was submitted via the website contact form.
         const hasArabicLetters = (text) => /[\u0600-\u06FF]/.test(text);
 
         const translateText = async (text, source, target) => {
-            try {
-                const res = await fetch(aiDictionaryEndpoint, {
+            const q = (text || '').trim();
+            if (!q || !target) return null;
+            const sl = source || 'auto';
+
+            const tryLibreTranslate = async (endpoint) => {
+                const res = await fetch(endpoint, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ q: text, source, target, format: 'text' })
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ q, source: sl, target, format: 'text' })
                 });
                 const data = await res.json();
                 const translated = data?.translatedText?.trim();
+                return translated || null;
+            };
+
+            for (const endpoint of aiDictionaryEndpoints) {
+                try {
+                    const translated = await tryLibreTranslate(endpoint);
+                    if (translated) return translated;
+                } catch {}
+            }
+
+            try {
+                const res = await fetch(
+                    `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${encodeURIComponent(
+                        sl
+                    )}&tl=${encodeURIComponent(target)}&dt=t&q=${encodeURIComponent(q)}`
+                );
+                const data = await res.json();
+                const segments = Array.isArray(data?.[0]) ? data[0] : [];
+                const translated = segments.map((seg) => (Array.isArray(seg) ? seg[0] : '')).join('').trim();
                 return translated || null;
             } catch {
                 return null;
@@ -1592,81 +1657,150 @@ This message was submitted via the website contact form.
             }
         };
 
+        const fetchArabicQuranSearch = async (term) => {
+            pendingSurahNumber = null;
+            const searchEditions = ['quran-simple-clean', 'quran-simple', 'quran-uthmani-quran-academy', 'quran-uthmani'];
+            try {
+                let data = null;
+                for (const edition of searchEditions) {
+                    try {
+                        const res = await fetch(
+                            `https://api.alquran.cloud/v1/search/${encodeURIComponent(term)}/all/${encodeURIComponent(
+                                edition
+                            )}`
+                        );
+                        if (!res.ok) continue;
+                        data = await res.json();
+                        break;
+                    } catch {}
+                }
+                const matches = Array.isArray(data?.data?.matches) ? data.data.matches : [];
+                if (!matches.length) {
+                    return `No Quran matches found for "${term}".`;
+                }
+                const firstMatch = matches[0];
+                const surahNumber = firstMatch?.surah?.number;
+                const ayahNumber = firstMatch?.numberInSurah;
+                if (!Number.isFinite(surahNumber) || !Number.isFinite(ayahNumber)) {
+                    return `I could not open the first Quran match for "${term}".`;
+                }
+                const result = await fetchAyahByRef(`${surahNumber}:${ayahNumber}`);
+                if (typeof result === 'string') return result;
+                result.searchSummary = `Found ${matches.length} Quran matches for "${term}". Showing ${surahNumber}:${ayahNumber}.`;
+                return result;
+            } catch {
+                return `I could not search the Quran for "${term}" right now. Please try again.`;
+            }
+        };
+
         const getArabicReply = async (text) => {
-            const term = parseArabicTerm(text);
-            const englishTerm = term ? null : normalizeEnglishTerm(text);
-            const malayTerm = term || englishTerm ? null : normalizeMalayTerm(text);
-            const entry = term ? arabicDictionary[term] : null;
-            const englishEntry = !entry && englishTerm
-                ? Object.values(arabicDictionary).find((item) => item.english === englishTerm)
-                : null;
-            let resolvedEntry = entry || englishEntry;
+            const raw = (text || '').trim();
+            if (!raw) return 'Type an Arabic, English, or Malay word like بقرة, cow, or monyet.';
+
+            const inputArabicTerm = parseArabicTerm(raw);
+            const englishTerm = inputArabicTerm ? null : normalizeEnglishTerm(raw);
+            const malayTerm = inputArabicTerm || englishTerm ? null : normalizeMalayTerm(raw);
+
+            const findExistingByEnglish = (term) =>
+                Object.values(arabicDictionary).find((item) => item.english === term) || null;
+            const findExistingByMalay = (term) =>
+                Object.values(arabicDictionary).find((item) => item.malay === term) || null;
+
+            let resolvedEntry = null;
+            if (inputArabicTerm && arabicDictionary[inputArabicTerm]) {
+                resolvedEntry = arabicDictionary[inputArabicTerm];
+            } else if (englishTerm) {
+                resolvedEntry = findExistingByEnglish(englishTerm);
+            } else if (malayTerm) {
+                resolvedEntry = findExistingByMalay(malayTerm);
+            }
+
             if (!resolvedEntry) {
-                if (hasArabicLetters(text)) {
-                    const aiEnglish = term ? await translateText(term, 'ar', 'en') : null;
-                    const aiMalay = term ? await translateText(term, 'ar', 'ms') : null;
-                    if (aiEnglish && aiMalay && term) {
-                        resolvedEntry = {
-                            arabic: term,
-                            english: aiEnglish.toLowerCase(),
-                            malay: aiMalay.toLowerCase(),
-                            exampleSearch: aiEnglish.toLowerCase()
-                        };
-                        arabicDictionary[term] = resolvedEntry;
+                if (hasArabicLetters(raw) && inputArabicTerm) {
+                    const [aiEnglish, aiMalay] = await Promise.all([
+                        translateText(inputArabicTerm, 'ar', 'en'),
+                        translateText(inputArabicTerm, 'ar', 'ms')
+                    ]);
+                    const english = aiEnglish ? aiEnglish.toLowerCase() : '';
+                    const malay = aiMalay ? aiMalay.toLowerCase() : '';
+                    if (!english && !malay) {
+                        return 'I could not translate that word right now. Please try again.';
                     }
+                    resolvedEntry = {
+                        arabic: inputArabicTerm,
+                        english,
+                        malay,
+                        exampleSearch: (english || malay).trim()
+                    };
+                    arabicDictionary[inputArabicTerm] = resolvedEntry;
+                    persistArabicDictionary(arabicDictionary);
                 } else {
-                    const latinTerm = englishTerm || malayTerm;
-                    if (latinTerm) {
-                        const [
-                            aiArabicFromEnglish,
-                            aiMalayFromEnglish,
-                            aiArabicFromMalay,
-                            aiEnglishFromMalay
-                        ] = await Promise.all([
+                    const latinTerm = (englishTerm || malayTerm || '').trim();
+                    if (!latinTerm) {
+                        return 'Type an Arabic, English, or Malay word like بقرة, cow, or monyet.';
+                    }
+
+                    const [aiArabicFromEnglish, aiMalayFromEnglish, aiArabicFromMalay, aiEnglishFromMalay] =
+                        await Promise.all([
                             translateText(latinTerm, 'en', 'ar'),
                             translateText(latinTerm, 'en', 'ms'),
                             translateText(latinTerm, 'ms', 'ar'),
                             translateText(latinTerm, 'ms', 'en')
                         ]);
-                        const englishFromMalay = aiEnglishFromMalay ? aiEnglishFromMalay.toLowerCase() : null;
-                        const malayFromEnglish = aiMalayFromEnglish ? aiMalayFromEnglish.toLowerCase() : null;
-                        if (aiArabicFromMalay && englishFromMalay && englishFromMalay !== latinTerm) {
-                            resolvedEntry = {
-                                arabic: aiArabicFromMalay,
-                                english: englishFromMalay,
-                                malay: latinTerm,
-                                exampleSearch: englishFromMalay
-                            };
-                            arabicDictionary[aiArabicFromMalay] = resolvedEntry;
-                        } else if (aiArabicFromEnglish && malayFromEnglish && malayFromEnglish !== latinTerm) {
-                            resolvedEntry = {
-                                arabic: aiArabicFromEnglish,
-                                english: latinTerm,
-                                malay: malayFromEnglish,
-                                exampleSearch: latinTerm
-                            };
-                            arabicDictionary[aiArabicFromEnglish] = resolvedEntry;
-                        } else if (aiArabicFromEnglish && malayFromEnglish) {
-                            resolvedEntry = {
-                                arabic: aiArabicFromEnglish,
-                                english: latinTerm,
-                                malay: malayFromEnglish,
-                                exampleSearch: latinTerm
-                            };
-                            arabicDictionary[aiArabicFromEnglish] = resolvedEntry;
-                        }
+
+                    const englishFromMalay = aiEnglishFromMalay ? aiEnglishFromMalay.toLowerCase() : '';
+                    const malayFromEnglish = aiMalayFromEnglish ? aiMalayFromEnglish.toLowerCase() : '';
+                    const arabicFromEnglish = aiArabicFromEnglish ? normalizeArabicTerm(aiArabicFromEnglish) : '';
+                    const arabicFromMalay = aiArabicFromMalay ? normalizeArabicTerm(aiArabicFromMalay) : '';
+
+                    if (arabicFromMalay && englishFromMalay) {
+                        resolvedEntry = {
+                            arabic: arabicFromMalay,
+                            english: englishFromMalay,
+                            malay: latinTerm.toLowerCase(),
+                            exampleSearch: englishFromMalay
+                        };
+                        arabicDictionary[arabicFromMalay] = resolvedEntry;
+                        persistArabicDictionary(arabicDictionary);
+                    } else if (arabicFromEnglish) {
+                        resolvedEntry = {
+                            arabic: arabicFromEnglish,
+                            english: latinTerm.toLowerCase(),
+                            malay: malayFromEnglish,
+                            exampleSearch: latinTerm.toLowerCase()
+                        };
+                        arabicDictionary[arabicFromEnglish] = resolvedEntry;
+                        persistArabicDictionary(arabicDictionary);
                     }
                 }
             }
+
             if (!resolvedEntry) {
-                return 'Type an Arabic, English, or Malay word like بقرة, cow, or monyet.';
+                return 'I could not translate that word right now. Please try again.';
             }
-            const example = await fetchTranslationSearch(resolvedEntry.exampleSearch);
+
+            const arabicForExample = resolvedEntry.arabic;
+            const exampleQuran = arabicForExample ? await fetchArabicQuranSearch(arabicForExample) : null;
+            if (exampleQuran && typeof exampleQuran !== 'string') {
+                return {
+                    entry: resolvedEntry,
+                    example: exampleQuran,
+                    exampleLabel: 'Quran example:',
+                    exampleSentence: null,
+                    exampleError: null
+                };
+            }
+
+            const searchTerm = (resolvedEntry.exampleSearch || '').trim();
+            const example = searchTerm ? await fetchTranslationSearch(searchTerm) : 'No translation matches found.';
             if (typeof example === 'string') {
-                const noMatch = example.startsWith('No translation matches found');
+                const noMatch =
+                    example.startsWith('No translation matches found') ||
+                    example.startsWith('No Quran matches found');
                 return {
                     entry: resolvedEntry,
                     example: null,
+                    exampleLabel: 'Example sentence:',
                     exampleSentence: noMatch ? `هذه ${resolvedEntry.arabic} نراها كثيرًا في حياتنا اليومية.` : null,
                     exampleError: noMatch ? null : example
                 };
@@ -1674,6 +1808,7 @@ This message was submitted via the website contact form.
             return {
                 entry: resolvedEntry,
                 example,
+                exampleLabel: 'Example ayah:',
                 exampleSentence: null,
                 exampleError: null
             };
@@ -1715,7 +1850,7 @@ This message was submitted via the website contact form.
             if (payload.exampleSentence) {
                 const sentenceLabel = document.createElement('div');
                 sentenceLabel.className = 'chatbot-translation-label';
-                sentenceLabel.textContent = 'Example sentence:';
+                sentenceLabel.textContent = payload.exampleLabel || 'Example sentence:';
                 container.appendChild(sentenceLabel);
                 const sentence = document.createElement('div');
                 sentence.className = 'chatbot-ayah-text';
@@ -1735,7 +1870,7 @@ This message was submitted via the website contact form.
             if (payload.example) {
                 const label = document.createElement('div');
                 label.className = 'chatbot-translation-label';
-                label.textContent = 'Example ayah:';
+                label.textContent = payload.exampleLabel || 'Example ayah:';
                 container.appendChild(label);
                 const exampleWrap = document.createElement('div');
                 container.appendChild(exampleWrap);
