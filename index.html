@@ -186,6 +186,176 @@
             display: inline-block;
             animation: fly-in 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
         }
+        @keyframes chatbot-pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(250, 204, 21, 0.65), 0 14px 28px rgba(250, 204, 21, 0.45);
+                filter: brightness(1);
+            }
+            50% {
+                box-shadow: 0 0 0 10px rgba(250, 204, 21, 0), 0 18px 36px rgba(250, 204, 21, 0.6);
+                filter: brightness(1.05);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(250, 204, 21, 0), 0 14px 28px rgba(250, 204, 21, 0.45);
+                filter: brightness(1);
+            }
+        }
+        .chatbot-button {
+            position: fixed;
+            right: 1.25rem;
+            bottom: 1.25rem;
+            z-index: 60;
+            background: linear-gradient(135deg, #f97316 0%, #db2777 55%, #7c3aed 100%);
+            color: #fff;
+            border-radius: 9999px;
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 14px 28px rgba(250, 204, 21, 0.5);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+            animation: chatbot-pulse 1.8s ease-in-out infinite;
+        }
+        .chatbot-button:hover {
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 20px 38px rgba(250, 204, 21, 0.7);
+        }
+        .chatbot-window {
+            position: fixed;
+            right: 1.25rem;
+            bottom: 5.5rem;
+            width: 320px;
+            max-width: calc(100vw - 2.5rem);
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 16px 40px rgba(17, 24, 39, 0.2);
+            z-index: 60;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .chatbot-hidden {
+            display: none;
+        }
+        .chatbot-header {
+            background: #6d28d9;
+            color: #fff;
+            padding: 0.75rem 1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .chatbot-modes {
+            display: flex;
+            gap: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            background: #f3f4f6;
+        }
+        .chatbot-mode-btn {
+            flex: 1;
+            border-radius: 9999px;
+            border: 1px solid #e5e7eb;
+            background: #fff;
+            padding: 0.35rem 0.6rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #6b7280;
+        }
+        .chatbot-mode-active {
+            background: #7c3aed;
+            color: #fff;
+            border-color: #7c3aed;
+        }
+        #mode-school.chatbot-mode-active {
+            background: #2563eb;
+            border-color: #2563eb;
+        }
+        #mode-quran.chatbot-mode-active {
+            background: #7c3aed;
+            border-color: #7c3aed;
+        }
+        .chatbot-messages {
+            padding: 0.75rem;
+            height: 280px;
+            overflow-y: auto;
+            background: #f8fafc;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .chatbot-message {
+            max-width: 85%;
+            padding: 0.5rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            white-space: pre-line;
+        }
+        .chatbot-quran-title {
+            font-weight: 700;
+            color: #4c1d95;
+            margin-bottom: 0.4rem;
+        }
+        .chatbot-ayah-text {
+            direction: rtl;
+            text-align: right;
+            font-size: 1rem;
+            line-height: 1.9;
+            margin-bottom: 0.6rem;
+        }
+        .chatbot-translation-text {
+            margin-bottom: 0.6rem;
+        }
+        .chatbot-tafseer-label {
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+        .chatbot-bot {
+            align-self: flex-start;
+            background: #ede9fe;
+            color: #4c1d95;
+        }
+        .chatbot-user {
+            align-self: flex-end;
+            background: #7c3aed;
+            color: #fff;
+        }
+        .chatbot-input {
+            display: flex;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            border-top: 1px solid #e5e7eb;
+            background: #fff;
+        }
+        .chatbot-input input {
+            flex: 1;
+            border: 1px solid #e5e7eb;
+            border-radius: 9999px;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.9rem;
+        }
+        .chatbot-input button {
+            background: #7c3aed;
+            color: #fff;
+            border-radius: 9999px;
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        @media (max-width: 639px) {
+            .chatbot-window {
+                right: 0.75rem;
+                left: 0.75rem;
+                width: auto;
+                bottom: 5rem;
+            }
+            .chatbot-button {
+                right: 0.75rem;
+                bottom: 0.75rem;
+            }
+        }
     </style>
 </head>
 <body class="text-gray-800 relative">
@@ -817,6 +987,29 @@
     </script>
 
 
+    <button id="chatbot-toggle" class="chatbot-button" aria-label="Open chatbot">
+        <i class="fas fa-comment-dots text-xl"></i>
+    </button>
+    <div id="chatbot-window" class="chatbot-window chatbot-hidden" aria-live="polite">
+        <div class="chatbot-header">
+            <span>Akademi Al Khayr Chat</span>
+            <button id="chatbot-close" class="text-white/80 hover:text-white" aria-label="Close chatbot">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="chatbot-modes">
+            <button id="mode-school" class="chatbot-mode-btn chatbot-mode-active" type="button">School</button>
+            <button id="mode-quran" class="chatbot-mode-btn" type="button">Quran</button>
+        </div>
+        <div id="chatbot-messages" class="chatbot-messages">
+            <div class="chatbot-message chatbot-bot">Hi! Ask about admissions, programs, fees, calendar, campus location, or contact info.</div>
+        </div>
+        <div class="chatbot-input">
+            <input id="chatbot-input" type="text" placeholder="Type your question..." />
+            <button id="chatbot-send" type="button">Send</button>
+        </div>
+    </div>
+
     <!-- Watermarks -->
     <div class="fixed bottom-[-5%] left-[-5%] z-0 pointer-events-none opacity-[0.03] select-none" style="width: 40vw; max-width: 500px;">
         <img src="logo%20AAK%20(white%20BG).png" class="w-full h-auto grayscale" alt="">
@@ -871,6 +1064,293 @@ This message was submitted via the website contact form.
                 window.open(whatsappUrl, '_blank');
             });
         }
+    </script>
+    <script>
+        const chatbotToggle = document.getElementById('chatbot-toggle');
+        const chatbotWindow = document.getElementById('chatbot-window');
+        const chatbotClose = document.getElementById('chatbot-close');
+        const chatbotMessages = document.getElementById('chatbot-messages');
+        const chatbotInput = document.getElementById('chatbot-input');
+        const chatbotSend = document.getElementById('chatbot-send');
+        const modeSchool = document.getElementById('mode-school');
+        const modeQuran = document.getElementById('mode-quran');
+        let activeMode = 'school';
+        let lastMode = null;
+        let tafsirEditionId = null;
+        let surahListCache = null;
+        let pendingSurahNumber = null;
+
+        const addMessage = (text, type) => {
+            const message = document.createElement('div');
+            message.className = `chatbot-message ${type === 'user' ? 'chatbot-user' : 'chatbot-bot'}`;
+            message.textContent = text;
+            chatbotMessages.appendChild(message);
+            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+            return message;
+        };
+
+        const getSchoolReply = (text) => {
+            const value = text.toLowerCase();
+            if (value.includes('fee') || value.includes('fees')) {
+                return 'Fees details are available in the Fees payment section and the Guidebook.';
+            }
+            if (value.includes('program') || value.includes('course') || value.includes('curriculum')) {
+                return 'We offer holistic Hifz, Arabic, and academic programs with integrated modules.';
+            }
+            if (value.includes('apply') || value.includes('admission') || value.includes('register')) {
+                return 'You can apply using the Apply Now button at the top of the page.';
+            }
+            if (value.includes('calendar') || value.includes('calender') || value.includes('takwim')) {
+                return 'The academic calendar is available in the AAK Takwim section.';
+            }
+            if (value.includes('teacher') || value.includes('principal') || value.includes('staff') || value.includes('educator')) {
+                return 'Our educators and leadership details can be shared upon request. Please contact us for more.';
+            }
+            if (value.includes('admission period') || value.includes('intake') || value.includes('deadline')) {
+                return 'Admissions open in batches. Please contact us for the current intake period.';
+            }
+            if (value.includes('contact') || value.includes('email') || value.includes('phone') || value.includes('whatsapp')) {
+                return 'Reach us via WhatsApp: +60 19-381 8616 or email: akademialkhayrofficial@gmail.com.';
+            }
+            if (value.includes('location') || value.includes('address') || value.includes('visit')) {
+                return 'Check the Visit section on this page for location details.';
+            }
+            if (value.includes('time') || value.includes('hours') || value.includes('schedule')) {
+                return 'School hours are shared during registration. Contact us if you need the schedule.';
+            }
+            return 'I can help with admissions, programs, fees, calendar, campus location, or contact info. Ask about any of these.';
+        };
+
+        const getSurahList = async () => {
+            if (surahListCache !== null) return surahListCache;
+            try {
+                const res = await fetch('https://api.alquran.cloud/v1/surah');
+                const data = await res.json();
+                surahListCache = Array.isArray(data?.data) ? data.data : [];
+            } catch {
+                surahListCache = [];
+            }
+            return surahListCache;
+        };
+
+        const normalizeSurah = (value) => {
+            return value.toLowerCase().replace(/[^a-z\s]/g, '').replace(/\s+/g, '').trim();
+        };
+
+        const matchSurahNumberByName = async (name) => {
+            const list = await getSurahList();
+            const inputNorm = normalizeSurah(name);
+            if (!inputNorm) return null;
+            const inputNoAl = inputNorm.replace(/^al/, '');
+            for (const surah of list) {
+                const candidates = [surah.englishName, surah.englishNameTranslation];
+                for (const candidate of candidates) {
+                    if (!candidate) continue;
+                    const candidateNorm = normalizeSurah(candidate);
+                    const candidateNoAl = candidateNorm.replace(/^al/, '');
+                    if (
+                        inputNorm === candidateNorm ||
+                        inputNoAl === candidateNorm ||
+                        inputNorm === candidateNoAl
+                    ) {
+                        return surah.number;
+                    }
+                }
+            }
+            return null;
+        };
+
+        const parseAyahRef = async (text) => {
+            const matchColon = text.match(/(\d{1,3})\s*[:\-]\s*(\d{1,3})/);
+            if (matchColon) {
+                return `${matchColon[1]}:${matchColon[2]}`;
+            }
+            const matchWords = text.match(/surah\s*(\d{1,3}).*ayah\s*(\d{1,3})/i);
+            if (matchWords) {
+                return `${matchWords[1]}:${matchWords[2]}`;
+            }
+            const ayahMatch = text.match(/(\d{1,3})(?!.*\d)/);
+            if (!ayahMatch) return null;
+            const ayah = ayahMatch[1];
+            const namePart = text
+                .replace(ayahMatch[0], ' ')
+                .replace(/surah|ayah|verse|ayat/gi, ' ')
+                .trim();
+            if (!namePart && pendingSurahNumber) {
+                return `${pendingSurahNumber}:${ayah}`;
+            }
+            if (!namePart) return null;
+            const surahNumber = await matchSurahNumberByName(namePart);
+            if (surahNumber) {
+                return `${surahNumber}:${ayah}`;
+            }
+            return null;
+        };
+
+        const extractSurahNameOnly = async (text) => {
+            if (/\d/.test(text)) return null;
+            const namePart = text.replace(/surah|ayah|verse|ayat/gi, ' ').trim();
+            if (!namePart) return null;
+            const surahNumber = await matchSurahNumberByName(namePart);
+            if (!surahNumber) return null;
+            return { surahNumber, surahName: namePart };
+        };
+
+        const getTafsirEditionId = async () => {
+            if (tafsirEditionId !== null) return tafsirEditionId;
+            try {
+                const res = await fetch('https://api.alquran.cloud/v1/edition/type/tafsir');
+                const data = await res.json();
+                const editions = Array.isArray(data?.data) ? data.data : [];
+                const english = editions.find((ed) => ed.language === 'en' && ed.format === 'text');
+                const anyText = editions.find((ed) => ed.format === 'text');
+                tafsirEditionId = (english || anyText || {}).identifier || null;
+            } catch {
+                tafsirEditionId = null;
+            }
+            return tafsirEditionId;
+        };
+
+        const getQuranReply = async (text) => {
+            const surahOnly = await extractSurahNameOnly(text);
+            if (surahOnly) {
+                pendingSurahNumber = surahOnly.surahNumber;
+                return `I found Surah ${surahOnly.surahNumber}. Which ayah number should I fetch?`;
+            }
+            const ref = await parseAyahRef(text);
+            if (!ref) {
+                return 'Please enter an ayah like 2:255, "Surah 2 Ayah 255", or "Al Baqarah 255".';
+            }
+            pendingSurahNumber = null;
+            const arabicUrl = `https://api.alquran.cloud/v1/ayah/${encodeURIComponent(ref)}/quran-uthmani`;
+            const translationUrl = `https://api.alquran.cloud/v1/ayah/${encodeURIComponent(ref)}/en.sahih`;
+            const tafsirId = await getTafsirEditionId();
+            const tafsirUrl = tafsirId ? `https://api.alquran.cloud/v1/ayah/${encodeURIComponent(ref)}/${tafsirId}` : null;
+            try {
+                const requests = [fetch(arabicUrl), fetch(translationUrl)];
+                if (tafsirUrl) requests.push(fetch(tafsirUrl));
+                const results = await Promise.allSettled(requests);
+                const arabicData = results[0].status === 'fulfilled' ? await results[0].value.json() : null;
+                const translationData = results[1].status === 'fulfilled' ? await results[1].value.json() : null;
+                const tafsirData = results[2]?.status === 'fulfilled' ? await results[2].value.json() : null;
+                const arabicText = arabicData?.data?.text || '';
+                const translationText = translationData?.data?.text || '';
+                const tafsirText = tafsirData?.data?.text || '';
+                if (!arabicText && !translationText) {
+                    return 'I could not fetch that ayah. Please check the reference and try again.';
+                }
+                return {
+                    ref,
+                    arabicText,
+                    translationText,
+                    tafsirText
+                };
+            } catch {
+                return 'I could not fetch Quranic content at the moment. Please try again.';
+            }
+        };
+
+        const renderQuranReply = (container, payload) => {
+            container.textContent = '';
+            const title = document.createElement('div');
+            title.className = 'chatbot-quran-title';
+            title.textContent = `Ayah ${payload.ref}`;
+            container.appendChild(title);
+
+            if (payload.arabicText) {
+                const arabic = document.createElement('div');
+                arabic.className = 'chatbot-ayah-text';
+                arabic.textContent = payload.arabicText;
+                container.appendChild(arabic);
+            }
+
+            if (payload.translationText) {
+                const translation = document.createElement('div');
+                translation.className = 'chatbot-translation-text';
+                translation.textContent = payload.translationText;
+                container.appendChild(translation);
+            }
+
+            if (payload.tafsirText) {
+                const tafseerLabel = document.createElement('div');
+                tafseerLabel.className = 'chatbot-tafseer-label';
+                tafseerLabel.textContent = 'Tafseer:';
+                container.appendChild(tafseerLabel);
+                const tafseer = document.createElement('div');
+                tafseer.textContent = payload.tafsirText;
+                container.appendChild(tafseer);
+            } else {
+                const tafseerMissing = document.createElement('div');
+                tafseerMissing.textContent = 'Tafseer is not available right now.';
+                container.appendChild(tafseerMissing);
+            }
+        };
+
+        const setMode = (mode) => {
+            activeMode = mode;
+            if (modeSchool && modeQuran) {
+                modeSchool.classList.toggle('chatbot-mode-active', mode === 'school');
+                modeQuran.classList.toggle('chatbot-mode-active', mode === 'quran');
+            }
+            if (chatbotInput) {
+                chatbotInput.placeholder = mode === 'quran' ? 'Surah name and ayah (e.g., Al Baqarah 255)' : 'Type your question...';
+            }
+            if (mode === 'quran' && lastMode !== 'quran') {
+                addMessage('Quran mode: type a surah name and ayah number, or just the surah name first.', 'bot');
+            }
+            lastMode = mode;
+        };
+
+        const sendMessage = async () => {
+            const text = chatbotInput.value.trim();
+            if (!text) return;
+            addMessage(text, 'user');
+            chatbotInput.value = '';
+            if (activeMode === 'quran') {
+                const loading = addMessage('Fetching Quranic response...', 'bot');
+                const reply = await getQuranReply(text);
+                if (typeof reply === 'string') {
+                    loading.textContent = reply;
+                } else {
+                    renderQuranReply(loading, reply);
+                }
+                chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+            } else {
+                const reply = getSchoolReply(text);
+                setTimeout(() => addMessage(reply, 'bot'), 300);
+            }
+        };
+
+        if (chatbotToggle && chatbotWindow) {
+            chatbotToggle.addEventListener('click', () => {
+                chatbotWindow.classList.toggle('chatbot-hidden');
+                if (!chatbotWindow.classList.contains('chatbot-hidden')) {
+                    chatbotInput.focus();
+                }
+            });
+        }
+        if (chatbotClose && chatbotWindow) {
+            chatbotClose.addEventListener('click', () => {
+                chatbotWindow.classList.add('chatbot-hidden');
+            });
+        }
+        if (chatbotSend) {
+            chatbotSend.addEventListener('click', sendMessage);
+        }
+        if (chatbotInput) {
+            chatbotInput.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+        }
+        if (modeSchool) {
+            modeSchool.addEventListener('click', () => setMode('school'));
+        }
+        if (modeQuran) {
+            modeQuran.addEventListener('click', () => setMode('quran'));
+        }
+        setMode('school');
     </script>
 
 </body>
