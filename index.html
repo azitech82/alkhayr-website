@@ -205,21 +205,20 @@
             right: 1.25rem;
             bottom: 1.25rem;
             z-index: 60;
-            background: linear-gradient(135deg, #f97316 0%, #db2777 55%, #7c3aed 100%);
+            background: transparent;
             color: #fff;
             border-radius: 9999px;
-            width: 56px;
-            height: 56px;
+            border: 1.5px solid #f97316;
+            width: 72px;
+            height: 72px;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 14px 28px rgba(250, 204, 21, 0.5);
-            transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
-            animation: chatbot-pulse 1.8s ease-in-out infinite;
+            transition: transform 0.2s ease, border-color 0.2s ease;
         }
         .chatbot-button:hover {
             transform: translateY(-2px) scale(1.03);
-            box-shadow: 0 20px 38px rgba(250, 204, 21, 0.7);
+            border-color: #f59e0b;
         }
         .chatbot-window {
             position: fixed;
@@ -250,31 +249,35 @@
         .chatbot-modes {
             display: flex;
             gap: 0.5rem;
-            padding: 0.5rem 0.75rem;
-            background: #f3f4f6;
+            padding: 0.4rem;
+            background: rgba(15, 23, 42, 0.05);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            border-radius: 9999px;
         }
         .chatbot-mode-btn {
             flex: 1;
             border-radius: 9999px;
-            border: 1px solid #e5e7eb;
-            background: #fff;
-            padding: 0.35rem 0.6rem;
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: #6b7280;
+            border: 1px solid transparent;
+            background: transparent;
+            padding: 0.45rem 0.75rem;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            color: #64748b;
+            transition: all 0.2s ease;
         }
         .chatbot-mode-active {
-            background: #7c3aed;
             color: #fff;
-            border-color: #7c3aed;
-        }
-        #mode-school.chatbot-mode-active {
-            background: #2563eb;
-            border-color: #2563eb;
+            box-shadow: 0 10px 20px rgba(15, 23, 42, 0.18);
+            transform: translateY(-1px);
         }
         #mode-quran.chatbot-mode-active {
-            background: #7c3aed;
-            border-color: #7c3aed;
+            background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+            color: #fff;
+        }
+        #mode-school.chatbot-mode-active {
+            background: linear-gradient(135deg, #2563eb 0%, #38bdf8 100%);
+            color: #fff;
         }
         .chatbot-messages {
             padding: 0.75rem;
@@ -308,9 +311,26 @@
         .chatbot-translation-text {
             margin-bottom: 0.6rem;
         }
+        .chatbot-translation-label {
+            font-weight: 700;
+            margin-bottom: 0.2rem;
+            color: #4c1d95;
+        }
         .chatbot-tafseer-label {
             font-weight: 700;
             margin-bottom: 0.25rem;
+        }
+        .chatbot-tafseer-text {
+            direction: rtl;
+            text-align: right;
+            line-height: 1.8;
+        }
+        .chatbot-logo {
+            width: 58px;
+            height: 58px;
+            border-radius: 9999px;
+            object-fit: cover;
+            background: transparent;
         }
         .chatbot-bot {
             align-self: flex-start;
@@ -988,7 +1008,7 @@
 
 
     <button id="chatbot-toggle" class="chatbot-button" aria-label="Open chatbot">
-        <i class="fas fa-comment-dots text-xl"></i>
+        <img class="chatbot-logo" src="aakchatbotlogo.png" alt="AAK Chatbot" />
     </button>
     <div id="chatbot-window" class="chatbot-window chatbot-hidden" aria-live="polite">
         <div class="chatbot-header">
@@ -998,8 +1018,8 @@
             </button>
         </div>
         <div class="chatbot-modes">
-            <button id="mode-school" class="chatbot-mode-btn chatbot-mode-active" type="button">School</button>
-            <button id="mode-quran" class="chatbot-mode-btn" type="button">Quran</button>
+            <button id="mode-quran" class="chatbot-mode-btn chatbot-mode-active" type="button">Quran</button>
+            <button id="mode-school" class="chatbot-mode-btn" type="button">School</button>
         </div>
         <div id="chatbot-messages" class="chatbot-messages">
             <div class="chatbot-message chatbot-bot">Hi! Ask about admissions, programs, fees, calendar, campus location, or contact info.</div>
@@ -1074,7 +1094,7 @@ This message was submitted via the website contact form.
         const chatbotSend = document.getElementById('chatbot-send');
         const modeSchool = document.getElementById('mode-school');
         const modeQuran = document.getElementById('mode-quran');
-        let activeMode = 'school';
+        let activeMode = 'quran';
         let lastMode = null;
         let tafsirEditionId = null;
         let surahListCache = null;
@@ -1224,17 +1244,20 @@ This message was submitted via the website contact form.
             pendingSurahNumber = null;
             const arabicUrl = `https://api.alquran.cloud/v1/ayah/${encodeURIComponent(ref)}/quran-uthmani`;
             const translationUrl = `https://api.alquran.cloud/v1/ayah/${encodeURIComponent(ref)}/en.sahih`;
+            const translationMalayUrl = `https://api.alquran.cloud/v1/ayah/${encodeURIComponent(ref)}/ms.basmeih`;
             const tafsirId = await getTafsirEditionId();
             const tafsirUrl = tafsirId ? `https://api.alquran.cloud/v1/ayah/${encodeURIComponent(ref)}/${tafsirId}` : null;
             try {
-                const requests = [fetch(arabicUrl), fetch(translationUrl)];
+                const requests = [fetch(arabicUrl), fetch(translationUrl), fetch(translationMalayUrl)];
                 if (tafsirUrl) requests.push(fetch(tafsirUrl));
                 const results = await Promise.allSettled(requests);
                 const arabicData = results[0].status === 'fulfilled' ? await results[0].value.json() : null;
                 const translationData = results[1].status === 'fulfilled' ? await results[1].value.json() : null;
-                const tafsirData = results[2]?.status === 'fulfilled' ? await results[2].value.json() : null;
+                const translationMalayData = results[2]?.status === 'fulfilled' ? await results[2].value.json() : null;
+                const tafsirData = results[3]?.status === 'fulfilled' ? await results[3].value.json() : null;
                 const arabicText = arabicData?.data?.text || '';
                 const translationText = translationData?.data?.text || '';
+                const translationMalayText = translationMalayData?.data?.text || '';
                 const tafsirText = tafsirData?.data?.text || '';
                 if (!arabicText && !translationText) {
                     return 'I could not fetch that ayah. Please check the reference and try again.';
@@ -1243,6 +1266,7 @@ This message was submitted via the website contact form.
                     ref,
                     arabicText,
                     translationText,
+                    translationMalayText,
                     tafsirText
                 };
             } catch {
@@ -1265,10 +1289,25 @@ This message was submitted via the website contact form.
             }
 
             if (payload.translationText) {
+                const translationLabel = document.createElement('div');
+                translationLabel.className = 'chatbot-translation-label';
+                translationLabel.textContent = 'English:';
+                container.appendChild(translationLabel);
                 const translation = document.createElement('div');
                 translation.className = 'chatbot-translation-text';
                 translation.textContent = payload.translationText;
                 container.appendChild(translation);
+            }
+
+            if (payload.translationMalayText) {
+                const translationMalayLabel = document.createElement('div');
+                translationMalayLabel.className = 'chatbot-translation-label';
+                translationMalayLabel.textContent = 'Malay:';
+                container.appendChild(translationMalayLabel);
+                const translationMalay = document.createElement('div');
+                translationMalay.className = 'chatbot-translation-text';
+                translationMalay.textContent = payload.translationMalayText;
+                container.appendChild(translationMalay);
             }
 
             if (payload.tafsirText) {
@@ -1277,10 +1316,12 @@ This message was submitted via the website contact form.
                 tafseerLabel.textContent = 'Tafseer:';
                 container.appendChild(tafseerLabel);
                 const tafseer = document.createElement('div');
+                tafseer.className = 'chatbot-tafseer-text';
                 tafseer.textContent = payload.tafsirText;
                 container.appendChild(tafseer);
             } else {
                 const tafseerMissing = document.createElement('div');
+                tafseerMissing.className = 'chatbot-tafseer-text';
                 tafseerMissing.textContent = 'Tafseer is not available right now.';
                 container.appendChild(tafseerMissing);
             }
@@ -1350,7 +1391,7 @@ This message was submitted via the website contact form.
         if (modeQuran) {
             modeQuran.addEventListener('click', () => setMode('quran'));
         }
-        setMode('school');
+        setMode('quran');
     </script>
 
 </body>
