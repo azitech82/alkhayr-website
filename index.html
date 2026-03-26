@@ -1202,18 +1202,19 @@ This message was submitted via the website contact form.
         };
 
         const parseAyahRef = async (text) => {
-            const matchColon = text.match(/(\d{1,3})\s*[:\-]\s*(\d{1,3})/);
+            const input = text.toLowerCase().trim();
+            const matchColon = input.match(/(\d{1,3})\s*[:\-]\s*(\d{1,3})/);
             if (matchColon) {
                 return `${matchColon[1]}:${matchColon[2]}`;
             }
-            const matchWords = text.match(/surah\s*(\d{1,3}).*ayah\s*(\d{1,3})/i);
+            const matchWords = input.match(/surah\s*(\d{1,3}).*ayah\s*(\d{1,3})/i);
             if (matchWords) {
                 return `${matchWords[1]}:${matchWords[2]}`;
             }
-            const ayahMatch = text.match(/(\d{1,3})(?!.*\d)/);
+            const ayahMatch = input.match(/(\d{1,3})(?!.*\d)/);
             if (!ayahMatch) return null;
             const ayah = ayahMatch[1];
-            const namePart = text
+            const namePart = input
                 .replace(ayahMatch[0], ' ')
                 .replace(/surah|ayah|verse|ayat/gi, ' ')
                 .trim();
@@ -1229,8 +1230,9 @@ This message was submitted via the website contact form.
         };
 
         const extractSurahNameOnly = async (text) => {
-            if (/\d/.test(text)) return null;
-            const namePart = text.replace(/surah|ayah|verse|ayat/gi, ' ').trim();
+            const input = text.toLowerCase().trim();
+            if (/\d/.test(input)) return null;
+            const namePart = input.replace(/surah|ayah|verse|ayat/gi, ' ').trim();
             if (!namePart) return null;
             const surahNumber = await matchSurahNumberByName(namePart);
             if (!surahNumber) return null;
@@ -1256,11 +1258,11 @@ This message was submitted via the website contact form.
             const surahOnly = await extractSurahNameOnly(text);
             if (surahOnly) {
                 pendingSurahNumber = surahOnly.surahNumber;
-                return `I found Surah ${surahOnly.surahNumber}. Which ayah number should I fetch?`;
+                return `surah ${surahOnly.surahNumber} found. ayah?`;
             }
             const ref = await parseAyahRef(text);
             if (!ref) {
-                return 'Please enter an ayah like 2:255, "Surah 2 Ayah 255", or "Al Baqarah 255".';
+                return 'enter an ayah like 2:255, "surah 2 ayah 255", or "baqarah 255".';
             }
             pendingSurahNumber = null;
             const arabicUrl = `https://api.alquran.cloud/v1/ayah/${encodeURIComponent(ref)}/quran-uthmani`;
@@ -1309,7 +1311,7 @@ This message was submitted via the website contact form.
             container.textContent = '';
             const title = document.createElement('div');
             title.className = 'chatbot-quran-title';
-            title.textContent = `Ayah ${payload.ref}`;
+            title.textContent = `ayah ${payload.ref}`;
             container.appendChild(title);
 
             const audioUrl = buildAbuBakarSyateeriAudioUrl(payload.ref);
@@ -1379,10 +1381,10 @@ This message was submitted via the website contact form.
                 modeQuran.classList.toggle('chatbot-mode-active', mode === 'quran');
             }
             if (chatbotInput) {
-                chatbotInput.placeholder = mode === 'quran' ? 'Surah name and ayah (e.g., Al Baqarah 255)' : 'Type your question...';
+                chatbotInput.placeholder = mode === 'quran' ? 'surah name and ayah (e.g., baqarah 255)' : 'Type your question...';
             }
             if (mode === 'quran' && lastMode !== 'quran') {
-                addMessage('Quran mode: type a surah name and ayah number, or just the surah name first.', 'bot');
+                addMessage('quran mode: type a surah name and ayah number, or just the surah name first.', 'bot');
             }
             lastMode = mode;
         };
