@@ -1325,6 +1325,16 @@ This message was submitted via the website contact form.
             return page;
         };
 
+        const parseTranslationSearchTerm = (text) => {
+            const input = text.toLowerCase().trim();
+            if (!input || /\d/.test(input)) return null;
+            const keywordMatch = input.match(/(?:search|meaning|word|find)\s+(.+)/);
+            const term = (keywordMatch ? keywordMatch[1] : input).trim();
+            if (!term || term.length < 3) return null;
+            if (!/^[a-z\s'-]+$/.test(term)) return null;
+            return term;
+        };
+
         const extractSurahNameOnly = async (text) => {
             const input = text.toLowerCase().trim();
             if (/\d/.test(input)) return null;
@@ -1434,6 +1444,32 @@ This message was submitted via the website contact form.
             }
         };
 
+        const fetchTranslationSearch = async (term) => {
+            pendingSurahNumber = null;
+            try {
+                const res = await fetch(
+                    `https://api.alquran.cloud/v1/search/${encodeURIComponent(term)}/all/en.sahih`
+                );
+                const data = await res.json();
+                const matches = Array.isArray(data?.data?.matches) ? data.data.matches : [];
+                if (!matches.length) {
+                    return `No translation matches found for "${term}".`;
+                }
+                const firstMatch = matches[0];
+                const surahNumber = firstMatch?.surah?.number;
+                const ayahNumber = firstMatch?.numberInSurah;
+                if (!Number.isFinite(surahNumber) || !Number.isFinite(ayahNumber)) {
+                    return `I could not open the first match for "${term}".`;
+                }
+                const result = await fetchAyahByRef(`${surahNumber}:${ayahNumber}`);
+                if (typeof result === 'string') return result;
+                result.searchSummary = `Found ${matches.length} matches for "${term}". Showing ${surahNumber}:${ayahNumber}.`;
+                return result;
+            } catch {
+                return `I could not search translations for "${term}" right now. Please try again.`;
+            }
+        };
+
         const getQuranReply = async (text) => {
             const pageNumber = parsePageNumber(text);
             if (pageNumber) {
@@ -1445,10 +1481,14 @@ This message was submitted via the website contact form.
                 return `surah ${surahOnly.surahNumber} found. ayah?`;
             }
             const ref = await parseAyahRef(text);
-            if (!ref) {
-                return 'enter an ayah like 2:255, "surah 2 ayah 255", "imran 200", or "page 3".';
+            if (ref) {
+                return fetchAyahByRef(ref);
             }
-            return fetchAyahByRef(ref);
+            const term = parseTranslationSearchTerm(text);
+            if (term) {
+                return fetchTranslationSearch(term);
+            }
+            return 'enter an ayah like 2:255, "surah 2 ayah 255", "imran 200", "page 3", or a word like "cow".';
         };
 
         const buildAbuBakarSyateeriAudioUrl = (ref) => {
@@ -1463,6 +1503,12 @@ This message was submitted via the website contact form.
 
         const renderQuranReply = (container, payload) => {
             container.textContent = '';
+            if (payload.searchSummary) {
+                const summary = document.createElement('div');
+                summary.className = 'chatbot-translation-label';
+                summary.textContent = payload.searchSummary;
+                container.appendChild(summary);
+            }
             const title = document.createElement('div');
             title.className = 'chatbot-quran-title';
             title.textContent = `ayah ${payload.ref}`;
@@ -1578,10 +1624,15 @@ This message was submitted via the website contact form.
                 chatbotQuranTools.classList.toggle('chatbot-quran-tools-hidden', mode !== 'quran');
             }
             if (chatbotInput) {
-                chatbotInput.placeholder = mode === 'quran' ? 'surah name and ayah (e.g., imran 200) or page 3' : 'Type your question...';
+                chatbotInput.placeholder = mode === 'quran'
+                    ? 'surah name and ayah (e.g., imran 200), page 3, or word like cow'
+                    : 'Type your question...';
             }
             if (mode === 'quran' && lastMode !== 'quran') {
-                addMessage('quran mode: type a surah name and ayah number, or use "page 3" for the first ayah on that page.', 'bot');
+                addMessage(
+                    'quran mode: type a surah name and ayah number, use "page 3", or search a word like "cow".',
+                    'bot'
+                );
             }
             lastMode = mode;
         };
