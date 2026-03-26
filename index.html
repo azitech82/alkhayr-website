@@ -343,6 +343,7 @@
             font-family: 'KFGQPC HAFS Uthmanic Script', 'Amiri', 'Scheherazade New', serif;
             font-size: 1.25rem;
             line-height: 2.1;
+            font-weight: 700;
             margin-bottom: 0.2rem;
         }
         .chatbot-dict-meaning {
@@ -1715,8 +1716,13 @@ This message was submitted via the website contact form.
                 const firstMatch = matches[0];
                 const surahNumber = firstMatch?.surah?.number;
                 const ayahNumber = firstMatch?.numberInSurah;
+                const surahName = firstMatch?.surah?.englishName || firstMatch?.surah?.name || null;
                 const ref =
-                    Number.isFinite(surahNumber) && Number.isFinite(ayahNumber) ? `${surahNumber}:${ayahNumber}` : null;
+                    Number.isFinite(surahNumber) && Number.isFinite(ayahNumber)
+                        ? surahName
+                            ? `${surahName}:${ayahNumber}`
+                            : `${surahNumber}:${ayahNumber}`
+                        : null;
                 const snippet = buildSnippet(firstMatch?.text || '', term);
                 if (!snippet) {
                     return `I could not build a snippet for "${term}".`;
