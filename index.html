@@ -1246,8 +1246,15 @@ This message was submitted via the website contact form.
                 english: 'cow',
                 malay: 'lembu',
                 exampleSearch: 'cow'
+            },
+            قرد: {
+                arabic: 'قرد',
+                english: 'monkey',
+                malay: 'monyet',
+                exampleSearch: 'monkey'
             }
         };
+        const aiDictionaryEndpoint = 'https://libretranslate.de/translate';
 
         const addMessage = (text, type) => {
             const message = document.createElement('div');
@@ -1406,6 +1413,25 @@ This message was submitted via the website contact form.
             return match ? match[0] : null;
         };
 
+        const hasArabicLetters = (text) => /[\u0600-\u06FF]/.test(text);
+
+        const translateText = async (text, source, target) => {
+            try {
+                const res = await fetch(aiDictionaryEndpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ q: text, source, target, format: 'text' })
+                });
+                const data = await res.json();
+                const translated = data?.translatedText?.trim();
+                return translated || null;
+            } catch {
+                return null;
+            }
+        };
+
         const escapeHtml = (text) => {
             return text
                 .replace(/&/g, '&amp;')
@@ -1562,7 +1588,34 @@ This message was submitted via the website contact form.
             const englishEntry = !entry && englishTerm
                 ? Object.values(arabicDictionary).find((item) => item.english === englishTerm)
                 : null;
-            const resolvedEntry = entry || englishEntry;
+            let resolvedEntry = entry || englishEntry;
+            if (!resolvedEntry) {
+                if (hasArabicLetters(text)) {
+                    const aiEnglish = term ? await translateText(term, 'ar', 'en') : null;
+                    const aiMalay = term ? await translateText(term, 'ar', 'ms') : null;
+                    if (aiEnglish && aiMalay && term) {
+                        resolvedEntry = {
+                            arabic: term,
+                            english: aiEnglish.toLowerCase(),
+                            malay: aiMalay.toLowerCase(),
+                            exampleSearch: aiEnglish.toLowerCase()
+                        };
+                        arabicDictionary[term] = resolvedEntry;
+                    }
+                } else if (englishTerm) {
+                    const aiArabic = await translateText(englishTerm, 'en', 'ar');
+                    const aiMalay = await translateText(englishTerm, 'en', 'ms');
+                    if (aiArabic && aiMalay) {
+                        resolvedEntry = {
+                            arabic: aiArabic,
+                            english: englishTerm,
+                            malay: aiMalay.toLowerCase(),
+                            exampleSearch: englishTerm
+                        };
+                        arabicDictionary[aiArabic] = resolvedEntry;
+                    }
+                }
+            }
             if (!resolvedEntry) {
                 return 'Type an Arabic word like بقرة or an English word like cow.';
             }
