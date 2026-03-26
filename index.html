@@ -1918,20 +1918,16 @@ This message was submitted via the website contact form.
             }
 
             if (payload.exampleSnippet) {
-                const label = document.createElement('div');
-                label.className = 'chatbot-translation-label';
-                label.textContent = payload.exampleLabel || 'Example snippet:';
-                container.appendChild(label);
-                if (payload.exampleRef) {
-                    const reference = document.createElement('div');
-                    reference.className = 'chatbot-quran-title';
-                    reference.textContent = `ayah ${payload.exampleRef}`;
-                    container.appendChild(reference);
-                }
                 const snippet = document.createElement('div');
                 snippet.className = payload.exampleSnippetClass || 'chatbot-translation-text';
                 snippet.textContent = payload.exampleSnippet;
                 container.appendChild(snippet);
+                if (payload.exampleRef) {
+                    const reference = document.createElement('div');
+                    reference.className = 'chatbot-quran-title';
+                    reference.textContent = `[${payload.exampleRef}]`;
+                    container.appendChild(reference);
+                }
                 return;
             }
 
