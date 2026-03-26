@@ -1932,6 +1932,14 @@ This message was submitted via the website contact form.
                 return 'I could not translate that word right now. Please try again.';
             }
 
+            if (resolvedEntry.english === 'key' && resolvedEntry.malay === 'key') {
+                resolvedEntry.malay = 'kunci';
+                if (resolvedEntry.arabic) {
+                    arabicDictionary[resolvedEntry.arabic] = resolvedEntry;
+                }
+                persistArabicDictionary(arabicDictionary);
+            }
+
             await ensureArabicForms(resolvedEntry);
 
             const arabicForExample = resolvedEntry.arabic;
