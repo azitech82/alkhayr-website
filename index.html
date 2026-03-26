@@ -1462,14 +1462,14 @@ This message was submitted via the website contact form.
             chatbotSurahSelect.innerHTML = '';
             const placeholder = document.createElement('option');
             placeholder.value = '';
-            placeholder.textContent = 'Select surah';
+            placeholder.textContent = 'اختر السورة';
             placeholder.disabled = true;
             placeholder.selected = true;
             chatbotSurahSelect.appendChild(placeholder);
             list.forEach((surah) => {
                 const option = document.createElement('option');
                 option.value = surah.number;
-                option.textContent = `${surah.number}. ${surah.englishName} (${surah.name})`;
+                option.textContent = surah.name;
                 chatbotSurahSelect.appendChild(option);
             });
         };
