@@ -350,6 +350,26 @@
             margin-bottom: 0.4rem;
             color: #1f2937;
         }
+        .chatbot-dict-translation {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+            margin-bottom: 0.6rem;
+            font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+        }
+        .chatbot-dict-translation-line {
+            display: flex;
+            gap: 0.4rem;
+            align-items: baseline;
+            font-size: 1.05rem;
+            color: #111827;
+            font-weight: 600;
+        }
+        .chatbot-dict-translation-label {
+            font-size: 0.8rem;
+            color: #6b7280;
+            font-weight: 600;
+        }
         .chatbot-translation-text {
             margin-bottom: 0.6rem;
         }
@@ -1849,9 +1869,32 @@ This message was submitted via the website contact form.
             arabicWord.textContent = payload.entry.arabic;
             container.appendChild(arabicWord);
 
+            const capitalizeFirst = (value) => {
+                if (!value) return '';
+                return value.charAt(0).toUpperCase() + value.slice(1);
+            };
             const meaning = document.createElement('div');
-            meaning.className = 'chatbot-dict-meaning';
-            meaning.textContent = `${payload.entry.english} : ${payload.entry.malay}`;
+            meaning.className = 'chatbot-dict-translation';
+            const englishLine = document.createElement('div');
+            englishLine.className = 'chatbot-dict-translation-line';
+            const englishText = document.createElement('span');
+            englishText.textContent = capitalizeFirst(payload.entry.english || '');
+            const englishLabel = document.createElement('span');
+            englishLabel.className = 'chatbot-dict-translation-label';
+            englishLabel.textContent = '(eng)';
+            englishLine.appendChild(englishText);
+            englishLine.appendChild(englishLabel);
+            const malayLine = document.createElement('div');
+            malayLine.className = 'chatbot-dict-translation-line';
+            const malayText = document.createElement('span');
+            malayText.textContent = payload.entry.malay || '';
+            const malayLabel = document.createElement('span');
+            malayLabel.className = 'chatbot-dict-translation-label';
+            malayLabel.textContent = '(malay)';
+            malayLine.appendChild(malayText);
+            malayLine.appendChild(malayLabel);
+            meaning.appendChild(englishLine);
+            meaning.appendChild(malayLine);
             container.appendChild(meaning);
 
             if (payload.exampleSentence) {
