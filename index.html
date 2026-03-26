@@ -290,6 +290,10 @@
             background: linear-gradient(135deg, #2563eb 0%, #38bdf8 100%);
             color: #fff;
         }
+        #mode-arabic.chatbot-mode-active {
+            background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%);
+            color: #fff;
+        }
         .chatbot-messages {
             padding: 0.75rem;
             height: 280px;
@@ -332,6 +336,19 @@
             padding: 0 0.08em;
             display: inline-block;
             transform: translateY(-0.06em);
+        }
+        .chatbot-dict-arabic {
+            direction: rtl;
+            text-align: right;
+            font-family: 'KFGQPC HAFS Uthmanic Script', 'Amiri', 'Scheherazade New', serif;
+            font-size: 1.25rem;
+            line-height: 2.1;
+            margin-bottom: 0.2rem;
+        }
+        .chatbot-dict-meaning {
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            color: #1f2937;
         }
         .chatbot-translation-text {
             margin-bottom: 0.6rem;
@@ -1129,6 +1146,7 @@
         <div class="chatbot-modes">
             <button id="mode-quran" class="chatbot-mode-btn chatbot-mode-active" type="button">Quran</button>
             <button id="mode-school" class="chatbot-mode-btn" type="button">School</button>
+            <button id="mode-arabic" class="chatbot-mode-btn" type="button">Arabic</button>
         </div>
         <div id="chatbot-quran-tools" class="chatbot-quran-tools">
             <select id="chatbot-surah-select" aria-label="Select surah"></select>
@@ -1206,6 +1224,7 @@ This message was submitted via the website contact form.
         const chatbotInput = document.getElementById('chatbot-input');
         const modeSchool = document.getElementById('mode-school');
         const modeQuran = document.getElementById('mode-quran');
+        const modeArabic = document.getElementById('mode-arabic');
         const chatbotQuranTools = document.getElementById('chatbot-quran-tools');
         const chatbotSurahSelect = document.getElementById('chatbot-surah-select');
         const chatbotAyahInput = document.getElementById('chatbot-ayah-input');
@@ -1220,6 +1239,14 @@ This message was submitted via the website contact form.
             alimran: 3,
             aliimran: 3,
             aalimran: 3
+        };
+        const arabicDictionary = {
+            بقرة: {
+                arabic: 'بقرة',
+                english: 'cow',
+                malay: 'lembu',
+                exampleSearch: 'cow'
+            }
         };
 
         const addMessage = (text, type) => {
@@ -1355,6 +1382,21 @@ This message was submitted via the website contact form.
             if (!term || term.length < 3) return null;
             if (!/^[a-z\s'-]+$/.test(term)) return null;
             return term;
+        };
+
+        const normalizeArabicTerm = (text) => {
+            return text
+                .replace(/[\u064B-\u065F\u0670\u06D6-\u06ED]/g, '')
+                .replace(/\u0640/g, '')
+                .replace(/[^\u0600-\u06FF\s]/g, '')
+                .trim();
+        };
+
+        const parseArabicTerm = (text) => {
+            const cleaned = normalizeArabicTerm(text);
+            if (!cleaned) return null;
+            const match = cleaned.match(/[\u0600-\u06FF]+/);
+            return match ? match[0] : null;
         };
 
         const escapeHtml = (text) => {
@@ -1506,6 +1548,30 @@ This message was submitted via the website contact form.
             }
         };
 
+        const getArabicReply = async (text) => {
+            const term = parseArabicTerm(text);
+            if (!term) {
+                return 'Type an Arabic word like بقرة.';
+            }
+            const entry = arabicDictionary[term];
+            if (!entry) {
+                return `No entry found for "${term}".`;
+            }
+            const example = await fetchTranslationSearch(entry.exampleSearch);
+            if (typeof example === 'string') {
+                return {
+                    entry,
+                    example: null,
+                    exampleError: example
+                };
+            }
+            return {
+                entry,
+                example,
+                exampleError: null
+            };
+        };
+
         const getQuranReply = async (text) => {
             const pageNumber = parsePageNumber(text);
             if (pageNumber) {
@@ -1525,6 +1591,37 @@ This message was submitted via the website contact form.
                 return fetchTranslationSearch(term);
             }
             return 'enter an ayah like 2:255, "surah 2 ayah 255", "imran 200", "page 3", or a word like "cow".';
+        };
+
+        const renderArabicReply = (container, payload) => {
+            container.textContent = '';
+            const arabicWord = document.createElement('div');
+            arabicWord.className = 'chatbot-dict-arabic';
+            arabicWord.textContent = payload.entry.arabic;
+            container.appendChild(arabicWord);
+
+            const meaning = document.createElement('div');
+            meaning.className = 'chatbot-dict-meaning';
+            meaning.textContent = `${payload.entry.english} : ${payload.entry.malay}`;
+            container.appendChild(meaning);
+
+            if (payload.exampleError) {
+                const error = document.createElement('div');
+                error.className = 'chatbot-translation-text';
+                error.textContent = payload.exampleError;
+                container.appendChild(error);
+                return;
+            }
+
+            if (payload.example) {
+                const label = document.createElement('div');
+                label.className = 'chatbot-translation-label';
+                label.textContent = 'Example ayah:';
+                container.appendChild(label);
+                const exampleWrap = document.createElement('div');
+                container.appendChild(exampleWrap);
+                renderQuranReply(exampleWrap, payload.example);
+            }
         };
 
         const buildAbuBakarSyateeriAudioUrl = (ref) => {
@@ -1652,23 +1749,31 @@ This message was submitted via the website contact form.
 
         const setMode = (mode) => {
             activeMode = mode;
-            if (modeSchool && modeQuran) {
+            if (modeSchool && modeQuran && modeArabic) {
                 modeSchool.classList.toggle('chatbot-mode-active', mode === 'school');
                 modeQuran.classList.toggle('chatbot-mode-active', mode === 'quran');
+                modeArabic.classList.toggle('chatbot-mode-active', mode === 'arabic');
             }
             if (chatbotQuranTools) {
                 chatbotQuranTools.classList.toggle('chatbot-quran-tools-hidden', mode !== 'quran');
             }
             if (chatbotInput) {
-                chatbotInput.placeholder = mode === 'quran'
-                    ? 'surah name and ayah (e.g., imran 200), page 3, or word like cow'
-                    : 'Type your question...';
+                if (mode === 'quran') {
+                    chatbotInput.placeholder = 'surah name and ayah (e.g., imran 200), page 3, or word like cow';
+                } else if (mode === 'arabic') {
+                    chatbotInput.placeholder = 'type an Arabic word (e.g., بقرة)';
+                } else {
+                    chatbotInput.placeholder = 'Type your question...';
+                }
             }
             if (mode === 'quran' && lastMode !== 'quran') {
                 addMessage(
                     'quran mode: type a surah name and ayah number, use "page 3", or search a word like "cow".',
                     'bot'
                 );
+            }
+            if (mode === 'arabic' && lastMode !== 'arabic') {
+                addMessage('arabic mode: type a word like بقرة to see English/Malay and an example ayah.', 'bot');
             }
             lastMode = mode;
         };
@@ -1722,6 +1827,15 @@ This message was submitted via the website contact form.
                     renderQuranReply(loading, reply);
                 }
                 chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+            } else if (activeMode === 'arabic') {
+                const loading = addMessage('Searching dictionary...', 'bot');
+                const reply = await getArabicReply(text);
+                if (typeof reply === 'string') {
+                    loading.textContent = reply;
+                } else {
+                    renderArabicReply(loading, reply);
+                }
+                chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
             } else {
                 const reply = getSchoolReply(text);
                 setTimeout(() => addMessage(reply, 'bot'), 300);
@@ -1756,6 +1870,9 @@ This message was submitted via the website contact form.
         }
         if (modeQuran) {
             modeQuran.addEventListener('click', () => setMode('quran'));
+        }
+        if (modeArabic) {
+            modeArabic.addEventListener('click', () => setMode('arabic'));
         }
         if (chatbotSurahSelect) {
             chatbotSurahSelect.addEventListener('change', () => {
