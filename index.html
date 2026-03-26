@@ -377,6 +377,39 @@
             font-size: 0.9rem;
             font-weight: 600;
         }
+        .chatbot-quran-tools {
+            display: flex;
+            gap: 0.5rem;
+            padding: 0.6rem 0.75rem;
+            border-top: 1px solid #eef2f7;
+            background: #fbfbfe;
+            align-items: center;
+        }
+        .chatbot-quran-tools select,
+        .chatbot-quran-tools input {
+            border: 1px solid #e5e7eb;
+            border-radius: 9999px;
+            padding: 0.4rem 0.7rem;
+            font-size: 0.85rem;
+        }
+        .chatbot-quran-tools select {
+            flex: 1.2;
+        }
+        .chatbot-quran-tools input {
+            flex: 0.6;
+            min-width: 74px;
+        }
+        .chatbot-quran-tools button {
+            background: #7c3aed;
+            color: #fff;
+            border-radius: 9999px;
+            padding: 0.4rem 0.9rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .chatbot-quran-tools-hidden {
+            display: none;
+        }
         @media (max-width: 639px) {
             .chatbot-window {
                 right: 2.25rem;
@@ -1042,6 +1075,11 @@
             <button id="mode-quran" class="chatbot-mode-btn chatbot-mode-active" type="button">Quran</button>
             <button id="mode-school" class="chatbot-mode-btn" type="button">School</button>
         </div>
+        <div id="chatbot-quran-tools" class="chatbot-quran-tools">
+            <select id="chatbot-surah-select" aria-label="Select surah"></select>
+            <input id="chatbot-ayah-input" type="number" min="1" placeholder="Ayah" />
+            <button id="chatbot-quran-go" type="button">Go</button>
+        </div>
         <div id="chatbot-messages" class="chatbot-messages">
             <div class="chatbot-message chatbot-bot">Hi! Ask about admissions, programs, fees, calendar, campus location, or contact info.</div>
         </div>
@@ -1115,11 +1153,21 @@ This message was submitted via the website contact form.
         const chatbotSend = document.getElementById('chatbot-send');
         const modeSchool = document.getElementById('mode-school');
         const modeQuran = document.getElementById('mode-quran');
+        const chatbotQuranTools = document.getElementById('chatbot-quran-tools');
+        const chatbotSurahSelect = document.getElementById('chatbot-surah-select');
+        const chatbotAyahInput = document.getElementById('chatbot-ayah-input');
+        const chatbotQuranGo = document.getElementById('chatbot-quran-go');
         let activeMode = 'quran';
         let lastMode = null;
         let tafsirEditionId = null;
         let surahListCache = null;
         let pendingSurahNumber = null;
+        const surahAliasMap = {
+            imran: 3,
+            alimran: 3,
+            aliimran: 3,
+            aalimran: 3
+        };
 
         const addMessage = (text, type) => {
             const message = document.createElement('div');
@@ -1182,6 +1230,9 @@ This message was submitted via the website contact form.
             const list = await getSurahList();
             const inputNorm = normalizeSurah(name);
             if (!inputNorm) return null;
+            if (surahAliasMap[inputNorm]) {
+                return surahAliasMap[inputNorm];
+            }
             const inputNoAl = inputNorm.replace(/^al/, '');
             if (inputNorm === 'baqarah' || inputNoAl === 'baqarah') {
                 return 2;
@@ -1195,7 +1246,9 @@ This message was submitted via the website contact form.
                     if (
                         inputNorm === candidateNorm ||
                         inputNoAl === candidateNorm ||
-                        inputNorm === candidateNoAl
+                        inputNorm === candidateNoAl ||
+                        (inputNorm.length >= 4 && candidateNorm.endsWith(inputNorm)) ||
+                        (inputNoAl.length >= 4 && candidateNorm.endsWith(inputNoAl))
                     ) {
                         return surah.number;
                     }
@@ -1265,7 +1318,7 @@ This message was submitted via the website contact form.
             }
             const ref = await parseAyahRef(text);
             if (!ref) {
-                return 'enter an ayah like 2:255, "surah 2 ayah 255", or "baqarah 255".';
+                return 'enter an ayah like 2:255, "surah 2 ayah 255", or "imran 200".';
             }
             pendingSurahNumber = null;
             const arabicUrl = `https://api.alquran.cloud/v1/ayah/${encodeURIComponent(ref)}/quran-uthmani`;
@@ -1383,13 +1436,51 @@ This message was submitted via the website contact form.
                 modeSchool.classList.toggle('chatbot-mode-active', mode === 'school');
                 modeQuran.classList.toggle('chatbot-mode-active', mode === 'quran');
             }
+            if (chatbotQuranTools) {
+                chatbotQuranTools.classList.toggle('chatbot-quran-tools-hidden', mode !== 'quran');
+            }
             if (chatbotInput) {
-                chatbotInput.placeholder = mode === 'quran' ? 'surah name and ayah (e.g., baqarah 255)' : 'Type your question...';
+                chatbotInput.placeholder = mode === 'quran' ? 'surah name and ayah (e.g., imran 200)' : 'Type your question...';
             }
             if (mode === 'quran' && lastMode !== 'quran') {
                 addMessage('quran mode: type a surah name and ayah number, or just the surah name first.', 'bot');
             }
             lastMode = mode;
+        };
+
+        const populateSurahIndex = async () => {
+            if (!chatbotSurahSelect) return;
+            const list = await getSurahList();
+            chatbotSurahSelect.innerHTML = '';
+            const placeholder = document.createElement('option');
+            placeholder.value = '';
+            placeholder.textContent = 'Select surah';
+            placeholder.disabled = true;
+            placeholder.selected = true;
+            chatbotSurahSelect.appendChild(placeholder);
+            list.forEach((surah) => {
+                const option = document.createElement('option');
+                option.value = surah.number;
+                option.textContent = `${surah.number}. ${surah.englishName} (${surah.name})`;
+                chatbotSurahSelect.appendChild(option);
+            });
+        };
+
+        const sendFromSurahPicker = () => {
+            if (!chatbotSurahSelect) return;
+            const surahNumber = chatbotSurahSelect.value;
+            if (!surahNumber) return;
+            const ayahNumber = chatbotAyahInput ? chatbotAyahInput.value.trim() : '';
+            if (!ayahNumber) {
+                addMessage(`surah ${surahNumber}`, 'user');
+                pendingSurahNumber = Number(surahNumber);
+                addMessage(`surah ${surahNumber} found. ayah?`, 'bot');
+                return;
+            }
+            if (chatbotInput) {
+                chatbotInput.value = `surah ${surahNumber} ayah ${ayahNumber}`;
+                sendMessage();
+            }
         };
 
         const sendMessage = async () => {
@@ -1428,6 +1519,9 @@ This message was submitted via the website contact form.
         if (chatbotSend) {
             chatbotSend.addEventListener('click', sendMessage);
         }
+        if (chatbotQuranGo) {
+            chatbotQuranGo.addEventListener('click', sendFromSurahPicker);
+        }
         if (chatbotInput) {
             chatbotInput.addEventListener('keydown', (event) => {
                 if (event.key === 'Enter') {
@@ -1441,6 +1535,14 @@ This message was submitted via the website contact form.
         if (modeQuran) {
             modeQuran.addEventListener('click', () => setMode('quran'));
         }
+        if (chatbotSurahSelect) {
+            chatbotSurahSelect.addEventListener('change', () => {
+                if (chatbotAyahInput) {
+                    chatbotAyahInput.focus();
+                }
+            });
+        }
+        populateSurahIndex();
         setMode('quran');
     </script>
 
