@@ -1261,8 +1261,12 @@ This message was submitted via the website contact form.
             message.className = `chatbot-message ${type === 'user' ? 'chatbot-user' : 'chatbot-bot'}`;
             message.textContent = text;
             chatbotMessages.appendChild(message);
-            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
             return message;
+        };
+
+        const scrollMessageToTop = (message) => {
+            if (!message) return;
+            message.scrollIntoView({ block: 'start' });
         };
 
         const getSchoolReply = (text) => {
@@ -1941,7 +1945,7 @@ This message was submitted via the website contact form.
                 } else {
                     renderQuranReply(loading, reply);
                 }
-                chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+                requestAnimationFrame(() => scrollMessageToTop(loading));
             } else if (activeMode === 'arabic') {
                 const loading = addMessage('Searching dictionary...', 'bot');
                 const reply = await getArabicReply(text);
@@ -1950,10 +1954,13 @@ This message was submitted via the website contact form.
                 } else {
                     renderArabicReply(loading, reply);
                 }
-                chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+                requestAnimationFrame(() => scrollMessageToTop(loading));
             } else {
                 const reply = getSchoolReply(text);
-                setTimeout(() => addMessage(reply, 'bot'), 300);
+                setTimeout(() => {
+                    const response = addMessage(reply, 'bot');
+                    scrollMessageToTop(response);
+                }, 300);
             }
         };
 
