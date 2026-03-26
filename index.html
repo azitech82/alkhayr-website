@@ -1657,7 +1657,21 @@ This message was submitted via the website contact form.
             }
         };
 
-        const fetchArabicQuranSearch = async (term) => {
+        const buildSnippet = (text, term) => {
+            const cleaned = (text || '').replace(/\s+/g, ' ').trim();
+            if (!cleaned) return null;
+            if (!term) return cleaned.slice(0, 120);
+            const index = cleaned.indexOf(term);
+            if (index === -1) return cleaned.slice(0, 120);
+            const start = Math.max(0, index - 40);
+            const end = Math.min(cleaned.length, index + term.length + 40);
+            let snippet = cleaned.slice(start, end).trim();
+            if (start > 0) snippet = `…${snippet}`;
+            if (end < cleaned.length) snippet = `${snippet}…`;
+            return snippet;
+        };
+
+        const fetchArabicQuranSnippet = async (term) => {
             pendingSurahNumber = null;
             const searchEditions = ['quran-simple-clean', 'quran-simple', 'quran-uthmani-quran-academy', 'quran-uthmani'];
             try {
@@ -1679,15 +1693,15 @@ This message was submitted via the website contact form.
                     return `No Quran matches found for "${term}".`;
                 }
                 const firstMatch = matches[0];
-                const surahNumber = firstMatch?.surah?.number;
-                const ayahNumber = firstMatch?.numberInSurah;
-                if (!Number.isFinite(surahNumber) || !Number.isFinite(ayahNumber)) {
-                    return `I could not open the first Quran match for "${term}".`;
+                const snippet = buildSnippet(firstMatch?.text || '', term);
+                if (!snippet) {
+                    return `I could not build a snippet for "${term}".`;
                 }
-                const result = await fetchAyahByRef(`${surahNumber}:${ayahNumber}`);
-                if (typeof result === 'string') return result;
-                result.searchSummary = `Found ${matches.length} Quran matches for "${term}". Showing ${surahNumber}:${ayahNumber}.`;
-                return result;
+                return {
+                    snippet,
+                    label: 'Quran snippet:',
+                    className: 'chatbot-ayah-text'
+                };
             } catch {
                 return `I could not search the Quran for "${term}" right now. Please try again.`;
             }
@@ -1780,36 +1794,23 @@ This message was submitted via the website contact form.
             }
 
             const arabicForExample = resolvedEntry.arabic;
-            const exampleQuran = arabicForExample ? await fetchArabicQuranSearch(arabicForExample) : null;
-            if (exampleQuran && typeof exampleQuran !== 'string') {
+            const exampleSnippet = arabicForExample ? await fetchArabicQuranSnippet(arabicForExample) : null;
+            if (exampleSnippet && typeof exampleSnippet !== 'string') {
                 return {
                     entry: resolvedEntry,
-                    example: exampleQuran,
-                    exampleLabel: 'Quran example:',
+                    exampleSnippet: exampleSnippet.snippet,
+                    exampleLabel: exampleSnippet.label,
+                    exampleSnippetClass: exampleSnippet.className,
                     exampleSentence: null,
                     exampleError: null
                 };
             }
 
-            const searchTerm = (resolvedEntry.exampleSearch || '').trim();
-            const example = searchTerm ? await fetchTranslationSearch(searchTerm) : 'No translation matches found.';
-            if (typeof example === 'string') {
-                const noMatch =
-                    example.startsWith('No translation matches found') ||
-                    example.startsWith('No Quran matches found');
-                return {
-                    entry: resolvedEntry,
-                    example: null,
-                    exampleLabel: 'Example sentence:',
-                    exampleSentence: noMatch ? `هذه ${resolvedEntry.arabic} نراها كثيرًا في حياتنا اليومية.` : null,
-                    exampleError: noMatch ? null : example
-                };
-            }
             return {
                 entry: resolvedEntry,
-                example,
-                exampleLabel: 'Example ayah:',
-                exampleSentence: null,
+                exampleSnippet: null,
+                exampleLabel: 'Example sentence:',
+                exampleSentence: `هذه ${resolvedEntry.arabic} نراها كثيرًا في حياتنا اليومية.`,
                 exampleError: null
             };
         };
@@ -1864,6 +1865,18 @@ This message was submitted via the website contact form.
                 error.className = 'chatbot-translation-text';
                 error.textContent = payload.exampleError;
                 container.appendChild(error);
+                return;
+            }
+
+            if (payload.exampleSnippet) {
+                const label = document.createElement('div');
+                label.className = 'chatbot-translation-label';
+                label.textContent = payload.exampleLabel || 'Example snippet:';
+                container.appendChild(label);
+                const snippet = document.createElement('div');
+                snippet.className = payload.exampleSnippetClass || 'chatbot-translation-text';
+                snippet.textContent = payload.exampleSnippet;
+                container.appendChild(snippet);
                 return;
             }
 
