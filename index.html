@@ -1183,6 +1183,9 @@ This message was submitted via the website contact form.
             const inputNorm = normalizeSurah(name);
             if (!inputNorm) return null;
             const inputNoAl = inputNorm.replace(/^al/, '');
+            if (inputNorm === 'baqarah' || inputNoAl === 'baqarah') {
+                return 2;
+            }
             for (const surah of list) {
                 const candidates = [surah.englishName, surah.englishNameTranslation];
                 for (const candidate of candidates) {
