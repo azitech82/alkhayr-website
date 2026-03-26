@@ -346,6 +346,30 @@
             font-weight: 700;
             margin-bottom: 0.2rem;
         }
+        .chatbot-dict-forms {
+            direction: rtl;
+            text-align: right;
+            font-family: 'KFGQPC HAFS Uthmanic Script', 'Amiri', 'Scheherazade New', serif;
+            font-size: 1.05rem;
+            line-height: 1.9;
+            color: #1f2937;
+            margin-bottom: 0.35rem;
+        }
+        .chatbot-dict-forms-line {
+            display: flex;
+            gap: 0.35rem;
+            align-items: baseline;
+            justify-content: flex-end;
+        }
+        .chatbot-dict-forms-label {
+            font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            font-size: 0.78rem;
+            color: #6b7280;
+            font-weight: 600;
+            direction: ltr;
+            display: inline-block;
+            margin-right: 0.35rem;
+        }
         .chatbot-dict-meaning {
             font-weight: 600;
             margin-bottom: 0.4rem;
@@ -1263,10 +1287,10 @@ This message was submitted via the website contact form.
         };
         const arabicDictionaryDefaults = {
             الله: { arabic: 'الله', english: 'allah', malay: 'allah', exampleSearch: 'allah' },
-            كتاب: { arabic: 'كتاب', english: 'book', malay: 'buku', exampleSearch: 'book' },
-            مدرسة: { arabic: 'مدرسة', english: 'school', malay: 'sekolah', exampleSearch: 'school' },
-            طالب: { arabic: 'طالب', english: 'student', malay: 'pelajar', exampleSearch: 'student' },
-            معلم: { arabic: 'معلم', english: 'teacher', malay: 'guru', exampleSearch: 'teacher' },
+            كتاب: { arabic: 'كتاب', english: 'book', malay: 'buku', exampleSearch: 'book', plural: 'كتب' },
+            مدرسة: { arabic: 'مدرسة', english: 'school', malay: 'sekolah', exampleSearch: 'school', plural: 'مدارس' },
+            طالب: { arabic: 'طالب', english: 'student', malay: 'pelajar', exampleSearch: 'student', plural: 'طلاب' },
+            معلم: { arabic: 'معلم', english: 'teacher', malay: 'guru', exampleSearch: 'teacher', plural: 'معلمون' },
             قرآن: { arabic: 'قرآن', english: 'quran', malay: 'al-quran', exampleSearch: 'quran' },
             صلاة: { arabic: 'صلاة', english: 'prayer', malay: 'solat', exampleSearch: 'prayer' },
             صوم: { arabic: 'صوم', english: 'fasting', malay: 'puasa', exampleSearch: 'fasting' },
@@ -1274,7 +1298,7 @@ This message was submitted via the website contact form.
             صدقة: { arabic: 'صدقة', english: 'charity', malay: 'sedekah', exampleSearch: 'charity' },
             حج: { arabic: 'حج', english: 'pilgrimage', malay: 'haji', exampleSearch: 'pilgrimage' },
             دعاء: { arabic: 'دعاء', english: 'supplication', malay: 'doa', exampleSearch: 'supplication' },
-            مسجد: { arabic: 'مسجد', english: 'mosque', malay: 'masjid', exampleSearch: 'mosque' },
+            مسجد: { arabic: 'مسجد', english: 'mosque', malay: 'masjid', exampleSearch: 'mosque', plural: 'مساجد' },
             صبر: { arabic: 'صبر', english: 'patience', malay: 'sabar', exampleSearch: 'patience' },
             رحمة: { arabic: 'رحمة', english: 'mercy', malay: 'rahmat', exampleSearch: 'mercy' },
             نور: { arabic: 'نور', english: 'light', malay: 'cahaya', exampleSearch: 'light' },
@@ -1287,18 +1311,18 @@ This message was submitted via the website contact form.
             جنة: { arabic: 'جنة', english: 'paradise', malay: 'syurga', exampleSearch: 'paradise' },
             نار: { arabic: 'نار', english: 'fire', malay: 'api', exampleSearch: 'fire' },
             ماء: { arabic: 'ماء', english: 'water', malay: 'air', exampleSearch: 'water' },
-            شمس: { arabic: 'شمس', english: 'sun', malay: 'matahari', exampleSearch: 'sun' },
-            قمر: { arabic: 'قمر', english: 'moon', malay: 'bulan', exampleSearch: 'moon' },
-            يوم: { arabic: 'يوم', english: 'day', malay: 'hari', exampleSearch: 'day' },
-            ليلة: { arabic: 'ليلة', english: 'night', malay: 'malam', exampleSearch: 'night' },
+            شمس: { arabic: 'شمس', english: 'sun', malay: 'matahari', exampleSearch: 'sun', plural: 'شموس' },
+            قمر: { arabic: 'قمر', english: 'moon', malay: 'bulan', exampleSearch: 'moon', plural: 'أقمار' },
+            يوم: { arabic: 'يوم', english: 'day', malay: 'hari', exampleSearch: 'day', plural: 'أيام' },
+            ليلة: { arabic: 'ليلة', english: 'night', malay: 'malam', exampleSearch: 'night', plural: 'ليالٍ' },
             وقت: { arabic: 'وقت', english: 'time', malay: 'masa', exampleSearch: 'time' },
-            بيت: { arabic: 'بيت', english: 'house', malay: 'rumah', exampleSearch: 'house' },
+            بيت: { arabic: 'بيت', english: 'house', malay: 'rumah', exampleSearch: 'house', plural: 'بيوت' },
             أب: { arabic: 'أب', english: 'father', malay: 'bapa', exampleSearch: 'father' },
             أم: { arabic: 'أم', english: 'mother', malay: 'ibu', exampleSearch: 'mother' },
-            ولد: { arabic: 'ولد', english: 'boy', malay: 'budak lelaki', exampleSearch: 'boy' },
-            بنت: { arabic: 'بنت', english: 'girl', malay: 'budak perempuan', exampleSearch: 'girl' },
-            بقرة: { arabic: 'بقرة', english: 'cow', malay: 'lembu', exampleSearch: 'cow' },
-            قرد: { arabic: 'قرد', english: 'monkey', malay: 'monyet', exampleSearch: 'monkey' }
+            ولد: { arabic: 'ولد', english: 'boy', malay: 'budak lelaki', exampleSearch: 'boy', plural: 'أولاد' },
+            بنت: { arabic: 'بنت', english: 'girl', malay: 'budak perempuan', exampleSearch: 'girl', plural: 'بنات' },
+            بقرة: { arabic: 'بقرة', english: 'cow', malay: 'lembu', exampleSearch: 'cow', plural: 'بقر' },
+            قرد: { arabic: 'قرد', english: 'monkey', malay: 'monyet', exampleSearch: 'monkey', plural: 'قرود' }
         };
         const arabicDictionaryStorageKey = 'aak_arabic_dictionary_v1';
         const loadArabicDictionary = () => {
@@ -1706,6 +1730,45 @@ This message was submitted via the website contact form.
             return templates[index];
         };
 
+        const pluralizeEnglishTerm = (term) => {
+            const word = (term || '').trim().toLowerCase();
+            if (!word) return '';
+            if (word.endsWith('ch') || word.endsWith('sh') || word.endsWith('s') || word.endsWith('x') || word.endsWith('z')) {
+                return `${word}es`;
+            }
+            if (word.endsWith('y') && !/[aeiou]y$/.test(word)) {
+                return `${word.slice(0, -1)}ies`;
+            }
+            if (word.endsWith('f')) {
+                return `${word.slice(0, -1)}ves`;
+            }
+            if (word.endsWith('fe')) {
+                return `${word.slice(0, -2)}ves`;
+            }
+            return `${word}s`;
+        };
+
+        const ensureArabicForms = async (entry) => {
+            if (!entry) return entry;
+            const singular = entry.singular || entry.arabic || '';
+            let plural = entry.plural || '';
+            if (!plural) {
+                const english = entry.english || '';
+                const pluralEnglish = pluralizeEnglishTerm(english);
+                if (pluralEnglish && pluralEnglish !== english) {
+                    const aiPluralArabic = await translateText(pluralEnglish, 'en', 'ar');
+                    const normalized = normalizeArabicTerm(aiPluralArabic || '');
+                    if (normalized && normalized !== singular) {
+                        plural = normalized;
+                    }
+                }
+            }
+            entry.singular = singular;
+            entry.plural = plural;
+            persistArabicDictionary(arabicDictionary);
+            return entry;
+        };
+
         const fetchArabicQuranSnippet = async (term) => {
             pendingSurahNumber = null;
             const searchEditions = ['quran-simple-clean', 'quran-simple', 'quran-uthmani-quran-academy', 'quran-uthmani'];
@@ -1838,6 +1901,8 @@ This message was submitted via the website contact form.
                 return 'I could not translate that word right now. Please try again.';
             }
 
+            await ensureArabicForms(resolvedEntry);
+
             const arabicForExample = resolvedEntry.arabic;
             const exampleSnippet = arabicForExample ? await fetchArabicQuranSnippet(arabicForExample) : null;
             if (exampleSnippet && typeof exampleSnippet !== 'string') {
@@ -1888,6 +1953,30 @@ This message was submitted via the website contact form.
             arabicWord.className = 'chatbot-dict-arabic';
             arabicWord.textContent = payload.entry.arabic;
             container.appendChild(arabicWord);
+
+            const forms = document.createElement('div');
+            forms.className = 'chatbot-dict-forms';
+            const singularLine = document.createElement('div');
+            singularLine.className = 'chatbot-dict-forms-line';
+            const singularLabel = document.createElement('span');
+            singularLabel.className = 'chatbot-dict-forms-label';
+            singularLabel.textContent = 'مفرد (singular)';
+            const singularText = document.createElement('span');
+            singularText.textContent = payload.entry.singular || payload.entry.arabic || '';
+            singularLine.appendChild(singularText);
+            singularLine.appendChild(singularLabel);
+            const pluralLine = document.createElement('div');
+            pluralLine.className = 'chatbot-dict-forms-line';
+            const pluralLabel = document.createElement('span');
+            pluralLabel.className = 'chatbot-dict-forms-label';
+            pluralLabel.textContent = 'جمع (plural)';
+            const pluralText = document.createElement('span');
+            pluralText.textContent = payload.entry.plural || 'غير متوفر';
+            pluralLine.appendChild(pluralText);
+            pluralLine.appendChild(pluralLabel);
+            forms.appendChild(singularLine);
+            forms.appendChild(pluralLine);
+            container.appendChild(forms);
 
             const capitalizeFirst = (value) => {
                 if (!value) return '';
