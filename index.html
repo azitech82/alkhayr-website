@@ -1313,6 +1313,7 @@ This message was submitted via the website contact form.
             ماء: { arabic: 'ماء', english: 'water', malay: 'air', exampleSearch: 'water' },
             شمس: { arabic: 'شمس', english: 'sun', malay: 'matahari', exampleSearch: 'sun', plural: 'شموس' },
             قمر: { arabic: 'قمر', english: 'moon', malay: 'bulan', exampleSearch: 'moon', plural: 'أقمار' },
+            مفتاح: { arabic: 'مفتاح', english: 'key', malay: 'kunci', exampleSearch: 'key', plural: 'مفاتيح' },
             يوم: { arabic: 'يوم', english: 'day', malay: 'hari', exampleSearch: 'day', plural: 'أيام' },
             ليلة: { arabic: 'ليلة', english: 'night', malay: 'malam', exampleSearch: 'night', plural: 'ليالٍ' },
             وقت: { arabic: 'وقت', english: 'time', malay: 'masa', exampleSearch: 'time' },
@@ -1364,7 +1365,7 @@ This message was submitted via the website contact form.
                 return 'Fees details are available in the Fees payment section and the Guidebook.';
             }
             if (value.includes('program') || value.includes('course') || value.includes('curriculum')) {
-                return 'We offer holistic Hifz, Arabic, and academic programs with integrated modules.';
+                return 'We offer integrated Hifz, Arabic, and academic modules with holistic programs across primary, secondary, and co-curriculum activities.';
             }
             if (value.includes('apply') || value.includes('admission') || value.includes('register')) {
                 return 'You can apply using the Apply Now button at the top of the page.';
@@ -1372,17 +1373,47 @@ This message was submitted via the website contact form.
             if (value.includes('calendar') || value.includes('calender') || value.includes('takwim')) {
                 return 'The academic calendar is available in the AAK Takwim section.';
             }
+            if (value.includes('tahfiz') || value.includes('hifz') || value.includes('memorisation') || value.includes('quran memorisation')) {
+                return 'Our Quran memorisation program uses the Photo Memory Memorisation Method (PMMM) for strong retention.';
+            }
+            if (value.includes('pmmm') || value.includes('photo memory')) {
+                return 'PMMM stands for Photo Memory Memorisation Method, a visualisation-based approach used in our Quran memorisation program.';
+            }
+            if (value.includes('arabic') || value.includes('bahasa arab') || value.includes('language of the quran')) {
+                return 'Arabic is offered as a core program focused on the language of the Quran.';
+            }
+            if (value.includes('character') || value.includes('akhlak') || value.includes('leadership')) {
+                return 'Character development is a core pillar focused on building future leaders with strong values.';
+            }
+            if (value.includes('primary') || value.includes('kssr')) {
+                return 'Primary education blends the KSSR syllabus with Islamic values.';
+            }
+            if (value.includes('secondary') || value.includes('kssm') || value.includes('cambridge')) {
+                return 'Secondary education follows a dual syllabus approach (KSSM & Cambridge) with Islamic values.';
+            }
+            if (value.includes('co-curriculum') || value.includes('club') || value.includes('sports') || value.includes('arts')) {
+                return 'Co-curriculum includes sports, arts, and clubs to support well-rounded development.';
+            }
+            if (value.includes('online') || value.includes('kelas online') || value.includes('remote')) {
+                return 'Online Tahfiz & Arabic is available for flexible learning.';
+            }
+            if (value.includes('eco campus') || value.includes('camp') || value.includes('resort') || value.includes('white resort')) {
+                return 'Our eco campus is at White Resort Camp, Kampung Genting, Balik Pulau, Penang.';
+            }
+            if (value.includes('learning style') || value.includes('ability based') || value.includes('learning approach')) {
+                return 'Our learning style is ability-based learning to support students at their level.';
+            }
             if (value.includes('teacher') || value.includes('principal') || value.includes('staff') || value.includes('educator')) {
                 return 'Our educators and leadership details can be shared upon request. Please contact us for more.';
             }
             if (value.includes('admission period') || value.includes('intake') || value.includes('deadline')) {
-                return 'Admissions open in batches. Please contact us for the current intake period.';
+                return 'Intake is open throughout the year. Contact us to get the latest availability and steps.';
             }
             if (value.includes('contact') || value.includes('email') || value.includes('phone') || value.includes('whatsapp')) {
                 return 'Reach us via WhatsApp: +60 19-381 8616 or email: akademialkhayrofficial@gmail.com.';
             }
             if (value.includes('location') || value.includes('address') || value.includes('visit')) {
-                return 'Check the Visit section on this page for location details.';
+                return 'Akademi Al Khayr is located at White Resort Camp, Kampung Genting, 11000 Balik Pulau, Penang.';
             }
             if (value.includes('time') || value.includes('hours') || value.includes('schedule')) {
                 return 'School hours are shared during registration. Contact us if you need the schedule.';
@@ -1960,7 +1991,7 @@ This message was submitted via the website contact form.
             singularLine.className = 'chatbot-dict-forms-line';
             const singularLabel = document.createElement('span');
             singularLabel.className = 'chatbot-dict-forms-label';
-            singularLabel.textContent = 'مفرد (singular)';
+            singularLabel.textContent = '(singular)';
             const singularText = document.createElement('span');
             singularText.textContent = payload.entry.singular || payload.entry.arabic || '';
             singularLine.appendChild(singularText);
@@ -1969,7 +2000,7 @@ This message was submitted via the website contact form.
             pluralLine.className = 'chatbot-dict-forms-line';
             const pluralLabel = document.createElement('span');
             pluralLabel.className = 'chatbot-dict-forms-label';
-            pluralLabel.textContent = 'جمع (plural)';
+            pluralLabel.textContent = '(plural)';
             const pluralText = document.createElement('span');
             pluralText.textContent = payload.entry.plural || 'غير متوفر';
             pluralLine.appendChild(pluralText);
