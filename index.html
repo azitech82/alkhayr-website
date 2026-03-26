@@ -1295,14 +1295,14 @@ This message was submitted via the website contact form.
             }
         };
 
-        const buildAliJaberAudioUrl = (ref) => {
+        const buildAbuBakarSyateeriAudioUrl = (ref) => {
             if (!ref || !ref.includes(':')) return null;
             const [surahStr, ayahStr] = ref.split(':');
             const surah = Number(surahStr);
             const ayah = Number(ayahStr);
             if (!Number.isFinite(surah) || !Number.isFinite(ayah)) return null;
             const key = `${String(surah).padStart(3, '0')}${String(ayah).padStart(3, '0')}`;
-            return `https://www.everyayah.com/data/Ali_Jaber_64kbps/${key}.mp3`;
+            return `https://www.everyayah.com/data/Abu_Bakr_Ash-Shaatree_64kbps/${key}.mp3`;
         };
 
         const renderQuranReply = (container, payload) => {
@@ -1312,11 +1312,11 @@ This message was submitted via the website contact form.
             title.textContent = `Ayah ${payload.ref}`;
             container.appendChild(title);
 
-            const audioUrl = buildAliJaberAudioUrl(payload.ref);
+            const audioUrl = buildAbuBakarSyateeriAudioUrl(payload.ref);
             if (audioUrl) {
                 const audioLabel = document.createElement('div');
                 audioLabel.className = 'chatbot-audio-label';
-                audioLabel.textContent = 'Reciter: Ali Jaber';
+                audioLabel.textContent = 'Reciter: Abu Bakar Syateeri';
                 container.appendChild(audioLabel);
                 const audio = document.createElement('audio');
                 audio.className = 'chatbot-audio';
