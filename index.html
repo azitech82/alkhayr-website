@@ -378,8 +378,9 @@
             font-weight: 600;
         }
         .chatbot-quran-tools {
-            display: flex;
-            gap: 0.5rem;
+            display: grid;
+            grid-template-columns: 1fr 70px 52px;
+            gap: 0.4rem;
             padding: 0.6rem 0.75rem;
             border-top: 1px solid #eef2f7;
             background: #fbfbfe;
@@ -391,13 +392,16 @@
             border-radius: 9999px;
             padding: 0.4rem 0.7rem;
             font-size: 0.85rem;
+            width: 100%;
+            min-width: 0;
         }
         .chatbot-quran-tools select {
-            flex: 1.2;
+            direction: rtl;
+            text-align: right;
         }
         .chatbot-quran-tools input {
-            flex: 0.6;
-            min-width: 74px;
+            min-width: 0;
+            text-align: center;
         }
         .chatbot-quran-tools button {
             background: #7c3aed;
@@ -418,6 +422,10 @@
                 max-width: 280px;
                 bottom: 5rem;
                 max-height: 70vh;
+            }
+            .chatbot-quran-tools {
+                grid-template-columns: 1fr 62px 48px;
+                gap: 0.35rem;
             }
             .chatbot-messages {
                 height: 32vh;
