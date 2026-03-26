@@ -1118,7 +1118,6 @@
         </div>
         <div class="chatbot-input">
             <input id="chatbot-input" type="text" placeholder="Type your question..." />
-            <button id="chatbot-send" type="button">Send</button>
         </div>
     </div>
 
@@ -1183,7 +1182,6 @@ This message was submitted via the website contact form.
         const chatbotClose = document.getElementById('chatbot-close');
         const chatbotMessages = document.getElementById('chatbot-messages');
         const chatbotInput = document.getElementById('chatbot-input');
-        const chatbotSend = document.getElementById('chatbot-send');
         const modeSchool = document.getElementById('mode-school');
         const modeQuran = document.getElementById('mode-quran');
         const chatbotQuranTools = document.getElementById('chatbot-quran-tools');
@@ -1625,9 +1623,6 @@ This message was submitted via the website contact form.
             chatbotClose.addEventListener('click', () => {
                 chatbotWindow.classList.add('chatbot-hidden');
             });
-        }
-        if (chatbotSend) {
-            chatbotSend.addEventListener('click', sendMessage);
         }
         if (chatbotQuranGo) {
             chatbotQuranGo.addEventListener('click', sendFromSurahPicker);
