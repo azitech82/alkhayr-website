@@ -1692,6 +1692,20 @@ This message was submitted via the website contact form.
             return snippet;
         };
 
+        const buildArabicExampleSentence = (word) => {
+            const term = word || '';
+            const templates = [
+                `يُستعمل لفظ ${term} في سياقٍ رسمي للدلالة على معنى واضح.`,
+                `تُستخدم كلمة ${term} في سياقٍ تعليمي لتوضيح الفكرة.`,
+                `في الأساليب الأدبية، يَرِدُ ${term} للدلالة على المعنى المقصود.`,
+                `تظهر كلمة ${term} في نصوصٍ تربوية بوصفها معنى محددًا.`,
+                `يمكن صياغة جملةٍ فصيحة باستخدام ${term} لإبراز المعنى.`,
+                `في التعبير العربي، يأتي ${term} في سياقٍ رصين ومختصر.`
+            ];
+            const index = Math.floor(Math.random() * templates.length);
+            return templates[index];
+        };
+
         const fetchArabicQuranSnippet = async (term) => {
             pendingSurahNumber = null;
             const searchEditions = ['quran-simple-clean', 'quran-simple', 'quran-uthmani-quran-academy', 'quran-uthmani'];
@@ -1842,7 +1856,7 @@ This message was submitted via the website contact form.
                 entry: resolvedEntry,
                 exampleSnippet: null,
                 exampleLabel: 'Example sentence:',
-                exampleSentence: `هذه ${resolvedEntry.arabic} نراها كثيرًا في حياتنا اليومية.`,
+                exampleSentence: buildArabicExampleSentence(resolvedEntry.arabic),
                 exampleError: null
             };
         };
