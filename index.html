@@ -1316,6 +1316,15 @@ This message was submitted via the website contact form.
             return null;
         };
 
+        const parsePageNumber = (text) => {
+            const input = text.toLowerCase().trim();
+            const match = input.match(/\b(page|pg|halaman)\s*(\d{1,3})\b/);
+            if (!match) return null;
+            const page = Number(match[2]);
+            if (!Number.isFinite(page) || page < 1 || page > 604) return null;
+            return page;
+        };
+
         const extractSurahNameOnly = async (text) => {
             const input = text.toLowerCase().trim();
             if (/\d/.test(input)) return null;
@@ -1408,7 +1417,28 @@ This message was submitted via the website contact form.
             }
         };
 
+        const fetchFirstAyahByPage = async (pageNumber) => {
+            pendingSurahNumber = null;
+            try {
+                const res = await fetch(`https://api.alquran.cloud/v1/page/${pageNumber}/quran-uthmani`);
+                const data = await res.json();
+                const firstAyah = data?.data?.ayahs?.[0];
+                const surahNumber = firstAyah?.surah?.number;
+                const ayahNumber = firstAyah?.numberInSurah;
+                if (!Number.isFinite(surahNumber) || !Number.isFinite(ayahNumber)) {
+                    return `I could not find a first ayah for page ${pageNumber}.`;
+                }
+                return fetchAyahByRef(`${surahNumber}:${ayahNumber}`);
+            } catch {
+                return `I could not fetch page ${pageNumber} right now. Please try again.`;
+            }
+        };
+
         const getQuranReply = async (text) => {
+            const pageNumber = parsePageNumber(text);
+            if (pageNumber) {
+                return fetchFirstAyahByPage(pageNumber);
+            }
             const surahOnly = await extractSurahNameOnly(text);
             if (surahOnly) {
                 pendingSurahNumber = surahOnly.surahNumber;
@@ -1416,7 +1446,7 @@ This message was submitted via the website contact form.
             }
             const ref = await parseAyahRef(text);
             if (!ref) {
-                return 'enter an ayah like 2:255, "surah 2 ayah 255", or "imran 200".';
+                return 'enter an ayah like 2:255, "surah 2 ayah 255", "imran 200", or "page 3".';
             }
             return fetchAyahByRef(ref);
         };
@@ -1548,10 +1578,10 @@ This message was submitted via the website contact form.
                 chatbotQuranTools.classList.toggle('chatbot-quran-tools-hidden', mode !== 'quran');
             }
             if (chatbotInput) {
-                chatbotInput.placeholder = mode === 'quran' ? 'surah name and ayah (e.g., imran 200)' : 'Type your question...';
+                chatbotInput.placeholder = mode === 'quran' ? 'surah name and ayah (e.g., imran 200) or page 3' : 'Type your question...';
             }
             if (mode === 'quran' && lastMode !== 'quran') {
-                addMessage('quran mode: type a surah name and ayah number, or just the surah name first.', 'bot');
+                addMessage('quran mode: type a surah name and ayah number, or use "page 3" for the first ayah on that page.', 'bot');
             }
             lastMode = mode;
         };
