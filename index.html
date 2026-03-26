@@ -1399,6 +1399,13 @@ This message was submitted via the website contact form.
             return match ? match[0] : null;
         };
 
+        const normalizeEnglishTerm = (text) => {
+            const cleaned = text.toLowerCase().replace(/[^a-z\s'-]/g, ' ').replace(/\s+/g, ' ').trim();
+            if (!cleaned) return null;
+            const match = cleaned.match(/[a-z]{3,}/);
+            return match ? match[0] : null;
+        };
+
         const escapeHtml = (text) => {
             return text
                 .replace(/&/g, '&amp;')
@@ -1550,24 +1557,29 @@ This message was submitted via the website contact form.
 
         const getArabicReply = async (text) => {
             const term = parseArabicTerm(text);
-            if (!term) {
-                return 'Type an Arabic word like بقرة.';
+            const englishTerm = term ? null : normalizeEnglishTerm(text);
+            const entry = term ? arabicDictionary[term] : null;
+            const englishEntry = !entry && englishTerm
+                ? Object.values(arabicDictionary).find((item) => item.english === englishTerm)
+                : null;
+            const resolvedEntry = entry || englishEntry;
+            if (!resolvedEntry) {
+                return 'Type an Arabic word like بقرة or an English word like cow.';
             }
-            const entry = arabicDictionary[term];
-            if (!entry) {
-                return `No entry found for "${term}".`;
-            }
-            const example = await fetchTranslationSearch(entry.exampleSearch);
+            const example = await fetchTranslationSearch(resolvedEntry.exampleSearch);
             if (typeof example === 'string') {
+                const noMatch = example.startsWith('No translation matches found');
                 return {
-                    entry,
+                    entry: resolvedEntry,
                     example: null,
-                    exampleError: example
+                    exampleSentence: noMatch ? `هذه ${resolvedEntry.arabic}.` : null,
+                    exampleError: noMatch ? null : example
                 };
             }
             return {
-                entry,
+                entry: resolvedEntry,
                 example,
+                exampleSentence: null,
                 exampleError: null
             };
         };
@@ -1604,6 +1616,18 @@ This message was submitted via the website contact form.
             meaning.className = 'chatbot-dict-meaning';
             meaning.textContent = `${payload.entry.english} : ${payload.entry.malay}`;
             container.appendChild(meaning);
+
+            if (payload.exampleSentence) {
+                const sentenceLabel = document.createElement('div');
+                sentenceLabel.className = 'chatbot-translation-label';
+                sentenceLabel.textContent = 'Example sentence:';
+                container.appendChild(sentenceLabel);
+                const sentence = document.createElement('div');
+                sentence.className = 'chatbot-ayah-text';
+                sentence.textContent = payload.exampleSentence;
+                container.appendChild(sentence);
+                return;
+            }
 
             if (payload.exampleError) {
                 const error = document.createElement('div');
