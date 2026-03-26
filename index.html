@@ -338,6 +338,31 @@
             color: #4c1d95;
             margin-bottom: 0.3rem;
         }
+        .chatbot-quran-nav {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+        }
+        .chatbot-quran-nav button {
+            flex: 1;
+            border-radius: 9999px;
+            padding: 0.45rem 0.75rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            background: #ede9fe;
+            color: #4c1d95;
+            border: 1px solid #ddd6fe;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .chatbot-quran-nav button:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+        .chatbot-quran-nav button:not(:disabled):hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 16px rgba(76, 29, 149, 0.18);
+        }
         .chatbot-logo {
             width: 58px;
             height: 58px;
@@ -1318,16 +1343,36 @@ This message was submitted via the website contact form.
             return tafsirEditionId;
         };
 
-        const getQuranReply = async (text) => {
-            const surahOnly = await extractSurahNameOnly(text);
-            if (surahOnly) {
-                pendingSurahNumber = surahOnly.surahNumber;
-                return `surah ${surahOnly.surahNumber} found. ayah?`;
+        const buildRefFromNumbers = (surahNumber, ayahNumber) => `${surahNumber}:${ayahNumber}`;
+
+        const getAdjacentRef = async (payload, direction) => {
+            const surahNumber = Number(payload?.surahNumber);
+            const ayahNumber = Number(payload?.ayahNumber);
+            if (!Number.isFinite(surahNumber) || !Number.isFinite(ayahNumber)) return null;
+            const list = await getSurahList();
+            const current = list.find((surah) => surah.number === surahNumber);
+            if (!current) return null;
+            if (direction === 'prev') {
+                if (ayahNumber > 1) {
+                    return buildRefFromNumbers(surahNumber, ayahNumber - 1);
+                }
+                if (surahNumber > 1) {
+                    const prevSurah = list.find((surah) => surah.number === surahNumber - 1);
+                    if (!prevSurah) return null;
+                    return buildRefFromNumbers(prevSurah.number, prevSurah.numberOfAyahs);
+                }
+                return null;
             }
-            const ref = await parseAyahRef(text);
-            if (!ref) {
-                return 'enter an ayah like 2:255, "surah 2 ayah 255", or "imran 200".';
+            if (ayahNumber < current.numberOfAyahs) {
+                return buildRefFromNumbers(surahNumber, ayahNumber + 1);
             }
+            if (surahNumber < list.length) {
+                return buildRefFromNumbers(surahNumber + 1, 1);
+            }
+            return null;
+        };
+
+        const fetchAyahByRef = async (ref) => {
             pendingSurahNumber = null;
             const arabicUrl = `https://api.alquran.cloud/v1/ayah/${encodeURIComponent(ref)}/quran-uthmani`;
             const translationUrl = `https://api.alquran.cloud/v1/ayah/${encodeURIComponent(ref)}/en.sahih`;
@@ -1349,8 +1394,12 @@ This message was submitted via the website contact form.
                 if (!arabicText && !translationText) {
                     return 'I could not fetch that ayah. Please check the reference and try again.';
                 }
+                const surahNumber = arabicData?.data?.surah?.number || Number(ref.split(':')[0]);
+                const ayahNumber = arabicData?.data?.numberInSurah || Number(ref.split(':')[1]);
                 return {
                     ref,
+                    surahNumber,
+                    ayahNumber,
                     arabicText,
                     translationText,
                     translationMalayText,
@@ -1359,6 +1408,19 @@ This message was submitted via the website contact form.
             } catch {
                 return 'I could not fetch Quranic content at the moment. Please try again.';
             }
+        };
+
+        const getQuranReply = async (text) => {
+            const surahOnly = await extractSurahNameOnly(text);
+            if (surahOnly) {
+                pendingSurahNumber = surahOnly.surahNumber;
+                return `surah ${surahOnly.surahNumber} found. ayah?`;
+            }
+            const ref = await parseAyahRef(text);
+            if (!ref) {
+                return 'enter an ayah like 2:255, "surah 2 ayah 255", or "imran 200".';
+            }
+            return fetchAyahByRef(ref);
         };
 
         const buildAbuBakarSyateeriAudioUrl = (ref) => {
@@ -1436,6 +1498,46 @@ This message was submitted via the website contact form.
                 tafseerMissing.textContent = 'Tafseer is not available right now.';
                 container.appendChild(tafseerMissing);
             }
+
+            const nav = document.createElement('div');
+            nav.className = 'chatbot-quran-nav';
+            const prevButton = document.createElement('button');
+            prevButton.type = 'button';
+            prevButton.textContent = 'Previous';
+            const nextButton = document.createElement('button');
+            nextButton.type = 'button';
+            nextButton.textContent = 'Next';
+            nav.appendChild(prevButton);
+            nav.appendChild(nextButton);
+            container.appendChild(nav);
+
+            const loadRef = async (ref) => {
+                if (!ref) return;
+                prevButton.disabled = true;
+                nextButton.disabled = true;
+                const result = await fetchAyahByRef(ref);
+                if (typeof result === 'string') {
+                    container.textContent = result;
+                    return;
+                }
+                renderQuranReply(container, result);
+            };
+
+            prevButton.addEventListener('click', async () => {
+                const ref = await getAdjacentRef(payload, 'prev');
+                if (ref) loadRef(ref);
+            });
+            nextButton.addEventListener('click', async () => {
+                const ref = await getAdjacentRef(payload, 'next');
+                if (ref) loadRef(ref);
+            });
+
+            Promise.all([getAdjacentRef(payload, 'prev'), getAdjacentRef(payload, 'next')]).then(
+                ([prevRef, nextRef]) => {
+                    prevButton.disabled = !prevRef;
+                    nextButton.disabled = !nextRef;
+                }
+            );
         };
 
         const setMode = (mode) => {
@@ -1462,14 +1564,14 @@ This message was submitted via the website contact form.
             chatbotSurahSelect.innerHTML = '';
             const placeholder = document.createElement('option');
             placeholder.value = '';
-            placeholder.textContent = 'اختر السورة';
+            placeholder.textContent = 'اختر السورة / Select surah';
             placeholder.disabled = true;
             placeholder.selected = true;
             chatbotSurahSelect.appendChild(placeholder);
             list.forEach((surah) => {
                 const option = document.createElement('option');
                 option.value = surah.number;
-                option.textContent = surah.name;
+                option.textContent = `${surah.name} - ${surah.englishName}`;
                 chatbotSurahSelect.appendChild(option);
             });
         };
