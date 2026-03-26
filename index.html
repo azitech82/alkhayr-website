@@ -10,7 +10,14 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-        @import url('https://fonts.cdnfonts.com/css/kfgqpc-hafs-uthmanic-script');
+        @font-face {
+            font-family: 'KFGQPC HAFS Uthmanic Script';
+            font-style: normal;
+            font-weight: 400;
+            src: url('assets/fonts/KfgqpcHafsUthmanicScriptRegular-1jGEe.woff') format('woff'),
+                 url('assets/fonts/KfgqpcHafsUthmanicScriptRegular-nARZ1.woff') format('woff');
+            font-display: swap;
+        }
         body {
             font-family: 'Poppins', sans-serif;
         }
@@ -317,6 +324,14 @@
             padding-bottom: 0.08em;
             text-rendering: optimizeLegibility;
             margin-bottom: 0.6rem;
+        }
+        .chatbot-waqf {
+            font-size: 1.15em;
+            vertical-align: middle;
+            line-height: 1;
+            padding: 0 0.08em;
+            display: inline-block;
+            transform: translateY(-0.06em);
         }
         .chatbot-translation-text {
             margin-bottom: 0.6rem;
@@ -1342,6 +1357,20 @@ This message was submitted via the website contact form.
             return term;
         };
 
+        const escapeHtml = (text) => {
+            return text
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        };
+
+        const enhanceWaqfSymbols = (text) => {
+            const escaped = escapeHtml(text);
+            return escaped.replace(/([\u06D6-\u06ED])/g, '<span class="chatbot-waqf">$1</span>');
+        };
+
         const extractSurahNameOnly = async (text) => {
             const input = text.toLowerCase().trim();
             if (/\d/.test(input)) return null;
@@ -1538,7 +1567,7 @@ This message was submitted via the website contact form.
             if (payload.arabicText) {
                 const arabic = document.createElement('div');
                 arabic.className = 'chatbot-ayah-text';
-                arabic.textContent = payload.arabicText;
+                arabic.innerHTML = enhanceWaqfSymbols(payload.arabicText);
                 container.appendChild(arabic);
             }
 
