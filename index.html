@@ -1693,6 +1693,10 @@ This message was submitted via the website contact form.
                     return `No Quran matches found for "${term}".`;
                 }
                 const firstMatch = matches[0];
+                const surahNumber = firstMatch?.surah?.number;
+                const ayahNumber = firstMatch?.numberInSurah;
+                const ref =
+                    Number.isFinite(surahNumber) && Number.isFinite(ayahNumber) ? `${surahNumber}:${ayahNumber}` : null;
                 const snippet = buildSnippet(firstMatch?.text || '', term);
                 if (!snippet) {
                     return `I could not build a snippet for "${term}".`;
@@ -1700,7 +1704,8 @@ This message was submitted via the website contact form.
                 return {
                     snippet,
                     label: 'Quran snippet:',
-                    className: 'chatbot-ayah-text'
+                    className: 'chatbot-ayah-text',
+                    ref
                 };
             } catch {
                 return `I could not search the Quran for "${term}" right now. Please try again.`;
@@ -1801,6 +1806,7 @@ This message was submitted via the website contact form.
                     exampleSnippet: exampleSnippet.snippet,
                     exampleLabel: exampleSnippet.label,
                     exampleSnippetClass: exampleSnippet.className,
+                    exampleRef: exampleSnippet.ref,
                     exampleSentence: null,
                     exampleError: null
                 };
@@ -1873,6 +1879,12 @@ This message was submitted via the website contact form.
                 label.className = 'chatbot-translation-label';
                 label.textContent = payload.exampleLabel || 'Example snippet:';
                 container.appendChild(label);
+                if (payload.exampleRef) {
+                    const reference = document.createElement('div');
+                    reference.className = 'chatbot-quran-title';
+                    reference.textContent = `ayah ${payload.exampleRef}`;
+                    container.appendChild(reference);
+                }
                 const snippet = document.createElement('div');
                 snippet.className = payload.exampleSnippetClass || 'chatbot-translation-text';
                 snippet.textContent = payload.exampleSnippet;
