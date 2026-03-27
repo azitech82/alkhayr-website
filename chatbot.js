@@ -486,6 +486,43 @@ const initChatbot = () => {
         'https://libretranslate.de/translate',
         'https://translate.argosopentech.com/translate'
     ];
+const hadithSnippets = [
+    {
+        arabic: 'إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ، وَإِنَّمَا لِكُلِّ امْرِئٍ مَا نَوَى',
+        english: 'Actions are judged by intentions, and each person will have what they intended.',
+        reference: 'Sahih Bukhari 1'
+    },
+    {
+        arabic: 'الدِّينُ النَّصِيحَةُ',
+        english: 'Religion is sincere advice.',
+        reference: 'Sahih Muslim 55'
+    },
+    {
+        arabic: 'لَا يُؤْمِنُ أَحَدُكُمْ حَتَّى يُحِبَّ لِأَخِيهِ مَا يُحِبُّ لِنَفْسِهِ',
+        english: 'None of you truly believes until he loves for his brother what he loves for himself.',
+        reference: 'Sahih Bukhari 13'
+    },
+    {
+        arabic: 'الصَّلَاةُ نُورٌ',
+        english: 'Prayer is light.',
+        reference: 'Sahih Muslim 223'
+    },
+    {
+        arabic: 'الصِّيَامُ جُنَّةٌ',
+        english: 'Fasting is a shield.',
+        reference: 'Sahih Bukhari 1904'
+    },
+    {
+        arabic: 'وَالصَّدَقَةُ بُرْهَانٌ',
+        english: 'Charity is a proof.',
+        reference: 'Sahih Muslim 223'
+    },
+    {
+        arabic: 'مَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الآخِرِ فَلْيَقُلْ خَيْرًا أَوْ لِيَصْمُتْ',
+        english: 'Whoever believes in Allah and the Last Day should say what is good or remain silent.',
+        reference: 'Sahih Bukhari 6018'
+    }
+];
 
     const addMessage = (text, type) => {
         const message = document.createElement('div');
@@ -690,6 +727,14 @@ const initChatbot = () => {
         if (!normalizedText || !normalizedTerm) return false;
         const pattern = new RegExp(`(^|\\s)${escapeRegExp(normalizedTerm)}(\\s|$)`);
         return pattern.test(normalizedText);
+    };
+
+    const findHadithSnippet = (term) => {
+        if (!term) return null;
+        const normalizedTerm = normalizeArabicTerm(term);
+        if (!normalizedTerm) return null;
+        const match = hadithSnippets.find((snippet) => containsArabicWord(snippet.arabic, normalizedTerm));
+        return match || null;
     };
 
     const parseArabicTerm = (text) => {
@@ -1162,25 +1207,22 @@ const initChatbot = () => {
         await ensureArabicForms(resolvedEntry);
 
         const arabicForExample = resolvedEntry.arabic;
-        const exampleSnippet = arabicForExample ? await fetchArabicQuranSnippet(arabicForExample) : null;
-        if (exampleSnippet && typeof exampleSnippet !== 'string') {
-            return {
-                entry: resolvedEntry,
-                exampleSnippet: exampleSnippet.snippet,
-                exampleLabel: exampleSnippet.label,
-                exampleSnippetClass: exampleSnippet.className,
-                exampleRef: exampleSnippet.ref,
-                exampleSentence: null,
-                exampleError: null
-            };
-        }
+        const quranSnippetResult = arabicForExample ? await fetchArabicQuranSnippet(arabicForExample) : null;
+        const hadithMatch = arabicForExample ? findHadithSnippet(arabicForExample) : null;
+        const quranSnippet =
+            quranSnippetResult && typeof quranSnippetResult !== 'string' ? quranSnippetResult.snippet : null;
+        const quranRef = quranSnippetResult && typeof quranSnippetResult !== 'string' ? quranSnippetResult.ref : null;
+        const hasQuran = Boolean(quranSnippet);
+        const hasHadith = Boolean(hadithMatch);
 
         return {
             entry: resolvedEntry,
-            exampleSnippet: null,
-            exampleLabel: 'Example sentence:',
-            exampleSentence: buildArabicExampleSentence(resolvedEntry.arabic),
-            exampleError: null
+            quranSnippet,
+            quranRef,
+            hadithSnippet: hadithMatch ? hadithMatch.arabic : null,
+            hadithEnglish: hadithMatch ? hadithMatch.english : null,
+            hadithRef: hadithMatch ? hadithMatch.reference : null,
+            exampleSentence: !hasQuran && !hasHadith ? buildArabicExampleSentence(resolvedEntry.arabic) : null
         };
     };
 
@@ -1264,48 +1306,59 @@ const initChatbot = () => {
         meaning.appendChild(malayLine);
         container.appendChild(meaning);
 
+        if (payload.quranSnippet) {
+            const quranLabel = document.createElement('div');
+            quranLabel.className = 'chatbot-translation-label';
+            quranLabel.textContent = 'Quran snippet:';
+            container.appendChild(quranLabel);
+            const quranSnippet = document.createElement('div');
+            quranSnippet.className = 'chatbot-ayah-text';
+            quranSnippet.textContent = payload.quranSnippet;
+            container.appendChild(quranSnippet);
+            if (payload.quranRef) {
+                const reference = document.createElement('div');
+                reference.className = 'chatbot-quran-title';
+                reference.textContent = `[${payload.quranRef}]`;
+                container.appendChild(reference);
+            }
+        }
+
+        if (payload.hadithSnippet) {
+            const hadithLabel = document.createElement('div');
+            hadithLabel.className = 'chatbot-translation-label';
+            hadithLabel.textContent = 'Hadith snippet:';
+            container.appendChild(hadithLabel);
+            const hadithArabic = document.createElement('div');
+            hadithArabic.className = 'chatbot-ayah-text';
+            hadithArabic.textContent = payload.hadithSnippet;
+            container.appendChild(hadithArabic);
+            if (payload.hadithEnglish) {
+                const hadithEnglishLabel = document.createElement('div');
+                hadithEnglishLabel.className = 'chatbot-translation-label';
+                hadithEnglishLabel.textContent = 'English:';
+                container.appendChild(hadithEnglishLabel);
+                const hadithEnglish = document.createElement('div');
+                hadithEnglish.className = 'chatbot-translation-text';
+                hadithEnglish.textContent = payload.hadithEnglish;
+                container.appendChild(hadithEnglish);
+            }
+            if (payload.hadithRef) {
+                const hadithRef = document.createElement('div');
+                hadithRef.className = 'chatbot-quran-title';
+                hadithRef.textContent = `[${payload.hadithRef}]`;
+                container.appendChild(hadithRef);
+            }
+        }
+
         if (payload.exampleSentence) {
             const sentenceLabel = document.createElement('div');
             sentenceLabel.className = 'chatbot-translation-label';
-            sentenceLabel.textContent = payload.exampleLabel || 'Example sentence:';
+            sentenceLabel.textContent = 'Example sentence:';
             container.appendChild(sentenceLabel);
             const sentence = document.createElement('div');
             sentence.className = 'chatbot-ayah-text';
             sentence.textContent = payload.exampleSentence;
             container.appendChild(sentence);
-            return;
-        }
-
-        if (payload.exampleError) {
-            const error = document.createElement('div');
-            error.className = 'chatbot-translation-text';
-            error.textContent = payload.exampleError;
-            container.appendChild(error);
-            return;
-        }
-
-        if (payload.exampleSnippet) {
-            const snippet = document.createElement('div');
-            snippet.className = payload.exampleSnippetClass || 'chatbot-translation-text';
-            snippet.textContent = payload.exampleSnippet;
-            container.appendChild(snippet);
-            if (payload.exampleRef) {
-                const reference = document.createElement('div');
-                reference.className = 'chatbot-quran-title';
-                reference.textContent = `[${payload.exampleRef}]`;
-                container.appendChild(reference);
-            }
-            return;
-        }
-
-        if (payload.example) {
-            const label = document.createElement('div');
-            label.className = 'chatbot-translation-label';
-            label.textContent = payload.exampleLabel || 'Example ayah:';
-            container.appendChild(label);
-            const exampleWrap = document.createElement('div');
-            container.appendChild(exampleWrap);
-            renderQuranReply(exampleWrap, payload.example);
         }
     };
 
