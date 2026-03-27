@@ -1613,12 +1613,14 @@ This message was submitted via the website contact form.
         };
 
         const stripAyahMarkers = (text) => {
-            return (text || '').replace(/[\u06DD\u06DE\u06E9]/g, '');
+            return (text || '')
+                .replace(/[\u06D6-\u06ED]/g, '')
+                .replace(/[\u08D4-\u08FE]/g, '');
         };
 
         const enhanceWaqfSymbols = (text) => {
             const escaped = escapeHtml(stripAyahMarkers(text));
-            return escaped.replace(/([\u06D6-\u06ED])/g, '<span class="chatbot-waqf">$1</span>');
+            return escaped;
         };
 
         const extractSurahNameOnly = async (text) => {
