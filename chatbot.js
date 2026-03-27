@@ -524,10 +524,14 @@ const hadithSnippets = [
     }
 ];
 
-    const addMessage = (text, type) => {
+    const addMessage = (text, type, allowHtml = false) => {
         const message = document.createElement('div');
         message.className = `chatbot-message ${type === 'user' ? 'chatbot-user' : 'chatbot-bot'}`;
-        message.textContent = text;
+        if (allowHtml && type !== 'user') {
+            message.innerHTML = text;
+        } else {
+            message.textContent = text;
+        }
         chatbotMessages.appendChild(message);
         return message;
     };
@@ -540,37 +544,37 @@ const hadithSnippets = [
     const getSchoolReply = (text) => {
         const value = text.toLowerCase();
         if (value.includes('fee') || value.includes('fees')) {
-            return 'Fees details are available in the Fees payment section and the Guidebook.';
+            return 'Fees details are here: <a href="fees.html">Fees payment</a> and <a href="Download/GuideBook%20AAK_2026%20(1).pdf" target="_blank" rel="noopener noreferrer">Guidebook AAK 2026</a>.';
         }
         if (value.includes('chalet') || value.includes('booking') || value.includes('stay')) {
             return 'AAK Chalet booking: RM149 per night, check-in after 2:00 PM, check-out before 12:00 PM. Amenities include a master bedroom (queen bed), a spacious hall (single bed + sofa set), and a dry pantry. Check-in contact: En Hairozaman, 012-263 7082.';
         }
         if (value.includes('form') || value.includes('forms')) {
-            return 'Forms available: Outing Form, Parcel Delivery Form, Transportation/Pickup Form, Activity Form, and Suggestion/Complain Form. Please use the Forms page to submit.';
+            return 'Forms available: <a href="outing_form.html">Outing Form</a>, <a href="parcel_form.html">Parcel Delivery Form</a>, <a href="transportation_form.html">Transportation/Pickup Form</a>, <a href="concern_form.html">Activity Form</a>, and <a href="suggestion_form.html">Suggestion/Complain Form</a>. You can also visit the full <a href="forms.html">Forms page</a>.';
         }
         if (value.includes('parcel') || value.includes('delivery') || value.includes('courier') || value.includes('tracking')) {
-            return 'Use the Parcel Delivery Form. You will need the student name, delivery date, courier service, tracking number, parcel content, sender name, contact number, and relationship.';
+            return 'Use the <a href="parcel_form.html">Parcel Delivery Form</a>. You will need the student name, delivery date, courier service, tracking number, parcel content, sender name, contact number, and relationship.';
         }
         if (value.includes('outing')) {
-            return 'Outing requests are submitted via the Outing Form on the Forms page.';
+            return 'Outing requests are submitted via the <a href="outing_form.html">Outing Form</a>.';
         }
         if (value.includes('transport') || value.includes('pickup') || value.includes('pick up')) {
-            return 'Transportation or pickup requests are submitted via the Transportation/Pickup Form on the Forms page.';
+            return 'Transportation or pickup requests are submitted via the <a href="transportation_form.html">Transportation/Pickup Form</a>.';
         }
         if (value.includes('suggestion') || value.includes('complain') || value.includes('complaint')) {
-            return 'Suggestions or complaints can be sent using the Suggestion/Complain Form on the Forms page.';
+            return 'Suggestions or complaints can be sent using the <a href="suggestion_form.html">Suggestion/Complain Form</a>.';
         }
         if (value.includes('activity form') || value.includes('activity')) {
-            return 'Activity-related requests are submitted via the Activity Form on the Forms page.';
+            return 'Activity-related requests are submitted via the <a href="concern_form.html">Activity Form</a>.';
         }
         if (value.includes('program') || value.includes('course') || value.includes('curriculum')) {
             return 'We offer integrated Hifz, Arabic, and academic modules with holistic programs across primary, secondary, and co-curriculum activities.';
         }
         if (value.includes('apply') || value.includes('admission') || value.includes('register')) {
-            return 'You can apply using the Apply Now button at the top of the page.';
+            return 'Apply here: <a href="registration.html">Student Registration</a>.';
         }
         if (value.includes('calendar') || value.includes('calender') || value.includes('takwim')) {
-            return 'The academic calendar is available in the AAK Takwim section.';
+            return 'Academic calendar: <a href="Download/AAK%20TAKWIM%202026.pdf" target="_blank" rel="noopener noreferrer">AAK Takwim 2026</a>.';
         }
         if (value.includes('tahfiz') || value.includes('hifz') || value.includes('memorisation') || value.includes('quran memorisation')) {
             return 'Our Quran memorisation program uses the Photo Memory Memorisation Method (PMMM) for strong retention.';
@@ -609,7 +613,7 @@ const hadithSnippets = [
             return 'Intake is open throughout the year. Contact us to get the latest availability and steps.';
         }
         if (value.includes('contact') || value.includes('email') || value.includes('phone') || value.includes('whatsapp')) {
-            return 'Reach us via WhatsApp: +60 19-381 8616 or email: akademialkhayrofficial@gmail.com.';
+            return 'Reach us via <a href="https://wa.me/60193818616" target="_blank" rel="noopener noreferrer">WhatsApp</a> or <a href="mailto:akademialkhayrofficial@gmail.com">email</a>.';
         }
         if (value.includes('location') || value.includes('address') || value.includes('visit')) {
             return 'Akademi Al Khayr is located at White Resort Camp, Kampung Genting, 11000 Balik Pulau, Penang.';
@@ -617,7 +621,7 @@ const hadithSnippets = [
         if (value.includes('time') || value.includes('hours') || value.includes('schedule')) {
             return 'School hours are shared during registration. Contact us if you need the schedule.';
         }
-        return 'I can help with admissions, programs, fees, calendar, campus location, or contact info. Ask about any of these.';
+        return 'I can help with admissions, programs, fees, forms, calendar, campus location, or contact info. Ask about any of these.';
     };
 
     const getSurahList = async () => {
@@ -1598,7 +1602,7 @@ const hadithSnippets = [
         } else {
             const reply = getSchoolReply(text);
             setTimeout(() => {
-                const response = addMessage(reply, 'bot');
+                const response = addMessage(reply, 'bot', true);
                 scrollMessageToTop(response);
             }, 300);
         }
