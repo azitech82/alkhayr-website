@@ -434,6 +434,9 @@ const initChatbot = () => {
         aliimran: 3,
         aalimran: 3
     };
+    const quranVariants = {
+        قرد: 'قردة'
+    };
     const arabicDictionaryDefaults = {
         الله: { arabic: 'الله', english: 'allah', malay: 'allah', exampleSearch: 'allah' },
         كتاب: { arabic: 'كتاب', english: 'book', malay: 'buku', exampleSearch: 'book', plural: 'كتب' },
@@ -1371,9 +1374,12 @@ const hadithSnippets = [
             persistArabicDictionary(arabicDictionary);
         }
 
-        if (resolvedEntry.arabic === 'قرد' && !resolvedEntry.quranSearch) {
-            resolvedEntry.quranSearch = 'قردة';
-            arabicDictionary[resolvedEntry.arabic] = resolvedEntry;
+        const quranVariant = resolvedEntry.arabic ? quranVariants[resolvedEntry.arabic] : null;
+        if (quranVariant && !resolvedEntry.quranSearch) {
+            resolvedEntry.quranSearch = quranVariant;
+            if (resolvedEntry.arabic) {
+                arabicDictionary[resolvedEntry.arabic] = resolvedEntry;
+            }
             persistArabicDictionary(arabicDictionary);
         }
 
