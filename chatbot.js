@@ -746,6 +746,53 @@ const hadithSnippets = [
 
     const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
+    const normalizeArabicWithMap = (text) => {
+        const raw = text || '';
+        const normalizedChars = [];
+        const indexMap = [];
+        let lastWasSpace = false;
+        for (let i = 0; i < raw.length; i += 1) {
+            const char = raw[i];
+            if (/[\u064B-\u065F\u0670\u06D6-\u06ED]/.test(char) || char === '\u0640') {
+                continue;
+            }
+            if (/[\u0600-\u06FF]/.test(char)) {
+                normalizedChars.push(char);
+                indexMap.push(i);
+                lastWasSpace = false;
+                continue;
+            }
+            if (/\s/.test(char)) {
+                if (!lastWasSpace) {
+                    normalizedChars.push(' ');
+                    indexMap.push(i);
+                    lastWasSpace = true;
+                }
+                continue;
+            }
+            if (!lastWasSpace) {
+                normalizedChars.push(' ');
+                indexMap.push(i);
+                lastWasSpace = true;
+            }
+        }
+        return { normalized: normalizedChars.join('').trim(), indexMap };
+    };
+
+    const findArabicWordMatchRange = (text, term) => {
+        const normalizedTerm = normalizeArabicTerm(term || '');
+        if (!normalizedTerm) return null;
+        const { normalized, indexMap } = normalizeArabicWithMap(text);
+        if (!normalized) return null;
+        const matcher = new RegExp(`(^|\\s)(${escapeRegExp(normalizedTerm)})(?=\\s|$)`);
+        const match = normalized.match(matcher);
+        if (!match || match.index == null) return null;
+        const termStart = match.index + (match[1]?.length || 0);
+        const termEnd = termStart + match[2].length;
+        if (!indexMap[termStart] || !indexMap[termEnd - 1]) return null;
+        return { start: indexMap[termStart], end: indexMap[termEnd - 1] + 1 };
+    };
+
     const containsArabicWord = (text, term) => {
         const normalizedText = normalizeArabicForSearch(text);
         const normalizedTerm = normalizeArabicForSearch(term);
@@ -982,6 +1029,15 @@ const hadithSnippets = [
         const cleaned = (text || '').replace(/\s+/g, ' ').trim();
         if (!cleaned) return null;
         if (!term) return cleaned.slice(0, 120);
+        const arabicMatch = findArabicWordMatchRange(text, term);
+        if (arabicMatch) {
+            const start = Math.max(0, arabicMatch.start - 40);
+            const end = Math.min(text.length, arabicMatch.end + 40);
+            let snippet = text.slice(start, end).replace(/\s+/g, ' ').trim();
+            if (start > 0) snippet = `…${snippet}`;
+            if (end < text.length) snippet = `${snippet}…`;
+            return snippet;
+        }
         const index = cleaned.indexOf(term);
         if (index === -1) return cleaned.slice(0, 120);
         const start = Math.max(0, index - 40);
@@ -1063,12 +1119,11 @@ const hadithSnippets = [
                 } catch {}
             }
             const matches = Array.isArray(data?.data?.matches) ? data.data.matches : [];
-            const exactMatches = matches.filter((match) => containsArabicWord(match?.text || '', term));
-            const selectedMatches = exactMatches.length ? exactMatches : matches;
-            if (!selectedMatches.length) {
-                return `No Quran matches found for "${term}".`;
+            const exactMatches = matches.filter((match) => findArabicWordMatchRange(match?.text || '', term));
+            if (!exactMatches.length) {
+                return `No exact Quran matches found for "${term}". Try a different word.`;
             }
-            const firstMatch = selectedMatches[0];
+            const firstMatch = exactMatches[0];
             const surahNumber = firstMatch?.surah?.number;
             const ayahNumber = firstMatch?.numberInSurah;
             const surahName = firstMatch?.surah?.englishName || firstMatch?.surah?.name || null;
