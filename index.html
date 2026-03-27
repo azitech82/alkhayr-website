@@ -1960,15 +1960,17 @@ This message was submitted via the website contact form.
                 const currentEnglish = (resolvedEntry.english || '').toLowerCase();
                 const normalizedEnglish = englishTerm.toLowerCase();
                 if (!currentMalay || currentMalay === currentEnglish || currentMalay === normalizedEnglish) {
-                    const refreshedMalay = await translateText(normalizedEnglish, 'en', 'ms');
-                    const normalizedMalay = refreshedMalay ? refreshedMalay.toLowerCase() : '';
-                    if (normalizedMalay && normalizedMalay !== currentMalay) {
-                        resolvedEntry.malay = normalizedMalay;
-                        if (resolvedEntry.arabic) {
-                            arabicDictionary[resolvedEntry.arabic] = resolvedEntry;
+                    try {
+                        const refreshedMalay = await translateText(normalizedEnglish, 'en', 'ms');
+                        const normalizedMalay = refreshedMalay ? refreshedMalay.toLowerCase() : '';
+                        if (normalizedMalay && normalizedMalay !== currentMalay) {
+                            resolvedEntry.malay = normalizedMalay;
+                            if (resolvedEntry.arabic) {
+                                arabicDictionary[resolvedEntry.arabic] = resolvedEntry;
+                            }
+                            persistArabicDictionary(arabicDictionary);
                         }
-                        persistArabicDictionary(arabicDictionary);
-                    }
+                    } catch {}
                 }
             }
 
