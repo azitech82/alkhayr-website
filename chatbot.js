@@ -542,6 +542,27 @@ const hadithSnippets = [
         if (value.includes('fee') || value.includes('fees')) {
             return 'Fees details are available in the Fees payment section and the Guidebook.';
         }
+        if (value.includes('chalet') || value.includes('booking') || value.includes('stay')) {
+            return 'AAK Chalet booking: RM149 per night, check-in after 2:00 PM, check-out before 12:00 PM. Amenities include a master bedroom (queen bed), a spacious hall (single bed + sofa set), and a dry pantry. Check-in contact: En Hairozaman, 012-263 7082.';
+        }
+        if (value.includes('form') || value.includes('forms')) {
+            return 'Forms available: Outing Form, Parcel Delivery Form, Transportation/Pickup Form, Activity Form, and Suggestion/Complain Form. Please use the Forms page to submit.';
+        }
+        if (value.includes('parcel') || value.includes('delivery') || value.includes('courier') || value.includes('tracking')) {
+            return 'Use the Parcel Delivery Form. You will need the student name, delivery date, courier service, tracking number, parcel content, sender name, contact number, and relationship.';
+        }
+        if (value.includes('outing')) {
+            return 'Outing requests are submitted via the Outing Form on the Forms page.';
+        }
+        if (value.includes('transport') || value.includes('pickup') || value.includes('pick up')) {
+            return 'Transportation or pickup requests are submitted via the Transportation/Pickup Form on the Forms page.';
+        }
+        if (value.includes('suggestion') || value.includes('complain') || value.includes('complaint')) {
+            return 'Suggestions or complaints can be sent using the Suggestion/Complain Form on the Forms page.';
+        }
+        if (value.includes('activity form') || value.includes('activity')) {
+            return 'Activity-related requests are submitted via the Activity Form on the Forms page.';
+        }
         if (value.includes('program') || value.includes('course') || value.includes('curriculum')) {
             return 'We offer integrated Hifz, Arabic, and academic modules with holistic programs across primary, secondary, and co-curriculum activities.';
         }

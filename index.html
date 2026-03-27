@@ -1262,6 +1262,7 @@ This message was submitted via the website contact form.
         }
     </script>
     <script src="chatbot.js"></script>
+    <script type="application/json" id="legacy-chatbot-inline">
         const chatbotWindow = document.getElementById('chatbot-window');
         const chatbotClose = document.getElementById('chatbot-close');
         const chatbotMessages = document.getElementById('chatbot-messages');
@@ -2378,48 +2379,6 @@ This message was submitted via the website contact form.
                 }, 300);
             }
         };
-
-        if (chatbotToggle && chatbotWindow) {
-            chatbotToggle.addEventListener('click', () => {
-                chatbotWindow.classList.toggle('chatbot-hidden');
-                if (!chatbotWindow.classList.contains('chatbot-hidden')) {
-                    chatbotInput.focus();
-                }
-            });
-        }
-        if (chatbotClose && chatbotWindow) {
-            chatbotClose.addEventListener('click', () => {
-                chatbotWindow.classList.add('chatbot-hidden');
-            });
-        }
-        if (chatbotQuranGo) {
-            chatbotQuranGo.addEventListener('click', sendFromSurahPicker);
-        }
-        if (chatbotInput) {
-            chatbotInput.addEventListener('keydown', (event) => {
-                if (event.key === 'Enter') {
-                    sendMessage();
-                }
-            });
-        }
-        if (modeSchool) {
-            modeSchool.addEventListener('click', () => setMode('school'));
-        }
-        if (modeQuran) {
-            modeQuran.addEventListener('click', () => setMode('quran'));
-        }
-        if (modeArabic) {
-            modeArabic.addEventListener('click', () => setMode('arabic'));
-        }
-        if (chatbotSurahSelect) {
-            chatbotSurahSelect.addEventListener('change', () => {
-                if (chatbotAyahInput) {
-                    chatbotAyahInput.focus();
-                }
-            });
-        }
-        populateSurahIndex();
-        setMode('quran');
-
+    </script>
 </body>
 </html>
