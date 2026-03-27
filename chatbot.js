@@ -707,7 +707,7 @@ const hadithSnippets = [
         if (value.includes('location') || value.includes('address') || value.includes('visit') || value.includes('alamat') || value.includes('lawat') || value.includes('lokasi') || value.includes('kampus')) {
             return 'Akademi Al Khayr is located at White Resort Camp, Kampung Genting, 11000 Balik Pulau, Penang.';
         }
-        if (value.includes('time') || value.includes('hours') || value.includes('schedule') || value.includes('masa') || value.includes('jadual')) {
+        if (value.includes('time') || value.includes('hours') || value.includes('schedule') || value.includes('masa')) {
             return 'School hours are shared during registration. Contact us if you need the schedule.';
         }
         return 'I can help with admissions, programs, fees, forms, calendar, campus location, or contact info. Ask about any of these.';
