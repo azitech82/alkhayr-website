@@ -1906,24 +1906,47 @@ This message was submitted via the website contact form.
                     const arabicFromEnglish = aiArabicFromEnglish ? normalizeArabicTerm(aiArabicFromEnglish) : '';
                     const arabicFromMalay = aiArabicFromMalay ? normalizeArabicTerm(aiArabicFromMalay) : '';
 
-                    if (arabicFromMalay && englishFromMalay) {
-                        resolvedEntry = {
-                            arabic: arabicFromMalay,
-                            english: englishFromMalay,
-                            malay: latinTerm.toLowerCase(),
-                            exampleSearch: englishFromMalay
-                        };
-                        arabicDictionary[arabicFromMalay] = resolvedEntry;
-                        persistArabicDictionary(arabicDictionary);
-                    } else if (arabicFromEnglish) {
-                        resolvedEntry = {
-                            arabic: arabicFromEnglish,
-                            english: latinTerm.toLowerCase(),
-                            malay: malayFromEnglish,
-                            exampleSearch: latinTerm.toLowerCase()
-                        };
-                        arabicDictionary[arabicFromEnglish] = resolvedEntry;
-                        persistArabicDictionary(arabicDictionary);
+                    const isMalayInput = Boolean(malayTerm) && !englishTerm;
+                    if (isMalayInput) {
+                        if (arabicFromMalay && englishFromMalay) {
+                            resolvedEntry = {
+                                arabic: arabicFromMalay,
+                                english: englishFromMalay,
+                                malay: latinTerm.toLowerCase(),
+                                exampleSearch: englishFromMalay
+                            };
+                            arabicDictionary[arabicFromMalay] = resolvedEntry;
+                            persistArabicDictionary(arabicDictionary);
+                        } else if (arabicFromEnglish) {
+                            resolvedEntry = {
+                                arabic: arabicFromEnglish,
+                                english: englishFromMalay || latinTerm.toLowerCase(),
+                                malay: latinTerm.toLowerCase(),
+                                exampleSearch: englishFromMalay || latinTerm.toLowerCase()
+                            };
+                            arabicDictionary[arabicFromEnglish] = resolvedEntry;
+                            persistArabicDictionary(arabicDictionary);
+                        }
+                    } else {
+                        if (arabicFromEnglish) {
+                            resolvedEntry = {
+                                arabic: arabicFromEnglish,
+                                english: latinTerm.toLowerCase(),
+                                malay: malayFromEnglish,
+                                exampleSearch: latinTerm.toLowerCase()
+                            };
+                            arabicDictionary[arabicFromEnglish] = resolvedEntry;
+                            persistArabicDictionary(arabicDictionary);
+                        } else if (arabicFromMalay && englishFromMalay) {
+                            resolvedEntry = {
+                                arabic: arabicFromMalay,
+                                english: englishFromMalay,
+                                malay: malayFromEnglish || latinTerm.toLowerCase(),
+                                exampleSearch: englishFromMalay
+                            };
+                            arabicDictionary[arabicFromMalay] = resolvedEntry;
+                            persistArabicDictionary(arabicDictionary);
+                        }
                     }
                 }
             }
