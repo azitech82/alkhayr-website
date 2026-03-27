@@ -1613,7 +1613,7 @@ This message was submitted via the website contact form.
         };
 
         const stripAyahMarkers = (text) => {
-            return (text || '').replace(/[\u06DD]/g, '');
+            return (text || '').replace(/[\u06DD\u06DE\u06E9]/g, '');
         };
 
         const enhanceWaqfSymbols = (text) => {
