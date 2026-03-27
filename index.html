@@ -1523,6 +1523,25 @@ This message was submitted via the website contact form.
                 .trim();
         };
 
+        const normalizeArabicForSearch = (text) => {
+            return (text || '')
+                .replace(/[\u064B-\u065F\u0670\u06D6-\u06ED]/g, '')
+                .replace(/\u0640/g, '')
+                .replace(/[^\u0600-\u06FF]/g, ' ')
+                .replace(/\s+/g, ' ')
+                .trim();
+        };
+
+        const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+        const containsArabicWord = (text, term) => {
+            const normalizedText = normalizeArabicForSearch(text);
+            const normalizedTerm = normalizeArabicForSearch(term);
+            if (!normalizedText || !normalizedTerm) return false;
+            const pattern = new RegExp(`(^|\\s)${escapeRegExp(normalizedTerm)}(\\s|$)`);
+            return pattern.test(normalizedText);
+        };
+
         const parseArabicTerm = (text) => {
             const cleaned = normalizeArabicTerm(text);
             if (!cleaned) return null;
@@ -1818,10 +1837,12 @@ This message was submitted via the website contact form.
                     } catch {}
                 }
                 const matches = Array.isArray(data?.data?.matches) ? data.data.matches : [];
-                if (!matches.length) {
+                const exactMatches = matches.filter((match) => containsArabicWord(match?.text || '', term));
+                const selectedMatches = exactMatches.length ? exactMatches : matches;
+                if (!selectedMatches.length) {
                     return `No Quran matches found for "${term}".`;
                 }
-                const firstMatch = matches[0];
+                const firstMatch = selectedMatches[0];
                 const surahNumber = firstMatch?.surah?.number;
                 const ayahNumber = firstMatch?.numberInSurah;
                 const surahName = firstMatch?.surah?.englishName || firstMatch?.surah?.name || null;
