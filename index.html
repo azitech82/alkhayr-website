@@ -1325,7 +1325,7 @@ This message was submitted via the website contact form.
             بقرة: { arabic: 'بقرة', english: 'cow', malay: 'lembu', exampleSearch: 'cow', plural: 'بقر' },
             قرد: { arabic: 'قرد', english: 'monkey', malay: 'monyet', exampleSearch: 'monkey', plural: 'قرود' }
         };
-        const arabicDictionaryStorageKey = 'aak_arabic_dictionary_v1';
+        const arabicDictionaryStorageKey = 'aak_arabic_dictionary_v2';
         const loadArabicDictionary = () => {
             try {
                 const raw = localStorage.getItem(arabicDictionaryStorageKey);
@@ -1953,6 +1953,23 @@ This message was submitted via the website contact form.
 
             if (!resolvedEntry) {
                 return 'I could not translate that word right now. Please try again.';
+            }
+
+            if (englishTerm) {
+                const currentMalay = (resolvedEntry.malay || '').toLowerCase();
+                const currentEnglish = (resolvedEntry.english || '').toLowerCase();
+                const normalizedEnglish = englishTerm.toLowerCase();
+                if (!currentMalay || currentMalay === currentEnglish || currentMalay === normalizedEnglish) {
+                    const refreshedMalay = await translateText(normalizedEnglish, 'en', 'ms');
+                    const normalizedMalay = refreshedMalay ? refreshedMalay.toLowerCase() : '';
+                    if (normalizedMalay && normalizedMalay !== currentMalay) {
+                        resolvedEntry.malay = normalizedMalay;
+                        if (resolvedEntry.arabic) {
+                            arabicDictionary[resolvedEntry.arabic] = resolvedEntry;
+                        }
+                        persistArabicDictionary(arabicDictionary);
+                    }
+                }
             }
 
             if (resolvedEntry.english === 'key' && resolvedEntry.malay === 'key') {
