@@ -116,6 +116,14 @@ const chatbotStyles = `
     line-height: 1.4;
     white-space: pre-line;
 }
+.chatbot-link {
+    color: #2563eb;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+.chatbot-link:hover {
+    color: #1d4ed8;
+}
 .chatbot-quran-title {
     font-weight: 700;
     color: #4c1d95;
@@ -524,14 +532,35 @@ const hadithSnippets = [
     }
 ];
 
-    const addMessage = (text, type, allowHtml = false) => {
+    const addMessage = (text, type) => {
         const message = document.createElement('div');
         message.className = `chatbot-message ${type === 'user' ? 'chatbot-user' : 'chatbot-bot'}`;
-        if (allowHtml && type !== 'user') {
-            message.innerHTML = text;
-        } else {
-            message.textContent = text;
-        }
+        message.textContent = text;
+        chatbotMessages.appendChild(message);
+        return message;
+    };
+
+    const addMessageParts = (parts, type) => {
+        const message = document.createElement('div');
+        message.className = `chatbot-message ${type === 'user' ? 'chatbot-user' : 'chatbot-bot'}`;
+        parts.forEach((part) => {
+            if (!part) return;
+            if (typeof part === 'string') {
+                message.appendChild(document.createTextNode(part));
+                return;
+            }
+            if (part.href) {
+                const link = document.createElement('a');
+                link.href = part.href;
+                link.textContent = part.label || part.href;
+                link.className = 'chatbot-link';
+                if (part.external) {
+                    link.target = '_blank';
+                    link.rel = 'noopener noreferrer';
+                }
+                message.appendChild(link);
+            }
+        });
         chatbotMessages.appendChild(message);
         return message;
     };
@@ -544,37 +573,81 @@ const hadithSnippets = [
     const getSchoolReply = (text) => {
         const value = text.toLowerCase();
         if (value.includes('fee') || value.includes('fees')) {
-            return 'Fees details are here: <a href="fees.html">Fees payment</a> and <a href="Download/GuideBook%20AAK_2026%20(1).pdf" target="_blank" rel="noopener noreferrer">Guidebook AAK 2026</a>.';
+            return [
+                'Fees details are here: ',
+                { label: 'Fees payment', href: 'fees.html' },
+                ' and ',
+                {
+                    label: 'Guidebook AAK 2026',
+                    href: 'Download/GuideBook%20AAK_2026%20(1).pdf',
+                    external: true
+                },
+                '.'
+            ];
         }
         if (value.includes('chalet') || value.includes('booking') || value.includes('stay')) {
             return 'AAK Chalet booking: RM149 per night, check-in after 2:00 PM, check-out before 12:00 PM. Amenities include a master bedroom (queen bed), a spacious hall (single bed + sofa set), and a dry pantry. Check-in contact: En Hairozaman, 012-263 7082.';
         }
         if (value.includes('form') || value.includes('forms')) {
-            return 'Forms available: <a href="outing_form.html">Outing Form</a>, <a href="parcel_form.html">Parcel Delivery Form</a>, <a href="transportation_form.html">Transportation/Pickup Form</a>, <a href="concern_form.html">Activity Form</a>, and <a href="suggestion_form.html">Suggestion/Complain Form</a>. You can also visit the full <a href="forms.html">Forms page</a>.';
+            return [
+                'Forms available: ',
+                { label: 'Outing Form', href: 'outing_form.html' },
+                ', ',
+                { label: 'Parcel Delivery Form', href: 'parcel_form.html' },
+                ', ',
+                { label: 'Transportation/Pickup Form', href: 'transportation_form.html' },
+                ', ',
+                { label: 'Activity Form', href: 'concern_form.html' },
+                ', and ',
+                { label: 'Suggestion/Complain Form', href: 'suggestion_form.html' },
+                '. You can also visit the full ',
+                { label: 'Forms page', href: 'forms.html' },
+                '.'
+            ];
         }
         if (value.includes('parcel') || value.includes('delivery') || value.includes('courier') || value.includes('tracking')) {
-            return 'Use the <a href="parcel_form.html">Parcel Delivery Form</a>. You will need the student name, delivery date, courier service, tracking number, parcel content, sender name, contact number, and relationship.';
+            return [
+                'Use the ',
+                { label: 'Parcel Delivery Form', href: 'parcel_form.html' },
+                '. You will need the student name, delivery date, courier service, tracking number, parcel content, sender name, contact number, and relationship.'
+            ];
         }
         if (value.includes('outing')) {
-            return 'Outing requests are submitted via the <a href="outing_form.html">Outing Form</a>.';
+            return ['Outing requests are submitted via the ', { label: 'Outing Form', href: 'outing_form.html' }, '.'];
         }
         if (value.includes('transport') || value.includes('pickup') || value.includes('pick up')) {
-            return 'Transportation or pickup requests are submitted via the <a href="transportation_form.html">Transportation/Pickup Form</a>.';
+            return [
+                'Transportation or pickup requests are submitted via the ',
+                { label: 'Transportation/Pickup Form', href: 'transportation_form.html' },
+                '.'
+            ];
         }
         if (value.includes('suggestion') || value.includes('complain') || value.includes('complaint')) {
-            return 'Suggestions or complaints can be sent using the <a href="suggestion_form.html">Suggestion/Complain Form</a>.';
+            return [
+                'Suggestions or complaints can be sent using the ',
+                { label: 'Suggestion/Complain Form', href: 'suggestion_form.html' },
+                '.'
+            ];
         }
         if (value.includes('activity form') || value.includes('activity')) {
-            return 'Activity-related requests are submitted via the <a href="concern_form.html">Activity Form</a>.';
+            return [
+                'Activity-related requests are submitted via the ',
+                { label: 'Activity Form', href: 'concern_form.html' },
+                '.'
+            ];
         }
         if (value.includes('program') || value.includes('course') || value.includes('curriculum')) {
             return 'We offer integrated Hifz, Arabic, and academic modules with holistic programs across primary, secondary, and co-curriculum activities.';
         }
         if (value.includes('apply') || value.includes('admission') || value.includes('register')) {
-            return 'Apply here: <a href="registration.html">Student Registration</a>.';
+            return ['Apply here: ', { label: 'Student Registration', href: 'registration.html' }, '.'];
         }
         if (value.includes('calendar') || value.includes('calender') || value.includes('takwim')) {
-            return 'Academic calendar: <a href="Download/AAK%20TAKWIM%202026.pdf" target="_blank" rel="noopener noreferrer">AAK Takwim 2026</a>.';
+            return [
+                'Academic calendar: ',
+                { label: 'AAK Takwim 2026', href: 'Download/AAK%20TAKWIM%202026.pdf', external: true },
+                '.'
+            ];
         }
         if (value.includes('tahfiz') || value.includes('hifz') || value.includes('memorisation') || value.includes('quran memorisation')) {
             return 'Our Quran memorisation program uses the Photo Memory Memorisation Method (PMMM) for strong retention.';
@@ -613,7 +686,13 @@ const hadithSnippets = [
             return 'Intake is open throughout the year. Contact us to get the latest availability and steps.';
         }
         if (value.includes('contact') || value.includes('email') || value.includes('phone') || value.includes('whatsapp')) {
-            return 'Reach us via <a href="https://wa.me/60193818616" target="_blank" rel="noopener noreferrer">WhatsApp</a> or <a href="mailto:akademialkhayrofficial@gmail.com">email</a>.';
+            return [
+                'Reach us via ',
+                { label: 'WhatsApp', href: 'https://wa.me/60193818616', external: true },
+                ' or ',
+                { label: 'email', href: 'mailto:akademialkhayrofficial@gmail.com' },
+                '.'
+            ];
         }
         if (value.includes('location') || value.includes('address') || value.includes('visit')) {
             return 'Akademi Al Khayr is located at White Resort Camp, Kampung Genting, 11000 Balik Pulau, Penang.';
@@ -789,6 +868,7 @@ const hadithSnippets = [
         if (!match || match.index == null) return null;
         const termStart = match.index + (match[1]?.length || 0);
         const termEnd = termStart + match[2].length;
+        if (termStart >= indexMap.length || termEnd - 1 >= indexMap.length) return null;
         if (!indexMap[termStart] || !indexMap[termEnd - 1]) return null;
         return { start: indexMap[termStart], end: indexMap[termEnd - 1] + 1 };
     };
@@ -1657,7 +1737,8 @@ const hadithSnippets = [
         } else {
             const reply = getSchoolReply(text);
             setTimeout(() => {
-                const response = addMessage(reply, 'bot', true);
+                const response =
+                    Array.isArray(reply) ? addMessageParts(reply, 'bot') : addMessage(reply, 'bot');
                 scrollMessageToTop(response);
             }, 300);
         }
