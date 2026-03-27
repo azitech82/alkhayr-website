@@ -1323,7 +1323,14 @@ This message was submitted via the website contact form.
             ولد: { arabic: 'ولد', english: 'boy', malay: 'budak lelaki', exampleSearch: 'boy', plural: 'أولاد' },
             بنت: { arabic: 'بنت', english: 'girl', malay: 'budak perempuan', exampleSearch: 'girl', plural: 'بنات' },
             بقرة: { arabic: 'بقرة', english: 'cow', malay: 'lembu', exampleSearch: 'cow', plural: 'بقر' },
-            قرد: { arabic: 'قرد', english: 'monkey', malay: 'monyet', exampleSearch: 'monkey', plural: 'قرود' }
+            قرد: {
+                arabic: 'قرد',
+                english: 'monkey',
+                malay: 'monyet',
+                exampleSearch: 'monkey',
+                plural: 'قرود',
+                quranSearch: 'قردة'
+            }
         };
         const arabicDictionaryStorageKey = 'aak_arabic_dictionary_v2';
         const loadArabicDictionary = () => {
@@ -2009,9 +2016,15 @@ This message was submitted via the website contact form.
                 persistArabicDictionary(arabicDictionary);
             }
 
+            if (resolvedEntry.arabic === 'قرد' && !resolvedEntry.quranSearch) {
+                resolvedEntry.quranSearch = 'قردة';
+                arabicDictionary[resolvedEntry.arabic] = resolvedEntry;
+                persistArabicDictionary(arabicDictionary);
+            }
+
             await ensureArabicForms(resolvedEntry);
 
-            const arabicForExample = resolvedEntry.arabic;
+            const arabicForExample = resolvedEntry.quranSearch || resolvedEntry.arabic;
             const exampleSnippet = arabicForExample ? await fetchArabicQuranSnippet(arabicForExample) : null;
             if (exampleSnippet && typeof exampleSnippet !== 'string') {
                 return {

@@ -472,7 +472,14 @@ const initChatbot = () => {
         ولد: { arabic: 'ولد', english: 'boy', malay: 'budak lelaki', exampleSearch: 'boy', plural: 'أولاد' },
         بنت: { arabic: 'بنت', english: 'girl', malay: 'budak perempuan', exampleSearch: 'girl', plural: 'بنات' },
         بقرة: { arabic: 'بقرة', english: 'cow', malay: 'lembu', exampleSearch: 'cow', plural: 'بقر' },
-        قرد: { arabic: 'قرد', english: 'monkey', malay: 'monyet', exampleSearch: 'monkey', plural: 'قرود' }
+        قرد: {
+            arabic: 'قرد',
+            english: 'monkey',
+            malay: 'monyet',
+            exampleSearch: 'monkey',
+            plural: 'قرود',
+            quranSearch: 'قردة'
+        }
     };
     const arabicDictionaryStorageKey = 'aak_arabic_dictionary_v2';
     const loadArabicDictionary = () => {
@@ -549,7 +556,7 @@ const hadithSnippets = [
                 message.appendChild(document.createTextNode(part));
                 return;
             }
-            if (part.href) {
+            if (part && typeof part === 'object' && part.href) {
                 const link = document.createElement('a');
                 link.href = part.href;
                 link.textContent = part.label || part.href;
@@ -1364,9 +1371,15 @@ const hadithSnippets = [
             persistArabicDictionary(arabicDictionary);
         }
 
+        if (resolvedEntry.arabic === 'قرد' && !resolvedEntry.quranSearch) {
+            resolvedEntry.quranSearch = 'قردة';
+            arabicDictionary[resolvedEntry.arabic] = resolvedEntry;
+            persistArabicDictionary(arabicDictionary);
+        }
+
         await ensureArabicForms(resolvedEntry);
 
-        const arabicForExample = resolvedEntry.arabic;
+        const arabicForExample = resolvedEntry.quranSearch || resolvedEntry.arabic;
         const quranSnippetResult = arabicForExample ? await fetchArabicQuranSnippet(arabicForExample) : null;
         const hadithMatch = arabicForExample ? findHadithSnippet(arabicForExample) : null;
         const quranSnippet =
