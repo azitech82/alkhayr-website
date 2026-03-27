@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Additioanal Tuition Form | Akademi Al Khayr</title>
+    <title>Additional Tuition Form | Akademi Al Khayr</title>
     <link rel="icon" type="image/png" href="logo%20AAK%20(white%20BG).png">
     <meta name="description" content="Additional tuition registration form for after school classes at Akademi Al Khayr.">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -133,7 +133,7 @@
                 <div class="flex justify-center mb-4">
                     <img src="logo%20AAK%20(white%20BG).png" alt="Akademi Al Khayr Logo" class="h-20 w-auto object-contain">
                 </div>
-                <h2 class="text-3xl font-bold text-white">Additioanal Tuition</h2>
+                <h2 class="text-3xl font-bold text-white">Additional Tuition</h2>
                 <p class="text-purple-100 mt-2">Registration for after-school additional classes</p>
             </div>
             
@@ -302,6 +302,7 @@
 
     <script>
         const tuitionForm = document.getElementById('tuitionForm');
+        const whatsappNumber = '60193818616';
         const formAction = 'https://formsubmit.co/ajax/akademialkhayrofficial@gmail.com';
         const registrationInitAt = Date.now();
         const registrationHoneypot = document.getElementById('aak_hp');
@@ -386,7 +387,7 @@
 *Time:* ${timeNode ? timeNode.value : ''}
             `.trim();
 
-            const whatsappLink = `https://wa.me/60193818616?text=${encodeURIComponent(whatsappText)}`;
+            const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappText)}`;
 
             document.getElementById('receiptStudentName').textContent = studentName || '-';
             document.getElementById('receiptEducationLevel').textContent = educationLevel || '-';
