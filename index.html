@@ -1612,8 +1612,12 @@ This message was submitted via the website contact form.
                 .replace(/'/g, '&#39;');
         };
 
+        const stripAyahMarkers = (text) => {
+            return (text || '').replace(/[\u06DD]/g, '');
+        };
+
         const enhanceWaqfSymbols = (text) => {
-            const escaped = escapeHtml(text);
+            const escaped = escapeHtml(stripAyahMarkers(text));
             return escaped.replace(/([\u06D6-\u06ED])/g, '<span class="chatbot-waqf">$1</span>');
         };
 
