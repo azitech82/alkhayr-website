@@ -582,7 +582,7 @@ const hadithSnippets = [
 
     const getSchoolReply = (text) => {
         const value = text.toLowerCase();
-        if (value.includes('fee') || value.includes('fees')) {
+        if (value.includes('fee') || value.includes('fees') || value.includes('yuran') || value.includes('bayaran')) {
             return [
                 'Fees details are here: ',
                 { label: 'Fees payment', href: 'fees.html' },
@@ -598,7 +598,7 @@ const hadithSnippets = [
         if (value.includes('chalet') || value.includes('booking') || value.includes('stay')) {
             return 'AAK Chalet booking: RM149 per night, check-in after 2:00 PM, check-out before 12:00 PM. Amenities include a master bedroom (queen bed), a spacious hall (single bed + sofa set), and a dry pantry. Check-in contact: En Hairozaman, 012-263 7082.';
         }
-        if (value.includes('form') || value.includes('forms')) {
+        if (value.includes('form') || value.includes('forms') || value.includes('borang')) {
             return [
                 'Forms available: ',
                 { label: 'Outing Form', href: 'outing_form.html' },
@@ -615,7 +615,7 @@ const hadithSnippets = [
                 '.'
             ];
         }
-        if (value.includes('parcel') || value.includes('delivery') || value.includes('courier') || value.includes('tracking')) {
+        if (value.includes('parcel') || value.includes('delivery') || value.includes('courier') || value.includes('tracking') || value.includes('poslaju') || value.includes('kurier')) {
             return [
                 'Use the ',
                 { label: 'Parcel Delivery Form', href: 'parcel_form.html' },
@@ -625,41 +625,41 @@ const hadithSnippets = [
         if (value.includes('outing')) {
             return ['Outing requests are submitted via the ', { label: 'Outing Form', href: 'outing_form.html' }, '.'];
         }
-        if (value.includes('transport') || value.includes('pickup') || value.includes('pick up')) {
+        if (value.includes('transport') || value.includes('pickup') || value.includes('pick up') || value.includes('pengangkutan') || value.includes('ambil')) {
             return [
                 'Transportation or pickup requests are submitted via the ',
                 { label: 'Transportation/Pickup Form', href: 'transportation_form.html' },
                 '.'
             ];
         }
-        if (value.includes('suggestion') || value.includes('complain') || value.includes('complaint')) {
+        if (value.includes('suggestion') || value.includes('complain') || value.includes('complaint') || value.includes('cadangan') || value.includes('aduan')) {
             return [
                 'Suggestions or complaints can be sent using the ',
                 { label: 'Suggestion/Complain Form', href: 'suggestion_form.html' },
                 '.'
             ];
         }
-        if (value.includes('activity form') || value.includes('activity')) {
+        if (value.includes('activity form') || value.includes('activity') || value.includes('aktiviti')) {
             return [
                 'Activity-related requests are submitted via the ',
                 { label: 'Activity Form', href: 'concern_form.html' },
                 '.'
             ];
         }
-        if (value.includes('program') || value.includes('course') || value.includes('curriculum')) {
+        if (value.includes('program') || value.includes('course') || value.includes('curriculum') || value.includes('kurikulum')) {
             return 'We offer integrated Hifz, Arabic, and academic modules with holistic programs across primary, secondary, and co-curriculum activities.';
         }
-        if (value.includes('apply') || value.includes('admission') || value.includes('register')) {
+        if (value.includes('apply') || value.includes('admission') || value.includes('register') || value.includes('daftar') || value.includes('pendaftaran') || value.includes('permohonan') || value.includes('kemasukan')) {
             return ['Apply here: ', { label: 'Student Registration', href: 'registration.html' }, '.'];
         }
-        if (value.includes('calendar') || value.includes('calender') || value.includes('takwim')) {
+        if (value.includes('calendar') || value.includes('calender') || value.includes('takwim') || value.includes('kalendar')) {
             return [
                 'Academic calendar: ',
                 { label: 'AAK Takwim 2026', href: 'Download/AAK%20TAKWIM%202026.pdf', external: true },
                 '.'
             ];
         }
-        if (value.includes('tahfiz') || value.includes('hifz') || value.includes('memorisation') || value.includes('quran memorisation')) {
+        if (value.includes('tahfiz') || value.includes('hifz') || value.includes('memorisation') || value.includes('quran memorisation') || value.includes('hafazan')) {
             return 'Our Quran memorisation program uses the Photo Memory Memorisation Method (PMMM) for strong retention.';
         }
         if (value.includes('pmmm') || value.includes('photo memory')) {
@@ -668,34 +668,34 @@ const hadithSnippets = [
         if (value.includes('arabic') || value.includes('bahasa arab') || value.includes('language of the quran')) {
             return 'Arabic is offered as a core program focused on the language of the Quran.';
         }
-        if (value.includes('character') || value.includes('akhlak') || value.includes('leadership')) {
+        if (value.includes('character') || value.includes('akhlak') || value.includes('leadership') || value.includes('sahsiah')) {
             return 'Character development is a core pillar focused on building future leaders with strong values.';
         }
-        if (value.includes('primary') || value.includes('kssr')) {
+        if (value.includes('primary') || value.includes('kssr') || value.includes('rendah')) {
             return 'Primary education blends the KSSR syllabus with Islamic values.';
         }
-        if (value.includes('secondary') || value.includes('kssm') || value.includes('cambridge')) {
+        if (value.includes('secondary') || value.includes('kssm') || value.includes('cambridge') || value.includes('menengah')) {
             return 'Secondary education follows a dual syllabus approach (KSSM & Cambridge) with Islamic values.';
         }
-        if (value.includes('co-curriculum') || value.includes('club') || value.includes('sports') || value.includes('arts')) {
+        if (value.includes('co-curriculum') || value.includes('club') || value.includes('sports') || value.includes('arts') || value.includes('kokurikulum')) {
             return 'Co-curriculum includes sports, arts, and clubs to support well-rounded development.';
         }
-        if (value.includes('online') || value.includes('kelas online') || value.includes('remote')) {
+        if (value.includes('online') || value.includes('kelas online') || value.includes('remote') || value.includes('dalam talian')) {
             return 'Online Tahfiz & Arabic is available for flexible learning.';
         }
         if (value.includes('eco campus') || value.includes('camp') || value.includes('resort') || value.includes('white resort')) {
             return 'Our eco campus is at White Resort Camp, Kampung Genting, Balik Pulau, Penang.';
         }
-        if (value.includes('learning style') || value.includes('ability based') || value.includes('learning approach')) {
+        if (value.includes('learning style') || value.includes('ability based') || value.includes('learning approach') || value.includes('gaya pembelajaran')) {
             return 'Our learning style is ability-based learning to support students at their level.';
         }
-        if (value.includes('teacher') || value.includes('principal') || value.includes('staff') || value.includes('educator')) {
+        if (value.includes('teacher') || value.includes('principal') || value.includes('staff') || value.includes('educator') || value.includes('guru') || value.includes('pengetua')) {
             return 'Our educators and leadership details can be shared upon request. Please contact us for more.';
         }
-        if (value.includes('admission period') || value.includes('intake') || value.includes('deadline')) {
+        if (value.includes('admission period') || value.includes('intake') || value.includes('deadline') || value.includes('tarikh akhir') || value.includes('pengambilan')) {
             return 'Intake is open throughout the year. Contact us to get the latest availability and steps.';
         }
-        if (value.includes('contact') || value.includes('email') || value.includes('phone') || value.includes('whatsapp')) {
+        if (value.includes('contact') || value.includes('email') || value.includes('phone') || value.includes('whatsapp') || value.includes('hubungi')) {
             return [
                 'Reach us via ',
                 { label: 'WhatsApp', href: 'https://wa.me/60193818616', external: true },
@@ -704,10 +704,10 @@ const hadithSnippets = [
                 '.'
             ];
         }
-        if (value.includes('location') || value.includes('address') || value.includes('visit')) {
+        if (value.includes('location') || value.includes('address') || value.includes('visit') || value.includes('alamat') || value.includes('lawat') || value.includes('lokasi') || value.includes('kampus')) {
             return 'Akademi Al Khayr is located at White Resort Camp, Kampung Genting, 11000 Balik Pulau, Penang.';
         }
-        if (value.includes('time') || value.includes('hours') || value.includes('schedule')) {
+        if (value.includes('time') || value.includes('hours') || value.includes('schedule') || value.includes('masa') || value.includes('jadual')) {
             return 'School hours are shared during registration. Contact us if you need the schedule.';
         }
         return 'I can help with admissions, programs, fees, forms, calendar, campus location, or contact info. Ask about any of these.';
