@@ -1837,6 +1837,18 @@ const hadithSnippets = [
                 chatbotAyahInput.focus();
             }
         });
+        chatbotSurahSelect.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                sendFromSurahPicker();
+            }
+        });
+    }
+    if (chatbotAyahInput) {
+        chatbotAyahInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                sendFromSurahPicker();
+            }
+        });
     }
     populateSurahIndex();
     setMode('quran');
