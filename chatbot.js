@@ -1551,6 +1551,39 @@ const hadithSnippets = [
         return `https://www.everyayah.com/data/Abu_Bakr_Ash-Shaatree_64kbps/${key}.mp3`;
     };
 
+    const buildQuranCopyText = (payload) => {
+        const parts = [];
+        if (payload.ref) parts.push(`Ayah ${payload.ref}`);
+        if (payload.arabicText) parts.push(payload.arabicText);
+        if (payload.translationText) parts.push(`English: ${payload.translationText}`);
+        if (payload.translationMalayText) parts.push(`Malay: ${payload.translationMalayText}`);
+        if (payload.tafsirText) parts.push(`Tafseer: ${payload.tafsirText}`);
+        return parts.filter(Boolean).join('\n\n');
+    };
+
+    const copyToClipboard = async (text) => {
+        if (!text) return false;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            try {
+                await navigator.clipboard.writeText(text);
+                return true;
+            } catch {}
+        }
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.setAttribute('readonly', '');
+        textarea.style.position = 'absolute';
+        textarea.style.left = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        let success = false;
+        try {
+            success = document.execCommand('copy');
+        } catch {}
+        document.body.removeChild(textarea);
+        return success;
+    };
+
     const renderQuranReply = (container, payload) => {
         container.textContent = '';
         if (payload.searchSummary) {
@@ -1625,12 +1658,16 @@ const hadithSnippets = [
 
         const nav = document.createElement('div');
         nav.className = 'chatbot-quran-nav';
+        const copyButton = document.createElement('button');
+        copyButton.type = 'button';
+        copyButton.textContent = 'Copy';
         const prevButton = document.createElement('button');
         prevButton.type = 'button';
         prevButton.textContent = 'Previous';
         const nextButton = document.createElement('button');
         nextButton.type = 'button';
         nextButton.textContent = 'Next';
+        nav.appendChild(copyButton);
         nav.appendChild(prevButton);
         nav.appendChild(nextButton);
         container.appendChild(nav);
@@ -1658,6 +1695,14 @@ const hadithSnippets = [
 
         updateNavButton(prevButton, 'prev');
         updateNavButton(nextButton, 'next');
+        copyButton.addEventListener('click', async () => {
+            const text = buildQuranCopyText(payload);
+            const success = await copyToClipboard(text);
+            copyButton.textContent = success ? 'Copied' : 'Copy failed';
+            setTimeout(() => {
+                copyButton.textContent = 'Copy';
+            }, 1200);
+        });
     };
 
     const setMode = (mode) => {
