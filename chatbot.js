@@ -1563,25 +1563,15 @@ const hadithSnippets = [
 
     const copyToClipboard = async (text) => {
         if (!text) return false;
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-            try {
-                await navigator.clipboard.writeText(text);
-                return true;
-            } catch {}
+        if (!navigator.clipboard || !navigator.clipboard.writeText) {
+            return false;
         }
-        const textarea = document.createElement('textarea');
-        textarea.value = text;
-        textarea.setAttribute('readonly', '');
-        textarea.style.position = 'absolute';
-        textarea.style.left = '-9999px';
-        document.body.appendChild(textarea);
-        textarea.select();
-        let success = false;
         try {
-            success = document.execCommand('copy');
-        } catch {}
-        document.body.removeChild(textarea);
-        return success;
+            await navigator.clipboard.writeText(text);
+            return true;
+        } catch {
+            return false;
+        }
     };
 
     const renderQuranReply = (container, payload) => {
@@ -1660,15 +1650,16 @@ const hadithSnippets = [
         nav.className = 'chatbot-quran-nav';
         const copyButton = document.createElement('button');
         copyButton.type = 'button';
+        copyButton.className = 'chatbot-quran-copy';
         copyButton.textContent = 'Copy';
         const prevButton = document.createElement('button');
         prevButton.type = 'button';
-        prevButton.textContent = 'Previous';
+        prevButton.textContent = '<<';
         const nextButton = document.createElement('button');
         nextButton.type = 'button';
-        nextButton.textContent = 'Next';
-        nav.appendChild(copyButton);
+        nextButton.textContent = '>>';
         nav.appendChild(prevButton);
+        nav.appendChild(copyButton);
         nav.appendChild(nextButton);
         container.appendChild(nav);
 
