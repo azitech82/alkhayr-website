@@ -1725,7 +1725,7 @@ const hadithSnippets = [
             return;
         }
         if (chatbotInput) {
-            chatbotInput.value = `surah ${surahNumber} ayah ${ayahNumber}`;
+            chatbotInput.value = `${surahNumber}:${ayahNumber}`;
             sendMessage();
         }
     };
