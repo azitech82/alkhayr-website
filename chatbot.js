@@ -1839,6 +1839,7 @@ const hadithSnippets = [
         });
         chatbotSurahSelect.addEventListener('keydown', (event) => {
             if (event.key === 'Enter') {
+                event.preventDefault();
                 sendFromSurahPicker();
             }
         });
@@ -1846,6 +1847,7 @@ const hadithSnippets = [
     if (chatbotAyahInput) {
         chatbotAyahInput.addEventListener('keydown', (event) => {
             if (event.key === 'Enter') {
+                event.preventDefault();
                 sendFromSurahPicker();
             }
         });
