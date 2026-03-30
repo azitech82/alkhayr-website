@@ -2029,12 +2029,6 @@ const hadithDetailCache = new Map();
         }
 
         renderHeader('item');
-        if (payload.isFallback) {
-            const fallback = document.createElement('div');
-            fallback.className = 'chatbot-translation-label';
-            fallback.textContent = 'No exact match found. Here is a Hadeeth snippet:';
-            container.appendChild(fallback);
-        }
         renderHadithItem(baseItems[0] || {});
     };
 
