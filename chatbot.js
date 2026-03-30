@@ -658,6 +658,10 @@ const hadithIndexCache = Object.keys(hadithCollections).reduce((acc, key) => {
     return acc;
 }, {});
 const hadithDetailCache = new Map();
+let unicodeMarkRegex = null;
+try {
+    unicodeMarkRegex = new RegExp('\\p{M}+', 'gu');
+} catch {}
 
     const addMessage = (text, type) => {
         const message = document.createElement('div');
@@ -1009,10 +1013,12 @@ const hadithDetailCache = new Map();
     };
 
     const simplifyHadithArabic = (text) => {
-        const raw = (text || '')
-            .replace(/[\u064B-\u065F\u0670\u06D6-\u06ED]/g, '')
+        const removedMarks = unicodeMarkRegex
+            ? (text || '').replace(unicodeMarkRegex, '')
+            : (text || '').replace(/[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED\u08D3-\u08FF]/g, '');
+        const raw = removedMarks
             .replace(/\u0640/g, '')
-            .replace(/[\u200E\u200F\u202A-\u202E\u2066-\u2069]/g, '')
+            .replace(/[\u200C\u200D\u061C\u200E\u200F\u202A-\u202E\u2066-\u2069]/g, '')
             .replace(/[۝۞۩﴿﴾]/g, '')
             .replace(/[•·●○◌]/g, '')
             .replace(/\s+/g, ' ')
