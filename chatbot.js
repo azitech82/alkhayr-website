@@ -652,7 +652,7 @@ const hadithCollections = {
     darimi: { label: 'Sunan ad-Darimi', englishEdition: 'eng-darimi', arabicEdition: 'ara-darimi' }
 };
 const hadithPrimarySearchCollections = ['bukhari', 'muslim'];
-const hadithExtendedSearchCollections = ['tirmidhi', 'abudawud', 'nasai', 'ibnmajah', 'malik', 'darimi', 'ahmad'];
+const hadithExtendedSearchCollections = ['tirmidhi', 'abudawud', 'nasai', 'ibnmajah', 'darimi'];
 const hadithIndexCache = Object.keys(hadithCollections).reduce((acc, key) => {
     acc[key] = { english: null, arabic: null };
     return acc;
@@ -1339,11 +1339,16 @@ const hadithDetailCache = new Map();
                             .filter(Boolean)
                     )
                 );
+                const includesExtended = items.some(
+                    (item) => item.collectionKey && !hadithPrimarySearchCollections.includes(item.collectionKey)
+                );
                 return {
                     items,
                     isFallback: false,
                     searchSummary: sourceLabels.length
-                        ? `Top matches from: ${sourceLabels.join(', ')}.`
+                        ? `Top matches from: ${sourceLabels.join(', ')}.${
+                              includesExtended ? ' (Sahih-graded only for non-Bukhari/Muslim.)' : ''
+                          }`
                         : 'Top matches from authentic hadeeth collections.'
                 };
             }
