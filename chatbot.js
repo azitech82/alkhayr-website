@@ -1,4 +1,5 @@
 const chatbotStyles = `
+@import url('https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;600;700&display=swap');
 @keyframes chatbot-pulse {
     0% {
         box-shadow: 0 0 0 0 rgba(250, 204, 21, 0.7), 0 0 18px rgba(255, 255, 255, 0.8);
@@ -160,7 +161,8 @@ const chatbotStyles = `
 .chatbot-hadith-text {
     direction: rtl;
     text-align: right;
-    font-family: 'Amiri', 'Scheherazade New', 'KFGQPC HAFS Uthmanic Script', serif;
+    font-family: 'Noto Naskh Arabic', 'Noto Sans Arabic', 'Amiri', 'Scheherazade New', 'Geeza Pro', 'Tahoma',
+        'Arial', sans-serif;
     font-size: clamp(0.98rem, 0.92rem + 0.45vw, 1.18rem);
     line-height: 2.1;
     letter-spacing: 0;
@@ -662,10 +664,43 @@ let unicodeMarkRegex = null;
 try {
     unicodeMarkRegex = new RegExp('\\p{M}+', 'gu');
 } catch {}
+let unicodeFormatRegex = null;
+let unicodeSymbolRegex = null;
+try {
+    unicodeFormatRegex = new RegExp('\\p{Cf}+', 'gu');
+    unicodeSymbolRegex = new RegExp('\\p{So}+', 'gu');
+} catch {}
 const stripUnicodeMarks = (value) => {
     const raw = value || '';
-    if (unicodeMarkRegex) return raw.replace(unicodeMarkRegex, '');
-    return raw.replace(/[\u0300-\u036F\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED\u08D3-\u08FF]/g, '');
+    if (!raw) return '';
+    let result = '';
+    for (let i = 0; i < raw.length; i += 1) {
+        const codePoint = raw.codePointAt(i);
+        if (codePoint > 0xffff) i += 1;
+        if (codePoint === 0x25cc) continue;
+        if (codePoint >= 0x0300 && codePoint <= 0x036f) continue;
+        if (codePoint >= 0x0610 && codePoint <= 0x061a) continue;
+        if (codePoint >= 0x064b && codePoint <= 0x065f) continue;
+        if (codePoint === 0x0670) continue;
+        if (codePoint >= 0x06d6 && codePoint <= 0x06ed) continue;
+        if (codePoint >= 0x08d3 && codePoint <= 0x08ff) continue;
+        result += String.fromCodePoint(codePoint);
+    }
+    if (unicodeMarkRegex) return result.replace(unicodeMarkRegex, '');
+    return result;
+};
+const stripUnicodeFormat = (value) => {
+    const raw = value || '';
+    if (unicodeFormatRegex) return raw.replace(unicodeFormatRegex, '');
+    return raw.replace(/[\u00AD\u061C\u200B\u200C\u200D\u200E\u200F\u202A-\u202E\u2060\u2066-\u2069\uFEFF]/g, '');
+};
+const stripUnicodeSymbols = (value) => {
+    const raw = value || '';
+    if (unicodeSymbolRegex) return raw.replace(unicodeSymbolRegex, '');
+    return raw
+        .replace(/[\u0600-\u0605\u0608\u060B\u060E-\u060F]/g, '')
+        .replace(/[\u06DD\u06DE\u06E9\u06D4]/g, '')
+        .replace(/[\u25CC]/g, '');
 };
 
     const addMessage = (text, type) => {
@@ -944,12 +979,11 @@ const stripUnicodeMarks = (value) => {
 
     const normalizeArabicTerm = (text) => {
         const normalized = typeof (text || '').normalize === 'function' ? (text || '').normalize('NFC') : text || '';
-        return stripUnicodeMarks(normalized)
+        return stripUnicodeSymbols(stripUnicodeFormat(stripUnicodeMarks(normalized)))
             .replace(/\u0640/g, '')
-            .replace(/[\uFFFD\u200C\u200D\u061C\u200E\u200F\u202A-\u202E\u2066-\u2069]/g, '')
-            .replace(/[\u06DD\u06DE\u06E9\u06D4\u25CC]/g, '')
             .replace(/[۝۞۩﴿﴾]/g, '')
             .replace(/[•·●○◌]/g, '')
+            .replace(/[\u060C\u061B\u061F\u00B7\u2219\u22C5\u2022\u25CF\u25CC\u06D4]/g, '')
             .replace(/[^\u0600-\u06FF\s]/g, '')
             .replace(/\s+/g, ' ')
             .trim();
@@ -958,12 +992,11 @@ const stripUnicodeMarks = (value) => {
     const normalizeArabicForSearch = (text) => {
         const normalized =
             typeof (text || '').normalize === 'function' ? (text || '').normalize('NFC') : text || '';
-        return stripUnicodeMarks(normalized)
+        return stripUnicodeSymbols(stripUnicodeFormat(stripUnicodeMarks(normalized)))
             .replace(/\u0640/g, '')
-            .replace(/[\uFFFD\u200C\u200D\u061C\u200E\u200F\u202A-\u202E\u2066-\u2069]/g, '')
-            .replace(/[\u06DD\u06DE\u06E9\u06D4\u25CC]/g, ' ')
             .replace(/[۝۞۩﴿﴾]/g, ' ')
             .replace(/[•·●○◌]/g, ' ')
+            .replace(/[\u060C\u061B\u061F\u00B7\u2219\u22C5\u2022\u25CF\u25CC\u06D4]/g, ' ')
             .replace(/[^\u0600-\u06FF]/g, ' ')
             .replace(/\s+/g, ' ')
             .trim();
@@ -1030,15 +1063,41 @@ const stripUnicodeMarks = (value) => {
     const simplifyHadithArabic = (text) => {
         const normalized =
             typeof (text || '').normalize === 'function' ? (text || '').normalize('NFC') : text || '';
-        const raw = stripUnicodeMarks(normalized)
+        const raw = stripUnicodeSymbols(stripUnicodeFormat(stripUnicodeMarks(normalized)))
             .replace(/\u0640/g, '')
-            .replace(/[\uFFFD\u200C\u200D\u061C\u200E\u200F\u202A-\u202E\u2066-\u2069]/g, '')
-            .replace(/[\u06DD\u06DE\u06E9\u06D4\u25CC]/g, '')
             .replace(/[۝۞۩﴿﴾]/g, '')
             .replace(/[•·●○◌]/g, '')
+            .replace(/[^\u0621-\u063A\u0641-\u064A\u0660-\u0669\u0671-\u06D3\u06FA-\u06FC\uFDF0-\uFDFF\s]/g, ' ')
             .replace(/\s+/g, ' ')
             .trim();
         if (!raw) return '';
+        const markers = [
+            'عن النبي',
+            'عن النبى',
+            'عن رسول الله',
+            'قال رسول الله',
+            'قال النبي',
+            'قال النبى',
+            'أن رسول الله',
+            'أن النبي',
+            'أن النبى'
+        ];
+        const markerIndex = markers
+            .map((marker) => ({ marker, index: raw.indexOf(marker) }))
+            .filter((entry) => entry.index >= 0)
+            .sort((a, b) => a.index - b.index)[0];
+        if (markerIndex) {
+            const start = markerIndex.index;
+            const sayIndex = raw.indexOf('قال', start);
+            const cutIndex = sayIndex >= 0 && sayIndex - start <= 160 ? sayIndex + 3 : start;
+            const candidate = raw
+                .slice(cutIndex)
+                .replace(/^[\s:：،-]+/, '')
+                .replace(/[\"«»]/g, '')
+                .trim();
+            if (candidate && candidate.length >= 10) return candidate;
+        }
+
         const probe = raw.slice(0, 380);
         const pattern = /(قَالَتْ|قَالَ|يَقُولُ)\s*[:：،]?\s*/g;
         let lastIndex = -1;
@@ -1049,10 +1108,14 @@ const stripUnicodeMarks = (value) => {
             lastMatchLen = match[0].length;
         }
         if (lastIndex >= 0) {
-            const candidate = raw.slice(lastIndex + lastMatchLen).trim();
+            const candidate = raw
+                .slice(lastIndex + lastMatchLen)
+                .replace(/^[\s:：،-]+/, '')
+                .replace(/[\"«»]/g, '')
+                .trim();
             if (candidate && candidate.length >= 10) return candidate;
         }
-        return raw;
+        return raw.replace(/[\"«»]/g, '').trim();
     };
 
     const simplifyHadithEnglish = (text) => {
