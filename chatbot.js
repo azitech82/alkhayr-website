@@ -1080,12 +1080,11 @@ const stripUnicodeSymbols = (value) => {
                 .trim();
         };
 
-        const withEllipsis = (value, truncated) => {
+        const withEllipsis = (value, _truncated) => {
             const candidate = normalizeCandidate(value);
             if (!candidate) return '';
-            if (!truncated) return candidate;
-            if (candidate.startsWith('…') || candidate.startsWith('...')) return candidate;
-            return `… ${candidate}`;
+            if (/^عن(\s|$)/.test(candidate)) return candidate;
+            return candidate.startsWith('…') || candidate.startsWith('...') ? candidate : `… ${candidate}`;
         };
 
         const markers = [
