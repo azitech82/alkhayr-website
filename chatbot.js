@@ -66,47 +66,53 @@ const chatbotStyles = `
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: auto auto;
-    gap: 0.5rem;
-    padding: 0.4rem;
-    background: rgba(15, 23, 42, 0.05);
-    border: 1px solid rgba(148, 163, 184, 0.25);
-    border-radius: 9999px;
+    gap: 0.45rem;
+    padding: 0.6rem;
+    background: #ffffff;
+    border: 1px solid rgba(148, 163, 184, 0.45);
+    border-radius: 12px;
 }
 .chatbot-mode-btn {
     width: 100%;
-    border-radius: 9999px;
-    border: 1px solid transparent;
+    border-radius: 10px;
+    border: 1px solid rgba(148, 163, 184, 0.7);
     background: transparent;
-    padding: 0.45rem 0.75rem;
+    padding: 0.55rem 0.75rem;
     font-size: 0.78rem;
     font-weight: 700;
     letter-spacing: 0.02em;
-    color: #64748b;
-    transition: all 0.2s ease;
+    color: #475569;
+    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+.chatbot-mode-btn:hover {
+    background: rgba(15, 23, 42, 0.04);
 }
 .chatbot-mode-active {
-    color: #fff;
-    box-shadow: 0 10px 20px rgba(15, 23, 42, 0.18);
-    transform: translateY(-1px);
+    box-shadow: none;
+    transform: none;
 }
 #mode-quran.chatbot-mode-active {
-    background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
-    color: #fff;
+    background: rgba(124, 58, 237, 0.10);
+    border-color: rgba(124, 58, 237, 0.65);
+    color: #5b21b6;
 }
 #mode-school.chatbot-mode-active {
-    background: linear-gradient(135deg, #2563eb 0%, #38bdf8 100%);
-    color: #fff;
+    background: rgba(37, 99, 235, 0.10);
+    border-color: rgba(37, 99, 235, 0.65);
+    color: #1d4ed8;
 }
 #mode-school {
     grid-column: 1 / -1;
 }
 #mode-arabic.chatbot-mode-active {
-    background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%);
-    color: #fff;
+    background: rgba(15, 118, 110, 0.10);
+    border-color: rgba(15, 118, 110, 0.65);
+    color: #0f766e;
 }
 #mode-hadeeth.chatbot-mode-active {
-    background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
-    color: #fff;
+    background: rgba(245, 158, 11, 0.12);
+    border-color: rgba(245, 158, 11, 0.7);
+    color: #b45309;
 }
 .chatbot-messages {
     padding: 0.75rem;
