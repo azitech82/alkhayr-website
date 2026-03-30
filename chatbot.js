@@ -1072,6 +1072,22 @@ const stripUnicodeSymbols = (value) => {
             .replace(/\s+/g, ' ')
             .trim();
         if (!raw) return '';
+        const normalizeCandidate = (value) => {
+            return (value || '')
+                .replace(/^[\s:：،-]+/, '')
+                .replace(/[\"«»]/g, '')
+                .replace(/\s+/g, ' ')
+                .trim();
+        };
+
+        const withEllipsis = (value, truncated) => {
+            const candidate = normalizeCandidate(value);
+            if (!candidate) return '';
+            if (!truncated) return candidate;
+            if (candidate.startsWith('…') || candidate.startsWith('...')) return candidate;
+            return `… ${candidate}`;
+        };
+
         const markers = [
             'عن النبي',
             'عن النبى',
@@ -1083,20 +1099,57 @@ const stripUnicodeSymbols = (value) => {
             'أن النبي',
             'أن النبى'
         ];
+
         const markerIndex = markers
             .map((marker) => ({ marker, index: raw.indexOf(marker) }))
             .filter((entry) => entry.index >= 0)
             .sort((a, b) => a.index - b.index)[0];
+
+        const anWordPattern = /(^|\s)(عن)(?=\s)/g;
+        const findLastAnBefore = (limitIndex) => {
+            const segment = raw.slice(0, Math.max(0, limitIndex));
+            anWordPattern.lastIndex = 0;
+            let match = null;
+            let last = null;
+            while ((match = anWordPattern.exec(segment)) !== null) {
+                last = match.index + (match[1]?.length || 0);
+            }
+            return typeof last === 'number' ? last : -1;
+        };
+
+        const findFirstAn = () => {
+            const match = raw.match(/(^|\s)عن(?=\s)/);
+            if (!match || match.index == null) return -1;
+            return match.index + (match[1]?.length || 0);
+        };
+
+        const chooseStartFromAn = () => {
+            if (raw.startsWith('عن ')) return { start: 0, truncated: false };
+            if (markerIndex) {
+                const startFromAn = findLastAnBefore(markerIndex.index + markerIndex.marker.length);
+                if (startFromAn >= 0) return { start: startFromAn, truncated: true };
+                return { start: markerIndex.index, truncated: markerIndex.index > 0 };
+            }
+            const firstAn = findFirstAn();
+            if (firstAn >= 0) return { start: firstAn, truncated: true };
+            return { start: 0, truncated: false };
+        };
+
+        const anStart = chooseStartFromAn();
+        if (anStart.start > 0 || raw.startsWith('عن ')) {
+            const candidate = raw.slice(anStart.start);
+            const normalizedCandidate = normalizeCandidate(candidate);
+            if (normalizedCandidate && normalizedCandidate.length >= 10 && normalizedCandidate.startsWith('عن')) {
+                return withEllipsis(normalizedCandidate, anStart.truncated);
+            }
+        }
+
         if (markerIndex) {
-            const start = markerIndex.index;
-            const sayIndex = raw.indexOf('قال', start);
-            const cutIndex = sayIndex >= 0 && sayIndex - start <= 160 ? sayIndex + 3 : start;
-            const candidate = raw
-                .slice(cutIndex)
-                .replace(/^[\s:：،-]+/, '')
-                .replace(/[\"«»]/g, '')
-                .trim();
-            if (candidate && candidate.length >= 10) return candidate;
+            const candidate = raw.slice(markerIndex.index);
+            const normalizedCandidate = normalizeCandidate(candidate);
+            if (normalizedCandidate && normalizedCandidate.length >= 10) {
+                return withEllipsis(normalizedCandidate, markerIndex.index > 0);
+            }
         }
 
         const probe = raw.slice(0, 380);
@@ -1109,14 +1162,14 @@ const stripUnicodeSymbols = (value) => {
             lastMatchLen = match[0].length;
         }
         if (lastIndex >= 0) {
-            const candidate = raw
-                .slice(lastIndex + lastMatchLen)
-                .replace(/^[\s:：،-]+/, '')
-                .replace(/[\"«»]/g, '')
-                .trim();
-            if (candidate && candidate.length >= 10) return candidate;
+            const candidate = raw.slice(lastIndex + lastMatchLen);
+            const normalizedCandidate = normalizeCandidate(candidate);
+            if (normalizedCandidate && normalizedCandidate.length >= 10) {
+                return withEllipsis(normalizedCandidate, lastIndex > 0);
+            }
         }
-        return raw.replace(/[\"«»]/g, '').trim();
+
+        return normalizeCandidate(raw);
     };
 
     const simplifyHadithEnglish = (text) => {
