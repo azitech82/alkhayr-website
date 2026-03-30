@@ -157,6 +157,19 @@ const chatbotStyles = `
     text-rendering: optimizeLegibility;
     margin-bottom: 0.6rem;
 }
+.chatbot-hadith-text {
+    direction: rtl;
+    text-align: right;
+    font-family: 'Amiri', 'Scheherazade New', 'KFGQPC HAFS Uthmanic Script', serif;
+    font-size: clamp(0.98rem, 0.92rem + 0.45vw, 1.18rem);
+    line-height: 2.1;
+    letter-spacing: 0;
+    word-spacing: 0.04em;
+    padding-top: 0.1em;
+    padding-bottom: 0.06em;
+    text-rendering: optimizeLegibility;
+    margin-bottom: 0.55rem;
+}
 .chatbot-waqf {
     font-size: 1.15em;
     vertical-align: middle;
@@ -968,6 +981,48 @@ const hadithDetailCache = new Map();
         if (!normalizedText || !normalizedTerm) return false;
         const pattern = new RegExp(`(^|\\s)${escapeRegExp(normalizedTerm)}(\\s|$)`);
         return pattern.test(normalizedText);
+    };
+
+    const simplifyHadithArabic = (text) => {
+        const raw = (text || '')
+            .replace(/[\u064B-\u065F\u0670\u06D6-\u06ED]/g, '')
+            .replace(/\u0640/g, '')
+            .replace(/\s+/g, ' ')
+            .trim();
+        if (!raw) return '';
+        const probe = raw.slice(0, 380);
+        const pattern = /(قَالَتْ|قَالَ|يَقُولُ)\s*[:：،]?\s*/g;
+        let lastIndex = -1;
+        let lastMatchLen = 0;
+        let match = null;
+        while ((match = pattern.exec(probe)) !== null) {
+            lastIndex = match.index;
+            lastMatchLen = match[0].length;
+        }
+        if (lastIndex >= 0) {
+            const candidate = raw.slice(lastIndex + lastMatchLen).trim();
+            if (candidate && candidate.length >= 10) return candidate;
+        }
+        return raw;
+    };
+
+    const simplifyHadithEnglish = (text) => {
+        const raw = (text || '').replace(/\s+/g, ' ').trim();
+        if (!raw) return '';
+        const lower = raw.toLowerCase();
+        if (
+            lower.startsWith('narrated') ||
+            lower.startsWith('reported') ||
+            lower.startsWith('it was narrated') ||
+            lower.startsWith('it is narrated')
+        ) {
+            const colonIndex = raw.indexOf(':');
+            if (colonIndex >= 0 && colonIndex < 180) {
+                const candidate = raw.slice(colonIndex + 1).trim();
+                if (candidate && candidate.length >= 10) return candidate;
+            }
+        }
+        return raw;
     };
 
     const normalizeLatinText = (text) => {
@@ -1824,8 +1879,8 @@ const hadithDetailCache = new Map();
             hadithLabel.textContent = 'Hadith snippet:';
             container.appendChild(hadithLabel);
             const hadithArabic = document.createElement('div');
-            hadithArabic.className = 'chatbot-ayah-text';
-            hadithArabic.textContent = payload.hadithSnippet;
+            hadithArabic.className = 'chatbot-hadith-text';
+            hadithArabic.textContent = simplifyHadithArabic(payload.hadithSnippet);
             container.appendChild(hadithArabic);
             if (payload.hadithEnglish) {
                 const hadithEnglishLabel = document.createElement('div');
@@ -1884,8 +1939,8 @@ const hadithDetailCache = new Map();
             hadithLabel.textContent = 'Hadeeth snippet:';
             container.appendChild(hadithLabel);
             const hadithArabic = document.createElement('div');
-            hadithArabic.className = 'chatbot-ayah-text';
-            hadithArabic.textContent = item.arabic || '';
+            hadithArabic.className = 'chatbot-hadith-text';
+            hadithArabic.textContent = simplifyHadithArabic(item.arabic || '');
             container.appendChild(hadithArabic);
             if (item.english) {
                 const hadithEnglishLabel = document.createElement('div');
@@ -1894,7 +1949,7 @@ const hadithDetailCache = new Map();
                 container.appendChild(hadithEnglishLabel);
                 const hadithEnglish = document.createElement('div');
                 hadithEnglish.className = 'chatbot-translation-text';
-                hadithEnglish.textContent = item.english;
+                hadithEnglish.textContent = simplifyHadithEnglish(item.english);
                 container.appendChild(hadithEnglish);
             }
             if (item.reference) {
