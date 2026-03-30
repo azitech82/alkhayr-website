@@ -1011,6 +1011,9 @@ const hadithDetailCache = new Map();
         const raw = (text || '')
             .replace(/[\u064B-\u065F\u0670\u06D6-\u06ED]/g, '')
             .replace(/\u0640/g, '')
+            .replace(/[\u200E\u200F\u202A-\u202E\u2066-\u2069]/g, '')
+            .replace(/[۝۞۩﴿﴾]/g, '')
+            .replace(/[•·●○◌]/g, '')
             .replace(/\s+/g, ' ')
             .trim();
         if (!raw) return '';
