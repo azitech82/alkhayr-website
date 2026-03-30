@@ -288,6 +288,30 @@ const chatbotStyles = `
     transform: translateY(-1px);
     box-shadow: 0 8px 16px rgba(76, 29, 149, 0.18);
 }
+.chatbot-hadith-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin: 0.25rem 0 0.65rem;
+}
+.chatbot-hadith-option-btn {
+    border: 1px solid rgba(148, 163, 184, 0.7);
+    border-radius: 10px;
+    background: #ffffff;
+    color: #334155;
+    padding: 0.42rem 0.65rem;
+    font-size: 0.82rem;
+    font-weight: 650;
+    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+.chatbot-hadith-option-btn:hover {
+    background: rgba(15, 23, 42, 0.04);
+}
+.chatbot-hadith-option-active {
+    background: rgba(124, 58, 237, 0.10);
+    border-color: rgba(124, 58, 237, 0.65);
+    color: #5b21b6;
+}
 .chatbot-logo {
     width: 58px;
     height: 58px;
@@ -1913,27 +1937,25 @@ const hadithDetailCache = new Map();
     };
 
     const renderHadithReply = (container, payload) => {
-        container.textContent = '';
-        if (payload.searchSummary) {
-            const summary = document.createElement('div');
-            summary.className = 'chatbot-translation-label';
-            summary.textContent = payload.searchSummary;
-            container.appendChild(summary);
-        }
-        if (payload.isFallback) {
-            const fallback = document.createElement('div');
-            fallback.className = 'chatbot-translation-label';
-            fallback.textContent = 'No exact match found. Here is a Hadeeth snippet:';
-            container.appendChild(fallback);
-        }
-        const items = Array.isArray(payload.items) && payload.items.length ? payload.items : [payload];
-        items.forEach((item, index) => {
-            if (index > 0) {
-                const divider = document.createElement('div');
-                divider.className = 'chatbot-translation-label';
-                divider.textContent = '—';
-                container.appendChild(divider);
+        const baseItems = Array.isArray(payload.items) && payload.items.length ? payload.items : [payload];
+
+        const renderHeader = (mode) => {
+            container.textContent = '';
+            if (payload.searchSummary) {
+                const summary = document.createElement('div');
+                summary.className = 'chatbot-translation-label';
+                summary.textContent = payload.searchSummary;
+                container.appendChild(summary);
             }
+            if (payload.isFallback && mode !== 'options') {
+                const fallback = document.createElement('div');
+                fallback.className = 'chatbot-translation-label';
+                fallback.textContent = 'No exact match found. Here is a Hadeeth snippet:';
+                container.appendChild(fallback);
+            }
+        };
+
+        const renderHadithItem = (item) => {
             const hadithLabel = document.createElement('div');
             hadithLabel.className = 'chatbot-translation-label';
             hadithLabel.textContent = 'Hadeeth snippet:';
@@ -1958,7 +1980,62 @@ const hadithDetailCache = new Map();
                 hadithRef.textContent = `[${item.reference}]`;
                 container.appendChild(hadithRef);
             }
-        });
+        };
+
+        const renderOptions = () => {
+            renderHeader('options');
+            const prompt = document.createElement('div');
+            prompt.className = 'chatbot-translation-label';
+            prompt.textContent = `Found ${baseItems.length} hadeeths. Choose one:`;
+            container.appendChild(prompt);
+
+            const options = document.createElement('div');
+            options.className = 'chatbot-hadith-options';
+            container.appendChild(options);
+
+            baseItems.forEach((item, index) => {
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = 'chatbot-hadith-option-btn';
+                button.textContent = item.reference ? item.reference : `Result ${index + 1}`;
+                button.addEventListener('click', () => {
+                    renderSelected(item, index);
+                });
+                options.appendChild(button);
+            });
+        };
+
+        const renderSelected = (item, activeIndex) => {
+            renderHeader('item');
+            const options = document.createElement('div');
+            options.className = 'chatbot-hadith-options';
+            container.appendChild(options);
+            baseItems.forEach((candidate, index) => {
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = `chatbot-hadith-option-btn${
+                    index === activeIndex ? ' chatbot-hadith-option-active' : ''
+                }`;
+                button.textContent = candidate.reference ? candidate.reference : `Result ${index + 1}`;
+                button.addEventListener('click', () => renderSelected(candidate, index));
+                options.appendChild(button);
+            });
+            renderHadithItem(item);
+        };
+
+        if (baseItems.length > 1) {
+            renderOptions();
+            return;
+        }
+
+        renderHeader('item');
+        if (payload.isFallback) {
+            const fallback = document.createElement('div');
+            fallback.className = 'chatbot-translation-label';
+            fallback.textContent = 'No exact match found. Here is a Hadeeth snippet:';
+            container.appendChild(fallback);
+        }
+        renderHadithItem(baseItems[0] || {});
     };
 
     const buildAbuBakarSyateeriAudioUrl = (ref) => {
