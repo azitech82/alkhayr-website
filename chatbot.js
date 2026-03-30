@@ -662,6 +662,11 @@ let unicodeMarkRegex = null;
 try {
     unicodeMarkRegex = new RegExp('\\p{M}+', 'gu');
 } catch {}
+const stripUnicodeMarks = (value) => {
+    const raw = value || '';
+    if (unicodeMarkRegex) return raw.replace(unicodeMarkRegex, '');
+    return raw.replace(/[\u0300-\u036F\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED\u08D3-\u08FF]/g, '');
+};
 
     const addMessage = (text, type) => {
         const message = document.createElement('div');
@@ -938,17 +943,27 @@ try {
     };
 
     const normalizeArabicTerm = (text) => {
-        return text
-            .replace(/[\u064B-\u065F\u0670\u06D6-\u06ED]/g, '')
+        const normalized = typeof (text || '').normalize === 'function' ? (text || '').normalize('NFC') : text || '';
+        return stripUnicodeMarks(normalized)
             .replace(/\u0640/g, '')
+            .replace(/[\uFFFD\u200C\u200D\u061C\u200E\u200F\u202A-\u202E\u2066-\u2069]/g, '')
+            .replace(/[\u06DD\u06DE\u06E9\u06D4\u25CC]/g, '')
+            .replace(/[۝۞۩﴿﴾]/g, '')
+            .replace(/[•·●○◌]/g, '')
             .replace(/[^\u0600-\u06FF\s]/g, '')
+            .replace(/\s+/g, ' ')
             .trim();
     };
 
     const normalizeArabicForSearch = (text) => {
-        return (text || '')
-            .replace(/[\u064B-\u065F\u0670\u06D6-\u06ED]/g, '')
+        const normalized =
+            typeof (text || '').normalize === 'function' ? (text || '').normalize('NFC') : text || '';
+        return stripUnicodeMarks(normalized)
             .replace(/\u0640/g, '')
+            .replace(/[\uFFFD\u200C\u200D\u061C\u200E\u200F\u202A-\u202E\u2066-\u2069]/g, '')
+            .replace(/[\u06DD\u06DE\u06E9\u06D4\u25CC]/g, ' ')
+            .replace(/[۝۞۩﴿﴾]/g, ' ')
+            .replace(/[•·●○◌]/g, ' ')
             .replace(/[^\u0600-\u06FF]/g, ' ')
             .replace(/\s+/g, ' ')
             .trim();
@@ -1013,12 +1028,12 @@ try {
     };
 
     const simplifyHadithArabic = (text) => {
-        const removedMarks = unicodeMarkRegex
-            ? (text || '').replace(unicodeMarkRegex, '')
-            : (text || '').replace(/[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED\u08D3-\u08FF]/g, '');
-        const raw = removedMarks
+        const normalized =
+            typeof (text || '').normalize === 'function' ? (text || '').normalize('NFC') : text || '';
+        const raw = stripUnicodeMarks(normalized)
             .replace(/\u0640/g, '')
-            .replace(/[\u200C\u200D\u061C\u200E\u200F\u202A-\u202E\u2066-\u2069]/g, '')
+            .replace(/[\uFFFD\u200C\u200D\u061C\u200E\u200F\u202A-\u202E\u2066-\u2069]/g, '')
+            .replace(/[\u06DD\u06DE\u06E9\u06D4\u25CC]/g, '')
             .replace(/[۝۞۩﴿﴾]/g, '')
             .replace(/[•·●○◌]/g, '')
             .replace(/\s+/g, ' ')
