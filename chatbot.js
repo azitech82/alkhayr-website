@@ -651,11 +651,12 @@ const hadithCollections = {
     ahmad: { label: 'Musnad Ahmad', englishEdition: 'eng-ahmad', arabicEdition: 'ara-ahmad' },
     darimi: { label: 'Sunan ad-Darimi', englishEdition: 'eng-darimi', arabicEdition: 'ara-darimi' }
 };
-const hadithSearchCollections = ['bukhari', 'muslim'];
-const hadithIndexCache = {
-    bukhari: { english: null, arabic: null },
-    muslim: { english: null, arabic: null }
-};
+const hadithPrimarySearchCollections = ['bukhari', 'muslim'];
+const hadithExtendedSearchCollections = ['tirmidhi', 'abudawud', 'nasai', 'ibnmajah', 'malik', 'darimi', 'ahmad'];
+const hadithIndexCache = Object.keys(hadithCollections).reduce((acc, key) => {
+    acc[key] = { english: null, arabic: null };
+    return acc;
+}, {});
 const hadithDetailCache = new Map();
 
     const addMessage = (text, type) => {
@@ -1149,12 +1150,26 @@ const hadithDetailCache = new Map();
         return score;
     };
 
+    const isSahihGrade = (grades) => {
+        if (!Array.isArray(grades) || !grades.length) return false;
+        return grades.some((entry) => {
+            const grade = (entry?.grade || '').toString().toLowerCase();
+            return grade.includes('sahih');
+        });
+    };
+
+    const isAuthenticHadith = (collectionKey, hadith) => {
+        if (hadithPrimarySearchCollections.includes(collectionKey)) return true;
+        return isSahihGrade(hadith?.grades);
+    };
+
     const searchHadithCollection = async (collectionKey, tokens, lang) => {
         if (!tokens.length) return [];
         const index = await loadHadithIndex(collectionKey, lang);
         const hadiths = Array.isArray(index?.hadiths) ? index.hadiths : [];
         const matches = [];
         hadiths.forEach((hadith) => {
+            if (!isAuthenticHadith(collectionKey, hadith)) return;
             const text = hadith?.text || '';
             const score = lang === 'arabic' ? scoreArabicMatch(text, tokens) : scoreEnglishMatch(text, tokens);
             if (score > 0) {
@@ -1187,12 +1202,17 @@ const hadithDetailCache = new Map();
                 arabicRes.status === 'fulfilled' && arabicRes.value.ok ? await arabicRes.value.json() : null;
             const englishHadith = Array.isArray(englishData?.hadiths) ? englishData.hadiths[0] : null;
             const arabicHadith = Array.isArray(arabicData?.hadiths) ? arabicData.hadiths[0] : null;
+            const gradeProbe = englishHadith?.grades || arabicHadith?.grades;
+            if (!hadithPrimarySearchCollections.includes(collectionKey) && !isSahihGrade(gradeProbe)) {
+                return null;
+            }
             const englishText = englishHadith?.text || '';
             const arabicText = arabicHadith?.text || '';
             const hadithNumber = englishHadith?.hadithnumber || arabicHadith?.hadithnumber || number;
             if (!englishText && !arabicText) return null;
             const referenceLabel = `${collection.label} ${hadithNumber}`;
             const detail = {
+                collectionKey,
                 arabic: arabicText,
                 english: englishText,
                 reference: referenceLabel
@@ -1225,9 +1245,9 @@ const hadithDetailCache = new Map();
         const useArabic = arabicTokens.length > 0;
         const tokens = useArabic ? arabicTokens : latinTokens;
         if (!tokens.length) return [];
+        const lang = useArabic ? 'arabic' : 'english';
         const allMatches = [];
-        for (const collectionKey of hadithSearchCollections) {
-            const lang = useArabic ? 'arabic' : 'english';
+        for (const collectionKey of hadithPrimarySearchCollections) {
             const matches = await searchHadithCollection(collectionKey, tokens, lang);
             allMatches.push(...matches);
         }
@@ -1239,9 +1259,23 @@ const hadithDetailCache = new Map();
                 unique.set(key, match);
             }
         });
-        return Array.from(unique.values())
-            .sort((a, b) => b.score - a.score)
-            .slice(0, 3);
+        const primaryResults = Array.from(unique.values()).sort((a, b) => b.score - a.score).slice(0, 3);
+        if (primaryResults.length >= 3) return primaryResults;
+
+        const extendedMatches = [];
+        for (const collectionKey of hadithExtendedSearchCollections) {
+            const matches = await searchHadithCollection(collectionKey, tokens, lang);
+            extendedMatches.push(...matches);
+            if (extendedMatches.length >= 60) break;
+        }
+        extendedMatches.forEach((match) => {
+            const key = `${match.collectionKey}:${match.number}`;
+            const existing = unique.get(key);
+            if (!existing || match.score > existing.score) {
+                unique.set(key, match);
+            }
+        });
+        return Array.from(unique.values()).sort((a, b) => b.score - a.score).slice(0, 3);
     };
 
     const findHadithSnippet = (term) => {
@@ -1298,10 +1332,19 @@ const hadithDetailCache = new Map();
             );
             const items = details.filter(Boolean);
             if (items.length) {
+                const sourceLabels = Array.from(
+                    new Set(
+                        items
+                            .map((item) => hadithCollections[item.collectionKey]?.label)
+                            .filter(Boolean)
+                    )
+                );
                 return {
                     items,
                     isFallback: false,
-                    searchSummary: 'Top matches from Sahih Bukhari and Sahih Muslim.'
+                    searchSummary: sourceLabels.length
+                        ? `Top matches from: ${sourceLabels.join(', ')}.`
+                        : 'Top matches from authentic hadeeth collections.'
                 };
             }
         }
