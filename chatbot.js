@@ -163,6 +163,7 @@ const chatbotStyles = `
     text-align: right;
     font-family: 'Noto Naskh Arabic', 'Noto Sans Arabic', 'Amiri', 'Scheherazade New', 'Geeza Pro', 'Tahoma',
         'Arial', sans-serif;
+    font-feature-settings: "mark" 0, "mkmk" 0;
     font-size: clamp(0.98rem, 0.92rem + 0.45vw, 1.18rem);
     line-height: 2.1;
     letter-spacing: 0;
