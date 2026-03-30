@@ -515,43 +515,105 @@ const initChatbot = () => {
         'https://libretranslate.de/translate',
         'https://translate.argosopentech.com/translate'
     ];
-const hadithSnippets = [
+const fallbackHadithSnippets = [
     {
         arabic: 'إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ، وَإِنَّمَا لِكُلِّ امْرِئٍ مَا نَوَى',
         english: 'Actions are judged by intentions, and each person will have what they intended.',
-        reference: 'Sahih Bukhari 1'
+        reference: 'Sahih Bukhari 1',
+        keywords: ['intentions', 'actions', 'niyyah', 'purpose', 'sincerity']
     },
     {
         arabic: 'الدِّينُ النَّصِيحَةُ',
         english: 'Religion is sincere advice.',
-        reference: 'Sahih Muslim 55'
+        reference: 'Sahih Muslim 55',
+        keywords: ['advice', 'sincerity', 'nasihah', 'religion']
     },
     {
         arabic: 'لَا يُؤْمِنُ أَحَدُكُمْ حَتَّى يُحِبَّ لِأَخِيهِ مَا يُحِبُّ لِنَفْسِهِ',
         english: 'None of you truly believes until he loves for his brother what he loves for himself.',
-        reference: 'Sahih Bukhari 13'
+        reference: 'Sahih Bukhari 13',
+        keywords: ['love', 'brotherhood', 'faith', 'belief']
     },
     {
         arabic: 'الصَّلَاةُ نُورٌ',
         english: 'Prayer is light.',
-        reference: 'Sahih Muslim 223'
+        reference: 'Sahih Muslim 223',
+        keywords: ['prayer', 'light', 'salah']
     },
     {
         arabic: 'الصِّيَامُ جُنَّةٌ',
         english: 'Fasting is a shield.',
-        reference: 'Sahih Bukhari 1904'
+        reference: 'Sahih Bukhari 1904',
+        keywords: ['fasting', 'shield', 'sawm', 'ramadan']
     },
     {
         arabic: 'وَالصَّدَقَةُ بُرْهَانٌ',
         english: 'Charity is a proof.',
-        reference: 'Sahih Muslim 223'
+        reference: 'Sahih Muslim 223',
+        keywords: ['charity', 'sadaqah', 'proof']
     },
     {
         arabic: 'مَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الآخِرِ فَلْيَقُلْ خَيْرًا أَوْ لِيَصْمُتْ',
         english: 'Whoever believes in Allah and the Last Day should say what is good or remain silent.',
-        reference: 'Sahih Bukhari 6018'
+        reference: 'Sahih Bukhari 6018',
+        keywords: ['speech', 'silence', 'good words', 'faith']
+    },
+    {
+        arabic: 'الْمُؤْمِنُ لَا يُلْدَغُ مِنْ جُحْرٍ وَاحِدٍ مَرَّتَيْنِ',
+        english: 'A believer is not stung twice from the same hole.',
+        reference: 'Sahih Bukhari 6133',
+        keywords: ['wisdom', 'caution', 'believer', 'experience']
+    },
+    {
+        arabic: 'إِنَّ اللَّهَ لَا يَنْظُرُ إِلَى صُوَرِكُمْ وَلَا إِلَى أَجْسَادِكُمْ وَلَكِنْ يَنْظُرُ إِلَى قُلُوبِكُمْ',
+        english: 'Allah does not look at your appearance or your bodies, but He looks at your hearts.',
+        reference: 'Sahih Muslim 2564',
+        keywords: ['heart', 'intention', 'appearance', 'character']
+    },
+    {
+        arabic: 'خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ',
+        english: 'The best of you are those who learn the Qur’an and teach it.',
+        reference: 'Sahih Bukhari 5027',
+        keywords: ['quran', 'learn', 'teach', 'best']
+    },
+    {
+        arabic: 'لَيْسَ الشَّدِيدُ بِالصُّرَعَةِ، إِنَّمَا الشَّدِيدُ الَّذِي يَمْلِكُ نَفْسَهُ عِنْدَ الْغَضَبِ',
+        english: 'The strong person is not the one who overcomes others, but the one who controls himself when angry.',
+        reference: 'Sahih Bukhari 6114',
+        keywords: ['anger', 'patience', 'strength', 'self-control']
+    },
+    {
+        arabic: 'مَنْ بَنَى مَسْجِدًا لِلَّهِ بَنَى اللَّهُ لَهُ بَيْتًا فِي الْجَنَّةِ',
+        english: 'Whoever builds a mosque for Allah, Allah will build for him a house in Paradise.',
+        reference: 'Sahih Bukhari 450',
+        keywords: ['mosque', 'paradise', 'build', 'reward']
+    },
+    {
+        arabic: 'الرَّاحِمُونَ يَرْحَمُهُمُ الرَّحْمَنُ، ارْحَمُوا مَنْ فِي الْأَرْضِ يَرْحَمْكُمْ مَنْ فِي السَّمَاءِ',
+        english: 'The merciful are shown mercy by the Most Merciful. Be merciful to those on earth and the One above the heavens will show mercy to you.',
+        reference: 'Jami` at-Tirmidhi 1924 (Hasan Sahih)',
+        keywords: ['mercy', 'rahmah', 'compassion']
     }
 ];
+
+const hadithApiBase = 'https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1';
+const hadithCollections = {
+    bukhari: { label: 'Sahih Bukhari', englishEdition: 'eng-bukhari', arabicEdition: 'ara-bukhari' },
+    muslim: { label: 'Sahih Muslim', englishEdition: 'eng-muslim', arabicEdition: 'ara-muslim' },
+    abudawud: { label: 'Sunan Abi Dawud', englishEdition: 'eng-abudawud', arabicEdition: 'ara-abudawud' },
+    tirmidhi: { label: 'Jami` at-Tirmidhi', englishEdition: 'eng-tirmidhi', arabicEdition: 'ara-tirmidhi' },
+    nasai: { label: "Sunan an-Nasa'i", englishEdition: 'eng-nasai', arabicEdition: 'ara-nasai' },
+    ibnmajah: { label: 'Sunan Ibn Majah', englishEdition: 'eng-ibnmajah', arabicEdition: 'ara-ibnmajah' },
+    malik: { label: 'Muwatta Malik', englishEdition: 'eng-malik', arabicEdition: 'ara-malik' },
+    ahmad: { label: 'Musnad Ahmad', englishEdition: 'eng-ahmad', arabicEdition: 'ara-ahmad' },
+    darimi: { label: 'Sunan ad-Darimi', englishEdition: 'eng-darimi', arabicEdition: 'ara-darimi' }
+};
+const hadithSearchCollections = ['bukhari', 'muslim'];
+const hadithIndexCache = {
+    bukhari: { english: null, arabic: null },
+    muslim: { english: null, arabic: null }
+};
+const hadithDetailCache = new Map();
 
     const addMessage = (text, type) => {
         const message = document.createElement('div');
@@ -902,11 +964,203 @@ const hadithSnippets = [
         return pattern.test(normalizedText);
     };
 
+    const normalizeLatinText = (text) => {
+        return (text || '')
+            .toLowerCase()
+            .replace(/[^a-z0-9\s'-]/g, ' ')
+            .replace(/\s+/g, ' ')
+            .trim();
+    };
+
+    const tokenizeLatinText = (text) => {
+        const normalized = normalizeLatinText(text);
+        if (!normalized) return [];
+        return normalized.split(' ').filter((token) => token.length >= 3);
+    };
+
+    const extractArabicTokens = (text) => {
+        const rawTokens = (text || '').match(/[\u0600-\u06FF]+/g) || [];
+        return rawTokens.map((token) => normalizeArabicTerm(token)).filter(Boolean);
+    };
+
+    const parseHadithReferenceInput = (text) => {
+        const input = (text || '').toLowerCase();
+        const match = input.match(
+            /(bukhari|muslim|nasai|nasa'i|abu\s*dawud|abudawud|tirmidhi|ibn\s*majah|ibnmajah|malik|muwatta|ahmad|darimi)\s*(\d+)/i
+        );
+        if (!match) return null;
+        const rawKey = match[1].replace(/[^a-z]/g, '');
+        const number = Number(match[2]);
+        if (!Number.isFinite(number)) return null;
+        const collectionKeyMap = {
+            bukhari: 'bukhari',
+            muslim: 'muslim',
+            abudawud: 'abudawud',
+            nasai: 'nasai',
+            tirmidhi: 'tirmidhi',
+            ibnmajah: 'ibnmajah',
+            malik: 'malik',
+            muwatta: 'malik',
+            ahmad: 'ahmad',
+            darimi: 'darimi'
+        };
+        const collectionKey = collectionKeyMap[rawKey] || null;
+        if (!collectionKey) return null;
+        return { collectionKey, number };
+    };
+
+    const fetchHadithEdition = async (collectionKey, lang) => {
+        const collection = hadithCollections[collectionKey];
+        if (!collection) return null;
+        const edition =
+            lang === 'arabic' ? collection.arabicEdition : collection.englishEdition;
+        if (!edition) return null;
+        const url = `${hadithApiBase}/editions/${edition}.min.json`;
+        try {
+            const res = await fetch(url);
+            if (!res.ok) return null;
+            return await res.json();
+        } catch {
+            return null;
+        }
+    };
+
+    const loadHadithIndex = async (collectionKey, lang) => {
+        const cache = hadithIndexCache[collectionKey];
+        if (!cache) return null;
+        if (lang === 'arabic') {
+            if (cache.arabic) return cache.arabic;
+            cache.arabic = await fetchHadithEdition(collectionKey, 'arabic');
+            return cache.arabic;
+        }
+        if (cache.english) return cache.english;
+        cache.english = await fetchHadithEdition(collectionKey, 'english');
+        return cache.english;
+    };
+
+    const scoreEnglishMatch = (text, tokens) => {
+        const normalized = normalizeLatinText(text);
+        if (!normalized) return 0;
+        let score = 0;
+        tokens.forEach((token) => {
+            if (normalized.includes(token)) {
+                score += 1;
+            }
+        });
+        return score;
+    };
+
+    const scoreArabicMatch = (text, tokens) => {
+        if (!text) return 0;
+        let score = 0;
+        tokens.forEach((token) => {
+            if (containsArabicWord(text, token)) {
+                score += 1;
+            }
+        });
+        return score;
+    };
+
+    const searchHadithCollection = async (collectionKey, tokens, lang) => {
+        if (!tokens.length) return [];
+        const index = await loadHadithIndex(collectionKey, lang);
+        const hadiths = Array.isArray(index?.hadiths) ? index.hadiths : [];
+        const matches = [];
+        hadiths.forEach((hadith) => {
+            const text = hadith?.text || '';
+            const score = lang === 'arabic' ? scoreArabicMatch(text, tokens) : scoreEnglishMatch(text, tokens);
+            if (score > 0) {
+                matches.push({
+                    collectionKey,
+                    number: hadith.hadithnumber || hadith.arabicnumber || hadith.number,
+                    score
+                });
+            }
+        });
+        return matches;
+    };
+
+    const fetchHadithDetail = async (collectionKey, number) => {
+        const cacheKey = `${collectionKey}:${number}`;
+        if (hadithDetailCache.has(cacheKey)) {
+            return hadithDetailCache.get(cacheKey);
+        }
+        const collection = hadithCollections[collectionKey];
+        if (!collection) return null;
+        const englishEdition = collection.englishEdition;
+        const arabicEdition = collection.arabicEdition;
+        const englishUrl = `${hadithApiBase}/editions/${englishEdition}/${number}.min.json`;
+        const arabicUrl = `${hadithApiBase}/editions/${arabicEdition}/${number}.min.json`;
+        try {
+            const [englishRes, arabicRes] = await Promise.allSettled([fetch(englishUrl), fetch(arabicUrl)]);
+            const englishData =
+                englishRes.status === 'fulfilled' && englishRes.value.ok ? await englishRes.value.json() : null;
+            const arabicData =
+                arabicRes.status === 'fulfilled' && arabicRes.value.ok ? await arabicRes.value.json() : null;
+            const englishHadith = Array.isArray(englishData?.hadiths) ? englishData.hadiths[0] : null;
+            const arabicHadith = Array.isArray(arabicData?.hadiths) ? arabicData.hadiths[0] : null;
+            const englishText = englishHadith?.text || '';
+            const arabicText = arabicHadith?.text || '';
+            const hadithNumber = englishHadith?.hadithnumber || arabicHadith?.hadithnumber || number;
+            if (!englishText && !arabicText) return null;
+            const referenceLabel = `${collection.label} ${hadithNumber}`;
+            const detail = {
+                arabic: arabicText,
+                english: englishText,
+                reference: referenceLabel
+            };
+            hadithDetailCache.set(cacheKey, detail);
+            return detail;
+        } catch {
+            return null;
+        }
+    };
+
+    const searchFallbackHadiths = (text) => {
+        const tokens = tokenizeLatinText(text);
+        const arabicTokens = extractArabicTokens(text);
+        const matches = fallbackHadithSnippets.filter((snippet) => {
+            if (arabicTokens.length) {
+                return arabicTokens.some((token) => containsArabicWord(snippet.arabic, token));
+            }
+            if (!tokens.length) return false;
+            const englishText = normalizeLatinText(snippet.english);
+            const keywordText = normalizeLatinText((snippet.keywords || []).join(' '));
+            return tokens.some((token) => englishText.includes(token) || keywordText.includes(token));
+        });
+        return matches;
+    };
+
+    const searchHadithByText = async (text) => {
+        const arabicTokens = extractArabicTokens(text);
+        const latinTokens = tokenizeLatinText(text);
+        const useArabic = arabicTokens.length > 0;
+        const tokens = useArabic ? arabicTokens : latinTokens;
+        if (!tokens.length) return [];
+        const allMatches = [];
+        for (const collectionKey of hadithSearchCollections) {
+            const lang = useArabic ? 'arabic' : 'english';
+            const matches = await searchHadithCollection(collectionKey, tokens, lang);
+            allMatches.push(...matches);
+        }
+        const unique = new Map();
+        allMatches.forEach((match) => {
+            const key = `${match.collectionKey}:${match.number}`;
+            const existing = unique.get(key);
+            if (!existing || match.score > existing.score) {
+                unique.set(key, match);
+            }
+        });
+        return Array.from(unique.values())
+            .sort((a, b) => b.score - a.score)
+            .slice(0, 3);
+    };
+
     const findHadithSnippet = (term) => {
         if (!term) return null;
         const normalizedTerm = normalizeArabicTerm(term);
         if (!normalizedTerm) return null;
-        const match = hadithSnippets.find((snippet) => containsArabicWord(snippet.arabic, normalizedTerm));
+        const match = fallbackHadithSnippets.find((snippet) => containsArabicWord(snippet.arabic, normalizedTerm));
         return match || null;
     };
 
@@ -933,36 +1187,49 @@ const hadithSnippets = [
 
     const hasArabicLetters = (text) => /[\u0600-\u06FF]/.test(text);
 
-    const getHadithReply = (text) => {
+    const getHadithReply = async (text) => {
         const input = (text || '').trim();
         if (!input) {
+            const random = fallbackHadithSnippets[Math.floor(Math.random() * fallbackHadithSnippets.length)];
             return {
-                arabic: '',
-                english: '',
-                reference: '',
+                items: random ? [random] : [],
                 isFallback: true
             };
         }
-        let match = null;
-        if (hasArabicLetters(input)) {
-            const arabicTerm = parseArabicTerm(input);
-            if (arabicTerm) {
-                match = findHadithSnippet(arabicTerm);
+        const refRequest = parseHadithReferenceInput(input);
+        if (refRequest) {
+            const direct = await fetchHadithDetail(refRequest.collectionKey, refRequest.number);
+            if (direct) {
+                return { items: [direct], isFallback: false };
             }
         }
-        if (!match) {
-            const englishTerm = normalizeEnglishTerm(input) || normalizeMalayTerm(input);
-            if (englishTerm) {
-                match = hadithSnippets.find((snippet) =>
-                    snippet.english.toLowerCase().includes(englishTerm)
-                );
+        const matches = await searchHadithByText(input);
+        if (matches.length) {
+            const details = await Promise.all(
+                matches.map((match) => fetchHadithDetail(match.collectionKey, match.number))
+            );
+            const items = details.filter(Boolean);
+            if (items.length) {
+                return {
+                    items,
+                    isFallback: false,
+                    searchSummary: 'Top matches from Sahih Bukhari and Sahih Muslim.'
+                };
             }
         }
-        if (!match) {
-            match = hadithSnippets[Math.floor(Math.random() * hadithSnippets.length)];
-            return { ...match, isFallback: true };
+        const fallbackMatches = searchFallbackHadiths(input);
+        if (fallbackMatches.length) {
+            return {
+                items: fallbackMatches.slice(0, 3),
+                isFallback: true,
+                searchSummary: 'Closest matches from curated sahih hadiths.'
+            };
         }
-        return { ...match, isFallback: false };
+        const random = fallbackHadithSnippets[Math.floor(Math.random() * fallbackHadithSnippets.length)];
+        return {
+            items: random ? [random] : [],
+            isFallback: true
+        };
     };
 
     const translateText = async (text, source, target) => {
@@ -1586,36 +1853,51 @@ const hadithSnippets = [
 
     const renderHadithReply = (container, payload) => {
         container.textContent = '';
+        if (payload.searchSummary) {
+            const summary = document.createElement('div');
+            summary.className = 'chatbot-translation-label';
+            summary.textContent = payload.searchSummary;
+            container.appendChild(summary);
+        }
         if (payload.isFallback) {
             const fallback = document.createElement('div');
             fallback.className = 'chatbot-translation-label';
             fallback.textContent = 'No exact match found. Here is a Hadeeth snippet:';
             container.appendChild(fallback);
         }
-        const hadithLabel = document.createElement('div');
-        hadithLabel.className = 'chatbot-translation-label';
-        hadithLabel.textContent = 'Hadeeth snippet:';
-        container.appendChild(hadithLabel);
-        const hadithArabic = document.createElement('div');
-        hadithArabic.className = 'chatbot-ayah-text';
-        hadithArabic.textContent = payload.arabic;
-        container.appendChild(hadithArabic);
-        if (payload.english) {
-            const hadithEnglishLabel = document.createElement('div');
-            hadithEnglishLabel.className = 'chatbot-translation-label';
-            hadithEnglishLabel.textContent = 'English:';
-            container.appendChild(hadithEnglishLabel);
-            const hadithEnglish = document.createElement('div');
-            hadithEnglish.className = 'chatbot-translation-text';
-            hadithEnglish.textContent = payload.english;
-            container.appendChild(hadithEnglish);
-        }
-        if (payload.reference) {
-            const hadithRef = document.createElement('div');
-            hadithRef.className = 'chatbot-quran-title';
-            hadithRef.textContent = `[${payload.reference}]`;
-            container.appendChild(hadithRef);
-        }
+        const items = Array.isArray(payload.items) && payload.items.length ? payload.items : [payload];
+        items.forEach((item, index) => {
+            if (index > 0) {
+                const divider = document.createElement('div');
+                divider.className = 'chatbot-translation-label';
+                divider.textContent = '—';
+                container.appendChild(divider);
+            }
+            const hadithLabel = document.createElement('div');
+            hadithLabel.className = 'chatbot-translation-label';
+            hadithLabel.textContent = 'Hadeeth snippet:';
+            container.appendChild(hadithLabel);
+            const hadithArabic = document.createElement('div');
+            hadithArabic.className = 'chatbot-ayah-text';
+            hadithArabic.textContent = item.arabic || '';
+            container.appendChild(hadithArabic);
+            if (item.english) {
+                const hadithEnglishLabel = document.createElement('div');
+                hadithEnglishLabel.className = 'chatbot-translation-label';
+                hadithEnglishLabel.textContent = 'English:';
+                container.appendChild(hadithEnglishLabel);
+                const hadithEnglish = document.createElement('div');
+                hadithEnglish.className = 'chatbot-translation-text';
+                hadithEnglish.textContent = item.english;
+                container.appendChild(hadithEnglish);
+            }
+            if (item.reference) {
+                const hadithRef = document.createElement('div');
+                hadithRef.className = 'chatbot-quran-title';
+                hadithRef.textContent = `[${item.reference}]`;
+                container.appendChild(hadithRef);
+            }
+        });
     };
 
     const buildAbuBakarSyateeriAudioUrl = (ref) => {
@@ -1794,7 +2076,7 @@ const hadithSnippets = [
             if (mode === 'quran') {
                 chatbotInput.placeholder = 'surah name and ayah (e.g., imran 200), page 3, or word like cow';
             } else if (mode === 'hadeeth') {
-                chatbotInput.placeholder = 'type a topic like intentions, advice, prayer, fasting, charity, silence';
+                chatbotInput.placeholder = 'type a topic like intentions or a reference like bukhari 1, muslim 55';
             } else if (mode === 'arabic') {
                 chatbotInput.placeholder = 'type Arabic, English, or Malay (e.g., بقرة, cow, monyet)';
             } else {
@@ -1808,7 +2090,10 @@ const hadithSnippets = [
             );
         }
         if (mode === 'hadeeth' && lastMode !== 'hadeeth') {
-            addMessage('hadeeth mode: type a topic like intentions, advice, prayer, fasting, charity, silence.', 'bot');
+            addMessage(
+                'hadeeth mode: type a topic like intentions, advice, prayer, fasting, charity, or a reference like bukhari 1, muslim 55.',
+                'bot'
+            );
         }
         if (mode === 'arabic' && lastMode !== 'arabic') {
             addMessage('arabic mode: type Arabic, English, or Malay to see translations and an example.', 'bot');
@@ -1867,7 +2152,7 @@ const hadithSnippets = [
             requestAnimationFrame(() => scrollMessageToTop(loading));
         } else if (activeMode === 'hadeeth') {
             const loading = addMessage('Finding Hadeeth...', 'bot');
-            const reply = getHadithReply(text);
+            const reply = await getHadithReply(text);
             renderHadithReply(loading, reply);
             requestAnimationFrame(() => scrollMessageToTop(loading));
         } else if (activeMode === 'arabic') {
