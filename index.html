@@ -307,6 +307,10 @@
             background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%);
             color: #fff;
         }
+        #mode-hadeeth.chatbot-mode-active {
+            background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+            color: #fff;
+        }
         .chatbot-messages {
             padding: 0.75rem;
             height: 280px;
@@ -1210,8 +1214,9 @@
             </button>
         </div>
         <div class="chatbot-modes">
-            <button id="mode-quran" class="chatbot-mode-btn chatbot-mode-active" type="button">Quran</button>
             <button id="mode-school" class="chatbot-mode-btn" type="button">School</button>
+            <button id="mode-quran" class="chatbot-mode-btn chatbot-mode-active" type="button">Quran</button>
+            <button id="mode-hadeeth" class="chatbot-mode-btn" type="button">Hadeeth</button>
             <button id="mode-arabic" class="chatbot-mode-btn" type="button">Arabic</button>
         </div>
         <div id="chatbot-quran-tools" class="chatbot-quran-tools">
