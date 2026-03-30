@@ -63,7 +63,9 @@ const chatbotStyles = `
     justify-content: space-between;
 }
 .chatbot-modes {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto auto;
     gap: 0.5rem;
     padding: 0.4rem;
     background: rgba(15, 23, 42, 0.05);
@@ -71,7 +73,7 @@ const chatbotStyles = `
     border-radius: 9999px;
 }
 .chatbot-mode-btn {
-    flex: 1;
+    width: 100%;
     border-radius: 9999px;
     border: 1px solid transparent;
     background: transparent;
@@ -95,8 +97,15 @@ const chatbotStyles = `
     background: linear-gradient(135deg, #2563eb 0%, #38bdf8 100%);
     color: #fff;
 }
+#mode-school {
+    grid-column: 1 / -1;
+}
 #mode-arabic.chatbot-mode-active {
     background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%);
+    color: #fff;
+}
+#mode-hadeeth.chatbot-mode-active {
+    background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
     color: #fff;
 }
 .chatbot-messages {
@@ -374,8 +383,9 @@ const chatbotMarkup = `
         </button>
     </div>
     <div class="chatbot-modes">
-        <button id="mode-quran" class="chatbot-mode-btn chatbot-mode-active" type="button">Quran</button>
         <button id="mode-school" class="chatbot-mode-btn" type="button">School</button>
+        <button id="mode-quran" class="chatbot-mode-btn chatbot-mode-active" type="button">Quranic</button>
+        <button id="mode-hadeeth" class="chatbot-mode-btn" type="button">Hadeeth</button>
         <button id="mode-arabic" class="chatbot-mode-btn" type="button">Arabic</button>
     </div>
     <div id="chatbot-quran-tools" class="chatbot-quran-tools">
@@ -418,6 +428,7 @@ const initChatbot = () => {
     const chatbotInput = document.getElementById('chatbot-input');
     const modeSchool = document.getElementById('mode-school');
     const modeQuran = document.getElementById('mode-quran');
+    const modeHadeeth = document.getElementById('mode-hadeeth');
     const modeArabic = document.getElementById('mode-arabic');
     const chatbotQuranTools = document.getElementById('chatbot-quran-tools');
     const chatbotSurahSelect = document.getElementById('chatbot-surah-select');
@@ -921,6 +932,38 @@ const hadithSnippets = [
     };
 
     const hasArabicLetters = (text) => /[\u0600-\u06FF]/.test(text);
+
+    const getHadithReply = (text) => {
+        const input = (text || '').trim();
+        if (!input) {
+            return {
+                arabic: '',
+                english: '',
+                reference: '',
+                isFallback: true
+            };
+        }
+        let match = null;
+        if (hasArabicLetters(input)) {
+            const arabicTerm = parseArabicTerm(input);
+            if (arabicTerm) {
+                match = findHadithSnippet(arabicTerm);
+            }
+        }
+        if (!match) {
+            const englishTerm = normalizeEnglishTerm(input) || normalizeMalayTerm(input);
+            if (englishTerm) {
+                match = hadithSnippets.find((snippet) =>
+                    snippet.english.toLowerCase().includes(englishTerm)
+                );
+            }
+        }
+        if (!match) {
+            match = hadithSnippets[Math.floor(Math.random() * hadithSnippets.length)];
+            return { ...match, isFallback: true };
+        }
+        return { ...match, isFallback: false };
+    };
 
     const translateText = async (text, source, target) => {
         const q = (text || '').trim();
@@ -1541,6 +1584,40 @@ const hadithSnippets = [
         }
     };
 
+    const renderHadithReply = (container, payload) => {
+        container.textContent = '';
+        if (payload.isFallback) {
+            const fallback = document.createElement('div');
+            fallback.className = 'chatbot-translation-label';
+            fallback.textContent = 'No exact match found. Here is a Hadeeth snippet:';
+            container.appendChild(fallback);
+        }
+        const hadithLabel = document.createElement('div');
+        hadithLabel.className = 'chatbot-translation-label';
+        hadithLabel.textContent = 'Hadeeth snippet:';
+        container.appendChild(hadithLabel);
+        const hadithArabic = document.createElement('div');
+        hadithArabic.className = 'chatbot-ayah-text';
+        hadithArabic.textContent = payload.arabic;
+        container.appendChild(hadithArabic);
+        if (payload.english) {
+            const hadithEnglishLabel = document.createElement('div');
+            hadithEnglishLabel.className = 'chatbot-translation-label';
+            hadithEnglishLabel.textContent = 'English:';
+            container.appendChild(hadithEnglishLabel);
+            const hadithEnglish = document.createElement('div');
+            hadithEnglish.className = 'chatbot-translation-text';
+            hadithEnglish.textContent = payload.english;
+            container.appendChild(hadithEnglish);
+        }
+        if (payload.reference) {
+            const hadithRef = document.createElement('div');
+            hadithRef.className = 'chatbot-quran-title';
+            hadithRef.textContent = `[${payload.reference}]`;
+            container.appendChild(hadithRef);
+        }
+    };
+
     const buildAbuBakarSyateeriAudioUrl = (ref) => {
         if (!ref || !ref.includes(':')) return null;
         const [surahStr, ayahStr] = ref.split(':');
@@ -1704,6 +1781,9 @@ const hadithSnippets = [
         if (modeQuran) {
             modeQuran.classList.toggle('chatbot-mode-active', mode === 'quran');
         }
+        if (modeHadeeth) {
+            modeHadeeth.classList.toggle('chatbot-mode-active', mode === 'hadeeth');
+        }
         if (modeArabic) {
             modeArabic.classList.toggle('chatbot-mode-active', mode === 'arabic');
         }
@@ -1713,6 +1793,8 @@ const hadithSnippets = [
         if (chatbotInput) {
             if (mode === 'quran') {
                 chatbotInput.placeholder = 'surah name and ayah (e.g., imran 200), page 3, or word like cow';
+            } else if (mode === 'hadeeth') {
+                chatbotInput.placeholder = 'type a topic like intentions, advice, prayer, fasting, charity, silence';
             } else if (mode === 'arabic') {
                 chatbotInput.placeholder = 'type Arabic, English, or Malay (e.g., بقرة, cow, monyet)';
             } else {
@@ -1724,6 +1806,9 @@ const hadithSnippets = [
                 'quran mode: type a surah name and ayah number, use "page 3", or search a word like "cow".',
                 'bot'
             );
+        }
+        if (mode === 'hadeeth' && lastMode !== 'hadeeth') {
+            addMessage('hadeeth mode: type a topic like intentions, advice, prayer, fasting, charity, silence.', 'bot');
         }
         if (mode === 'arabic' && lastMode !== 'arabic') {
             addMessage('arabic mode: type Arabic, English, or Malay to see translations and an example.', 'bot');
@@ -1780,6 +1865,11 @@ const hadithSnippets = [
                 renderQuranReply(loading, reply);
             }
             requestAnimationFrame(() => scrollMessageToTop(loading));
+        } else if (activeMode === 'hadeeth') {
+            const loading = addMessage('Finding Hadeeth...', 'bot');
+            const reply = getHadithReply(text);
+            renderHadithReply(loading, reply);
+            requestAnimationFrame(() => scrollMessageToTop(loading));
         } else if (activeMode === 'arabic') {
             const loading = addMessage('Searching dictionary...', 'bot');
             const reply = await getArabicReply(text);
@@ -1827,6 +1917,9 @@ const hadithSnippets = [
     }
     if (modeQuran) {
         modeQuran.addEventListener('click', () => setMode('quran'));
+    }
+    if (modeHadeeth) {
+        modeHadeeth.addEventListener('click', () => setMode('hadeeth'));
     }
     if (modeArabic) {
         modeArabic.addEventListener('click', () => setMode('arabic'));
