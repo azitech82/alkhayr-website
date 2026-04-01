@@ -2025,6 +2025,14 @@ const stripUnicodeSymbols = (value) => {
         const hasQuran = Boolean(quranSnippet);
         const hasHadith = Boolean(hadithMatch);
 
+        const exampleSource = hasQuran ? 'quran' : hasHadith ? 'hadith' : null;
+        const exampleSentence = hasQuran
+            ? quranSnippet
+            : hasHadith
+            ? (hadithMatch ? hadithMatch.arabic : null)
+            : buildArabicExampleSentence(resolvedEntry.arabic);
+        const exampleRef = hasQuran ? quranRef : hasHadith ? (hadithMatch ? hadithMatch.reference : null) : null;
+
         return {
             entry: resolvedEntry,
             quranSnippet,
@@ -2032,7 +2040,9 @@ const stripUnicodeSymbols = (value) => {
             hadithSnippet: hadithMatch ? hadithMatch.arabic : null,
             hadithEnglish: hadithMatch ? hadithMatch.english : null,
             hadithRef: hadithMatch ? hadithMatch.reference : null,
-            exampleSentence: !hasQuran && !hasHadith ? buildArabicExampleSentence(resolvedEntry.arabic) : null
+            exampleSentence,
+            exampleSource,
+            exampleRef
         };
     };
 
@@ -2116,7 +2126,7 @@ const stripUnicodeSymbols = (value) => {
         meaning.appendChild(malayLine);
         container.appendChild(meaning);
 
-        if (payload.quranSnippet) {
+        if (payload.quranSnippet && payload.exampleSource !== 'quran') {
             const quranLabel = document.createElement('div');
             quranLabel.className = 'chatbot-translation-label';
             quranLabel.textContent = 'Quran snippet:';
@@ -2133,7 +2143,7 @@ const stripUnicodeSymbols = (value) => {
             }
         }
 
-        if (payload.hadithSnippet) {
+        if (payload.hadithSnippet && payload.exampleSource !== 'hadith') {
             const hadithLabel = document.createElement('div');
             hadithLabel.className = 'chatbot-translation-label';
             hadithLabel.textContent = 'Hadith snippet:';
@@ -2166,9 +2176,15 @@ const stripUnicodeSymbols = (value) => {
             sentenceLabel.textContent = 'Example sentence:';
             container.appendChild(sentenceLabel);
             const sentence = document.createElement('div');
-            sentence.className = 'chatbot-ayah-text';
+            sentence.className = payload.exampleSource === 'hadith' ? 'chatbot-hadith-text' : 'chatbot-ayah-text';
             sentence.textContent = payload.exampleSentence;
             container.appendChild(sentence);
+            if (payload.exampleRef) {
+                const exRef = document.createElement('div');
+                exRef.className = 'chatbot-quran-title';
+                exRef.textContent = `[${payload.exampleRef}]`;
+                container.appendChild(exRef);
+            }
         }
     };
 
