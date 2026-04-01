@@ -808,6 +808,37 @@ const stripUnicodeSymbols = (value) => {
                 '.'
             ];
         }
+        if (
+            value.includes('co-curriculum') ||
+            value.includes('co curriculum') ||
+            value.includes('co-curricular') ||
+            value.includes('cocurriculum') ||
+            value.includes('cocurricular') ||
+            value.includes('club') ||
+            value.includes('clubs') ||
+            value.includes('society') ||
+            value.includes('societies') ||
+            value.includes('kelab') ||
+            value.includes('persatuan') ||
+            value.includes('kokurikulum') ||
+            value.includes('ko kurikulum') ||
+            value.includes('ko-kurikulum') ||
+            value.includes('extracurricular') ||
+            value.includes('extra curricular') ||
+            value.includes('sukan') ||
+            value.includes('sports') ||
+            value.includes('seni') ||
+            value.includes('arts')
+        ) {
+            return [
+                'English: For clubs & co-curriculum (sports, arts, societies), please visit ',
+                { label: 'Clubs & Co-Curriculum', href: 'co_curriculum.html#clubs' },
+                '. ',
+                'BM: Untuk kelab & kokurikulum (sukan, seni, persatuan), sila lawati ',
+                { label: 'Kelab & Kokurikulum', href: 'co_curriculum.html#clubs' },
+                '.'
+            ];
+        }
         if (value.includes('program') || value.includes('course') || value.includes('curriculum') || value.includes('kurikulum')) {
             return 'We offer integrated Hifz, Arabic, and academic modules with holistic programs across primary, secondary, and co-curriculum activities.';
         }
@@ -838,9 +869,6 @@ const stripUnicodeSymbols = (value) => {
         }
         if (value.includes('secondary') || value.includes('kssm') || value.includes('cambridge') || value.includes('menengah')) {
             return 'Secondary education follows a dual syllabus approach (KSSM & Cambridge) with Islamic values.';
-        }
-        if (value.includes('co-curriculum') || value.includes('club') || value.includes('sports') || value.includes('arts') || value.includes('kokurikulum')) {
-            return 'Co-curriculum includes sports, arts, and clubs to support well-rounded development.';
         }
         if (value.includes('online') || value.includes('kelas online') || value.includes('remote') || value.includes('dalam talian')) {
             return 'Online Tahfiz & Arabic is available for flexible learning.';
