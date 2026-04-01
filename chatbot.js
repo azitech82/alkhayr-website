@@ -1459,12 +1459,22 @@ const stripUnicodeSymbols = (value) => {
         return Array.from(unique.values()).sort((a, b) => b.score - a.score).slice(0, 3);
     };
 
-    const findHadithSnippet = (term) => {
+    const findHadithSnippet = async (term) => {
         if (!term) return null;
         const normalizedTerm = normalizeArabicTerm(term);
         if (!normalizedTerm) return null;
-        const match = fallbackHadithSnippets.find((snippet) => containsArabicWord(snippet.arabic, normalizedTerm));
-        return match || null;
+        try {
+            const topMatches = await searchHadithByText(normalizedTerm);
+            if (Array.isArray(topMatches) && topMatches.length) {
+                const best = topMatches[0];
+                const detail = await fetchHadithDetail(best.collectionKey, best.number);
+                if (detail && (detail.arabic || detail.english)) {
+                    return detail;
+                }
+            }
+        } catch {}
+        const fallback = fallbackHadithSnippets.find((snippet) => containsArabicWord(snippet.arabic, normalizedTerm));
+        return fallback || null;
     };
 
     const parseArabicTerm = (text) => {
@@ -2018,7 +2028,7 @@ const stripUnicodeSymbols = (value) => {
 
         const arabicForExample = resolvedEntry.quranSearch || resolvedEntry.arabic;
         const quranSnippetResult = arabicForExample ? await fetchArabicQuranSnippet(arabicForExample) : null;
-        const hadithMatch = arabicForExample ? findHadithSnippet(arabicForExample) : null;
+        const hadithMatch = arabicForExample ? await findHadithSnippet(arabicForExample) : null;
         const quranSnippet =
             quranSnippetResult && typeof quranSnippetResult !== 'string' ? quranSnippetResult.snippet : null;
         const quranRef = quranSnippetResult && typeof quranSnippetResult !== 'string' ? quranSnippetResult.ref : null;
@@ -2177,7 +2187,10 @@ const stripUnicodeSymbols = (value) => {
             container.appendChild(sentenceLabel);
             const sentence = document.createElement('div');
             sentence.className = payload.exampleSource === 'hadith' ? 'chatbot-hadith-text' : 'chatbot-ayah-text';
-            sentence.textContent = payload.exampleSentence;
+            sentence.textContent =
+                payload.exampleSource === 'hadith'
+                    ? simplifyHadithArabic(payload.exampleSentence)
+                    : payload.exampleSentence;
             container.appendChild(sentence);
             if (payload.exampleRef) {
                 const exRef = document.createElement('div');
