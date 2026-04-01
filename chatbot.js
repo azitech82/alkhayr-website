@@ -557,6 +557,22 @@ const initChatbot = () => {
         } catch {}
     };
     let arabicDictionary = { ...arabicDictionaryDefaults, ...(loadArabicDictionary() || {}) };
+    const arabicExampleHistoryStorageKey = 'aak_arabic_example_history_v1';
+    const loadArabicExampleHistory = () => {
+        try {
+            const raw = localStorage.getItem(arabicExampleHistoryStorageKey);
+            const parsed = raw ? JSON.parse(raw) : null;
+            return parsed && typeof parsed === 'object' ? parsed : {};
+        } catch {
+            return {};
+        }
+    };
+    const persistArabicExampleHistory = (history) => {
+        try {
+            localStorage.setItem(arabicExampleHistoryStorageKey, JSON.stringify(history));
+        } catch {}
+    };
+    let arabicExampleHistory = loadArabicExampleHistory();
     const aiDictionaryEndpoints = [
         'https://libretranslate.de/translate',
         'https://translate.argosopentech.com/translate'
@@ -1751,7 +1767,7 @@ const stripUnicodeSymbols = (value) => {
 
     const buildArabicExampleSentence = (word) => {
         const term = (word || '').trim();
-        if (!term) return 'اكتب كلمةً عربيةً لرؤية مثالٍ مفيد.';
+        if (!term) return 'Type an Arabic, English, or Malay word like بقرة, cow, or monyet.';
         const templates = [
             `أحاول كلَّ يومٍ أن أفهم معنى «${term}» وأن أستعمله في جملةٍ صحيحةٍ عند الكلام.`,
             `قرأتُ درسًا اليوم وتعلّمتُ كلمة «${term}»، ثم كتبتُ بها جملةً حتى تثبت في ذهني.`,
@@ -1760,8 +1776,11 @@ const stripUnicodeSymbols = (value) => {
             `أكتب كلمة «${term}» في دفتري، وأضع لها معنىً واضحًا، ثم أكررها في جملٍ قصيرةٍ مفيدة.`,
             `عندما أتدرّب على العربية، أختار كلمة «${term}» وأحاول أن أستعملها في جملةٍ لطيفةٍ ومفهومة.`
         ];
-        const index = Math.floor(Math.random() * templates.length);
-        return templates[index];
+        const previousIndex = Number.isFinite(arabicExampleHistory[term]) ? arabicExampleHistory[term] : -1;
+        const nextIndex = (previousIndex + 1) % templates.length;
+        arabicExampleHistory[term] = nextIndex;
+        persistArabicExampleHistory(arabicExampleHistory);
+        return templates[nextIndex];
     };
 
     const pluralizeEnglishTerm = (term) => {
