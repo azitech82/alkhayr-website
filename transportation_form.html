@@ -198,6 +198,18 @@
                                 <option value="Penang Sentral">Penang Sentral</option>
                             </select>
                         </div>
+                        <div>
+                            <label for="pickupDate" class="block text-sm font-medium text-gray-700 mb-1">Date of pickup</label>
+                            <input type="date" id="pickupDate" name="pickupDate" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none transition receipt-input" required>
+                        </div>
+                        <div>
+                            <label for="pickupDay" class="block text-sm font-medium text-gray-700 mb-1">Day of pickup</label>
+                            <input type="text" id="pickupDay" name="pickupDay" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none transition receipt-input" placeholder="Select date first" readonly required>
+                        </div>
+                        <div>
+                            <label for="pickupTime" class="block text-sm font-medium text-gray-700 mb-1">Time of pickup</label>
+                            <input type="time" id="pickupTime" name="pickupTime" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none transition receipt-input" required>
+                        </div>
                     </div>
                 </div>
 
@@ -266,6 +278,18 @@
                         <span class="receipt-label">Destination</span>
                         <span class="receipt-value" id="receiptDestination"></span>
                     </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Date of pickup</span>
+                        <span class="receipt-value" id="receiptPickupDate"></span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Day of pickup</span>
+                        <span class="receipt-value" id="receiptPickupDay"></span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Time of pickup</span>
+                        <span class="receipt-value" id="receiptPickupTime"></span>
+                    </div>
                 </div>
 
                 <div class="receipt-section">
@@ -306,6 +330,31 @@
             window.addEventListener(eventName, markRequestInteraction, { once: true, capture: true });
         });
 
+        const pickupDateInput = document.getElementById('pickupDate');
+        const pickupDayInput = document.getElementById('pickupDay');
+
+        const updatePickupDay = () => {
+            const value = pickupDateInput ? pickupDateInput.value : '';
+            if (!pickupDayInput) {
+                return;
+            }
+            if (!value) {
+                pickupDayInput.value = '';
+                return;
+            }
+            const date = new Date(`${value}T00:00:00`);
+            if (Number.isNaN(date.getTime())) {
+                pickupDayInput.value = '';
+                return;
+            }
+            pickupDayInput.value = date.toLocaleDateString('en-US', { weekday: 'long' });
+        };
+
+        if (pickupDateInput) {
+            pickupDateInput.addEventListener('change', updatePickupDay);
+        }
+        updatePickupDay();
+
         transportationForm.addEventListener('submit', function(e) {
             e.preventDefault();
             const form = this;
@@ -316,6 +365,9 @@
             const parentContact = document.getElementById('parentContact').value;
             const pickupPoint = document.getElementById('pickupPoint').value;
             const destination = document.getElementById('destination').value;
+            const pickupDate = document.getElementById('pickupDate').value;
+            const pickupDay = document.getElementById('pickupDay').value;
+            const pickupTime = document.getElementById('pickupTime').value;
 
             const now = Date.now();
             const elapsedMs = now - requestInitAt;
@@ -355,6 +407,21 @@
                 return;
             }
 
+            if (!pickupDate) {
+                alert('Please select date of pickup.');
+                return;
+            }
+
+            if (!pickupDay) {
+                alert('Please confirm day of pickup.');
+                return;
+            }
+
+            if (!pickupTime) {
+                alert('Please select time of pickup.');
+                return;
+            }
+
             if (requestHoneypot && requestHoneypot.value.trim() !== '') {
                 alert('Please try again.');
                 return;
@@ -383,6 +450,9 @@
             document.getElementById('receiptParentContact').textContent = parentContact || '-';
             document.getElementById('receiptPickupPoint').textContent = pickupPoint || '-';
             document.getElementById('receiptDestination').textContent = destination || '-';
+            document.getElementById('receiptPickupDate').textContent = pickupDate || '-';
+            document.getElementById('receiptPickupDay').textContent = pickupDay || '-';
+            document.getElementById('receiptPickupTime').textContent = pickupTime || '-';
             document.getElementById('receiptPaymentLink').textContent = onpayUrl;
 
             const receiptView = document.getElementById('receiptView');
