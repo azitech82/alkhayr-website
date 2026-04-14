@@ -1520,8 +1520,31 @@ const stripUnicodeSymbols = (value) => {
         const cacheKey = normalizeLatinText(query) || query.toLowerCase();
         if (sunnahSearchCache.has(cacheKey)) return sunnahSearchCache.get(cacheKey);
         try {
-            const res = await fetch(`${sunnahProxyBase}/search?q=${encodeURIComponent(query)}`);
-            if (!res.ok) {
+            const url = `${sunnahProxyBase}/search?q=${encodeURIComponent(query)}`;
+            const timeoutMs = 10000;
+            const canAbort = typeof AbortController === 'function';
+            const controller = canAbort ? new AbortController() : null;
+            const timeoutId = setTimeout(() => {
+                try {
+                    controller?.abort();
+                } catch {}
+            }, timeoutMs);
+            let res;
+            try {
+                if (controller) {
+                    res = await fetch(url, { signal: controller.signal });
+                } else {
+                    res = await Promise.race([
+                        fetch(url),
+                        new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), timeoutMs))
+                    ]);
+                }
+            } finally {
+                clearTimeout(timeoutId);
+            }
+
+            if (!res?.ok) {
+                console.warn('Sunnah search failed:', res?.status, res?.statusText);
                 sunnahSearchCache.set(cacheKey, []);
                 return [];
             }
