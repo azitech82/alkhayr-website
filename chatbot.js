@@ -1534,7 +1534,9 @@ const stripUnicodeSymbols = (value) => {
                 if (cleanedTranslated && cleanedTranslated !== cleanedOriginal) {
                     searchInput = cleanedTranslated;
                 }
-            } catch {}
+            } catch (e) {
+                console.warn('Translation failed:', e?.message);
+            }
         }
 
         const matches = await searchHadithByText(searchInput);
@@ -2100,7 +2102,9 @@ const stripUnicodeSymbols = (value) => {
                 if (cleanedTranslated) {
                     searchTerm = cleanedTranslated;
                 }
-            } catch {}
+            } catch (e) {
+                console.warn('Translation failed:', e?.message);
+            }
             return fetchTranslationSearch(searchTerm);
         }
         return 'enter an ayah like 2:255, "surah 2 ayah 255", "imran 200", "page 3", or a word like "cow".';
