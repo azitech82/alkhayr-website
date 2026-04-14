@@ -677,6 +677,8 @@ const hadithIndexCache = Object.keys(hadithCollections).reduce((acc, key) => {
     return acc;
 }, {});
 const hadithDetailCache = new Map();
+const sunnahProxyBase = 'https://r.jina.ai/https://sunnah.com';
+const sunnahSearchCache = new Map();
 let unicodeMarkRegex = null;
 try {
     unicodeMarkRegex = new RegExp('\\p{M}+', 'gu');
@@ -1459,6 +1461,81 @@ const stripUnicodeSymbols = (value) => {
         return Array.from(unique.values()).sort((a, b) => b.score - a.score).slice(0, 3);
     };
 
+    const parseSunnahMarkdownResults = (rawText) => {
+        const text = (rawText || '').toString();
+        const content = text.includes('Markdown Content:') ? text.split('Markdown Content:').slice(1).join('') : text;
+        const sections = content.split(/\n{2,}/).map((section) => section.trim()).filter(Boolean);
+        const results = [];
+        const looksLikeMeta = (candidate) => {
+            if (!candidate) return true;
+            if (candidate.startsWith('Title:')) return true;
+            if (candidate.startsWith('URL Source:')) return true;
+            if (candidate.startsWith('Showing ')) return true;
+            if (candidate.startsWith('*   ')) return true;
+            if (candidate.startsWith('◀') || candidate.startsWith('▶')) return true;
+            return false;
+        };
+        const cleanup = (value) => {
+            return (value || '')
+                .replace(/[`*_]/g, '')
+                .replace(/\s+/g, ' ')
+                .trim();
+        };
+        const hasArabic = (value) => /[\u0600-\u06FF]/.test(value || '');
+
+        for (let i = 0; i < sections.length && results.length < 3; i += 1) {
+            const section = sections[i];
+            const refMatch = section.match(/\*\*Reference\*\*:\[([^\]]+)\]\((https:\/\/sunnah\.com\/[^)]+)\)/);
+            if (!refMatch) continue;
+            const reference = cleanup(refMatch[1]);
+            const url = (refMatch[2] || '').trim();
+            let arabic = '';
+            let english = '';
+            for (let j = i - 1; j >= 0 && (i - j) <= 14 && (!arabic || !english); j -= 1) {
+                const candidate = sections[j];
+                if (looksLikeMeta(candidate)) continue;
+                if (!arabic && hasArabic(candidate) && candidate.length >= 20) {
+                    arabic = cleanup(candidate);
+                    continue;
+                }
+                if (!english && !hasArabic(candidate) && candidate.length >= 30) {
+                    english = cleanup(candidate);
+                }
+            }
+            if (!reference || !url) continue;
+            results.push({
+                collectionKey: 'sunnah',
+                arabic,
+                english,
+                reference,
+                url
+            });
+        }
+        return results;
+    };
+
+    const searchSunnahByText = async (text) => {
+        const query = (text || '').trim();
+        if (!query) return [];
+        const cacheKey = normalizeLatinText(query) || query.toLowerCase();
+        if (sunnahSearchCache.has(cacheKey)) return sunnahSearchCache.get(cacheKey);
+        try {
+            const res = await fetch(`${sunnahProxyBase}/search?q=${encodeURIComponent(query)}`);
+            if (!res.ok) {
+                sunnahSearchCache.set(cacheKey, []);
+                return [];
+            }
+            const raw = await res.text();
+            const results = parseSunnahMarkdownResults(raw);
+            sunnahSearchCache.set(cacheKey, results);
+            return results;
+        } catch (e) {
+            console.warn('Sunnah search failed:', e?.message);
+            sunnahSearchCache.set(cacheKey, []);
+            return [];
+        }
+    };
+
     const findHadithSnippet = async (term) => {
         if (!term) return null;
         const normalizedTerm = normalizeArabicTerm(term);
@@ -1567,6 +1644,16 @@ const stripUnicodeSymbols = (value) => {
                 };
             }
         }
+
+        const sunnahMatches = await searchSunnahByText(searchInput);
+        if (sunnahMatches.length) {
+            return {
+                items: sunnahMatches,
+                isFallback: false,
+                searchSummary: 'Top matches from Sunnah.com.'
+            };
+        }
+
         const fallbackMatches = searchFallbackHadiths(searchInput);
         if (fallbackMatches.length) {
             return {
@@ -2273,10 +2360,20 @@ const stripUnicodeSymbols = (value) => {
                 container.appendChild(hadithEnglish);
             }
             if (item.reference) {
-                const hadithRef = document.createElement('div');
-                hadithRef.className = 'chatbot-quran-title';
-                hadithRef.textContent = `[${item.reference}]`;
-                container.appendChild(hadithRef);
+                if (item.url) {
+                    const hadithRef = document.createElement('a');
+                    hadithRef.href = item.url;
+                    hadithRef.target = '_blank';
+                    hadithRef.rel = 'noopener noreferrer';
+                    hadithRef.className = 'chatbot-quran-title chatbot-link';
+                    hadithRef.textContent = `[${item.reference}]`;
+                    container.appendChild(hadithRef);
+                } else {
+                    const hadithRef = document.createElement('div');
+                    hadithRef.className = 'chatbot-quran-title';
+                    hadithRef.textContent = `[${item.reference}]`;
+                    container.appendChild(hadithRef);
+                }
             }
         };
 
