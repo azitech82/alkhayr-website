@@ -1500,6 +1500,14 @@ const stripUnicodeSymbols = (value) => {
 
     const hasArabicLetters = (text) => /[\u0600-\u06FF]/.test(text);
 
+    const sanitizeEnglishSearchTerm = (text) => {
+        return (text || '')
+            .toLowerCase()
+            .replace(/[^a-z\s'-]/g, ' ')
+            .replace(/\s+/g, ' ')
+            .trim();
+    };
+
     const getHadithReply = async (text) => {
         const input = (text || '').trim();
         if (!input) {
@@ -1516,7 +1524,20 @@ const stripUnicodeSymbols = (value) => {
                 return { items: [direct], isFallback: false };
             }
         }
-        const matches = await searchHadithByText(input);
+        const needsTranslate = !hasArabicLetters(input);
+        let searchInput = input;
+        if (needsTranslate) {
+            try {
+                const translated = await translateText(input, 'auto', 'en');
+                const cleanedTranslated = sanitizeEnglishSearchTerm(translated || '');
+                const cleanedOriginal = sanitizeEnglishSearchTerm(input);
+                if (cleanedTranslated && cleanedTranslated !== cleanedOriginal) {
+                    searchInput = cleanedTranslated;
+                }
+            } catch {}
+        }
+
+        const matches = await searchHadithByText(searchInput);
         if (matches.length) {
             const details = await Promise.all(
                 matches.map((match) => fetchHadithDetail(match.collectionKey, match.number))
@@ -1544,7 +1565,7 @@ const stripUnicodeSymbols = (value) => {
                 };
             }
         }
-        const fallbackMatches = searchFallbackHadiths(input);
+        const fallbackMatches = searchFallbackHadiths(searchInput);
         if (fallbackMatches.length) {
             return {
                 items: fallbackMatches.slice(0, 3),
@@ -2072,7 +2093,15 @@ const stripUnicodeSymbols = (value) => {
         }
         const term = parseTranslationSearchTerm(text);
         if (term) {
-            return fetchTranslationSearch(term);
+            let searchTerm = term;
+            try {
+                const translated = await translateText(term, 'auto', 'en');
+                const cleanedTranslated = sanitizeEnglishSearchTerm(translated || '');
+                if (cleanedTranslated) {
+                    searchTerm = cleanedTranslated;
+                }
+            } catch {}
+            return fetchTranslationSearch(searchTerm);
         }
         return 'enter an ayah like 2:255, "surah 2 ayah 255", "imran 200", "page 3", or a word like "cow".';
     };
