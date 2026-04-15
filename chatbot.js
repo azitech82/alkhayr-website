@@ -51,6 +51,9 @@ const chatbotStyles = `
     flex-direction: column;
     overflow: hidden;
 }
+.chatbot-window.chatbot-window-wide {
+    width: 420px;
+}
 .chatbot-hidden {
     display: none;
 }
@@ -131,6 +134,9 @@ const chatbotStyles = `
     font-size: 0.9rem;
     line-height: 1.4;
     white-space: pre-line;
+}
+.chatbot-hadith-bubble {
+    max-width: 96%;
 }
 .chatbot-link {
     color: #2563eb;
@@ -399,6 +405,9 @@ const chatbotStyles = `
         max-width: 310px;
         bottom: 5rem;
         max-height: 70vh;
+    }
+    .chatbot-window.chatbot-window-wide {
+        max-width: calc(100vw - 2.5rem);
     }
     .chatbot-quran-tools {
         grid-template-columns: 1fr 62px 48px;
@@ -672,6 +681,7 @@ const hadithCollections = {
 };
 const hadithPrimarySearchCollections = ['bukhari', 'muslim'];
 const hadithExtendedSearchCollections = ['tirmidhi', 'abudawud', 'nasai', 'ibnmajah', 'darimi'];
+const hadithMatchesPerCollectionLimit = 28;
 const hadithIndexCache = Object.keys(hadithCollections).reduce((acc, key) => {
     acc[key] = { english: null, arabic: null };
     return acc;
@@ -1356,14 +1366,27 @@ const stripUnicodeSymbols = (value) => {
             const text = hadith?.text || '';
             const score = lang === 'arabic' ? scoreArabicMatch(text, tokens) : scoreEnglishMatch(text, tokens);
             if (score > 0) {
-                matches.push({
+                const candidate = {
                     collectionKey,
                     number: hadith.hadithnumber || hadith.arabicnumber || hadith.number,
                     score
-                });
+                };
+                if (matches.length < hadithMatchesPerCollectionLimit) {
+                    matches.push(candidate);
+                    return;
+                }
+                let lowestIndex = 0;
+                for (let idx = 1; idx < matches.length; idx += 1) {
+                    if (matches[idx].score < matches[lowestIndex].score) {
+                        lowestIndex = idx;
+                    }
+                }
+                if (candidate.score > matches[lowestIndex].score) {
+                    matches[lowestIndex] = candidate;
+                }
             }
         });
-        return matches;
+        return matches.sort((a, b) => b.score - a.score);
     };
 
     const fetchHadithDetail = async (collectionKey, number) => {
@@ -1429,36 +1452,69 @@ const stripUnicodeSymbols = (value) => {
         const tokens = useArabic ? arabicTokens : latinTokens;
         if (!tokens.length) return [];
         const lang = useArabic ? 'arabic' : 'english';
-        const allMatches = [];
+        const collectedMatches = [];
+        const bestByCollection = new Map();
+
         for (const collectionKey of hadithPrimarySearchCollections) {
             const matches = await searchHadithCollection(collectionKey, tokens, lang);
-            allMatches.push(...matches);
+            collectedMatches.push(...matches);
+            if (matches.length) bestByCollection.set(collectionKey, matches[0]);
         }
+
         const unique = new Map();
-        allMatches.forEach((match) => {
+        collectedMatches.forEach((match) => {
             const key = `${match.collectionKey}:${match.number}`;
             const existing = unique.get(key);
             if (!existing || match.score > existing.score) {
                 unique.set(key, match);
             }
         });
-        const primaryResults = Array.from(unique.values()).sort((a, b) => b.score - a.score).slice(0, 3);
-        if (primaryResults.length >= 3) return primaryResults;
 
-        const extendedMatches = [];
+        let bestExtended = null;
         for (const collectionKey of hadithExtendedSearchCollections) {
             const matches = await searchHadithCollection(collectionKey, tokens, lang);
-            extendedMatches.push(...matches);
-            if (extendedMatches.length >= 60) break;
-        }
-        extendedMatches.forEach((match) => {
-            const key = `${match.collectionKey}:${match.number}`;
-            const existing = unique.get(key);
-            if (!existing || match.score > existing.score) {
-                unique.set(key, match);
+            if (matches.length) {
+                const top = matches[0];
+                if (!bestExtended || top.score > bestExtended.score) {
+                    bestExtended = top;
+                }
             }
-        });
-        return Array.from(unique.values()).sort((a, b) => b.score - a.score).slice(0, 3);
+            if (bestExtended && bestExtended.score >= Math.min(tokens.length, 2)) break;
+        }
+
+        if (bestExtended) {
+            const key = `${bestExtended.collectionKey}:${bestExtended.number}`;
+            const existing = unique.get(key);
+            if (!existing || bestExtended.score > existing.score) {
+                unique.set(key, bestExtended);
+            }
+        }
+
+        const ranked = Array.from(unique.values()).sort((a, b) => b.score - a.score);
+        if (!ranked.length) return [];
+
+        const chosen = [];
+        const chosenKeys = new Set();
+        const push = (match) => {
+            if (!match) return;
+            const key = `${match.collectionKey}:${match.number}`;
+            if (chosenKeys.has(key)) return;
+            chosenKeys.add(key);
+            chosen.push(match);
+        };
+
+        push(ranked[0]);
+        for (const primaryKey of hadithPrimarySearchCollections) {
+            if (chosen.length >= 2) break;
+            push(bestByCollection.get(primaryKey));
+        }
+        if (chosen.length < 3) push(bestExtended);
+        for (const match of ranked) {
+            if (chosen.length >= 3) break;
+            push(match);
+        }
+
+        return chosen.slice(0, 3);
     };
 
     const parseSunnahMarkdownResults = (rawText) => {
@@ -2607,6 +2663,9 @@ const stripUnicodeSymbols = (value) => {
 
     const setMode = (mode) => {
         activeMode = mode;
+        if (chatbotWindow) {
+            chatbotWindow.classList.toggle('chatbot-window-wide', mode === 'hadeeth');
+        }
         if (modeSchool) {
             modeSchool.classList.toggle('chatbot-mode-active', mode === 'school');
         }
@@ -2626,7 +2685,8 @@ const stripUnicodeSymbols = (value) => {
             if (mode === 'quran') {
                 chatbotInput.placeholder = 'surah name and ayah (e.g., imran 200), page 3, or word like cow';
             } else if (mode === 'hadeeth') {
-                chatbotInput.placeholder = 'type a topic like intentions or a reference like bukhari 1, muslim 55';
+                chatbotInput.placeholder =
+                    "type a topic (intentions, advice, prayer) or a reference (bukhari 1, muslim 55, tirmidhi 1). returns sahih only outside bukhari/muslim.";
             } else if (mode === 'arabic') {
                 chatbotInput.placeholder = 'type Arabic, English, or Malay (e.g., بقرة, cow, monyet)';
             } else {
@@ -2640,10 +2700,11 @@ const stripUnicodeSymbols = (value) => {
             );
         }
         if (mode === 'hadeeth' && lastMode !== 'hadeeth') {
-            addMessage(
-                'hadeeth mode: type a topic like intentions, advice, prayer, fasting, charity, or a reference like bukhari 1, muslim 55.',
+            const hint = addMessage(
+                "hadeeth mode: searches bukhari + muslim, then expands to other collections (sahih-graded only). try: intentions, fasting, charity, or refs like bukhari 1, muslim 55, tirmidhi 1.",
                 'bot'
             );
+            hint.classList.add('chatbot-hadith-bubble');
         }
         if (mode === 'arabic' && lastMode !== 'arabic') {
             addMessage('arabic mode: type Arabic, English, or Malay to see translations and an example.', 'bot');
@@ -2702,6 +2763,7 @@ const stripUnicodeSymbols = (value) => {
             requestAnimationFrame(() => scrollMessageToTop(loading));
         } else if (activeMode === 'hadeeth') {
             const loading = addMessage('Finding Hadeeth...', 'bot');
+            loading.classList.add('chatbot-hadith-bubble');
             const reply = await getHadithReply(text);
             renderHadithReply(loading, reply);
             requestAnimationFrame(() => scrollMessageToTop(loading));
