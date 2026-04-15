@@ -1323,8 +1323,16 @@ const stripUnicodeSymbols = (value) => {
     const scoreEnglishMatch = (text, tokens) => {
         const normalized = normalizeLatinText(text);
         if (!normalized) return 0;
+        const words = normalized.split(' ');
+        const wordSet = new Set(words);
         let score = 0;
         tokens.forEach((token) => {
+            if (token.length <= 3) {
+                if (wordSet.has(token)) {
+                    score += 1;
+                }
+                return;
+            }
             if (normalized.includes(token)) {
                 score += 1;
             }
@@ -1667,10 +1675,10 @@ const stripUnicodeSymbols = (value) => {
     const getHadithReply = async (text) => {
         const input = (text || '').trim();
         if (!input) {
-            const random = fallbackHadithSnippets[Math.floor(Math.random() * fallbackHadithSnippets.length)];
             return {
-                items: random ? [random] : [],
-                isFallback: true
+                items: [],
+                isFallback: true,
+                searchSummary: 'Type a topic (e.g., intentions, fasting) or a reference (e.g., bukhari 1, muslim 55).'
             };
         }
         const refRequest = parseHadithReferenceInput(input);
@@ -1724,15 +1732,6 @@ const stripUnicodeSymbols = (value) => {
             }
         }
 
-        const sunnahMatches = await searchSunnahByText(searchInput);
-        if (sunnahMatches.length) {
-            return {
-                items: sunnahMatches,
-                isFallback: false,
-                searchSummary: 'Top matches from Sunnah.com.'
-            };
-        }
-
         const fallbackMatches = searchFallbackHadiths(searchInput);
         if (fallbackMatches.length) {
             return {
@@ -1741,10 +1740,11 @@ const stripUnicodeSymbols = (value) => {
                 searchSummary: 'Closest matches from curated sahih hadiths.'
             };
         }
-        const random = fallbackHadithSnippets[Math.floor(Math.random() * fallbackHadithSnippets.length)];
         return {
-            items: random ? [random] : [],
-            isFallback: true
+            items: [],
+            isFallback: true,
+            searchSummary: `No authentic match found for "${input}".`,
+            message: 'Try a more specific keyword, Arabic keyword (e.g., قلم), or a direct reference like muslim 93.'
         };
     };
 
@@ -2401,7 +2401,8 @@ const stripUnicodeSymbols = (value) => {
     };
 
     const renderHadithReply = (container, payload) => {
-        const baseItems = Array.isArray(payload.items) && payload.items.length ? payload.items : [payload];
+        const hasItems = Array.isArray(payload.items) && payload.items.length > 0;
+        const baseItems = hasItems ? payload.items : payload && (payload.arabic || payload.english || payload.reference) ? [payload] : [];
 
         const renderHeader = (mode) => {
             container.textContent = '';
@@ -2496,6 +2497,15 @@ const stripUnicodeSymbols = (value) => {
             });
             renderHadithItem(item);
         };
+
+        if (!baseItems.length) {
+            renderHeader('empty');
+            const message = document.createElement('div');
+            message.className = 'chatbot-translation-text';
+            message.textContent = payload?.message || 'No matching hadeeth found.';
+            container.appendChild(message);
+            return;
+        }
 
         if (baseItems.length > 1) {
             renderOptions();
