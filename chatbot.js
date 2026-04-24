@@ -671,16 +671,11 @@ const hadithApiBase = 'https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1';
 const hadithCollections = {
     bukhari: { label: 'Sahih Bukhari', englishEdition: 'eng-bukhari', arabicEdition: 'ara-bukhari' },
     muslim: { label: 'Sahih Muslim', englishEdition: 'eng-muslim', arabicEdition: 'ara-muslim' },
-    abudawud: { label: 'Sunan Abi Dawud', englishEdition: 'eng-abudawud', arabicEdition: 'ara-abudawud' },
-    tirmidhi: { label: 'Jami` at-Tirmidhi', englishEdition: 'eng-tirmidhi', arabicEdition: 'ara-tirmidhi' },
-    nasai: { label: "Sunan an-Nasa'i", englishEdition: 'eng-nasai', arabicEdition: 'ara-nasai' },
-    ibnmajah: { label: 'Sunan Ibn Majah', englishEdition: 'eng-ibnmajah', arabicEdition: 'ara-ibnmajah' },
-    malik: { label: 'Muwatta Malik', englishEdition: 'eng-malik', arabicEdition: 'ara-malik' },
-    ahmad: { label: 'Musnad Ahmad', englishEdition: 'eng-ahmad', arabicEdition: 'ara-ahmad' },
-    darimi: { label: 'Sunan ad-Darimi', englishEdition: 'eng-darimi', arabicEdition: 'ara-darimi' }
+    silsilah: { label: 'Silsilah al-Ahadith as-Sahihah', englishEdition: null, arabicEdition: null },
+    sunnah: { label: 'Sunnah.com', englishEdition: null, arabicEdition: null }
 };
 const hadithPrimarySearchCollections = ['bukhari', 'muslim'];
-const hadithExtendedSearchCollections = ['tirmidhi', 'abudawud', 'nasai', 'ibnmajah', 'darimi'];
+const hadithExtendedSearchCollections = [];
 const hadithMatchesPerCollectionLimit = 28;
 const hadithIndexCache = Object.keys(hadithCollections).reduce((acc, key) => {
     acc[key] = { english: null, arabic: null };
@@ -1268,7 +1263,7 @@ const stripUnicodeSymbols = (value) => {
     const parseHadithReferenceInput = (text) => {
         const input = (text || '').toLowerCase();
         const match = input.match(
-            /(bukhari|muslim|nasai|nasa'i|abu\s*dawud|abudawud|tirmidhi|ibn\s*majah|ibnmajah|malik|muwatta|ahmad|darimi)\s*(\d+)/i
+            /(bukhari|muslim|silsilah)\s*(\d+)/i
         );
         if (!match) return null;
         const rawKey = match[1].replace(/[^a-z]/g, '');
@@ -1277,14 +1272,7 @@ const stripUnicodeSymbols = (value) => {
         const collectionKeyMap = {
             bukhari: 'bukhari',
             muslim: 'muslim',
-            abudawud: 'abudawud',
-            nasai: 'nasai',
-            tirmidhi: 'tirmidhi',
-            ibnmajah: 'ibnmajah',
-            malik: 'malik',
-            muwatta: 'malik',
-            ahmad: 'ahmad',
-            darimi: 'darimi'
+            silsilah: 'silsilah'
         };
         const collectionKey = collectionKeyMap[rawKey] || null;
         if (!collectionKey) return null;
@@ -1398,10 +1386,19 @@ const stripUnicodeSymbols = (value) => {
     };
 
     const fetchHadithDetail = async (collectionKey, number) => {
-        const cacheKey = `${collectionKey}:${number}`;
-        if (hadithDetailCache.has(cacheKey)) {
-            return hadithDetailCache.get(cacheKey);
+        if (collectionKey === 'silsilah') {
+            // We do not have a direct API endpoint for Silsilah by number via fawazahmed0,
+            // try to fetch via sunnah.com instead
+            const matches = await searchSunnahByText(`Silsilah ${number}`);
+            return matches[0] || null;
         }
+        if (collectionKey === 'sunnah') {
+            // sunnah results are already detailed
+            return null; 
+        }
+        const cacheKey = `${collectionKey}:${number}`;
+        if (hadithDetailCache.has(cacheKey)) return hadithDetailCache.get(cacheKey);
+        
         const collection = hadithCollections[collectionKey];
         if (!collection) return null;
         const englishEdition = collection.englishEdition;
@@ -1549,10 +1546,28 @@ const stripUnicodeSymbols = (value) => {
 
         for (let i = 0; i < sections.length && results.length < 3; i += 1) {
             const section = sections[i];
-            const refMatch = section.match(/\*\*Reference\*\*:\[([^\]]+)\]\((https:\/\/sunnah\.com\/[^)]+)\)/);
-            if (!refMatch) continue;
-            const reference = cleanup(refMatch[1]);
-            const url = (refMatch[2] || '').trim();
+            let reference = '';
+            let url = '';
+            
+            const refMatch = section.match(/(?:\*\*Reference\*\*|Reference):\s*\[([^\]]+)\]\((https:\/\/sunnah\.com\/[^)]+)\)/i);
+            const plainRefMatch = section.match(/(?:\*\*Reference\*\*|Reference):\s*(.+)/i);
+
+            if (refMatch) {
+                reference = cleanup(refMatch[1]);
+                url = (refMatch[2] || '').trim();
+                if (plainRefMatch) {
+                    const fullText = cleanup(plainRefMatch[1]);
+                    if (fullText.length > reference.length) {
+                        reference = fullText;
+                    }
+                }
+            } else if (plainRefMatch) {
+                reference = cleanup(plainRefMatch[1]);
+                url = 'https://sunnah.com/search?q=' + encodeURIComponent(reference);
+            } else {
+                continue;
+            }
+
             let arabic = '';
             let english = '';
             for (let j = i - 1; j >= 0 && (i - j) <= 14 && (!arabic || !english); j -= 1) {
@@ -1567,8 +1582,10 @@ const stripUnicodeSymbols = (value) => {
                 }
             }
             if (!reference || !url) continue;
+            let isSilsilah = /silsilah/i.test(reference);
+            
             results.push({
-                collectionKey: 'sunnah',
+                collectionKey: isSilsilah ? 'silsilah' : 'sunnah',
                 arabic,
                 english,
                 reference,
@@ -1703,33 +1720,70 @@ const stripUnicodeSymbols = (value) => {
             }
         }
 
-        const matches = await searchHadithByText(searchInput);
+        const [matches, sunnahMatches, silsilahMatches] = await Promise.all([
+            searchHadithByText(searchInput),
+            searchSunnahByText(searchInput),
+            searchSunnahByText(searchInput + " Silsilah")
+        ]);
+
+        const details = [];
+        
+        // Take up to 2 from primary
         if (matches.length) {
-            const details = await Promise.all(
-                matches.map((match) => fetchHadithDetail(match.collectionKey, match.number))
+            const fetchedDetails = await Promise.all(
+                matches.slice(0, 2).map((match) => fetchHadithDetail(match.collectionKey, match.number))
             );
-            const items = details.filter(Boolean);
-            if (items.length) {
-                const sourceLabels = Array.from(
-                    new Set(
-                        items
-                            .map((item) => hadithCollections[item.collectionKey]?.label)
-                            .filter(Boolean)
-                    )
-                );
-                const includesExtended = items.some(
-                    (item) => item.collectionKey && !hadithPrimarySearchCollections.includes(item.collectionKey)
-                );
-                return {
-                    items,
-                    isFallback: false,
-                    searchSummary: sourceLabels.length
-                        ? `Top matches from: ${sourceLabels.join(', ')}.${
-                              includesExtended ? ' (Sahih-graded only for non-Bukhari/Muslim.)' : ''
-                          }`
-                        : 'Top matches from authentic hadeeth collections.'
-                };
-            }
+            details.push(...fetchedDetails.filter(Boolean));
+        }
+
+        // Try to add Silsilah specifically first
+        if (silsilahMatches.length) {
+            const existingRefs = new Set(details.map(d => d.reference));
+            silsilahMatches.forEach(m => {
+                if (!existingRefs.has(m.reference) && details.length < 3) {
+                    details.push(m);
+                    existingRefs.add(m.reference);
+                }
+            });
+        }
+
+        // Fill remaining with general Sunnah matches
+        if (sunnahMatches.length && details.length < 3) {
+            const existingRefs = new Set(details.map(d => d.reference));
+            sunnahMatches.forEach(m => {
+                if (!existingRefs.has(m.reference) && details.length < 3) {
+                    details.push(m);
+                    existingRefs.add(m.reference);
+                }
+            });
+        }
+        
+        // Fill remaining with the 3rd primary match if needed
+        if (details.length < 3 && matches.length > 2) {
+            const extraMatch = await fetchHadithDetail(matches[2].collectionKey, matches[2].number);
+            if (extraMatch) details.push(extraMatch);
+        }
+
+        const items = details.slice(0, 3);
+
+        if (items.length) {
+            const sourceLabels = Array.from(
+                new Set(
+                    items
+                        .map((item) => {
+                            if (item.collectionKey === 'sunnah') return 'Sunnah.com';
+                            return hadithCollections[item.collectionKey]?.label;
+                        })
+                        .filter(Boolean)
+                )
+            );
+            return {
+                items,
+                isFallback: false,
+                searchSummary: sourceLabels.length
+                    ? `Top matches from: ${sourceLabels.join(', ')}.`
+                    : 'Top matches from authentic hadeeth collections.'
+            };
         }
 
         const fallbackMatches = searchFallbackHadiths(searchInput);
