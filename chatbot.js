@@ -1720,70 +1720,33 @@ const stripUnicodeSymbols = (value) => {
             }
         }
 
-        const [matches, sunnahMatches, silsilahMatches] = await Promise.all([
-            searchHadithByText(searchInput),
-            searchSunnahByText(searchInput),
-            searchSunnahByText(searchInput + " Silsilah")
-        ]);
-
-        const details = [];
-        
-        // Take up to 2 from primary
+        const matches = await searchHadithByText(searchInput);
         if (matches.length) {
-            const fetchedDetails = await Promise.all(
-                matches.slice(0, 2).map((match) => fetchHadithDetail(match.collectionKey, match.number))
+            const details = await Promise.all(
+                matches.map((match) => fetchHadithDetail(match.collectionKey, match.number))
             );
-            details.push(...fetchedDetails.filter(Boolean));
-        }
-
-        // Try to add Silsilah specifically first
-        if (silsilahMatches.length) {
-            const existingRefs = new Set(details.map(d => d.reference));
-            silsilahMatches.forEach(m => {
-                if (!existingRefs.has(m.reference) && details.length < 3) {
-                    details.push(m);
-                    existingRefs.add(m.reference);
-                }
-            });
-        }
-
-        // Fill remaining with general Sunnah matches
-        if (sunnahMatches.length && details.length < 3) {
-            const existingRefs = new Set(details.map(d => d.reference));
-            sunnahMatches.forEach(m => {
-                if (!existingRefs.has(m.reference) && details.length < 3) {
-                    details.push(m);
-                    existingRefs.add(m.reference);
-                }
-            });
-        }
-        
-        // Fill remaining with the 3rd primary match if needed
-        if (details.length < 3 && matches.length > 2) {
-            const extraMatch = await fetchHadithDetail(matches[2].collectionKey, matches[2].number);
-            if (extraMatch) details.push(extraMatch);
-        }
-
-        const items = details.slice(0, 3);
-
-        if (items.length) {
-            const sourceLabels = Array.from(
-                new Set(
-                    items
-                        .map((item) => {
-                            if (item.collectionKey === 'sunnah') return 'Sunnah.com';
-                            return hadithCollections[item.collectionKey]?.label;
-                        })
-                        .filter(Boolean)
-                )
-            );
-            return {
-                items,
-                isFallback: false,
-                searchSummary: sourceLabels.length
-                    ? `Top matches from: ${sourceLabels.join(', ')}.`
-                    : 'Top matches from authentic hadeeth collections.'
-            };
+            const items = details.filter(Boolean);
+            if (items.length) {
+                const sourceLabels = Array.from(
+                    new Set(
+                        items
+                            .map((item) => hadithCollections[item.collectionKey]?.label)
+                            .filter(Boolean)
+                    )
+                );
+                const includesExtended = items.some(
+                    (item) => item.collectionKey && !hadithPrimarySearchCollections.includes(item.collectionKey)
+                );
+                return {
+                    items,
+                    isFallback: false,
+                    searchSummary: sourceLabels.length
+                        ? `Top matches from: ${sourceLabels.join(', ')}.${
+                              includesExtended ? ' (Sahih-graded only for non-Bukhari/Muslim.)' : ''
+                          }`
+                        : 'Top matches from authentic hadeeth collections.'
+                };
+            }
         }
 
         const fallbackMatches = searchFallbackHadiths(searchInput);
