@@ -1400,7 +1400,7 @@ const stripUnicodeSymbols = (value) => {
     const fetchHadithDetail = async (collectionKey, number) => {
         const cacheKey = `${collectionKey}:${number}`;
         if (hadithDetailCache.has(cacheKey)) return hadithDetailCache.get(cacheKey);
-        }
+
         const collection = hadithCollections[collectionKey];
         if (!collection) return null;
         const englishEdition = collection.englishEdition;
