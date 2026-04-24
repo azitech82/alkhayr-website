@@ -669,6 +669,7 @@ const fallbackHadithSnippets = [
 
 const hadithApiBase = 'https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1';
 const hadithCollections = {
+    silsilah: { label: 'Silsilah al-Ahadith as-Sahihah', local: true, url: 'silsilah_sahihah.json' },
     bukhari: { label: 'Sahih Bukhari', englishEdition: 'eng-bukhari', arabicEdition: 'ara-bukhari' },
     muslim: { label: 'Sahih Muslim', englishEdition: 'eng-muslim', arabicEdition: 'ara-muslim' },
     abudawud: { label: 'Sunan Abi Dawud', englishEdition: 'eng-abudawud', arabicEdition: 'ara-abudawud' },
