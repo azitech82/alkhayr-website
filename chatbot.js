@@ -2833,20 +2833,24 @@ const stripUnicodeSymbols = (value) => {
     if (chatbotSurahSelect) {
         chatbotSurahSelect.addEventListener('change', () => {
             if (chatbotAyahInput) {
-                chatbotAyahInput.focus();
-            }
-        });
-        chatbotSurahSelect.addEventListener('keydown', (event) => {
-            if (event.key === 'Enter') {
-                event.preventDefault();
-                sendFromSurahPicker();
-            }
-        });
-    }
-    if (chatbotAyahInput) {
-        chatbotAyahInput.addEventListener('keydown', (event) => {
-            if (event.key === 'Enter') {
-                event.preventDefault();
+            chatbotAyahInput.focus();
+        }
+    });
+    chatbotSurahSelect.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            sendFromSurahPicker();
+        }
+    });
+}
+if (chatbotAyahInput) {
+    chatbotAyahInput.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            sendFromSurahPicker();
+        }
+    });
+}
                 sendFromSurahPicker();
             }
         });
