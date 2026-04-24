@@ -681,7 +681,7 @@ const hadithCollections = {
     darimi: { label: 'Sunan ad-Darimi', englishEdition: 'eng-darimi', arabicEdition: 'ara-darimi' }
 };
 const hadithPrimarySearchCollections = ['bukhari', 'muslim'];
-const hadithExtendedSearchCollections = ['tirmidhi', 'abudawud', 'nasai', 'ibnmajah', 'darimi'];
+const hadithExtendedSearchCollections = ['silsilah', 'tirmidhi', 'abudawud', 'nasai', 'ibnmajah', 'darimi'];
 const hadithMatchesPerCollectionLimit = 28;
 const hadithIndexCache = Object.keys(hadithCollections).reduce((acc, key) => {
     acc[key] = { english: null, arabic: null };
@@ -1269,13 +1269,15 @@ const stripUnicodeSymbols = (value) => {
     const parseHadithReferenceInput = (text) => {
         const input = (text || '').toLowerCase();
         const match = input.match(
-            /(bukhari|muslim|nasai|nasa'i|abu\s*dawud|abudawud|tirmidhi|ibn\s*majah|ibnmajah|malik|muwatta|ahmad|darimi)\s*(\d+)/i
+            /(silsilah|sahihah|bukhari|muslim|nasai|nasa'i|abu\s*dawud|abudawud|tirmidhi|ibn\s*majah|ibnmajah|malik|muwatta|ahmad|darimi)\s*(\d+)/i
         );
         if (!match) return null;
         const rawKey = match[1].replace(/[^a-z]/g, '');
         const number = Number(match[2]);
         if (!Number.isFinite(number)) return null;
         const collectionKeyMap = {
+            silsilah: 'silsilah',
+            sahihah: 'silsilah',
             bukhari: 'bukhari',
             muslim: 'muslim',
             abudawud: 'abudawud',
@@ -1295,6 +1297,15 @@ const stripUnicodeSymbols = (value) => {
     const fetchHadithEdition = async (collectionKey, lang) => {
         const collection = hadithCollections[collectionKey];
         if (!collection) return null;
+        if (collection.local) {
+            try {
+                const res = await fetch(collection.url);
+                if (!res.ok) return null;
+                return await res.json();
+            } catch {
+                return null;
+            }
+        }
         const edition =
             lang === 'arabic' ? collection.arabicEdition : collection.englishEdition;
         if (!edition) return null;
@@ -1362,6 +1373,7 @@ const stripUnicodeSymbols = (value) => {
 
     const isAuthenticHadith = (collectionKey, hadith) => {
         if (hadithPrimarySearchCollections.includes(collectionKey)) return true;
+        if (collectionKey === 'silsilah') return true;
         return isSahihGrade(hadith?.grades);
     };
 
@@ -1404,6 +1416,25 @@ const stripUnicodeSymbols = (value) => {
 
         const collection = hadithCollections[collectionKey];
         if (!collection) return null;
+        if (collection.local) {
+            try {
+                const res = await fetch(collection.url);
+                if (!res.ok) return null;
+                const data = await res.json();
+                const hadith = data.hadiths?.find((h) => h.hadithnumber === Number(number));
+                if (!hadith) return null;
+                const detail = {
+                    collectionKey,
+                    arabic: hadith.arabic || '',
+                    english: hadith.text || '',
+                    reference: `${collection.label} ${hadith.hadithnumber}`
+                };
+                hadithDetailCache.set(cacheKey, detail);
+                return detail;
+            } catch {
+                return null;
+            }
+        }
         const englishEdition = collection.englishEdition;
         const arabicEdition = collection.arabicEdition;
         const englishUrl = `${hadithApiBase}/editions/${englishEdition}/${number}.min.json`;
