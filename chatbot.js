@@ -1546,28 +1546,10 @@ const stripUnicodeSymbols = (value) => {
 
         for (let i = 0; i < sections.length && results.length < 3; i += 1) {
             const section = sections[i];
-            let reference = '';
-            let url = '';
-            
-            const refMatch = section.match(/(?:\*\*Reference\*\*|Reference):\s*\[([^\]]+)\]\((https:\/\/sunnah\.com\/[^)]+)\)/i);
-            const plainRefMatch = section.match(/(?:\*\*Reference\*\*|Reference):\s*(.+)/i);
-
-            if (refMatch) {
-                reference = cleanup(refMatch[1]);
-                url = (refMatch[2] || '').trim();
-                if (plainRefMatch) {
-                    const fullText = cleanup(plainRefMatch[1]);
-                    if (fullText.length > reference.length) {
-                        reference = fullText;
-                    }
-                }
-            } else if (plainRefMatch) {
-                reference = cleanup(plainRefMatch[1]);
-                url = 'https://sunnah.com/search?q=' + encodeURIComponent(reference);
-            } else {
-                continue;
-            }
-
+            const refMatch = section.match(/\*\*Reference\*\*:\[([^\]]+)\]\((https:\/\/sunnah\.com\/[^)]+)\)/);
+            if (!refMatch) continue;
+            const reference = cleanup(refMatch[1]);
+            const url = (refMatch[2] || '').trim();
             let arabic = '';
             let english = '';
             for (let j = i - 1; j >= 0 && (i - j) <= 14 && (!arabic || !english); j -= 1) {
@@ -1582,10 +1564,8 @@ const stripUnicodeSymbols = (value) => {
                 }
             }
             if (!reference || !url) continue;
-            let isSilsilah = /silsilah/i.test(reference);
-            
             results.push({
-                collectionKey: isSilsilah ? 'silsilah' : 'sunnah',
+                collectionKey: 'sunnah',
                 arabic,
                 english,
                 reference,
