@@ -671,17 +671,10 @@ const hadithApiBase = 'https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1';
 const hadithCollections = {
     silsilah: { label: 'Silsilah al-Ahadith as-Sahihah', local: true, url: 'silsilah_sahihah.json' },
     bukhari: { label: 'Sahih Bukhari', englishEdition: 'eng-bukhari', arabicEdition: 'ara-bukhari' },
-    muslim: { label: 'Sahih Muslim', englishEdition: 'eng-muslim', arabicEdition: 'ara-muslim' },
-    abudawud: { label: 'Sunan Abi Dawud', englishEdition: 'eng-abudawud', arabicEdition: 'ara-abudawud' },
-    tirmidhi: { label: 'Jami` at-Tirmidhi', englishEdition: 'eng-tirmidhi', arabicEdition: 'ara-tirmidhi' },
-    nasai: { label: "Sunan an-Nasa'i", englishEdition: 'eng-nasai', arabicEdition: 'ara-nasai' },
-    ibnmajah: { label: 'Sunan Ibn Majah', englishEdition: 'eng-ibnmajah', arabicEdition: 'ara-ibnmajah' },
-    malik: { label: 'Muwatta Malik', englishEdition: 'eng-malik', arabicEdition: 'ara-malik' },
-    ahmad: { label: 'Musnad Ahmad', englishEdition: 'eng-ahmad', arabicEdition: 'ara-ahmad' },
-    darimi: { label: 'Sunan ad-Darimi', englishEdition: 'eng-darimi', arabicEdition: 'ara-darimi' }
+    muslim: { label: 'Sahih Muslim', englishEdition: 'eng-muslim', arabicEdition: 'ara-muslim' }
 };
 const hadithPrimarySearchCollections = ['bukhari', 'muslim'];
-const hadithExtendedSearchCollections = ['silsilah', 'tirmidhi', 'abudawud', 'nasai', 'ibnmajah', 'darimi'];
+const hadithExtendedSearchCollections = ['silsilah'];
 const hadithMatchesPerCollectionLimit = 28;
 const hadithIndexCache = Object.keys(hadithCollections).reduce((acc, key) => {
     acc[key] = { english: null, arabic: null };
@@ -1269,7 +1262,7 @@ const stripUnicodeSymbols = (value) => {
     const parseHadithReferenceInput = (text) => {
         const input = (text || '').toLowerCase();
         const match = input.match(
-            /(silsilah|sahihah|bukhari|muslim|nasai|nasa'i|abu\s*dawud|abudawud|tirmidhi|ibn\s*majah|ibnmajah|malik|muwatta|ahmad|darimi)\s*(\d+)/i
+            /(silsilah|sahihah|bukhari|muslim)\s*(\d+)/i
         );
         if (!match) return null;
         const rawKey = match[1].replace(/[^a-z]/g, '');
@@ -1279,15 +1272,7 @@ const stripUnicodeSymbols = (value) => {
             silsilah: 'silsilah',
             sahihah: 'silsilah',
             bukhari: 'bukhari',
-            muslim: 'muslim',
-            abudawud: 'abudawud',
-            nasai: 'nasai',
-            tirmidhi: 'tirmidhi',
-            ibnmajah: 'ibnmajah',
-            malik: 'malik',
-            muwatta: 'malik',
-            ahmad: 'ahmad',
-            darimi: 'darimi'
+            muslim: 'muslim'
         };
         const collectionKey = collectionKeyMap[rawKey] || null;
         if (!collectionKey) return null;
@@ -1755,9 +1740,7 @@ const stripUnicodeSymbols = (value) => {
                     items,
                     isFallback: false,
                     searchSummary: sourceLabels.length
-                        ? `Top matches from: ${sourceLabels.join(', ')}.${
-                              includesExtended ? ' (Sahih-graded only for non-Bukhari/Muslim.)' : ''
-                          }`
+                        ? `Top matches from: ${sourceLabels.join(', ')}.`
                         : 'Top matches from authentic hadeeth collections.'
                 };
             }
@@ -2727,7 +2710,7 @@ const stripUnicodeSymbols = (value) => {
                 chatbotInput.placeholder = 'surah name and ayah (e.g., imran 200), page 3, or word like cow';
             } else if (mode === 'hadeeth') {
                 chatbotInput.placeholder =
-                    "type a topic (intentions, advice, prayer) or a reference (bukhari 1, muslim 55, tirmidhi 1). returns sahih only outside bukhari/muslim.";
+                    "type a topic (intentions, advice, prayer) or a reference (bukhari 1, muslim 55, sahihah 1).";
             } else if (mode === 'arabic') {
                 chatbotInput.placeholder = 'type Arabic, English, or Malay (e.g., بقرة, cow, monyet)';
             } else {
@@ -2742,7 +2725,7 @@ const stripUnicodeSymbols = (value) => {
         }
         if (mode === 'hadeeth' && lastMode !== 'hadeeth') {
             const hint = addMessage(
-                "hadeeth mode: searches bukhari + muslim, then expands to other collections (sahih-graded only). try: intentions, fasting, charity, or refs like bukhari 1, muslim 55, tirmidhi 1.",
+                "hadeeth mode: searches bukhari, muslim, and silsilah al-ahadith as-sahihah. try: intentions, fasting, charity, or refs like bukhari 1, muslim 55, sahihah 1.",
                 'bot'
             );
             hint.classList.add('chatbot-hadith-bubble');
