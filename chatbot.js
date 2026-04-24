@@ -1386,19 +1386,9 @@ const stripUnicodeSymbols = (value) => {
     };
 
     const fetchHadithDetail = async (collectionKey, number) => {
-        if (collectionKey === 'silsilah') {
-            // We do not have a direct API endpoint for Silsilah by number via fawazahmed0,
-            // try to fetch via sunnah.com instead
-            const matches = await searchSunnahByText(`Silsilah ${number}`);
-            return matches[0] || null;
-        }
-        if (collectionKey === 'sunnah') {
-            // sunnah results are already detailed
-            return null; 
-        }
         const cacheKey = `${collectionKey}:${number}`;
         if (hadithDetailCache.has(cacheKey)) return hadithDetailCache.get(cacheKey);
-        
+        }
         const collection = hadithCollections[collectionKey];
         if (!collection) return null;
         const englishEdition = collection.englishEdition;
