@@ -1263,7 +1263,7 @@ const stripUnicodeSymbols = (value) => {
     const parseHadithReferenceInput = (text) => {
         const input = (text || '').toLowerCase();
         const match = input.match(
-            /(bukhari|muslim|silsilah)\s*(\d+)/i
+            /(bukhari|muslim|nasai|nasa'i|abu\s*dawud|abudawud|tirmidhi|ibn\s*majah|ibnmajah|malik|muwatta|ahmad|darimi)\s*(\d+)/i
         );
         if (!match) return null;
         const rawKey = match[1].replace(/[^a-z]/g, '');
@@ -1272,7 +1272,14 @@ const stripUnicodeSymbols = (value) => {
         const collectionKeyMap = {
             bukhari: 'bukhari',
             muslim: 'muslim',
-            silsilah: 'silsilah'
+            abudawud: 'abudawud',
+            nasai: 'nasai',
+            tirmidhi: 'tirmidhi',
+            ibnmajah: 'ibnmajah',
+            malik: 'malik',
+            muwatta: 'malik',
+            ahmad: 'ahmad',
+            darimi: 'darimi'
         };
         const collectionKey = collectionKeyMap[rawKey] || null;
         if (!collectionKey) return null;
