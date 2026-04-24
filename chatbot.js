@@ -2696,7 +2696,7 @@ const stripUnicodeSymbols = (value) => {
                 chatbotInput.placeholder = 'surah name and ayah (e.g., imran 200), page 3, or word like cow';
             } else if (mode === 'hadeeth') {
                 chatbotInput.placeholder =
-                    "type a topic (intentions, advice, prayer) or a reference (bukhari 1, muslim 55, tirmidhi 1). returns sahih only outside bukhari/muslim.";
+                    "type a topic (e.g., intentions, fasting) or a reference (e.g., bukhari 1, muslim 55). searches Bukhari, Muslim, Silsilah & Sunnah.com";
             } else if (mode === 'arabic') {
                 chatbotInput.placeholder = 'type Arabic, English, or Malay (e.g., بقرة, cow, monyet)';
             } else {
