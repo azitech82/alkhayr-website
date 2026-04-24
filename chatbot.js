@@ -671,11 +671,16 @@ const hadithApiBase = 'https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1';
 const hadithCollections = {
     bukhari: { label: 'Sahih Bukhari', englishEdition: 'eng-bukhari', arabicEdition: 'ara-bukhari' },
     muslim: { label: 'Sahih Muslim', englishEdition: 'eng-muslim', arabicEdition: 'ara-muslim' },
-    silsilah: { label: 'Silsilah al-Ahadith as-Sahihah', englishEdition: null, arabicEdition: null },
-    sunnah: { label: 'Sunnah.com', englishEdition: null, arabicEdition: null }
+    abudawud: { label: 'Sunan Abi Dawud', englishEdition: 'eng-abudawud', arabicEdition: 'ara-abudawud' },
+    tirmidhi: { label: 'Jami` at-Tirmidhi', englishEdition: 'eng-tirmidhi', arabicEdition: 'ara-tirmidhi' },
+    nasai: { label: "Sunan an-Nasa'i", englishEdition: 'eng-nasai', arabicEdition: 'ara-nasai' },
+    ibnmajah: { label: 'Sunan Ibn Majah', englishEdition: 'eng-ibnmajah', arabicEdition: 'ara-ibnmajah' },
+    malik: { label: 'Muwatta Malik', englishEdition: 'eng-malik', arabicEdition: 'ara-malik' },
+    ahmad: { label: 'Musnad Ahmad', englishEdition: 'eng-ahmad', arabicEdition: 'ara-ahmad' },
+    darimi: { label: 'Sunan ad-Darimi', englishEdition: 'eng-darimi', arabicEdition: 'ara-darimi' }
 };
 const hadithPrimarySearchCollections = ['bukhari', 'muslim'];
-const hadithExtendedSearchCollections = [];
+const hadithExtendedSearchCollections = ['tirmidhi', 'abudawud', 'nasai', 'ibnmajah', 'darimi'];
 const hadithMatchesPerCollectionLimit = 28;
 const hadithIndexCache = Object.keys(hadithCollections).reduce((acc, key) => {
     acc[key] = { english: null, arabic: null };
@@ -2690,7 +2695,7 @@ const stripUnicodeSymbols = (value) => {
                 chatbotInput.placeholder = 'surah name and ayah (e.g., imran 200), page 3, or word like cow';
             } else if (mode === 'hadeeth') {
                 chatbotInput.placeholder =
-                    "type a topic (e.g., intentions, fasting) or a reference (e.g., bukhari 1, muslim 55). searches Bukhari, Muslim, Silsilah & Sunnah.com";
+                    "type a topic (intentions, advice, prayer) or a reference (bukhari 1, muslim 55, tirmidhi 1). returns sahih only outside bukhari/muslim.";
             } else if (mode === 'arabic') {
                 chatbotInput.placeholder = 'type Arabic, English, or Malay (e.g., بقرة, cow, monyet)';
             } else {
