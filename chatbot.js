@@ -2710,7 +2710,7 @@ const stripUnicodeSymbols = (value) => {
         }
         if (mode === 'hadeeth' && lastMode !== 'hadeeth') {
             const hint = addMessage(
-                "hadeeth mode: searches Sahih Bukhari, Sahih Muslim, Silsilah al-Ahadith as-Sahihah, and sunnah.com. try: intentions, fasting, charity, or refs like bukhari 1, muslim 55.",
+                "hadeeth mode: searches bukhari + muslim, then expands to other collections (sahih-graded only). try: intentions, fasting, charity, or refs like bukhari 1, muslim 55, tirmidhi 1.",
                 'bot'
             );
             hint.classList.add('chatbot-hadith-bubble');
