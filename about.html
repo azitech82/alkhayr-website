@@ -260,12 +260,23 @@
             </a>
 
             <!-- Family -->
-            <a href="#aak-family" class="nav-pill group flex flex-col items-center gap-1 min-w-[60px] p-1 cursor-pointer no-underline" data-target="aak-family">
-                <div class="icon-container w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 border-2 border-purple-900 text-purple-900 bg-transparent group-hover:bg-purple-100">
-                    <i class="fas fa-users text-sm"></i>
+            <div class="relative group flex flex-col items-center">
+                <a href="#aak-family" class="nav-pill flex flex-col items-center gap-1 min-w-[60px] p-1 cursor-pointer no-underline" data-target="aak-family">
+                    <div class="icon-container w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 border-2 border-purple-900 text-purple-900 bg-transparent group-hover:bg-purple-100">
+                        <i class="fas fa-users text-sm"></i>
+                    </div>
+                    <span class="label text-[10px] font-medium text-gray-500 group-hover:text-purple-900 tracking-wide uppercase mt-1 transition-colors">AAK Family</span>
+                </a>
+                
+                <!-- Dropdown -->
+                <div class="absolute top-full pt-2 w-48 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+                    <div class="bg-white rounded-xl shadow-xl border border-purple-100 flex flex-col overflow-hidden pointer-events-auto transform origin-top scale-95 group-hover:scale-100 transition-all duration-300">
+                        <a href="asatidhah.html" class="px-4 py-3 text-sm text-gray-700 hover:bg-purple-50 hover:text-purple-900 transition-colors border-b border-gray-50 font-medium text-center">Asatidhah</a>
+                        <a href="alumni.html" class="px-4 py-3 text-sm text-gray-700 hover:bg-purple-50 hover:text-purple-900 transition-colors border-b border-gray-50 font-medium text-center">Alumni</a>
+                        <a href="aak_huffaz.html" class="px-4 py-3 text-sm text-gray-700 hover:bg-purple-50 hover:text-purple-900 transition-colors font-medium text-center">AAK Huffaz</a>
+                    </div>
                 </div>
-                <span class="label text-[10px] font-medium text-gray-500 group-hover:text-purple-900 tracking-wide uppercase mt-1 transition-colors">AAK Family</span>
-            </a>
+            </div>
             
         </div>
     </div>
