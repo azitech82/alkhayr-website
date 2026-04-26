@@ -928,8 +928,26 @@ const stripUnicodeSymbols = (value) => {
         if (value.includes('learning style') || value.includes('ability based') || value.includes('learning approach') || value.includes('gaya pembelajaran')) {
             return 'Our learning style is ability-based learning to support students at their level.';
         }
-        if (value.includes('teacher') || value.includes('principal') || value.includes('staff') || value.includes('educator') || value.includes('guru') || value.includes('pengetua')) {
-            return 'Our educators and leadership details can be shared upon request. Please contact us for more.';
+        if (
+            value.includes('teacher') ||
+            value.includes('principal') ||
+            value.includes('staff') ||
+            value.includes('educator') ||
+            value.includes('guru') ||
+            value.includes('pengetua') ||
+            value.includes('asatidhah') ||
+            value.includes('asatizah') ||
+            value.includes('ustaz') ||
+            value.includes('ustazah')
+        ) {
+            return [
+                'English: Our educators (Asatidhah) & leadership are listed here: ',
+                { label: 'Asatidhah', href: 'asatidhah.html' },
+                '. ',
+                'BM: Senarai Asatidhah & kepimpinan ada di sini: ',
+                { label: 'Asatidhah', href: 'asatidhah.html' },
+                '.'
+            ];
         }
         if (value.includes('admission period') || value.includes('intake') || value.includes('deadline') || value.includes('tarikh akhir') || value.includes('pengambilan')) {
             return 'Intake is open throughout the year. Contact us to get the latest availability and steps.';
