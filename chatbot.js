@@ -806,6 +806,30 @@ const stripUnicodeSymbols = (value) => {
                 '.'
             ];
         }
+        if (
+            value.includes('scholarship') ||
+            value.includes('biasiswa') ||
+            value.includes('financial aid') ||
+            value.includes('fee assistance') ||
+            value.includes('bantuan') ||
+            value.includes('bantuan kewangan') ||
+            value.includes('discount') ||
+            value.includes('diskaun') ||
+            value.includes('b40')
+        ) {
+            return [
+                'English: Partial scholarships for excellent students may be applied for. Additional fee discounts for B40 families may be granted for those who qualify. To check eligibility and apply, contact us via ',
+                { label: 'WhatsApp', href: 'https://wa.me/60193818616', external: true },
+                ' or ',
+                { label: 'email', href: 'mailto:akademialkhayrofficial@gmail.com' },
+                '. ',
+                'BM: Biasiswa separa untuk pelajar cemerlang boleh dipohon. Diskaun yuran tambahan untuk keluarga B40 boleh dipertimbangkan bagi yang layak. Untuk semak kelayakan dan memohon, hubungi kami melalui ',
+                { label: 'WhatsApp', href: 'https://wa.me/60193818616', external: true },
+                ' atau ',
+                { label: 'email', href: 'mailto:akademialkhayrofficial@gmail.com' },
+                '.'
+            ];
+        }
         if (value.includes('chalet') || value.includes('booking') || value.includes('stay')) {
             return 'AAK Chalet booking: RM149 per night, check-in after 2:00 PM, check-out before 12:00 PM. Amenities include a master bedroom (queen bed), a spacious hall (single bed + sofa set), and a dry pantry. Check-in contact: En Hairozaman, 012-263 7082.';
         }
@@ -890,6 +914,27 @@ const stripUnicodeSymbols = (value) => {
         }
         if (value.includes('program') || value.includes('course') || value.includes('curriculum') || value.includes('kurikulum')) {
             return 'We offer integrated Hifz, Arabic, and academic modules with holistic programs across primary, secondary, and co-curriculum activities.';
+        }
+        if (
+            value.includes('trial') ||
+            value.includes('trial session') ||
+            value.includes('try out') ||
+            value.includes('percubaan') ||
+            value.includes('sesi percubaan') ||
+            value.includes('cubaan')
+        ) {
+            return [
+                'English: A trial session is offered for new students to experience campus life, the learning environment, and our Hifz method. Duration: 1–2 weeks. Students who pass the trial will receive an offer letter for admission. To arrange a trial, contact us via ',
+                { label: 'WhatsApp', href: 'https://wa.me/60193818616', external: true },
+                ' or ',
+                { label: 'email', href: 'mailto:akademialkhayrofficial@gmail.com' },
+                '. ',
+                'BM: Sesi percubaan ditawarkan kepada pelajar baharu untuk merasai kehidupan kampus, suasana pembelajaran, dan kaedah Hifz. Tempoh: 1–2 minggu. Pelajar yang lulus percubaan akan menerima surat tawaran kemasukan. Untuk aturkan sesi percubaan, hubungi kami melalui ',
+                { label: 'WhatsApp', href: 'https://wa.me/60193818616', external: true },
+                ' atau ',
+                { label: 'email', href: 'mailto:akademialkhayrofficial@gmail.com' },
+                '.'
+            ];
         }
         if (value.includes('apply') || value.includes('admission') || value.includes('register') || value.includes('daftar') || value.includes('pendaftaran') || value.includes('permohonan') || value.includes('kemasukan')) {
             return ['Apply here: ', { label: 'Student Registration', href: 'registration.html' }, '.'];
