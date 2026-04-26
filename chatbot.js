@@ -673,8 +673,34 @@ const hadithCollections = {
     bukhari: { label: 'Sahih Bukhari', englishEdition: 'eng-bukhari', arabicEdition: 'ara-bukhari' },
     muslim: { label: 'Sahih Muslim', englishEdition: 'eng-muslim', arabicEdition: 'ara-muslim' }
 };
-const hadithPrimarySearchCollections = ['bukhari', 'muslim'];
-const hadithExtendedSearchCollections = ['silsilah'];
+const hadithAvailableCollections = Object.keys(hadithCollections);
+const resolveHadithCollectionList = (preferredKeys, fallbackKeys) => {
+    const preferred = (preferredKeys || []).filter((key) => Boolean(hadithCollections[key]));
+    if (preferred.length) return preferred;
+    const fallback = (fallbackKeys || []).filter((key) => Boolean(hadithCollections[key]));
+    if (fallback.length) return fallback;
+    if (hadithAvailableCollections.length) return [hadithAvailableCollections[0]];
+    return [];
+};
+const hadithPrimarySearchCollections = resolveHadithCollectionList(['bukhari', 'muslim'], ['silsilah']);
+const hadithExtendedSearchCollections = ['silsilah']
+    .filter((key) => Boolean(hadithCollections[key]))
+    .filter((key) => !hadithPrimarySearchCollections.includes(key));
+const hadithReferenceKeyMap = (() => {
+    const map = Object.keys(hadithCollections).reduce((acc, key) => {
+        acc[key] = key;
+        return acc;
+    }, {});
+    if (hadithCollections.silsilah) {
+        map.sahihah = 'silsilah';
+    }
+    return map;
+})();
+const hadithReferencePattern = (() => {
+    const keys = Object.keys(hadithReferenceKeyMap);
+    if (!keys.length) return null;
+    return new RegExp(`\\b(${keys.join('|')})\\b\\s*(\\d+)`, 'i');
+})();
 const hadithMatchesPerCollectionLimit = 28;
 const hadithIndexCache = Object.keys(hadithCollections).reduce((acc, key) => {
     acc[key] = { english: null, arabic: null };
@@ -1261,21 +1287,14 @@ const stripUnicodeSymbols = (value) => {
 
     const parseHadithReferenceInput = (text) => {
         const input = (text || '').toLowerCase();
-        const match = input.match(
-            /(silsilah|sahihah|bukhari|muslim)\s*(\d+)/i
-        );
+        const match = hadithReferencePattern ? input.match(hadithReferencePattern) : null;
         if (!match) return null;
-        const rawKey = match[1].replace(/[^a-z]/g, '');
+        const rawKey = (match[1] || '').replace(/[^a-z]/g, '');
+        const collectionKey = hadithReferenceKeyMap[rawKey] || null;
+        if (!collectionKey) return null;
+        if (!hadithCollections[collectionKey]) return null;
         const number = Number(match[2]);
         if (!Number.isFinite(number)) return null;
-        const collectionKeyMap = {
-            silsilah: 'silsilah',
-            sahihah: 'silsilah',
-            bukhari: 'bukhari',
-            muslim: 'muslim'
-        };
-        const collectionKey = collectionKeyMap[rawKey] || null;
-        if (!collectionKey) return null;
         return { collectionKey, number };
     };
 
@@ -1475,6 +1494,7 @@ const stripUnicodeSymbols = (value) => {
         const useArabic = arabicTokens.length > 0;
         const tokens = useArabic ? arabicTokens : latinTokens;
         if (!tokens.length) return [];
+        if (!hadithPrimarySearchCollections.length && !hadithExtendedSearchCollections.length) return [];
         const lang = useArabic ? 'arabic' : 'english';
         const collectedMatches = [];
         const bestByCollection = new Map();
