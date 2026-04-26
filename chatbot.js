@@ -699,7 +699,8 @@ const hadithReferenceKeyMap = (() => {
 const hadithReferencePattern = (() => {
     const keys = Object.keys(hadithReferenceKeyMap);
     if (!keys.length) return null;
-    return new RegExp(`\\b(${keys.join('|')})\\b\\s*(\\d+)`, 'i');
+    const escapedKeys = keys.map((key) => key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+    return new RegExp(`\\b(${escapedKeys.join('|')})\\b\\s*(\\d+)`, 'i');
 })();
 const hadithMatchesPerCollectionLimit = 28;
 const hadithIndexCache = Object.keys(hadithCollections).reduce((acc, key) => {
