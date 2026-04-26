@@ -432,7 +432,7 @@ const chatbotMarkup = `
 </button>
 <div id="chatbot-window" class="chatbot-window chatbot-hidden" aria-live="polite">
     <div class="chatbot-header">
-        <span>Akademي Al Khayr Chat</span>
+        <span>Akademi Al Khayr Chat</span>
         <button id="chatbot-close" class="text-white/80 hover:text-white" aria-label="Close chatbot">
             <i class="fas fa-times"></i>
         </button>
