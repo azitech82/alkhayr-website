@@ -1733,9 +1733,6 @@ const stripUnicodeSymbols = (value) => {
                             .filter(Boolean)
                     )
                 );
-                const includesExtended = items.some(
-                    (item) => item.collectionKey && !hadithPrimarySearchCollections.includes(item.collectionKey)
-                );
                 return {
                     items,
                     isFallback: false,
