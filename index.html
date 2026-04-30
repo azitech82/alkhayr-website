@@ -1320,6 +1320,9 @@
             });
         });
 
+        // Add scroll event listener to window to stop timer
+        window.addEventListener('scroll', stopInfoBoardAutoClose, { passive: true });
+
         window.addEventListener('blur', () => {
             if (document.activeElement === infoBoardFrame) {
                 stopInfoBoardAutoClose();
