@@ -597,8 +597,8 @@
             align-items: center;
             justify-content: center;
             padding: 1rem;
-            background: rgba(17, 24, 39, 0.8);
-            backdrop-filter: blur(14px);
+            background: rgba(17, 24, 39, 0.45);
+            backdrop-filter: blur(6px);
             transition: opacity 0.45s ease, visibility 0.45s ease;
         }
         .info-board-overlay.is-hidden {
@@ -607,19 +607,21 @@
             pointer-events: none;
         }
         .info-board-panel {
-            width: min(100%, 34rem);
-            max-height: min(90vh, 46rem);
-            overflow: hidden;
-            border-radius: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            background: linear-gradient(180deg, rgba(91, 33, 182, 0.96) 0%, rgba(30, 41, 59, 0.96) 100%);
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+            position: relative;
+            width: min(100%, 32rem);
+            max-height: min(88vh, 44rem);
         }
         .info-board-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
             height: 4px;
             width: 100%;
-            background: rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.18);
             overflow: hidden;
+            border-radius: 9999px;
+            z-index: 2;
         }
         .info-board-progress::after {
             content: '';
@@ -631,15 +633,15 @@
             animation: info-board-progress 6s linear forwards;
         }
         .info-board-card {
-            background: rgba(255, 255, 255, 0.96);
-            border: 1px solid rgba(226, 232, 240, 0.9);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.98);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 24px 60px rgba(15, 23, 42, 0.28);
         }
         .info-board-iframe {
             width: 100%;
-            min-height: 18rem;
+            min-height: 33rem;
             border: 0;
-            border-radius: 1rem;
             background: #ffffff;
         }
         @keyframes info-board-progress {
@@ -653,10 +655,9 @@
         @media (max-width: 639px) {
             .info-board-panel {
                 width: 100%;
-                border-radius: 1.25rem;
             }
             .info-board-iframe {
-                min-height: 15rem;
+                min-height: 28rem;
             }
         }
     </style>
@@ -666,45 +667,19 @@
     <div id="info-board-overlay" class="info-board-overlay" aria-live="polite" role="dialog" aria-modal="true" aria-label="Latest updates from Akademi Al Khayr">
         <div class="info-board-panel text-white">
             <div class="info-board-progress" aria-hidden="true"></div>
-            <div class="p-5 sm:p-6">
-                <div class="flex items-start justify-between gap-4 mb-4">
-                    <div>
-                        <p class="text-xs uppercase tracking-[0.3em] text-purple-200 mb-2">Information Board</p>
-                        <h2 class="text-2xl sm:text-3xl font-bold leading-tight">Recent updates from AAK Facebook</h2>
-                        <p class="text-sm sm:text-base text-purple-100 mt-2">This board stays on screen for around 6 seconds before the homepage continues.</p>
-                    </div>
-                    <button id="info-board-close" type="button" class="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition" aria-label="Close information board">
+            <div class="info-board-card rounded-[1.75rem]">
+                <div class="flex justify-end p-3">
+                    <button id="info-board-close" type="button" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-900 transition" aria-label="Close information board">
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
-                <div class="info-board-card rounded-2xl p-3 sm:p-4">
-                    <div class="flex items-center justify-between gap-3 mb-3">
-                        <div>
-                            <p class="text-sm font-semibold text-gray-900">Akademi Al Khayr Official</p>
-                            <p class="text-xs text-gray-500">Facebook timeline and latest posts</p>
-                        </div>
-                        <a href="https://www.facebook.com/akademialkhayrofficial/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-sm font-semibold text-purple-700 hover:text-purple-800 transition">
-                            <i class="fab fa-facebook"></i>
-                            Open page
-                        </a>
-                    </div>
-                    <iframe
-                        class="info-board-iframe"
-                        title="Akademi Al Khayr Facebook recent posts"
-                        loading="eager"
-                        allow="encrypted-media; web-share"
-                        src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fakademialkhayrofficial%2F&tabs=timeline&width=500&height=320&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=false&appId="
-                    ></iframe>
-                    <p class="text-xs text-gray-500 mt-3">If Facebook does not load inside the card on some devices, tap "Open page" to view the most recent post directly.</p>
-                </div>
-                <div class="mt-4 flex flex-col sm:flex-row gap-3">
-                    <a href="https://www.facebook.com/akademialkhayrofficial/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-4 py-3 rounded-full bg-yellow-400 text-gray-900 font-semibold hover:bg-yellow-300 transition">
-                        View latest on Facebook
-                    </a>
-                    <button id="info-board-skip" type="button" class="inline-flex items-center justify-center px-4 py-3 rounded-full border border-white/20 text-white font-semibold hover:bg-white/10 transition">
-                        Continue to homepage
-                    </button>
-                </div>
+                <iframe
+                    class="info-board-iframe"
+                    title="Akademi Al Khayr Facebook recent posts"
+                    loading="eager"
+                    allow="encrypted-media; web-share"
+                    src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fakademialkhayrofficial%2F&tabs=timeline&width=500&height=560&small_header=true&adapt_container_width=true&hide_cover=true&show_facepile=false&appId="
+                ></iframe>
             </div>
         </div>
     </div>
