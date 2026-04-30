@@ -608,7 +608,7 @@
         }
         .info-board-panel {
             position: relative;
-            width: min(100%, 33.1rem);
+            width: 33.1rem;
             max-height: min(88vh, 44rem);
             padding-top: 0.9rem;
             padding-bottom: 0.9rem;
@@ -704,20 +704,9 @@
         }
         @media (max-width: 639px) {
             .info-board-panel {
-                width: 100%;
-            }
-            .info-board-card {
-                height: 28rem;
-                padding: 0.65rem;
-            }
-            .info-board-embed {
-                --info-board-crop-top: 6.5rem;
-                --info-board-crop-bottom: 4rem;
-                height: 100%;
-            }
-            .info-board-iframe {
-                height: calc(28rem - 1.3rem + var(--info-board-crop-top) + var(--info-board-crop-bottom));
-                transform: translateY(calc(-1 * var(--info-board-crop-top)));
+                transform: scale(calc((100vw - 2rem) / 529.6));
+                transform-origin: center;
+                max-height: none;
             }
         }
     </style>
