@@ -600,6 +600,7 @@
             background: rgba(17, 24, 39, 0.45);
             backdrop-filter: blur(6px);
             transition: opacity 0.45s ease, visibility 0.45s ease;
+            overflow: hidden;
         }
         .info-board-overlay.is-hidden {
             opacity: 0;
@@ -608,10 +609,11 @@
         }
         .info-board-panel {
             position: relative;
-            width: 33.1rem;
+            width: 526px;
             max-height: min(88vh, 44rem);
             padding-top: 0.9rem;
             padding-bottom: 0.9rem;
+            margin: 0 auto;
         }
         .info-board-progress {
             position: absolute;
@@ -658,7 +660,8 @@
             --info-board-crop-top: 7.5rem;
             --info-board-crop-bottom: 4.5rem;
             height: 100%;
-            width: 100%;
+            width: 500px;
+            margin: 0 auto;
             overflow: hidden;
             border-radius: 1.25rem;
             background: rgba(255, 255, 255, 0.06);
@@ -688,10 +691,13 @@
             box-shadow: 0 14px 28px rgba(2, 6, 23, 0.32);
         }
         .info-board-iframe {
-            width: 100%;
+            width: 500px;
+            max-width: 500px;
             height: calc(33rem - 1.6rem + var(--info-board-crop-top) + var(--info-board-crop-bottom));
             border: 0;
             background: #ffffff;
+            margin: 0 auto;
+            display: block;
             transform: translateY(calc(-1 * var(--info-board-crop-top)));
         }
         @keyframes info-board-progress {
@@ -704,7 +710,7 @@
         }
         @media (max-width: 639px) {
             .info-board-panel {
-                transform: scale(calc((100vw - 2rem) / 529.6));
+                transform: scale(calc((100vw - 2.5rem) / 526));
                 transform-origin: center;
                 max-height: none;
             }
@@ -1281,6 +1287,17 @@
         const startInfoBoardTimer = () => {
             if (!infoBoardOverlay) return;
             infoBoardTimerId = window.setTimeout(hideInfoBoard, 6000);
+
+            // Fallback for mobile iframe interaction detection
+            const checkFocusInterval = setInterval(() => {
+                if (document.activeElement === infoBoardFrame) {
+                    stopInfoBoardAutoClose();
+                    clearInterval(checkFocusInterval);
+                }
+                if (infoBoardAutoCloseStopped || infoBoardOverlay.classList.contains('is-hidden')) {
+                    clearInterval(checkFocusInterval);
+                }
+            }, 150);
         };
 
         [infoBoardClose, infoBoardSkip].forEach((button) => {
@@ -1298,6 +1315,12 @@
             ['wheel', 'touchstart', 'touchmove', 'pointerdown', 'mouseenter'].forEach((eventName) => {
                 element.addEventListener(eventName, stopInfoBoardAutoClose, { passive: true });
             });
+        });
+
+        window.addEventListener('blur', () => {
+            if (document.activeElement === infoBoardFrame) {
+                stopInfoBoardAutoClose();
+            }
         });
 
         document.addEventListener('DOMContentLoaded', startInfoBoardTimer);
