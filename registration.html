@@ -95,6 +95,34 @@
             text-align: right;
             color: #111827;
         }
+        .success-modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(17, 24, 39, 0.45);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            z-index: 100;
+        }
+        .success-modal-card {
+            width: min(100%, 44rem);
+            background: #ffffff;
+            border-radius: 1.5rem;
+            box-shadow: 0 24px 60px rgba(15, 23, 42, 0.28);
+            overflow: hidden;
+        }
+        .success-modal-message {
+            font-size: 1.5rem;
+            font-weight: 700;
+            line-height: 1.35;
+            text-align: center;
+            color: #6d28d9;
+            background: linear-gradient(90deg, #7c3aed, #a855f7);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
@@ -287,6 +315,27 @@
                     </div>
                 </div>
             </div>
+
+            <div id="successModal" class="success-modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="successModalTitle">
+                <div class="success-modal-card">
+                    <div class="p-8 md:p-10">
+                        <p id="successModalTitle" class="success-modal-message font-serif">
+                            Jazakumullahu khairan for registering with AAK. We are delighted to have you join us!
+                        </p>
+                        <p class="mt-6 text-2xl text-gray-700">
+                            Registration Receipt Downloaded!
+                        </p>
+                        <p class="mt-4 text-xl text-gray-600 leading-relaxed">
+                            A copy is also being sent to the school email automatically.
+                        </p>
+                    </div>
+                    <div class="px-8 py-5 border-t border-gray-200 flex justify-end">
+                        <button type="button" id="successModalClose" class="text-blue-600 text-2xl font-medium hover:text-blue-700 transition">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -304,9 +353,43 @@
         const registrationInitAt = Date.now();
         const registrationHoneypot = document.getElementById('aak_hp');
         const registrationLoadTime = document.getElementById('aak_time');
+        const successModal = document.getElementById('successModal');
+        const successModalClose = document.getElementById('successModalClose');
         if (registrationLoadTime) {
             registrationLoadTime.value = String(registrationInitAt);
         }
+
+        const showSuccessModal = () => {
+            if (successModal) {
+                successModal.classList.remove('hidden');
+                document.body.classList.add('overflow-hidden');
+            }
+        };
+
+        const hideSuccessModal = () => {
+            if (successModal) {
+                successModal.classList.add('hidden');
+                document.body.classList.remove('overflow-hidden');
+            }
+        };
+
+        if (successModalClose) {
+            successModalClose.addEventListener('click', hideSuccessModal);
+        }
+
+        if (successModal) {
+            successModal.addEventListener('click', (event) => {
+                if (event.target === successModal) {
+                    hideSuccessModal();
+                }
+            });
+        }
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && successModal && !successModal.classList.contains('hidden')) {
+                hideSuccessModal();
+            }
+        });
 
         let registrationFirstInteractionAt = null;
         const markRegistrationInteraction = () => {
@@ -460,7 +543,7 @@
                             document.body.removeChild(link);
                             URL.revokeObjectURL(url);
 
-                            alert(`Registration Receipt Downloaded!\n\nA copy is also being sent to the school email automatically.`);
+                            showSuccessModal();
                             submitFormAjax(blob, fileName);
                         } else {
                             alert('Could not generate image receipt file, but proceeding with submission.');
