@@ -490,8 +490,12 @@
             }
         };
 
+        const redirectToHomePage = () => {
+            window.location.href = 'index.html';
+        };
+
         if (successModalClose) {
-            successModalClose.addEventListener('click', hideSuccessModal);
+            successModalClose.addEventListener('click', redirectToHomePage);
         }
 
         if (successModal) {
