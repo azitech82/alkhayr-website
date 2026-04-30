@@ -644,9 +644,15 @@
             height: 33rem;
             padding: 0.8rem;
             box-sizing: border-box;
-            background: rgba(15, 23, 42, 0.96);
-            border: 1px solid rgba(148, 163, 184, 0.24);
-            box-shadow: 0 24px 60px rgba(2, 6, 23, 0.42);
+            background: linear-gradient(
+                135deg,
+                rgba(30, 27, 75, 0.62) 0%,
+                rgba(15, 23, 42, 0.78) 55%,
+                rgba(88, 28, 135, 0.55) 100%
+            );
+            border: 1px solid rgba(226, 232, 240, 0.16);
+            box-shadow: 0 26px 70px rgba(2, 6, 23, 0.48);
+            backdrop-filter: blur(16px);
         }
         .info-board-embed {
             --info-board-crop-top: 7.5rem;
@@ -655,7 +661,8 @@
             width: 100%;
             overflow: hidden;
             border-radius: 1.25rem;
-            background: #020617;
+            background: rgba(2, 6, 23, 0.7);
+            border: 1px solid rgba(226, 232, 240, 0.12);
         }
         .info-board-close-button {
             position: absolute;
