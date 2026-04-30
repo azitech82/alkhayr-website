@@ -610,10 +610,12 @@
             position: relative;
             width: min(100%, 32rem);
             max-height: min(88vh, 44rem);
+            padding-top: 0.9rem;
+            padding-bottom: 0.9rem;
         }
         .info-board-progress {
             position: absolute;
-            top: 0;
+            bottom: 0;
             left: 0;
             right: 0;
             height: 4px;
@@ -622,6 +624,9 @@
             overflow: hidden;
             border-radius: 9999px;
             z-index: 2;
+        }
+        .info-board-progress.is-paused::after {
+            animation-play-state: paused;
         }
         .info-board-progress::after {
             content: '';
@@ -637,6 +642,29 @@
             background: rgba(255, 255, 255, 0.98);
             border: 1px solid rgba(255, 255, 255, 0.8);
             box-shadow: 0 24px 60px rgba(15, 23, 42, 0.28);
+        }
+        .info-board-close-button {
+            position: absolute;
+            top: -0.45rem;
+            right: -0.35rem;
+            z-index: 3;
+            width: 2.2rem;
+            height: 2.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 9999px;
+            border: 1px solid rgba(255, 255, 255, 0.45);
+            background: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            box-shadow: 0 10px 24px rgba(15, 23, 42, 0.24);
+            backdrop-filter: blur(10px);
+            transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+        }
+        .info-board-close-button:hover {
+            transform: translateY(-1px) scale(1.04);
+            background: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 14px 28px rgba(15, 23, 42, 0.28);
         }
         .info-board-iframe {
             width: 100%;
@@ -666,14 +694,12 @@
 
     <div id="info-board-overlay" class="info-board-overlay" aria-live="polite" role="dialog" aria-modal="true" aria-label="Latest updates from Akademi Al Khayr">
         <div class="info-board-panel text-white">
-            <div class="info-board-progress" aria-hidden="true"></div>
-            <div class="info-board-card rounded-[1.75rem]">
-                <div class="flex justify-end p-3">
-                    <button id="info-board-close" type="button" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-900 transition" aria-label="Close information board">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
+            <button id="info-board-close" type="button" class="info-board-close-button" aria-label="Close information board">
+                <i class="fas fa-times text-xs"></i>
+            </button>
+            <div id="info-board-card" class="info-board-card rounded-[1.75rem]">
                 <iframe
+                    id="info-board-iframe"
                     class="info-board-iframe"
                     title="Akademi Al Khayr Facebook recent posts"
                     loading="eager"
@@ -681,6 +707,7 @@
                     src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fakademialkhayrofficial%2F&tabs=timeline&width=500&height=560&small_header=true&adapt_container_width=true&hide_cover=true&show_facepile=false&appId="
                 ></iframe>
             </div>
+            <div id="info-board-progress" class="info-board-progress" aria-hidden="true"></div>
         </div>
     </div>
 
@@ -1202,14 +1229,30 @@
 
     <script>
         const infoBoardOverlay = document.getElementById('info-board-overlay');
+        const infoBoardCard = document.getElementById('info-board-card');
         const infoBoardClose = document.getElementById('info-board-close');
+        const infoBoardFrame = document.getElementById('info-board-iframe');
+        const infoBoardProgress = document.getElementById('info-board-progress');
         const infoBoardSkip = document.getElementById('info-board-skip');
         let infoBoardTimerId = null;
+        let infoBoardAutoCloseStopped = false;
 
         const hideInfoBoard = () => {
             if (!infoBoardOverlay || infoBoardOverlay.classList.contains('is-hidden')) return;
             infoBoardOverlay.classList.add('is-hidden');
             document.body.classList.remove('aak-preload-active');
+        };
+
+        const stopInfoBoardAutoClose = () => {
+            if (infoBoardAutoCloseStopped) return;
+            infoBoardAutoCloseStopped = true;
+            if (infoBoardTimerId) {
+                window.clearTimeout(infoBoardTimerId);
+                infoBoardTimerId = null;
+            }
+            if (infoBoardProgress) {
+                infoBoardProgress.classList.add('is-paused');
+            }
         };
 
         const startInfoBoardTimer = () => {
@@ -1224,6 +1267,13 @@
                     window.clearTimeout(infoBoardTimerId);
                 }
                 hideInfoBoard();
+            });
+        });
+
+        [infoBoardCard, infoBoardFrame].forEach((element) => {
+            if (!element) return;
+            ['wheel', 'touchstart', 'touchmove', 'pointerdown', 'mouseenter'].forEach((eventName) => {
+                element.addEventListener(eventName, stopInfoBoardAutoClose, { passive: true });
             });
         });
 
