@@ -643,6 +643,11 @@
             border: 1px solid rgba(255, 255, 255, 0.8);
             box-shadow: 0 24px 60px rgba(15, 23, 42, 0.28);
         }
+        .info-board-embed {
+            height: 33rem;
+            overflow: hidden;
+            background: #ffffff;
+        }
         .info-board-close-button {
             position: absolute;
             top: -0.45rem;
@@ -668,9 +673,10 @@
         }
         .info-board-iframe {
             width: 100%;
-            min-height: 33rem;
+            height: calc(33rem + 7.5rem);
             border: 0;
             background: #ffffff;
+            transform: translateY(-7.5rem);
         }
         @keyframes info-board-progress {
             from {
@@ -684,8 +690,12 @@
             .info-board-panel {
                 width: 100%;
             }
+            .info-board-embed {
+                height: 28rem;
+            }
             .info-board-iframe {
-                min-height: 28rem;
+                height: calc(28rem + 6.5rem);
+                transform: translateY(-6.5rem);
             }
         }
     </style>
@@ -698,14 +708,16 @@
                 <i class="fas fa-times text-xs"></i>
             </button>
             <div id="info-board-card" class="info-board-card rounded-[1.75rem]">
-                <iframe
-                    id="info-board-iframe"
-                    class="info-board-iframe"
-                    title="Akademi Al Khayr Facebook recent posts"
-                    loading="eager"
-                    allow="encrypted-media; web-share"
-                    src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fakademialkhayrofficial%2F&tabs=timeline&width=500&height=560&small_header=true&adapt_container_width=true&hide_cover=true&show_facepile=false&appId="
-                ></iframe>
+                <div class="info-board-embed">
+                    <iframe
+                        id="info-board-iframe"
+                        class="info-board-iframe"
+                        title="Akademi Al Khayr Facebook recent posts"
+                        loading="eager"
+                        allow="encrypted-media; web-share"
+                        src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fakademialkhayrofficial%2F&tabs=timeline&width=500&height=560&small_header=true&adapt_container_width=true&hide_cover=true&show_facepile=false&appId="
+                    ></iframe>
+                </div>
             </div>
             <div id="info-board-progress" class="info-board-progress" aria-hidden="true"></div>
         </div>
