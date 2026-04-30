@@ -646,9 +646,14 @@
         .info-board-embed {
             --info-board-crop-top: 7.5rem;
             --info-board-crop-bottom: 4.5rem;
+            --info-board-gap-top: 0.7rem;
+            --info-board-gap-bottom: 0.9rem;
             height: 33rem;
             overflow: hidden;
             background: #ffffff;
+            padding-top: var(--info-board-gap-top);
+            padding-bottom: var(--info-board-gap-bottom);
+            box-sizing: border-box;
         }
         .info-board-close-button {
             position: absolute;
@@ -675,7 +680,7 @@
         }
         .info-board-iframe {
             width: 100%;
-            height: calc(33rem + var(--info-board-crop-top) + var(--info-board-crop-bottom));
+            height: calc(33rem - var(--info-board-gap-top) - var(--info-board-gap-bottom) + var(--info-board-crop-top) + var(--info-board-crop-bottom));
             border: 0;
             background: #ffffff;
             transform: translateY(calc(-1 * var(--info-board-crop-top)));
@@ -695,6 +700,8 @@
             .info-board-embed {
                 --info-board-crop-top: 6.5rem;
                 --info-board-crop-bottom: 4rem;
+                --info-board-gap-top: 0.55rem;
+                --info-board-gap-bottom: 0.75rem;
                 height: 28rem;
             }
             .info-board-iframe {
