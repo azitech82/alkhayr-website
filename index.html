@@ -644,6 +644,8 @@
             box-shadow: 0 24px 60px rgba(15, 23, 42, 0.28);
         }
         .info-board-embed {
+            --info-board-crop-top: 7.5rem;
+            --info-board-crop-bottom: 4.5rem;
             height: 33rem;
             overflow: hidden;
             background: #ffffff;
@@ -673,10 +675,10 @@
         }
         .info-board-iframe {
             width: 100%;
-            height: calc(33rem + 7.5rem);
+            height: calc(33rem + var(--info-board-crop-top) + var(--info-board-crop-bottom));
             border: 0;
             background: #ffffff;
-            transform: translateY(-7.5rem);
+            transform: translateY(calc(-1 * var(--info-board-crop-top)));
         }
         @keyframes info-board-progress {
             from {
@@ -691,11 +693,13 @@
                 width: 100%;
             }
             .info-board-embed {
+                --info-board-crop-top: 6.5rem;
+                --info-board-crop-bottom: 4rem;
                 height: 28rem;
             }
             .info-board-iframe {
-                height: calc(28rem + 6.5rem);
-                transform: translateY(-6.5rem);
+                height: calc(28rem + var(--info-board-crop-top) + var(--info-board-crop-bottom));
+                transform: translateY(calc(-1 * var(--info-board-crop-top)));
             }
         }
     </style>
