@@ -667,6 +667,7 @@
             border-radius: 1.25rem;
             background: rgba(255, 255, 255, 0.06);
             border: 1px solid rgba(255, 255, 255, 0.35);
+            position: relative;
         }
         .info-board-close-button {
             position: absolute;
@@ -733,6 +734,7 @@
             </button>
             <div id="info-board-card" class="info-board-card rounded-[1.75rem]">
                 <div class="info-board-embed">
+                    <div id="info-board-iframe-overlay" class="absolute inset-0 z-10" aria-hidden="true"></div>
                     <iframe
                         id="info-board-iframe"
                         class="info-board-iframe"
@@ -1269,6 +1271,7 @@
         const infoBoardClose = document.getElementById('info-board-close');
         const infoBoardEmbed = infoBoardCard ? infoBoardCard.querySelector('.info-board-embed') : null;
         const infoBoardFrame = document.getElementById('info-board-iframe');
+        const infoBoardIframeOverlay = document.getElementById('info-board-iframe-overlay');
         const infoBoardProgress = document.getElementById('info-board-progress');
         const infoBoardSkip = document.getElementById('info-board-skip');
         const infoBoardIsMobile = window.matchMedia('(max-width: 639px)').matches;
@@ -1352,6 +1355,15 @@
                 element.addEventListener(eventName, stopInfoBoardAutoClose, { passive: true });
             });
         });
+
+        if (infoBoardIframeOverlay) {
+            ['touchstart', 'pointerdown', 'mouseenter'].forEach((eventName) => {
+                infoBoardIframeOverlay.addEventListener(eventName, () => {
+                    stopInfoBoardAutoClose();
+                    infoBoardIframeOverlay.style.display = 'none';
+                }, { passive: true });
+            });
+        }
 
         // Capture mobile taps and scroll gestures before the iframe swallows them.
         ['pointerdown', 'touchstart', 'touchmove'].forEach((eventName) => {
