@@ -1263,6 +1263,7 @@
         const infoBoardOverlay = document.getElementById('info-board-overlay');
         const infoBoardCard = document.getElementById('info-board-card');
         const infoBoardClose = document.getElementById('info-board-close');
+        const infoBoardEmbed = infoBoardCard ? infoBoardCard.querySelector('.info-board-embed') : null;
         const infoBoardFrame = document.getElementById('info-board-iframe');
         const infoBoardProgress = document.getElementById('info-board-progress');
         const infoBoardSkip = document.getElementById('info-board-skip');
@@ -1284,6 +1285,32 @@
             }
             if (infoBoardProgress) {
                 infoBoardProgress.classList.add('is-paused');
+            }
+        };
+
+        const isInfoBoardInteraction = (event) => {
+            if (!infoBoardCard) return false;
+            const target = event.target;
+            if (target instanceof Element && infoBoardCard.contains(target)) {
+                return true;
+            }
+
+            const point = event.touches?.[0] || event.changedTouches?.[0];
+            if (!point) return false;
+
+            const rect = infoBoardCard.getBoundingClientRect();
+            return (
+                point.clientX >= rect.left &&
+                point.clientX <= rect.right &&
+                point.clientY >= rect.top &&
+                point.clientY <= rect.bottom
+            );
+        };
+
+        const pauseInfoBoardOnInteraction = (event) => {
+            if (!infoBoardOverlay || infoBoardOverlay.classList.contains('is-hidden')) return;
+            if (isInfoBoardInteraction(event)) {
+                stopInfoBoardAutoClose();
             }
         };
 
@@ -1313,11 +1340,16 @@
             });
         });
 
-        [infoBoardCard, infoBoardFrame].forEach((element) => {
+        [infoBoardCard, infoBoardEmbed, infoBoardFrame].forEach((element) => {
             if (!element) return;
-            ['wheel', 'touchstart', 'touchmove', 'pointerdown', 'mouseenter'].forEach((eventName) => {
+            ['click', 'wheel', 'touchstart', 'touchmove', 'pointerdown', 'mouseenter'].forEach((eventName) => {
                 element.addEventListener(eventName, stopInfoBoardAutoClose, { passive: true });
             });
+        });
+
+        // Capture mobile taps and scroll gestures before the iframe swallows them.
+        ['pointerdown', 'touchstart', 'touchmove'].forEach((eventName) => {
+            document.addEventListener(eventName, pauseInfoBoardOnInteraction, { capture: true, passive: true });
         });
 
         // Add scroll event listener to window to stop timer
