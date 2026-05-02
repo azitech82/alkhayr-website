@@ -616,6 +616,7 @@
             margin: 0 auto;
         }
         .info-board-progress {
+            --info-board-progress-duration: 6s;
             position: absolute;
             bottom: 0;
             left: 0;
@@ -637,7 +638,7 @@
             width: 100%;
             background: linear-gradient(90deg, #facc15 0%, #fb7185 100%);
             transform-origin: left center;
-            animation: info-board-progress 6s linear forwards;
+            animation: info-board-progress var(--info-board-progress-duration) linear forwards;
         }
         .info-board-card {
             display: flex;
@@ -716,6 +717,9 @@
                 transform: scale(0.6);
                 transform-origin: center;
                 max-height: none;
+            }
+            .info-board-progress {
+                --info-board-progress-duration: 7s;
             }
         }
     </style>
@@ -1267,6 +1271,8 @@
         const infoBoardFrame = document.getElementById('info-board-iframe');
         const infoBoardProgress = document.getElementById('info-board-progress');
         const infoBoardSkip = document.getElementById('info-board-skip');
+        const infoBoardIsMobile = window.matchMedia('(max-width: 639px)').matches;
+        const infoBoardAutoCloseDelay = infoBoardIsMobile ? 7000 : 6000;
         let infoBoardTimerId = null;
         let infoBoardAutoCloseStopped = false;
 
@@ -1316,7 +1322,7 @@
 
         const startInfoBoardTimer = () => {
             if (!infoBoardOverlay) return;
-            infoBoardTimerId = window.setTimeout(hideInfoBoard, 6000);
+            infoBoardTimerId = window.setTimeout(hideInfoBoard, infoBoardAutoCloseDelay);
 
             // Fallback for mobile iframe interaction detection
             const checkFocusInterval = setInterval(() => {
