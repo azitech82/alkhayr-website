@@ -719,38 +719,37 @@
         }
         @media (max-width: 639px) {
             .info-board-overlay {
-                padding: 0;
+                padding: 2rem 0;
+                overflow-y: auto;
+                align-items: flex-start;
             }
             .info-board-wrapper {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                flex-direction: column;
-                gap: 1.25rem;
+                position: relative;
+                top: auto;
+                left: auto;
+                flex-direction: column-reverse;
+                gap: 2rem;
                 width: 529.6px;
                 /* Base scale for large mobile (e.g. Pro Max) */
-                transform: translate(-50%, -50%) scale(0.75);
-                transform-origin: center;
+                transform: scale(0.85);
+                transform-origin: top center;
+                margin: 0 auto;
+                padding-bottom: 2rem;
             }
             /* Responsive scaling based on screen height and width to ensure both cards fit perfectly */
-            @media (max-height: 850px), (max-width: 414px) {
+            @media (max-width: 414px) {
                 .info-board-wrapper {
-                    transform: translate(-50%, -50%) scale(0.68);
+                    transform: scale(0.75);
                 }
             }
-            @media (max-height: 750px), (max-width: 375px) {
+            @media (max-width: 375px) {
                 .info-board-wrapper {
-                    transform: translate(-50%, -50%) scale(0.62);
+                    transform: scale(0.68);
                 }
             }
-            @media (max-height: 650px), (max-width: 360px) {
+            @media (max-width: 360px) {
                 .info-board-wrapper {
-                    transform: translate(-50%, -50%) scale(0.55);
-                }
-            }
-            @media (max-height: 580px) {
-                .info-board-wrapper {
-                    transform: translate(-50%, -50%) scale(0.48);
+                    transform: scale(0.62);
                 }
             }
             .info-board-panel {
