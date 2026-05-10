@@ -727,7 +727,7 @@
                 position: relative;
                 top: auto;
                 left: auto;
-                flex-direction: column-reverse;
+                flex-direction: column;
                 gap: 2rem;
                 width: 529.6px;
                 /* Base scale for large mobile (e.g. Pro Max) */
@@ -2885,7 +2885,14 @@ This message was submitted via the website contact form.
                     
                     let html = `<div style="font-weight: 700; color: white; margin-bottom: 0.4rem; text-align: center; font-size: 1.5rem;">${surahNameArabic} (${ayahNumberArabic})</div>`;
                     
-                    html += `<audio class="chatbot-audio" controls preload="none" src="${audioUrl}"></audio>`;
+                    html += `
+                        <div style="display: flex; justify-content: center; margin-bottom: 1rem;">
+                            <button id="ayah-play-btn" type="button" style="width: 2.5rem; height: 2.5rem; border-radius: 9999px; background: rgba(255, 255, 255, 0.2); border: 1px solid rgba(255, 255, 255, 0.4); display: flex; align-items: center; justify-content: center; color: white; cursor: pointer; transition: all 0.2s ease;" aria-label="Play Ayah">
+                                <i class="fas fa-play" style="margin-left: 3px; font-size: 0.9rem;"></i>
+                            </button>
+                            <audio id="ayah-audio-player" preload="none" src="${audioUrl}"></audio>
+                        </div>
+                    `;
                     
                     const cleanedArabic = escapeHtml(stripAyahMarkers(arabic.data.text));
                     html += `<div dir="rtl" style="text-align: right; font-family: 'KFGQPC HAFS Uthmanic Script', 'Amiri', 'Scheherazade New', serif; font-size: clamp(1.05rem, 0.95rem + 0.6vw, 1.35rem); line-height: 2.35; letter-spacing: 0.01em; word-spacing: 0.08em; padding-top: 0.12em; padding-bottom: 0.08em; text-rendering: optimizeLegibility; margin-bottom: 0.6rem; color: white;">${cleanedArabic}</div>`;
@@ -2909,6 +2916,35 @@ This message was submitted via the website contact form.
                     }
                     
                     container.innerHTML = html;
+                    
+                    const playBtn = document.getElementById('ayah-play-btn');
+                    const audioPlayer = document.getElementById('ayah-audio-player');
+                    if (playBtn && audioPlayer) {
+                        playBtn.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            if (audioPlayer.paused) {
+                                audioPlayer.play();
+                                playBtn.innerHTML = '<i class="fas fa-pause" style="font-size: 0.9rem;"></i>';
+                            } else {
+                                audioPlayer.pause();
+                                playBtn.innerHTML = '<i class="fas fa-play" style="margin-left: 3px; font-size: 0.9rem;"></i>';
+                            }
+                        });
+                        
+                        audioPlayer.addEventListener('ended', () => {
+                            playBtn.innerHTML = '<i class="fas fa-play" style="margin-left: 3px; font-size: 0.9rem;"></i>';
+                        });
+                        
+                        playBtn.addEventListener('mouseenter', () => {
+                            playBtn.style.background = 'rgba(255, 255, 255, 0.3)';
+                            playBtn.style.transform = 'scale(1.05)';
+                        });
+                        
+                        playBtn.addEventListener('mouseleave', () => {
+                            playBtn.style.background = 'rgba(255, 255, 255, 0.2)';
+                            playBtn.style.transform = 'scale(1)';
+                        });
+                    }
                     console.log('STANDALONE: done');
                 })
                 .catch(err => {
