@@ -40,10 +40,17 @@
                     const audioKey = `${String(arabic.data.surah.number).padStart(3, '0')}${String(arabic.data.numberInSurah).padStart(3, '0')}`;
                     const audioUrl = `https://www.everyayah.com/data/Abu_Bakr_Ash-Shaatree_64kbps/${audioKey}.mp3`;
                     
-                    let html = `<div style="font-weight: bold; color: #fef08a; margin-bottom: 0.5rem;">ayah ${ref}</div>`;
+                    let html = `
+                        <div dir="rtl" style="display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 1rem;">
+                            <div style="font-weight: 700; color: white; font-size: 1.5rem;">${arabic.data.surah.name} (${arabic.data.numberInSurah})</div>
+                            <button id="ayah-play-btn" type="button" style="width: 2.5rem; height: 2.5rem; flex-shrink: 0; border-radius: 9999px; background: linear-gradient(135deg, #a855f7, #ec4899); border: 2px solid rgba(255, 255, 255, 0.9); box-shadow: 0 0 12px rgba(236, 72, 153, 0.6), inset 0 0 5px rgba(255, 255, 255, 0.4); display: flex; align-items: center; justify-content: center; color: white; cursor: pointer; transition: all 0.3s ease;" aria-label="Play Ayah">
+                                <i class="fas fa-play" style="margin-left: 3px; font-size: 0.9rem;"></i>
+                            </button>
+                            <audio id="ayah-audio-player" preload="none" src="${audioUrl}"></audio>
+                        </div>
+                    `;
                     
                     html += `<div style="margin-bottom: 0.75rem; font-size: 0.875rem; color: rgba(255,255,255,0.9);">Reciter: Abu Bakar Syateeri</div>`;
-                    html += `<audio controls preload="none" src="${audioUrl}" style="width: 100%; margin-bottom: 1rem; border-radius: 9999px;"></audio>`;
                     
                     html += `<div dir="rtl" style="text-align: right; font-family: 'KFGQPC HAFS Uthmanic Script', 'Amiri', serif; font-size: 1.2rem; line-height: 2.35; margin-bottom: 1rem; color: white;">${arabic.data.text}</div>`;
                     
