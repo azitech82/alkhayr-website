@@ -713,15 +713,58 @@
         }
         @media (max-width: 639px) {
             .info-board-overlay {
-                padding: 1.5rem;
+                padding: 0.75rem;
+                flex-direction: column;
+                gap: 0.75rem;
             }
             .info-board-panel {
-                transform: scale(0.6);
-                transform-origin: center;
-                max-height: none;
+                width: 100% !important;
+                max-width: 340px;
+                padding-top: 0.4rem;
+                padding-bottom: 0.4rem;
+            }
+            #ayah-board-panel {
+                max-width: 340px;
+            }
+            .info-board-card {
+                height: auto !important;
+                max-height: 38vh;
+                padding: 0.75rem !important;
+            }
+            #ayah-board-card {
+                max-height: 38vh;
+                padding: 1rem !important;
+            }
+            #ayah-board-card h3 {
+                font-size: 1rem;
+                margin-bottom: 0.5rem;
+                padding-bottom: 0.25rem;
+            }
+            #ayah-content {
+                gap: 0.5rem !important;
+            }
+            #ayah-content .chatbot-audio {
+                margin-bottom: 0.5rem;
+            }
+            .info-board-embed {
+                width: 100%;
+                max-width: 100%;
+                --info-board-crop-top: 4rem;
+                --info-board-crop-bottom: 3rem;
+            }
+            .info-board-iframe {
+                width: 100%;
+                max-width: 100%;
+                height: calc(38vh - 1.5rem + var(--info-board-crop-top) + var(--info-board-crop-bottom)) !important;
             }
             .info-board-progress {
                 --info-board-progress-duration: 7s;
+            }
+            .info-board-close-button {
+                width: 2rem;
+                height: 2rem;
+                top: -0.35rem;
+                right: -0.35rem;
             }
         }
     </style>
@@ -729,6 +772,25 @@
 <body class="text-gray-800 relative aak-preload-active">
 
     <div id="info-board-overlay" class="info-board-overlay" aria-live="polite" role="dialog" aria-modal="true" aria-label="Latest updates from Akademi Al Khayr">
+        <!-- Ayah of the Day Card -->
+        <div class="info-board-panel text-white" id="ayah-board-panel" style="width: 380px;">
+            <button id="ayah-board-close" type="button" class="info-board-close-button" aria-label="Close Ayah of The Day">
+                <i class="fas fa-times text-lg"></i>
+            </button>
+            <div id="ayah-board-card" class="info-board-card rounded-[1.75rem] flex flex-col p-6 items-start" style="padding: 1.8rem; height: 33.6rem;">
+                <h3 class="text-xl font-bold mb-4 w-full text-center border-b border-white/30 pb-2 uppercase tracking-wide">Ayah of The Day</h3>
+                
+                <div id="ayah-content" class="flex-grow flex flex-col gap-5 text-sm w-full overflow-y-auto pr-2 pb-2" style="scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.3) rgba(255,255,255,0.1);">
+                    <!-- Loading state -->
+                    <div class="text-center py-12">
+                        <i class="fas fa-spinner fa-spin text-3xl"></i>
+                        <p class="mt-3 opacity-80 text-base">Fetching Ayah...</p>
+                    </div>
+                </div>
+            </div>
+            <div id="ayah-board-progress" class="info-board-progress" aria-hidden="true"></div>
+        </div>
+
         <div class="info-board-panel text-white">
             <button id="info-board-close" type="button" class="info-board-close-button" aria-label="Close information board">
                 <i class="fas fa-times text-lg"></i>
@@ -747,25 +809,6 @@
                 </div>
             </div>
             <div id="info-board-progress" class="info-board-progress" aria-hidden="true"></div>
-        </div>
-        
-        <!-- Ayah of the Day Card -->
-        <div class="info-board-panel text-white" id="ayah-board-panel" style="width: 380px;">
-            <button id="ayah-board-close" type="button" class="info-board-close-button" aria-label="Close Ayah of The Day">
-                <i class="fas fa-times text-lg"></i>
-            </button>
-            <div id="ayah-board-card" class="info-board-card rounded-[1.75rem] flex flex-col p-6 items-start" style="padding: 1.8rem; height: 33.6rem;">
-                <h3 class="text-xl font-bold mb-4 w-full text-center border-b border-white/30 pb-2 uppercase tracking-wide">Ayah of The Day</h3>
-                
-                <div id="ayah-content" class="flex-grow flex flex-col gap-5 text-sm w-full overflow-y-auto pr-2 pb-2" style="scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.3) rgba(255,255,255,0.1);">
-                    <!-- Loading state -->
-                    <div class="text-center py-12">
-                        <i class="fas fa-spinner fa-spin text-3xl"></i>
-                        <p class="mt-3 opacity-80 text-base">Fetching Ayah...</p>
-                    </div>
-                </div>
-            </div>
-            <div id="ayah-board-progress" class="info-board-progress" aria-hidden="true"></div>
         </div>
     </div>
 
@@ -2815,27 +2858,25 @@ This message was submitted via the website contact form.
                     const ayahNumberArabic = toArabicNumerals(arabic.data.numberInSurah);
                     const surahNameArabic = arabic.data.surah.name;
                     
-                    let html = `<div style="font-weight: 700; color: white; margin-bottom: 0.4rem; text-align: center; font-size: 1.5rem;">${surahNameArabic} (${ayahNumberArabic})</div>`;
-                    
-                    html += `<audio class="chatbot-audio" controls preload="none" src="${audioUrl}"></audio>`;
+                    let html = `<div style="font-weight: 700; color: white; margin-bottom: 0.3rem; text-align: center; font-size: 1.1rem;">${surahNameArabic} (${ayahNumberArabic})</div>`;
                     
                     const cleanedArabic = escapeHtml(stripAyahMarkers(arabic.data.text));
-                    html += `<div dir="rtl" style="text-align: right; font-family: 'KFGQPC HAFS Uthmanic Script', 'Amiri', 'Scheherazade New', serif; font-size: clamp(1.05rem, 0.95rem + 0.6vw, 1.35rem); line-height: 2.35; letter-spacing: 0.01em; word-spacing: 0.08em; padding-top: 0.12em; padding-bottom: 0.08em; text-rendering: optimizeLegibility; margin-bottom: 0.6rem; color: white;">${cleanedArabic}</div>`;
+                    html += `<div dir="rtl" style="text-align: right; font-family: 'KFGQPC HAFS Uthmanic Script', 'Amiri', 'Scheherazade New', serif; font-size: 1rem; line-height: 2; letter-spacing: 0.01em; word-spacing: 0.05em; padding-top: 0.1em; padding-bottom: 0.05em; text-rendering: optimizeLegibility; margin-bottom: 0.4rem; color: white;">${cleanedArabic}</div>`;
                     
                     if (en.data.text) {
-                        html += `<div style="font-weight: 600; color: #fef08a; margin-bottom: 0.25rem;">English:</div>`;
-                        html += `<div style="color: rgba(255,255,255,0.9); margin-bottom: 1rem;">${en.data.text}</div>`;
+                        html += `<div style="font-weight: 600; color: #fef08a; margin-bottom: 0.15rem; font-size: 0.8rem;">English:</div>`;
+                        html += `<div style="color: rgba(255,255,255,0.9); margin-bottom: 0.4rem; font-size: 0.75rem; line-height: 1.4;">${en.data.text}</div>`;
                     }
                     
                     if (ms.data.text) {
-                        html += `<div style="font-weight: 600; color: #fef08a; margin-bottom: 0.25rem;">Malay:</div>`;
-                        html += `<div style="color: rgba(255,255,255,0.9); margin-bottom: 1rem;">${ms.data.text}</div>`;
+                        html += `<div style="font-weight: 600; color: #fef08a; margin-bottom: 0.15rem; font-size: 0.8rem;">Malay:</div>`;
+                        html += `<div style="color: rgba(255,255,255,0.9); margin-bottom: 0.4rem; font-size: 0.75rem; line-height: 1.4;">${ms.data.text}</div>`;
                     }
                     
                     if (tafsir.data.text) {
-                        html += `<div style="font-weight: 600; color: #fef08a; margin-bottom: 0.25rem;">Tafseer:</div>`;
-                        html += `<div dir="rtl" style="text-align: right; line-height: 1.8; color: rgba(255,255,255,0.9);">${tafsir.data.text}</div>`;
-                        html += `<div dir="rtl" style="text-align: right; margin-top: 0.5rem; color: rgba(255,255,255,0.6); font-size: 0.875rem;">(تفسير الميسر)</div>`;
+                        html += `<div style="font-weight: 600; color: #fef08a; margin-bottom: 0.15rem; font-size: 0.8rem;">Tafseer:</div>`;
+                        html += `<div dir="rtl" style="text-align: right; line-height: 1.5; color: rgba(255,255,255,0.9); font-size: 0.75rem;">${tafsir.data.text}</div>`;
+                        html += `<div dir="rtl" style="text-align: right; margin-top: 0.25rem; color: rgba(255,255,255,0.6); font-size: 0.7rem;">(تفسير الميسر)</div>`;
                     } else {
                         html += `<div style="color: rgba(255,255,255,0.9);">Tafseer is not available right now.</div>`;
                     }
