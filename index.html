@@ -596,12 +596,17 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 2rem;
             padding: 4rem 2rem;
             background: rgba(17, 24, 39, 0.45);
             backdrop-filter: blur(6px);
             transition: opacity 0.45s ease, visibility 0.45s ease;
             overflow: hidden;
+        }
+        .info-board-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
         }
         .info-board-overlay.is-hidden {
             opacity: 0;
@@ -713,17 +718,20 @@
         }
         @media (max-width: 639px) {
             .info-board-overlay {
-                padding: 1rem;
+                padding: 0;
+            }
+            .info-board-wrapper {
                 flex-direction: column;
                 gap: 1.25rem;
+                transform: scale(min(calc((100vw - 2rem) / 529.6), calc((100vh - 4rem) / 1050)));
+                transform-origin: center;
             }
             .info-board-panel {
                 width: 529.6px !important;
                 max-width: 529.6px;
                 padding-top: 0.9rem;
                 padding-bottom: 0.9rem;
-                transform: scale(calc((100vw - 2rem) / 529.6 * 0.3));
-                transform-origin: center;
+                transform: none;
                 max-height: none;
             }
             #ayah-board-panel {
@@ -759,8 +767,9 @@
 <body class="text-gray-800 relative aak-preload-active">
 
     <div id="info-board-overlay" class="info-board-overlay" aria-live="polite" role="dialog" aria-modal="true" aria-label="Latest updates from Akademi Al Khayr">
-        <!-- Ayah of the Day Card -->
-        <div class="info-board-panel text-white" id="ayah-board-panel" style="width: 380px;">
+        <div class="info-board-wrapper">
+            <!-- Ayah of the Day Card -->
+            <div class="info-board-panel text-white" id="ayah-board-panel" style="width: 380px;">
             <button id="ayah-board-close" type="button" class="info-board-close-button" aria-label="Close Ayah of The Day">
                 <i class="fas fa-times text-lg"></i>
             </button>
@@ -796,6 +805,7 @@
                 </div>
             </div>
             <div id="info-board-progress" class="info-board-progress" aria-hidden="true"></div>
+        </div>
         </div>
     </div>
 
