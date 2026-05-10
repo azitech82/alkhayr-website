@@ -2886,8 +2886,8 @@ This message was submitted via the website contact form.
                     let html = `
                         <div dir="rtl" style="display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 1rem;">
                             <div style="font-weight: 700; color: white; font-size: 1.5rem;">${surahNameArabic} (${ayahNumberArabic})</div>
-                            <button id="ayah-play-btn" type="button" style="width: 2.5rem; height: 2.5rem; flex-shrink: 0; border-radius: 9999px; background: linear-gradient(135deg, #a855f7, #ec4899); border: 2px solid rgba(255, 255, 255, 0.9); box-shadow: 0 0 12px rgba(236, 72, 153, 0.6), inset 0 0 5px rgba(255, 255, 255, 0.4); display: flex; align-items: center; justify-content: center; color: white; cursor: pointer; transition: all 0.3s ease;" aria-label="Play Ayah">
-                                <i class="fas fa-play" style="margin-left: 3px; font-size: 0.9rem;"></i>
+                            <button id="ayah-play-btn" type="button" style="width: 2.1rem; height: 2.1rem; flex-shrink: 0; border-radius: 9999px; background: linear-gradient(135deg, #a855f7, #ec4899); border: 2px solid rgba(255, 255, 255, 0.9); box-shadow: 0 0 12px rgba(236, 72, 153, 0.6), inset 0 0 5px rgba(255, 255, 255, 0.4); display: flex; align-items: center; justify-content: center; color: white; cursor: pointer; transition: all 0.3s ease;" aria-label="Play Ayah">
+                                <i class="fas fa-play" style="margin-left: 2px; font-size: 0.8rem;"></i>
                             </button>
                             <audio id="ayah-audio-player" preload="none" src="${audioUrl}"></audio>
                         </div>
@@ -2923,15 +2923,15 @@ This message was submitted via the website contact form.
                             e.stopPropagation();
                             if (audioPlayer.paused) {
                                 audioPlayer.play();
-                                playBtn.innerHTML = '<i class="fas fa-pause" style="font-size: 0.9rem;"></i>';
+                                playBtn.innerHTML = '<i class="fas fa-pause" style="font-size: 0.8rem;"></i>';
                             } else {
                                 audioPlayer.pause();
-                                playBtn.innerHTML = '<i class="fas fa-play" style="margin-left: 3px; font-size: 0.9rem;"></i>';
+                                playBtn.innerHTML = '<i class="fas fa-play" style="margin-left: 2px; font-size: 0.8rem;"></i>';
                             }
                         });
                         
                         audioPlayer.addEventListener('ended', () => {
-                            playBtn.innerHTML = '<i class="fas fa-play" style="margin-left: 3px; font-size: 0.9rem;"></i>';
+                            playBtn.innerHTML = '<i class="fas fa-play" style="margin-left: 2px; font-size: 0.8rem;"></i>';
                         });
                         
                         playBtn.addEventListener('mouseenter', () => {
