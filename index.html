@@ -595,9 +595,9 @@
             z-index: 120;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
             gap: 2rem;
-            padding: 4rem 6rem;
+            padding: 4rem 2rem;
             background: rgba(17, 24, 39, 0.45);
             backdrop-filter: blur(6px);
             transition: opacity 0.45s ease, visibility 0.45s ease;
@@ -645,7 +645,7 @@
             display: flex;
             align-items: center;
             overflow: hidden;
-            height: 33rem;
+            height: 26.4rem;
             padding: 0.8rem;
             box-sizing: border-box;
             background: linear-gradient(
@@ -696,7 +696,7 @@
         .info-board-iframe {
             width: 500px;
             max-width: 500px;
-            height: calc(33rem - 1.6rem + var(--info-board-crop-top) + var(--info-board-crop-bottom));
+            height: calc(26.4rem - 1.6rem + var(--info-board-crop-top) + var(--info-board-crop-bottom));
             border: 0;
             background: #ffffff;
             margin: 0 auto;
@@ -729,7 +729,7 @@
 <body class="text-gray-800 relative aak-preload-active">
 
     <div id="info-board-overlay" class="info-board-overlay" aria-live="polite" role="dialog" aria-modal="true" aria-label="Latest updates from Akademi Al Khayr">
-        <div class="info-board-panel text-white" style="align-self: flex-end;">
+        <div class="info-board-panel text-white">
             <button id="info-board-close" type="button" class="info-board-close-button" aria-label="Close information board">
                 <i class="fas fa-times text-lg"></i>
             </button>
@@ -750,8 +750,11 @@
         </div>
         
         <!-- Ayah of the Day Card -->
-        <div class="info-board-panel text-white hidden md:block" id="ayah-board-panel" style="width: 380px;">
-            <div id="ayah-board-card" class="info-board-card rounded-[1.75rem] flex flex-col p-6 items-start" style="padding: 1.8rem; height: 42rem;">
+        <div class="info-board-panel text-white" id="ayah-board-panel" style="width: 380px;">
+            <button id="ayah-board-close" type="button" class="info-board-close-button" aria-label="Close Ayah of The Day">
+                <i class="fas fa-times text-lg"></i>
+            </button>
+            <div id="ayah-board-card" class="info-board-card rounded-[1.75rem] flex flex-col p-6 items-start" style="padding: 1.8rem; height: 33.6rem;">
                 <h3 class="text-xl font-bold mb-4 w-full text-center border-b border-white/30 pb-2 uppercase tracking-wide">Ayah of The Day</h3>
                 
                 <div id="ayah-content" class="flex-grow flex flex-col gap-5 text-sm w-full overflow-y-auto pr-2 pb-2" style="scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.3) rgba(255,255,255,0.1);">
@@ -1379,7 +1382,8 @@
             }, 150);
         };
 
-        [infoBoardClose, infoBoardSkip].forEach((button) => {
+        const ayahBoardClose = document.getElementById('ayah-board-close');
+        [infoBoardClose, infoBoardSkip, ayahBoardClose].forEach((button) => {
             if (!button) return;
             button.addEventListener('click', () => {
                 if (infoBoardTimerId) {
@@ -2001,18 +2005,7 @@ This message was submitted via the website contact form.
         };
 
         const getTafsirEditionId = async () => {
-            if (tafsirEditionId !== null) return tafsirEditionId;
-            try {
-                const res = await fetch('https://api.alquran.cloud/v1/edition/type/tafsir');
-                const data = await res.json();
-                const editions = Array.isArray(data?.data) ? data.data : [];
-                const english = editions.find((ed) => ed.language === 'en' && ed.format === 'text');
-                const anyText = editions.find((ed) => ed.format === 'text');
-                tafsirEditionId = (english || anyText || {}).identifier || null;
-            } catch {
-                tafsirEditionId = null;
-            }
-            return tafsirEditionId;
+            return 'ar.muyassar';
         };
 
         const buildRefFromNumbers = (surahNumber, ayahNumber) => `${surahNumber}:${ayahNumber}`;
@@ -2753,59 +2746,112 @@ This message was submitted via the website contact form.
             }
         };
 
-        async function fetchAyahOfTheDay() {
-            try {
-                const response = await fetch('https://api.alquran.cloud/v1/ayah/random/editions/quran-uthmani,en.sahih,ms.basmeih,ar.muyassar');
-                const data = await response.json();
-                
-                if (data.code === 200 && data.data && data.data.length === 4) {
-                    const quran = data.data[0];
-                    const enTranslation = data.data[1];
-                    const msTranslation = data.data[2];
-                    const tafseer = data.data[3];
-                    
-                    const container = document.getElementById('ayah-content');
-                    if (!container) return;
-                    
-                    container.innerHTML = `
-                        <div class="text-right font-arabic text-2xl leading-relaxed mb-4 text-yellow-300" dir="rtl">
-                            ${quran.text}
-                            <span class="inline-block bg-white/10 rounded-full px-2 py-1 text-sm ml-2 align-middle text-white/80">
-                                ${quran.surah.name} (${quran.surah.number}:${quran.numberInSurah})
-                            </span>
-                        </div>
-                        
-                        <div class="mb-4 bg-white/5 rounded-xl p-3 border border-white/10">
-                            <h4 class="font-semibold text-yellow-400 text-xs uppercase tracking-wider mb-2">English (Saheeh Intl)</h4>
-                            <p class="text-white/90 leading-snug">${enTranslation.text}</p>
-                        </div>
-                        
-                        <div class="mb-4 bg-white/5 rounded-xl p-3 border border-white/10">
-                            <h4 class="font-semibold text-yellow-400 text-xs uppercase tracking-wider mb-2">Malay (Basmeih)</h4>
-                            <p class="text-white/90 leading-snug">${msTranslation.text}</p>
-                        </div>
-                        
-                        <div class="mb-2 bg-white/5 rounded-xl p-3 border border-white/10">
-                            <h4 class="font-semibold text-yellow-400 text-xs uppercase tracking-wider mb-2">Tafseer (Muyassir)</h4>
-                            <p class="text-white/90 font-arabic text-lg text-right leading-relaxed" dir="rtl">${tafseer.text}</p>
-                        </div>
-                    `;
-                }
-            } catch (error) {
-                console.error("Error fetching Ayah:", error);
+    </script>
+    <script>
+        (function() {
+            console.log('=== STANDALONE AYAH OF THE DAY SCRIPT ===');
+            
+            const escapeHtml = (text) => {
+                return text
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#39;');
+            };
+
+            const stripAyahMarkers = (text) => {
+                return (text || '')
+                    .replace(/[\u06D6-\u06ED]/g, '')
+                    .replace(/[\u08D4-\u08FE]/g, '')
+                    .replace(/\u06DD/g, ''); // Remove end of ayah symbol
+            };
+            
+            function init() {
                 const container = document.getElementById('ayah-content');
-                if (container) {
-                    container.innerHTML = \`<p class="text-center opacity-80 text-red-300">Failed to load Ayah of the day. Please check your connection.</p>\`;
+                console.log('STANDALONE: container found:', container);
+                if (!container) {
+                    console.log('STANDALONE: container not found');
+                    return;
                 }
+                
+                const randomAyah = Math.floor(Math.random() * 6236) + 1;
+                console.log('STANDALONE: randomAyah:', randomAyah);
+                
+                Promise.all([
+                    fetch(`https://api.alquran.cloud/v1/ayah/${randomAyah}/quran-uthmani`).then(r => {
+                        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+                        return r.json();
+                    }),
+                    fetch(`https://api.alquran.cloud/v1/ayah/${randomAyah}/en.sahih`).then(r => {
+                        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+                        return r.json();
+                    }),
+                    fetch(`https://api.alquran.cloud/v1/ayah/${randomAyah}/ms.basmeih`).then(r => {
+                        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+                        return r.json();
+                    }),
+                    fetch(`https://api.alquran.cloud/v1/ayah/${randomAyah}/ar.muyassar`).then(r => {
+                        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+                        return r.json();
+                    })
+                ])
+                .then(([arabic, en, ms, tafsir]) => {
+                    if (!arabic?.data || !en?.data || !ms?.data || !tafsir?.data) {
+                        throw new Error('Invalid API response format');
+                    }
+                    console.log('STANDALONE: data received', { arabic, en, ms, tafsir });
+                    
+                    const ref = `${arabic.data.surah.number}:${arabic.data.numberInSurah}`;
+                    const audioKey = `${String(arabic.data.surah.number).padStart(3, '0')}${String(arabic.data.numberInSurah).padStart(3, '0')}`;
+                    const audioUrl = `https://www.everyayah.com/data/Abu_Bakr_Ash-Shaatree_64kbps/${audioKey}.mp3`;
+                    
+                    // Convert numbers to Arabic numerals
+                    const toArabicNumerals = (num) => {
+                        const arabicDigits = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+                        return String(num).split('').map(d => arabicDigits[parseInt(d)]).join('');
+                    };
+                    
+                    const ayahNumberArabic = toArabicNumerals(arabic.data.numberInSurah);
+                    const surahNameArabic = arabic.data.surah.name;
+                    
+                    let html = `<div style="font-weight: 700; color: white; margin-bottom: 0.4rem; text-align: center; font-size: 1.5rem;">${surahNameArabic} (${ayahNumberArabic})</div>`;
+                    
+                    html += `<audio class="chatbot-audio" controls preload="none" src="${audioUrl}"></audio>`;
+                    
+                    const cleanedArabic = escapeHtml(stripAyahMarkers(arabic.data.text));
+                    html += `<div dir="rtl" style="text-align: right; font-family: 'KFGQPC HAFS Uthmanic Script', 'Amiri', 'Scheherazade New', serif; font-size: clamp(1.05rem, 0.95rem + 0.6vw, 1.35rem); line-height: 2.35; letter-spacing: 0.01em; word-spacing: 0.08em; padding-top: 0.12em; padding-bottom: 0.08em; text-rendering: optimizeLegibility; margin-bottom: 0.6rem; color: white;">${cleanedArabic}</div>`;
+                    
+                    if (en.data.text) {
+                        html += `<div style="font-weight: 600; color: #fef08a; margin-bottom: 0.25rem;">English:</div>`;
+                        html += `<div style="color: rgba(255,255,255,0.9); margin-bottom: 1rem;">${en.data.text}</div>`;
+                    }
+                    
+                    if (ms.data.text) {
+                        html += `<div style="font-weight: 600; color: #fef08a; margin-bottom: 0.25rem;">Malay:</div>`;
+                        html += `<div style="color: rgba(255,255,255,0.9); margin-bottom: 1rem;">${ms.data.text}</div>`;
+                    }
+                    
+                    if (tafsir.data.text) {
+                        html += `<div style="font-weight: 600; color: #fef08a; margin-bottom: 0.25rem;">Tafseer:</div>`;
+                        html += `<div dir="rtl" style="text-align: right; line-height: 1.8; color: rgba(255,255,255,0.9);">${tafsir.data.text}</div>`;
+                        html += `<div dir="rtl" style="text-align: right; margin-top: 0.5rem; color: rgba(255,255,255,0.6); font-size: 0.875rem;">(تفسير الميسر)</div>`;
+                    } else {
+                        html += `<div style="color: rgba(255,255,255,0.9);">Tafseer is not available right now.</div>`;
+                    }
+                    
+                    container.innerHTML = html;
+                    console.log('STANDALONE: done');
+                })
+                .catch(err => {
+                    console.error('STANDALONE: ERROR', err);
+                    container.innerHTML = `<p style="text-align: center; opacity: 0.8; color: #fca5a5;">Failed to load Ayah of the day. Error: ${err.message}</p>`;
+                });
             }
-        }
-        
-        // Fetch Ayah on load
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', fetchAyahOfTheDay);
-        } else {
-            fetchAyahOfTheDay();
-        }
+            
+            init();
+            setTimeout(init, 2000);
+        })();
     </script>
 </body>
 </html>
