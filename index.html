@@ -749,13 +749,19 @@
             .info-board-embed {
                 width: 100%;
                 max-width: 100%;
-                --info-board-crop-top: 4rem;
-                --info-board-crop-bottom: 3rem;
+                --info-board-crop-top: 3rem;
+                --info-board-crop-bottom: 2rem;
+                overflow: hidden;
+                border-radius: 1.25rem;
             }
             .info-board-iframe {
                 width: 100%;
                 max-width: 100%;
                 height: calc(38vh - 1.5rem + var(--info-board-crop-top) + var(--info-board-crop-bottom)) !important;
+                transform: scale(0.78);
+                transform-origin: top left;
+                width: 128%;
+                max-width: 128%;
             }
             .info-board-progress {
                 --info-board-progress-duration: 7s;
