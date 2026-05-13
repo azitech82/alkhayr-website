@@ -912,6 +912,27 @@ const stripUnicodeSymbols = (value) => {
                 '.'
             ];
         }
+        if (
+            value.includes('igcse') ||
+            value.includes('spm') ||
+            value.includes('private candidate') ||
+            value.includes('calon persendirian') ||
+            value.includes('moe') ||
+            value.includes('kpm')
+        ) {
+            return [
+                'English: AAK offers SPM as the mainstream stream. IGCSE is available as an alternative stream upon request. IGCSE is conducted with concurrent learning alongside the MOE (KPM) syllabus. For both streams, students will register as private candidates. For arrangements/details, contact us via ',
+                { label: 'WhatsApp', href: 'https://wa.me/60193818616', external: true },
+                ' or ',
+                { label: 'email', href: 'mailto:akademialkhayrofficial@gmail.com' },
+                '. ',
+                'BM: AAK menawarkan SPM sebagai aliran utama. IGCSE disediakan sebagai aliran alternatif atas permintaan. Pembelajaran IGCSE dijalankan serentak bersama silibus KPM. Bagi kedua-dua aliran, pelajar akan mendaftar sebagai calon persendirian. Untuk aturcara/maklumat lanjut, hubungi kami melalui ',
+                { label: 'WhatsApp', href: 'https://wa.me/60193818616', external: true },
+                ' atau ',
+                { label: 'email', href: 'mailto:akademialkhayrofficial@gmail.com' },
+                '.'
+            ];
+        }
         if (value.includes('program') || value.includes('course') || value.includes('curriculum') || value.includes('kurikulum')) {
             return 'We offer integrated Hifz, Arabic, and academic modules with holistic programs across primary, secondary, and co-curriculum activities.';
         }
