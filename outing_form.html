@@ -158,10 +158,9 @@
             
             <form id="outingForm" class="py-8 px-8 sm:px-12 space-y-6">
                 <!-- Anti-spam fields -->
-                <input type="text" name="_honey" style="display:none">
-                <input type="hidden" name="_captcha" value="true">
-                <input type="hidden" name="_template" value="table">
-                <input type="hidden" name="_subject" value="New Outing Request">
+                <input type="text" name="botcheck" style="display:none">
+                <input id="web3forms_access_key" type="hidden" name="access_key" value="">
+                <input type="hidden" name="subject" value="New Outing Request">
                 
                 <div style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">
                     <label for="aak_hp">Do not fill</label>
@@ -311,8 +310,8 @@
 
     <script>
         const outingForm = document.getElementById('outingForm');
-        // Define action here to avoid scraping
-        const formAction = 'https://formsubmit.co/ajax/akademialkhayrofficial@gmail.com';
+        const formAction = 'https://api.web3forms.com/submit';
+        const web3FormsAccessKeyInput = document.getElementById('web3forms_access_key');
         const registrationInitAt = Date.now();
         const registrationHoneypot = document.getElementById('aak_hp');
         const registrationLoadTime = document.getElementById('aak_time');
@@ -408,70 +407,27 @@
             receiptDate.textContent = new Date().toLocaleDateString();
 
             const formData = new FormData(form);
-            const payload = {};
-            for (const [key, value] of formData.entries()) {
-                if (payload[key] === undefined) {
-                    payload[key] = value;
-                } else if (Array.isArray(payload[key])) {
-                    payload[key].push(value);
-                } else {
-                    payload[key] = [payload[key], value];
-                }
-            }
+            formData.append('from_name', 'Akademi Al Khayr Website');
+            formData.append('name', parentName || studentName || 'Outing Request');
+            formData.append('message', whatsappText);
 
             let submitOk = false;
-            let submitMethod = null;
-            try {
-                const response = await fetch(formAction, {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(payload)
-                });
-                submitOk = response.ok;
-                if (submitOk) submitMethod = 'ajax-json';
-            } catch (error) {
-                console.error('Submission error:', error);
-                submitOk = false;
-            }
-            if (!submitOk) {
+            const accessKey = String(web3FormsAccessKeyInput?.value || '').trim();
+            if (!accessKey) {
+                console.error('Submission error: Missing Web3Forms access key');
+            } else {
+                formData.set('access_key', accessKey);
                 try {
                     const response = await fetch(formAction, {
                         method: 'POST',
                         headers: {
                             'Accept': 'application/json'
                         },
-                        body: new FormData(form)
+                        body: formData
                     });
                     submitOk = response.ok;
-                    if (submitOk) submitMethod = 'ajax-formdata';
                 } catch (error) {
                     console.error('Submission error:', error);
-                    submitOk = false;
-                }
-            }
-            if (!submitOk) {
-                try {
-                    const fallbackAction = 'https://formsubmit.co/akademialkhayrofficial@gmail.com';
-                    const previousAction = form.getAttribute('action');
-                    const previousTarget = form.getAttribute('target');
-                    const previousMethod = form.getAttribute('method');
-                    form.setAttribute('action', fallbackAction);
-                    form.setAttribute('method', 'POST');
-                    form.setAttribute('target', '_blank');
-                    form.submit();
-                    if (previousAction === null) form.removeAttribute('action');
-                    else form.setAttribute('action', previousAction);
-                    if (previousTarget === null) form.removeAttribute('target');
-                    else form.setAttribute('target', previousTarget);
-                    if (previousMethod === null) form.removeAttribute('method');
-                    else form.setAttribute('method', previousMethod);
-                    submitOk = true;
-                    submitMethod = 'form-post';
-                } catch (error) {
-                    console.error('Submission fallback error:', error);
                     submitOk = false;
                 }
             }
@@ -488,11 +444,7 @@
             } catch {}
 
             if (submitOk) {
-                if (submitMethod === 'form-post') {
-                    alert('We opened a new tab to submit your outing request (you may see a verification step). A copy of your request has been downloaded.');
-                } else {
-                    alert('Outing request submitted successfully! A copy of your request has been downloaded.');
-                }
+                alert('Outing request submitted successfully! A copy of your request has been downloaded.');
             } else {
                 alert('Outing request could not be sent automatically. We will open WhatsApp to complete the request.');
             }
