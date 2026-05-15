@@ -159,7 +159,7 @@
             <form id="outingForm" class="py-8 px-8 sm:px-12 space-y-6">
                 <!-- Anti-spam fields -->
                 <input type="text" name="_honey" style="display:none">
-                <input type="hidden" name="_captcha" value="true">
+                <input type="hidden" name="_captcha" value="false">
                 <input type="hidden" name="_template" value="table">
                 <input type="hidden" name="_subject" value="New Outing Request">
                 
@@ -330,7 +330,7 @@
             window.addEventListener(eventName, markRegistrationInteraction, { once: true, capture: true });
         });
 
-        outingForm.addEventListener('submit', function(e) {
+        outingForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             const form = this;
 
@@ -407,35 +407,50 @@
             const receiptDate = document.getElementById('receiptDate');
             receiptDate.textContent = new Date().toLocaleDateString();
 
-            // Submit form to FormSubmit
             const formData = new FormData(form);
-            fetch(formAction, {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => {
-                if (response.ok) {
-                    // Generate PDF Receipt
-                    html2canvas(receiptView, {
-                        scale: 2,
-                        backgroundColor: '#ffffff'
-                    }).then(canvas => {
-                        const link = document.createElement('a');
-                        link.download = `AAK_Outing_Request_${studentName.replace(/\s+/g, '_')}.png`;
-                        link.href = canvas.toDataURL('image/png');
-                        link.click();
-
-                        alert('Outing request submitted successfully! A copy of your request has been downloaded.');
-                        window.location.href = whatsappLink;
-                    });
+            const payload = {};
+            for (const [key, value] of formData.entries()) {
+                if (payload[key] === undefined) {
+                    payload[key] = value;
+                } else if (Array.isArray(payload[key])) {
+                    payload[key].push(value);
                 } else {
-                    alert('There was an error submitting the form. Please try again.');
+                    payload[key] = [payload[key], value];
                 }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('There was an error submitting the form. Please try again.');
-            });
+            }
+
+            let submitOk = false;
+            try {
+                const response = await fetch(formAction, {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+                submitOk = response.ok;
+            } catch {
+                submitOk = false;
+            }
+
+            try {
+                const canvas = await html2canvas(receiptView, {
+                    scale: 2,
+                    backgroundColor: '#ffffff'
+                });
+                const link = document.createElement('a');
+                link.download = `AAK_Outing_Request_${studentName.replace(/\s+/g, '_')}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            } catch {}
+
+            if (submitOk) {
+                alert('Outing request submitted successfully! A copy of your request has been downloaded.');
+            } else {
+                alert('Outing request could not be sent automatically. We will open WhatsApp to complete the request.');
+            }
+            window.location.href = whatsappLink;
         });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/rolldate@3.1.3/dist/rolldate.min.js"></script>
