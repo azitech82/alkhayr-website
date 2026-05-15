@@ -406,11 +406,6 @@
             const receiptDate = document.getElementById('receiptDate');
             receiptDate.textContent = new Date().toLocaleDateString();
 
-            const formData = new FormData(form);
-            formData.append('from_name', 'Akademi Al Khayr Website');
-            formData.append('name', parentName || studentName || 'Outing Request');
-            formData.append('message', whatsappText);
-
             let submitOk = false;
             const accessKey = String(web3FormsAccessKeyInput?.value || '').trim();
             const accessKeyUnset = !accessKey || accessKey === 'PASTE_WEB3FORMS_ACCESS_KEY_HERE';
@@ -418,7 +413,42 @@
                 console.error('Submission error: Missing Web3Forms access key');
                 alert('Outing form is not configured yet. Please contact admin or try WhatsApp submission.');
             } else {
+                const subject = `Outing Request: ${studentName || 'Student'}${outingDate ? ` (${outingDate})` : ''}`;
+                const submittedAt = new Date().toLocaleString();
+                const formattedMessage = [
+                    'AKADEMI AL KHAYR - OUTING REQUEST',
+                    '',
+                    `Submitted at: ${submittedAt}`,
+                    '--------------------------------',
+                    '',
+                    'STUDENT',
+                    `- Name: ${studentName || '-'}`,
+                    `- Date of Outing: ${outingDate || '-'}`,
+                    `- Time Out: ${timeOut || '-'}`,
+                    `- Date of Return: ${returnDate || '-'}`,
+                    `- Time In: ${timeIn || '-'}`,
+                    '',
+                    'REASON',
+                    `${reason || '-'}`,
+                    '',
+                    'PARENT / GUARDIAN',
+                    `- Name: ${parentName || '-'}`,
+                    `- Contact No: ${contactNo || '-'}`,
+                    `- Relationship: ${relationship || '-'}`,
+                    ''
+                ].join('\n');
+
+                const formData = new FormData();
                 formData.set('access_key', accessKey);
+                formData.set('subject', subject);
+                formData.set('from_name', 'Akademi Al Khayr Website');
+                formData.set('name', parentName || studentName || 'Outing Request');
+                formData.set('message', formattedMessage);
+
+                const botcheckValue = String(form.querySelector('input[name="botcheck"]')?.value || '').trim();
+                if (botcheckValue) {
+                    formData.set('botcheck', botcheckValue);
+                }
                 try {
                     const response = await fetch(formAction, {
                         method: 'POST',
@@ -427,7 +457,16 @@
                         },
                         body: formData
                     });
-                    submitOk = response.ok;
+                    if (response.ok) {
+                        try {
+                            const data = await response.json();
+                            submitOk = data?.success === true;
+                        } catch {
+                            submitOk = true;
+                        }
+                    } else {
+                        submitOk = false;
+                    }
                 } catch (error) {
                     console.error('Submission error:', error);
                     submitOk = false;
