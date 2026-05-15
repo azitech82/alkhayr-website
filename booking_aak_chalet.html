@@ -294,6 +294,10 @@
 
             <div class="bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
                 <form id="reservationForm" class="space-y-6">
+                    <input type="text" name="botcheck" style="display:none">
+                    <input type="hidden" name="access_key" value="42059c33-4057-4f5d-a021-0a6ca6a62dd5">
+                    <input type="hidden" name="from_name" value="Akademi Al Khayr Website">
+                    <input type="hidden" name="subject" value="New Chalet Booking Request">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label for="firstName" class="block text-sm font-bold text-gray-900 mb-2">First Name</label>
@@ -446,13 +450,53 @@ Submitted via AAK Website
             return { emailSubject, emailBody };
         };
 
-        const recipients = "akademialkhayrofficial@gmail.com";
         const whatsappNumber = "60193818616";
+        const reservationForm = document.getElementById('reservationForm');
+        const web3FormsEndpoint = 'https://api.web3forms.com/submit';
 
         document.getElementById('submitEmail').addEventListener('click', () => {
+            if (!reservationForm) return;
+            if (!reservationForm.checkValidity()) {
+                reservationForm.reportValidity();
+                return;
+            }
+
             const { emailSubject, emailBody } = buildReservationMessage();
-            const mailtoLink = `mailto:${recipients}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
-            window.location.href = mailtoLink;
+            const submitBtn = document.getElementById('submitEmail');
+            const originalText = submitBtn ? submitBtn.innerHTML : '';
+            if (submitBtn) {
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Sending...';
+                submitBtn.disabled = true;
+            }
+
+            const formData = new FormData(reservationForm);
+            formData.set('subject', emailSubject);
+            formData.set('booking_summary', emailBody);
+
+            fetch(web3FormsEndpoint, {
+                method: 'POST',
+                body: formData,
+                headers: { 'Accept': 'application/json' }
+            })
+            .then((response) => {
+                if (submitBtn) {
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                }
+                if (response.ok) {
+                    alert('Booking request sent successfully!');
+                    reservationForm.reset();
+                } else {
+                    alert("We couldn't send the booking request automatically. Please use WhatsApp.");
+                }
+            })
+            .catch(() => {
+                if (submitBtn) {
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                }
+                alert("We couldn't send the booking request automatically. Please use WhatsApp.");
+            });
         });
 
         document.getElementById('submitWhatsapp').addEventListener('click', () => {

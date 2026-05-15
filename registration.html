@@ -291,11 +291,10 @@
             </div>
             
             <form id="registrationForm" class="py-8 px-8 sm:px-12 space-y-6">
-                <!-- Anti-spam fields -->
-                <input type="text" name="_honey" style="display:none">
-                <input type="hidden" name="_captcha" value="true">
-                <input type="hidden" name="_template" value="table">
-                <input type="hidden" name="_subject" value="New School Registration">
+                <input type="text" name="botcheck" style="display:none">
+                <input id="web3forms_access_key" type="hidden" name="access_key" value="42059c33-4057-4f5d-a021-0a6ca6a62dd5">
+                <input type="hidden" name="from_name" value="Akademi Al Khayr Website">
+                <input type="hidden" name="subject" value="New School Registration">
                 
                 <div style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">
                     <label for="aak_hp">Do not fill</label>
@@ -471,8 +470,8 @@
 
     <script>
         const registrationForm = document.getElementById('registrationForm');
-        // Define action here to avoid scraping
-        const formAction = 'https://formsubmit.co/ajax/akademialkhayrofficial@gmail.com';
+        const formAction = 'https://api.web3forms.com/submit';
+        const web3FormsAccessKeyInput = document.getElementById('web3forms_access_key');
         const registrationInitAt = Date.now();
         const registrationHoneypot = document.getElementById('aak_hp');
         const registrationLoadTime = document.getElementById('aak_time');
@@ -622,16 +621,34 @@
                 submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Submitting...';
                 submitBtn.disabled = true;
                 
-                const formData = new FormData(form);
-                if (receiptBlob) {
-                    formData.append('receipt_image', receiptBlob, receiptFileName || 'AAK-Registration-Receipt.png');
-                }
-                fetch(formAction, {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'Accept': 'application/json'
+                const accessKey = String(web3FormsAccessKeyInput?.value || '').trim();
+                const subject = `New Student Registration: ${studentName || 'Student'}${educationLevel ? ` (${educationLevel})` : ''}`;
+
+                const send = (includeReceipt) => {
+                    const formData = new FormData(form);
+                    if (accessKey) {
+                        formData.set('access_key', accessKey);
                     }
+                    formData.set('from_name', 'Akademi Al Khayr Website');
+                    formData.set('subject', subject);
+                    if (includeReceipt && receiptBlob) {
+                        formData.append('receipt_image', receiptBlob, receiptFileName || 'AAK-Registration-Receipt.png');
+                    }
+                    return fetch(formAction, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    });
+                };
+
+                send(true)
+                .then(async (response) => {
+                    if (!response.ok && receiptBlob) {
+                        return send(false);
+                    }
+                    return response;
                 })
                 .then(response => {
                     submitBtn.innerHTML = originalBtnText;

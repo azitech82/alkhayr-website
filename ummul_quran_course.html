@@ -156,11 +156,10 @@
             </div>
             
             <form id="courseForm" class="py-8 px-8 sm:px-12 space-y-6">
-                <!-- Anti-spam fields -->
-                <input type="text" name="_honey" style="display:none">
-                <input type="hidden" name="_captcha" value="true">
-                <input type="hidden" name="_template" value="table">
-                <input type="hidden" name="_subject" value="New Ummul Qura University Arabic Course Registration">
+                <input type="text" name="botcheck" style="display:none">
+                <input type="hidden" name="access_key" value="42059c33-4057-4f5d-a021-0a6ca6a62dd5">
+                <input type="hidden" name="from_name" value="Akademi Al Khayr Website">
+                <input type="hidden" name="subject" value="New Ummul Qura University Arabic Course Registration">
                 
                 <div style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">
                     <label for="aak_hp">Do not fill</label>
@@ -308,8 +307,7 @@
 
     <script>
         const courseForm = document.getElementById('courseForm');
-        // Define action here to avoid scraping
-        const formAction = 'https://formsubmit.co/ajax/akademialkhayrofficial@gmail.com';
+        const formAction = 'https://api.web3forms.com/submit';
         const registrationInitAt = Date.now();
         const registrationHoneypot = document.getElementById('aak_hp');
         const registrationLoadTime = document.getElementById('aak_time');
