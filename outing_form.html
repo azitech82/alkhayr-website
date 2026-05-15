@@ -159,7 +159,7 @@
             <form id="outingForm" class="py-8 px-8 sm:px-12 space-y-6">
                 <!-- Anti-spam fields -->
                 <input type="text" name="_honey" style="display:none">
-                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_captcha" value="true">
                 <input type="hidden" name="_template" value="table">
                 <input type="hidden" name="_subject" value="New Outing Request">
                 
@@ -420,6 +420,7 @@
             }
 
             let submitOk = false;
+            let submitMethod = null;
             try {
                 const response = await fetch(formAction, {
                     method: 'POST',
@@ -430,8 +431,49 @@
                     body: JSON.stringify(payload)
                 });
                 submitOk = response.ok;
-            } catch {
+                if (submitOk) submitMethod = 'ajax-json';
+            } catch (error) {
+                console.error('Submission error:', error);
                 submitOk = false;
+            }
+            if (!submitOk) {
+                try {
+                    const response = await fetch(formAction, {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json'
+                        },
+                        body: new FormData(form)
+                    });
+                    submitOk = response.ok;
+                    if (submitOk) submitMethod = 'ajax-formdata';
+                } catch (error) {
+                    console.error('Submission error:', error);
+                    submitOk = false;
+                }
+            }
+            if (!submitOk) {
+                try {
+                    const fallbackAction = 'https://formsubmit.co/akademialkhayrofficial@gmail.com';
+                    const previousAction = form.getAttribute('action');
+                    const previousTarget = form.getAttribute('target');
+                    const previousMethod = form.getAttribute('method');
+                    form.setAttribute('action', fallbackAction);
+                    form.setAttribute('method', 'POST');
+                    form.setAttribute('target', '_blank');
+                    form.submit();
+                    if (previousAction === null) form.removeAttribute('action');
+                    else form.setAttribute('action', previousAction);
+                    if (previousTarget === null) form.removeAttribute('target');
+                    else form.setAttribute('target', previousTarget);
+                    if (previousMethod === null) form.removeAttribute('method');
+                    else form.setAttribute('method', previousMethod);
+                    submitOk = true;
+                    submitMethod = 'form-post';
+                } catch (error) {
+                    console.error('Submission fallback error:', error);
+                    submitOk = false;
+                }
             }
 
             try {
@@ -446,7 +488,11 @@
             } catch {}
 
             if (submitOk) {
-                alert('Outing request submitted successfully! A copy of your request has been downloaded.');
+                if (submitMethod === 'form-post') {
+                    alert('We opened a new tab to submit your outing request (you may see a verification step). A copy of your request has been downloaded.');
+                } else {
+                    alert('Outing request submitted successfully! A copy of your request has been downloaded.');
+                }
             } else {
                 alert('Outing request could not be sent automatically. We will open WhatsApp to complete the request.');
             }
