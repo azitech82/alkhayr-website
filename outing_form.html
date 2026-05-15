@@ -159,7 +159,7 @@
             <form id="outingForm" class="py-8 px-8 sm:px-12 space-y-6">
                 <!-- Anti-spam fields -->
                 <input type="text" name="botcheck" style="display:none">
-                <input id="web3forms_access_key" type="hidden" name="access_key" value="">
+                <input id="web3forms_access_key" type="hidden" name="access_key" value="42059c33-4057-4f5d-a021-0a6ca6a62dd5">
                 <input type="hidden" name="subject" value="New Outing Request">
                 
                 <div style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">
@@ -413,8 +413,10 @@
 
             let submitOk = false;
             const accessKey = String(web3FormsAccessKeyInput?.value || '').trim();
-            if (!accessKey) {
+            const accessKeyUnset = !accessKey || accessKey === 'PASTE_WEB3FORMS_ACCESS_KEY_HERE';
+            if (accessKeyUnset) {
                 console.error('Submission error: Missing Web3Forms access key');
+                alert('Outing form is not configured yet. Please contact admin or try WhatsApp submission.');
             } else {
                 formData.set('access_key', accessKey);
                 try {
