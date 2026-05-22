@@ -268,6 +268,16 @@
     <section class="py-16 relative z-10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-10">
+                <div class="flex justify-center mb-6">
+                    <div class="inline-flex w-full max-w-md sm:max-w-lg rounded-full p-1 bg-white/70 backdrop-blur-xl border border-white/60 shadow-[0_18px_40px_-18px_rgba(15,23,42,0.35)]">
+                        <button id="tab-video" type="button" aria-pressed="false" class="relative flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 text-base font-semibold transition focus:outline-none focus:ring-4 rounded-l-full rounded-r-none text-gray-800 hover:bg-white/70 focus:ring-purple-100">
+                            <i class="fas fa-video"></i> Video
+                        </button>
+                        <button id="tab-photo" type="button" aria-pressed="true" class="relative flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 text-base font-semibold transition focus:outline-none focus:ring-4 rounded-l-none rounded-r-full bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white shadow-md ring-1 ring-white/30 hover:from-purple-700 hover:to-fuchsia-700 focus:ring-purple-200">
+                            <i class="fas fa-image"></i> Photo
+                        </button>
+                    </div>
+                </div>
                 <div class="flex flex-col sm:flex-row justify-center gap-4 mb-4">
                     <a href="https://www.facebook.com/akademialkhayrofficial/photos" target="_blank" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 transition shadow-lg">
                         <i class="fab fa-facebook-f mr-2"></i> View Full Gallery on Facebook
@@ -284,17 +294,29 @@
             
             <div id="gallery-container" class="space-y-12">
                 <!-- Top: Video Frame (Centered) -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 px-4">
+                <div id="video-page" class="grid grid-cols-1 md:grid-cols-2 gap-8 px-4 hidden">
                     <div id="campus-tour-video" class="w-full bamboo-frame relative group">
                         <iframe class="w-full aspect-video object-cover" src="https://www.youtube.com/embed/OrxWmRyV0lU" title="Akademi Al Khayr Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                     </div>
                     <div class="w-full bamboo-frame relative group">
                         <iframe class="w-full aspect-video object-cover" src="https://www.youtube.com/embed/MnSD4bFHM-g" title="2024 Memory Tebuk Challenge AAK" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                     </div>
+                    <div class="w-full bamboo-frame relative group">
+                        <iframe class="w-full aspect-video object-cover" src="https://www.youtube.com/embed/cT8mF59EIFA" title="Pelajar Khatam Quran - Adik Furqon" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
+                    <div class="w-full bamboo-frame relative group">
+                        <iframe class="w-full aspect-video object-cover" src="https://www.youtube.com/embed/t2G0yc-SN08" title="Pelajar Khatam Quran - Adik Afifi" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
+                    <div class="w-full bamboo-frame relative group">
+                        <iframe class="w-full aspect-video object-cover" src="https://www.youtube.com/embed/U00f99X9Y1g" title="Pelajar Khatam Quran - Adik Ossumane" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
+                    <div class="w-full bamboo-frame relative group">
+                        <iframe class="w-full aspect-video object-cover" src="https://www.youtube.com/embed/A57ZkXx5dmg" title="Pelajar Khatam Quran - Adik Darwisy" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
                 </div>
 
                 <!-- Photo Grid -->
-<div class="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-8 space-y-8 p-4">
+<div id="photo-page" class="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-8 space-y-8 p-4">
                     <div class="break-inside-avoid bg-stone-50 p-4 pb-16 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.2)] border border-gray-200 rotate-1 hover:rotate-0 transition duration-500 ease-in-out transform hover:scale-105 hover:z-10 relative">
                         <img src="Gallery/480409144_631640739414910_1639360021761228736_n.jpg" alt="Gallery Image" class="w-full h-auto shadow-inner sepia brightness-90 contrast-85 hover:sepia-0 hover:brightness-100 hover:contrast-100 transition duration-500">
                     </div>
@@ -482,6 +504,55 @@
                 item.style.animationDelay = `${index * 0.05}s`;
             });
         }
+
+        const tabPhoto = document.getElementById('tab-photo');
+        const tabVideo = document.getElementById('tab-video');
+        const photoPage = document.getElementById('photo-page');
+        const videoPage = document.getElementById('video-page');
+
+        const tabBaseClasses = 'relative flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 text-base font-semibold transition focus:outline-none focus:ring-4';
+        const tabLeftClasses = 'rounded-l-full rounded-r-none';
+        const tabRightClasses = 'rounded-l-none rounded-r-full';
+        const activeTabClasses = 'bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white shadow-md ring-1 ring-white/30 hover:from-purple-700 hover:to-fuchsia-700';
+        const inactiveTabClasses = 'text-gray-800 hover:bg-white/70';
+
+        const setActiveTab = (tab) => {
+            const isVideo = tab === 'video';
+            if (photoPage) photoPage.classList.toggle('hidden', isVideo);
+            if (videoPage) videoPage.classList.toggle('hidden', !isVideo);
+
+            if (tabPhoto) {
+                tabPhoto.className = `${tabBaseClasses} ${tabRightClasses} ${isVideo ? inactiveTabClasses : activeTabClasses} ${isVideo ? 'focus:ring-purple-100' : 'focus:ring-purple-200'}`;
+                tabPhoto.setAttribute('aria-pressed', String(!isVideo));
+            }
+            if (tabVideo) {
+                tabVideo.className = `${tabBaseClasses} ${tabLeftClasses} ${isVideo ? activeTabClasses : inactiveTabClasses} ${isVideo ? 'focus:ring-purple-200' : 'focus:ring-purple-100'}`;
+                tabVideo.setAttribute('aria-pressed', String(isVideo));
+            }
+        };
+
+        const getInitialTab = () => {
+            const hash = (window.location.hash || '').toLowerCase();
+            if (hash === '#video') return 'video';
+            return 'video';
+        };
+
+        if (tabPhoto && tabVideo) {
+            tabPhoto.addEventListener('click', () => {
+                history.replaceState(null, '', '#photo');
+                setActiveTab('photo');
+            });
+            tabVideo.addEventListener('click', () => {
+                history.replaceState(null, '', '#video');
+                setActiveTab('video');
+            });
+        }
+
+        window.addEventListener('hashchange', () => {
+            setActiveTab(getInitialTab());
+        });
+
+        setActiveTab(getInitialTab());
 
         lightbox.addEventListener('click', () => {
             lightbox.classList.remove('active');
