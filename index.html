@@ -81,13 +81,17 @@
         }
         @media (max-width: 639px) {
             .info-board-overlay {
-                padding-bottom: 7.5rem;
+                --aak-hijri-dock-height: 8.75rem;
+                padding-bottom: calc(var(--aak-hijri-dock-height) + env(safe-area-inset-bottom));
+            }
+            .info-board-panel--fb {
+                margin-bottom: var(--aak-hijri-dock-height);
             }
             .aak-hijri-clock--infoboard {
                 position: fixed;
                 top: auto;
                 right: auto;
-                bottom: 1rem;
+                bottom: calc(1rem + env(safe-area-inset-bottom));
                 left: 50%;
                 transform: translateX(-50%);
                 width: min(92vw, 360px);
