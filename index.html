@@ -71,7 +71,7 @@
             padding: 1rem 1.1rem;
             text-align: center;
         }
-        .aak-hijri-clock--infoboard #hijri-time {
+        .aak-hijri-clock--infoboard [data-hijri-time] {
             font-size: clamp(2.2rem, 1.8rem + 1.2vw, 3.1rem);
         }
         @media (min-width: 1024px) {
@@ -80,25 +80,18 @@
             }
         }
         @media (max-width: 639px) {
-            .info-board-overlay {
-                padding-bottom: 0;
-            }
-            .aak-hijri-clock--infoboard {
-                position: static;
+            .aak-hijri-clock--mobile {
                 width: 100%;
-                margin-top: 1rem;
-                margin-left: auto;
-                margin-right: auto;
-                transform: none;
+                margin: 0 auto 1.2rem;
             }
-            .aak-hijri-clock--infoboard .aak-hijri-clock-card {
+            .aak-hijri-clock--mobile .aak-hijri-clock-card {
                 border-radius: 1.4rem;
                 padding: 0.85rem 1rem;
                 max-width: min(92vw, 360px);
                 margin-left: auto;
                 margin-right: auto;
             }
-            .aak-hijri-clock--infoboard #hijri-time {
+            .aak-hijri-clock--mobile [data-hijri-time] {
                 font-size: clamp(2.1rem, 1.7rem + 2.6vw, 2.7rem);
             }
         }
@@ -855,6 +848,12 @@
 
     <div id="info-board-overlay" class="info-board-overlay" aria-live="polite" role="dialog" aria-modal="true" aria-label="Latest updates from Akademi Al Khayr">
         <div class="info-board-wrapper">
+            <div class="aak-hijri-clock aak-hijri-clock--mobile block lg:hidden" dir="rtl" lang="ar">
+                <div class="aak-hijri-clock-card">
+                    <div data-hijri-date class="text-white/90 text-sm font-medium tracking-wide"></div>
+                    <div data-hijri-time class="aak-hijri-clock-time text-white font-semibold leading-none mt-1"></div>
+                </div>
+            </div>
             <!-- Ayah of the Day Card -->
             <div class="info-board-panel text-white" id="ayah-board-panel" style="width: 380px;">
             <button id="info-board-close" type="button" class="info-board-close-button" aria-label="Close information board">
@@ -888,10 +887,10 @@
                     ></iframe>
                 </div>
             </div>
-            <div id="hijri-iphone-clock" class="aak-hijri-clock aak-hijri-clock--infoboard" dir="rtl" lang="ar">
+            <div class="aak-hijri-clock aak-hijri-clock--infoboard hidden lg:block" dir="rtl" lang="ar">
                 <div class="aak-hijri-clock-card">
-                    <div id="hijri-date" class="text-white/90 text-sm font-medium tracking-wide"></div>
-                    <div id="hijri-time" class="aak-hijri-clock-time text-white font-semibold leading-none mt-1"></div>
+                    <div data-hijri-date class="text-white/90 text-sm font-medium tracking-wide"></div>
+                    <div data-hijri-time class="aak-hijri-clock-time text-white font-semibold leading-none mt-1"></div>
                 </div>
             </div>
             <div id="info-board-progress" class="info-board-progress" aria-hidden="true"></div>
@@ -3058,10 +3057,8 @@ This message was submitted via the website contact form.
     </script>
     <script>
         (function () {
-            const clockRoot = document.getElementById('hijri-iphone-clock');
-            const timeEl = document.getElementById('hijri-time');
-            const dateEl = document.getElementById('hijri-date');
-            if (!clockRoot || !timeEl || !dateEl) return;
+            const clockRoots = Array.from(document.querySelectorAll('.aak-hijri-clock'));
+            if (!clockRoots.length) return;
 
             const stripBidiMarks = (value) => String(value || '').replace(/[\u200e\u200f\u202a-\u202e]/g, '');
 
@@ -3085,8 +3082,15 @@ This message was submitted via the website contact form.
 
             const update = () => {
                 const now = new Date();
-                timeEl.textContent = stripBidiMarks(timeFormatter.format(now));
-                dateEl.textContent = hijriFormatter ? stripBidiMarks(hijriFormatter.format(now)) : '';
+                const formattedTime = stripBidiMarks(timeFormatter.format(now));
+                const formattedDate = hijriFormatter ? stripBidiMarks(hijriFormatter.format(now)) : '';
+
+                clockRoots.forEach((root) => {
+                    const timeEl = root.querySelector('[data-hijri-time]');
+                    const dateEl = root.querySelector('[data-hijri-date]');
+                    if (timeEl) timeEl.textContent = formattedTime;
+                    if (dateEl) dateEl.textContent = formattedDate;
+                });
             };
 
             update();
