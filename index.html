@@ -79,6 +79,28 @@
                 margin-top: 7.2rem;
             }
         }
+        @media (max-width: 639px) {
+            .info-board-overlay {
+                padding-bottom: 7.5rem;
+            }
+            .aak-hijri-clock--infoboard {
+                position: fixed;
+                top: auto;
+                right: auto;
+                bottom: 1rem;
+                left: 50%;
+                transform: translateX(-50%);
+                width: min(92vw, 360px);
+                z-index: 130;
+            }
+            .aak-hijri-clock--infoboard .aak-hijri-clock-card {
+                border-radius: 1.4rem;
+                padding: 0.85rem 1rem;
+            }
+            .aak-hijri-clock--infoboard #hijri-time {
+                font-size: clamp(2.1rem, 1.7rem + 2.6vw, 2.7rem);
+            }
+        }
         .hero-bg {
             /* Background managed by JS slider */
             position: relative;
@@ -764,28 +786,28 @@
                 top: auto;
                 left: auto;
                 flex-direction: column;
-                gap: 2rem;
+                gap: 1.6rem;
                 width: 529.6px;
                 /* Base scale for large mobile (e.g. Pro Max) */
-                transform: scale(0.75);
+                transform: scale(0.70);
                 transform-origin: top center;
                 margin: 0 auto;
-                padding-bottom: 2rem;
+                padding-bottom: 0;
             }
             /* Responsive scaling based on screen height and width to ensure both cards fit perfectly */
             @media (max-width: 414px) {
                 .info-board-wrapper {
-                    transform: scale(0.65);
+                    transform: scale(0.60);
                 }
             }
             @media (max-width: 375px) {
                 .info-board-wrapper {
-                    transform: scale(0.58);
+                    transform: scale(0.54);
                 }
             }
             @media (max-width: 360px) {
                 .info-board-wrapper {
-                    transform: scale(0.52);
+                    transform: scale(0.48);
                 }
             }
             .info-board-panel {
@@ -852,7 +874,7 @@
         </div>
 
         <div class="info-board-panel info-board-panel--fb text-white">
-            <div id="hijri-iphone-clock" class="aak-hijri-clock aak-hijri-clock--infoboard hidden lg:block" dir="rtl" lang="ar">
+            <div id="hijri-iphone-clock" class="aak-hijri-clock aak-hijri-clock--infoboard" dir="rtl" lang="ar">
                 <div class="aak-hijri-clock-card">
                     <div id="hijri-date" class="text-white/90 text-sm font-medium tracking-wide"></div>
                     <div id="hijri-time" class="aak-hijri-clock-time text-white font-semibold leading-none mt-1"></div>
