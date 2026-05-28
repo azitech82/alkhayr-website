@@ -139,6 +139,117 @@
             border-radius: 14px;
             background-color: #000000;
         }
+
+        .tebuk-card-border {
+            padding: 2px;
+            border-radius: 24px;
+            background: linear-gradient(135deg, #7c3aed, #db2777, #2563eb);
+            box-shadow: 0 22px 40px -24px rgba(15, 23, 42, 0.55);
+        }
+
+        .tebuk-card-inner {
+            border-radius: 22px;
+            padding: 14px;
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+        }
+
+        .tebuk-video-wrap {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            background: #0b1020;
+        }
+
+        .tebuk-video-wrap::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 20% 10%, rgba(147, 51, 234, 0.22), transparent 46%),
+                radial-gradient(circle at 80% 30%, rgba(37, 99, 235, 0.18), transparent 56%),
+                radial-gradient(circle at 55% 85%, rgba(236, 72, 153, 0.14), transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .tebuk-video-wrap iframe {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            display: block;
+            border: none;
+            border-radius: 0;
+            background-color: #000000;
+        }
+
+        .tebuk-thumb {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-size: cover;
+            background-position: center;
+            text-decoration: none;
+        }
+
+        .tebuk-thumb::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(2, 6, 23, 0.05), rgba(2, 6, 23, 0.55));
+        }
+
+        .tebuk-play {
+            position: relative;
+            width: 64px;
+            height: 64px;
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.92);
+            border: 1px solid rgba(255, 255, 255, 0.75);
+            display: grid;
+            place-items: center;
+            box-shadow: 0 18px 40px -24px rgba(15, 23, 42, 0.85);
+        }
+
+        .tebuk-play i {
+            color: #dc2626;
+            font-size: 22px;
+            margin-left: 2px;
+        }
+
+        .tebuk-overlay {
+            position: absolute;
+            left: 12px;
+            top: 12px;
+            z-index: 2;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .tebuk-tag {
+            font-size: 12px;
+            font-weight: 700;
+            padding: 6px 10px;
+            border-radius: 9999px;
+            color: #111827;
+            background: rgba(255, 255, 255, 0.88);
+            border: 1px solid rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(10px);
+        }
+
+        .tebuk-title {
+            margin-top: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            color: #111827;
+        }
     </style>
 </head>
 <body class="text-gray-800 relative bg-stone-100">
@@ -296,7 +407,7 @@
                 <!-- Top: Video Frame (Centered) -->
                 <div id="video-page" class="px-4 hidden space-y-12">
                     <div class="space-y-4">
-                        <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900 tracking-tight">Tabuk Challenge</h2>
+                        <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900 tracking-tight">Tebuk Challenge</h2>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                             <div class="space-y-3">
                                 <div class="w-full bamboo-frame relative group">
@@ -332,19 +443,59 @@
                     </div>
 
                     <div class="space-y-4">
-                        <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900 tracking-tight">Tebuk</h2>
+                        <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900 tracking-tight">Tebuk Photo Memory Memorisation Method (PMMM)</h2>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            <div class="space-y-3">
-                                <div class="w-full bamboo-frame relative group">
-                                    <iframe class="w-full aspect-video object-cover" src="https://www.youtube.com/embed/WTWqCesu9sY" title="Tebuk Juz 30 - Adik Ayra & Qaseh" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                            <div class="group transition-transform duration-300 hover:-translate-y-1">
+                                <div class="tebuk-card-border">
+                                    <div class="tebuk-card-inner">
+                                        <div class="tebuk-video-wrap">
+                                            <div class="tebuk-overlay">
+                                                <span class="tebuk-tag">Juz 30</span>
+                                            </div>
+                                            <iframe src="https://www.youtube.com/embed/WTWqCesu9sY" title="Tebuk Juz 30 - Adik Ayra &amp; Qaseh" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe>
+                                        </div>
+                                        <p class="tebuk-title">Tebuk Juz 30 - Adik Ayra &amp; Qaseh</p>
+                                    </div>
                                 </div>
-                                <p class="text-sm font-semibold text-gray-800">Tebuk Juz 30 - Adik Ayra &amp; Qaseh</p>
                             </div>
-                            <div class="space-y-3">
-                                <div class="w-full bamboo-frame relative group">
-                                    <iframe class="w-full aspect-video object-cover" src="https://www.youtube.com/embed/7rRBzwW9O6k" title="Tebuk PMMM - Adik Afifi" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                            <div class="group transition-transform duration-300 hover:-translate-y-1">
+                                <div class="tebuk-card-border">
+                                    <div class="tebuk-card-inner">
+                                        <div class="tebuk-video-wrap">
+                                            <div class="tebuk-overlay">
+                                                <span class="tebuk-tag">PMMM</span>
+                                            </div>
+                                            <iframe src="https://www.youtube.com/embed/7rRBzwW9O6k" title="Tebuk PMMM - Adik Afifi" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe>
+                                        </div>
+                                        <p class="tebuk-title">Tebuk PMMM - Adik Afifi</p>
+                                    </div>
                                 </div>
-                                <p class="text-sm font-semibold text-gray-800">Tebuk Juz 30 - Adik Ayra &amp; Qaseh</p>
+                            </div>
+                            <div class="group transition-transform duration-300 hover:-translate-y-1">
+                                <div class="tebuk-card-border">
+                                    <div class="tebuk-card-inner">
+                                        <div class="tebuk-video-wrap">
+                                            <div class="tebuk-overlay">
+                                                <span class="tebuk-tag">PMMM</span>
+                                            </div>
+                                            <iframe src="https://www.youtube.com/embed/y5TIPnxzLnA" title="Tebuk PMMM - Adik Ossumane" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe>
+                                        </div>
+                                        <p class="tebuk-title">Tebuk PMMM - Adik Ossumane</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="group transition-transform duration-300 hover:-translate-y-1">
+                                <div class="tebuk-card-border">
+                                    <div class="tebuk-card-inner">
+                                        <div class="tebuk-video-wrap">
+                                            <div class="tebuk-overlay">
+                                                <span class="tebuk-tag">PMMM</span>
+                                            </div>
+                                            <iframe src="about:blank" title="Tebuk PMMM - Adik Mujahid" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe>
+                                        </div>
+                                        <p class="tebuk-title">Tebuk PMMM - Adik Mujahid</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -352,11 +503,18 @@
                     <div class="space-y-4">
                         <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900 tracking-tight">Arabic Course</h2>
                         <div class="flex justify-center">
-                            <div class="w-full max-w-4xl space-y-3">
-                                <div class="w-full bamboo-frame relative group">
-                                    <iframe class="w-full aspect-video object-cover" src="https://www.youtube.com/embed/z2WyrhK1tgw" title="Arabic Intensive Course (Cohort 1)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                            <div class="w-full max-w-4xl group transition-transform duration-300 hover:-translate-y-1">
+                                <div class="tebuk-card-border">
+                                    <div class="tebuk-card-inner">
+                                        <div class="tebuk-video-wrap">
+                                            <div class="tebuk-overlay">
+                                                <span class="tebuk-tag">Course</span>
+                                            </div>
+                                            <iframe src="https://www.youtube.com/embed/z2WyrhK1tgw" title="Arabic Intensive Course (Cohort 1)" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe>
+                                        </div>
+                                        <p class="tebuk-title">Arabic Intensive Course (Cohort 1)</p>
+                                    </div>
                                 </div>
-                                <p class="text-sm font-semibold text-gray-800">Arabic Intensive Course (Cohort 1)</p>
                             </div>
                         </div>
                     </div>
