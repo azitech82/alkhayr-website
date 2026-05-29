@@ -492,13 +492,27 @@
                     </div>
 
                     <div class="mt-12">
-                        <div class="rounded-3xl border border-purple-100 bg-white p-6 md:p-8 shadow-sm">
-                            <div class="text-center mb-6">
-                                <h3 class="text-2xl font-extrabold text-gray-900">Registration Form<br><span class="text-base font-normal text-gray-500 font-arabic">نموذج التسجيل</span></h3>
-                                <p class="text-sm text-gray-600 mt-2">
-                                    Fill in the details and submit to open an email with your registration information pre-filled.<br>
-                                    <span class="text-sm text-gray-500 font-arabic">املأ البيانات ثم اضغط إرسال لفتح البريد الإلكتروني مع تعبئة معلومات التسجيل تلقائياً</span>
-                                </p>
+                        <div class="flex justify-center">
+                            <button id="uqProgramRegistrationToggle" type="button" class="inline-flex items-center justify-center px-8 py-3 rounded-full bg-purple-600 hover:bg-purple-700 text-white font-bold shadow-md transition text-center">
+                                <div class="flex flex-col items-center leading-tight">
+                                    <span>Open Registration Form</span>
+                                    <span class="text-[12px] font-normal opacity-90 font-arabic">افتح نموذج التسجيل</span>
+                                </div>
+                            </button>
+                        </div>
+
+                        <div id="uqProgramRegistrationPanel" class="hidden mt-6 rounded-3xl border border-purple-100 bg-white p-6 md:p-8 shadow-sm">
+                            <div class="flex items-start justify-between gap-4 mb-6">
+                                <div class="text-center flex-1">
+                                    <h3 class="text-2xl font-extrabold text-gray-900">Registration Form<br><span class="text-base font-normal text-gray-500 font-arabic">نموذج التسجيل</span></h3>
+                                    <p class="text-sm text-gray-600 mt-2">
+                                        Fill in the details and submit to open an email with your registration information pre-filled.<br>
+                                        <span class="text-sm text-gray-500 font-arabic">املأ البيانات ثم اضغط إرسال لفتح البريد الإلكتروني مع تعبئة معلومات التسجيل تلقائياً</span>
+                                    </p>
+                                </div>
+                                <button id="uqProgramRegistrationClose" type="button" class="flex-shrink-0 w-10 h-10 rounded-full border border-gray-200 text-gray-600 hover:bg-gray-50 transition" aria-label="Close registration form">
+                                    <i class="fas fa-times"></i>
+                                </button>
                             </div>
 
                             <form id="uqProgramRegistrationForm" class="space-y-5">
@@ -521,8 +535,8 @@
                                     </div>
 
                                     <div>
-                                        <label for="uq_startDate" class="block text-sm font-semibold text-gray-800">Preferred Start Date<br><span class="text-xs font-normal text-gray-500 font-arabic">تاريخ البدء المفضل</span></label>
-                                        <input id="uq_startDate" name="startDate" type="date" required class="mt-2 w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition bg-gray-50">
+                                        <label for="uq_startDate" class="block text-sm font-semibold text-gray-800">Preferred Start Month<br><span class="text-xs font-normal text-gray-500 font-arabic">شهر وسنة البدء المفضلة</span></label>
+                                        <input id="uq_startDate" name="startMonth" type="month" required class="mt-2 w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition bg-gray-50">
                                     </div>
                                 </div>
 
@@ -625,6 +639,47 @@
     </script>
     <script>
         const uqProgramRegistrationForm = document.getElementById('uqProgramRegistrationForm');
+        const uqProgramRegistrationToggle = document.getElementById('uqProgramRegistrationToggle');
+        const uqProgramRegistrationPanel = document.getElementById('uqProgramRegistrationPanel');
+        const uqProgramRegistrationClose = document.getElementById('uqProgramRegistrationClose');
+
+        const showUqRegistrationPanel = () => {
+            if (!uqProgramRegistrationPanel) return;
+            uqProgramRegistrationPanel.classList.remove('hidden');
+            uqProgramRegistrationPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            const firstInput = document.getElementById('uq_fullName');
+            if (firstInput) {
+                firstInput.focus({ preventScroll: true });
+            }
+        };
+
+        const hideUqRegistrationPanel = () => {
+            if (!uqProgramRegistrationPanel) return;
+            uqProgramRegistrationPanel.classList.add('hidden');
+        };
+
+        if (uqProgramRegistrationToggle) {
+            uqProgramRegistrationToggle.addEventListener('click', () => {
+                if (!uqProgramRegistrationPanel) return;
+                const isHidden = uqProgramRegistrationPanel.classList.contains('hidden');
+                if (isHidden) {
+                    showUqRegistrationPanel();
+                } else {
+                    hideUqRegistrationPanel();
+                }
+            });
+        }
+
+        if (uqProgramRegistrationClose) {
+            uqProgramRegistrationClose.addEventListener('click', hideUqRegistrationPanel);
+        }
+
+        window.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                hideUqRegistrationPanel();
+            }
+        });
+
         if (uqProgramRegistrationForm) {
             uqProgramRegistrationForm.addEventListener('submit', (e) => {
                 e.preventDefault();
@@ -633,15 +688,24 @@
                 const fullName = String(formData.get('fullName') || '').trim();
                 const contactNo = String(formData.get('contactNo') || '').trim();
                 const email = String(formData.get('email') || '').trim();
-                const startDate = String(formData.get('startDate') || '').trim();
+                const startMonth = String(formData.get('startMonth') || '').trim();
                 const mode = String(formData.get('mode') || '').trim();
                 const uquDuration = String(formData.get('uquDuration') || '').trim();
                 const notes = String(formData.get('notes') || '').trim();
 
-                if (!fullName || !contactNo || !email || !startDate || !mode || !uquDuration) {
+                if (!fullName || !contactNo || !email || !startMonth || !mode || !uquDuration) {
                     alert('Please fill in all required fields.');
                     return;
                 }
+
+                const startMonthLabel = (() => {
+                    const parts = startMonth.split('-');
+                    if (parts.length !== 2) return startMonth;
+                    const year = Number(parts[0]);
+                    const month = Number(parts[1]);
+                    if (!Number.isFinite(year) || !Number.isFinite(month) || month < 1 || month > 12) return startMonth;
+                    return new Date(year, month - 1, 1).toLocaleString('en-US', { month: 'long', year: 'numeric' });
+                })();
 
                 const aakDuration = mode === 'Intensive' ? '2 months (AAK intensive)' : '6 months (AAK normal)';
                 const subject = "New Registration: Iqra' Arabic @ Ummul Qura - AAK Program";
@@ -656,7 +720,7 @@
                     `Program Mode: ${mode}`,
                     `AAK Duration: ${aakDuration}`,
                     `Ummul Qura Track: ${uquDuration}`,
-                    `Preferred Start Date: ${startDate}`,
+                    `Preferred Start Month: ${startMonthLabel}`,
                     notes ? `Notes: ${notes}` : null,
                     '',
                     'Jazakumullahu khairan.'
