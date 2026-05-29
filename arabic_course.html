@@ -54,6 +54,19 @@
         #navbar.scrolled .social-icon { color: #9ca3af; }
         #navbar .social-icon:hover { color: #ffffff; }
         #navbar.scrolled .social-icon:hover { color: #9333ea; }
+
+        @keyframes aak-attention-glow {
+            0%, 100% { box-shadow: 0 10px 22px rgba(15, 23, 42, 0.18), 0 0 0 0 rgba(253, 224, 71, 0.25); }
+            50% { box-shadow: 0 14px 34px rgba(15, 23, 42, 0.22), 0 0 0 7px rgba(253, 224, 71, 0.12); }
+        }
+
+        .aak-attention-pill {
+            animation: aak-attention-glow 1.8s ease-in-out infinite;
+        }
+
+        .aak-attention-pill:hover {
+            animation-play-state: paused;
+        }
     </style>
 </head>
 <body class="text-gray-800 bg-gray-50">
@@ -190,7 +203,7 @@
                 <div class="flex items-center px-1 sm:px-2 space-x-0.5 sm:space-x-1 overflow-x-auto no-scrollbar">
                     <a href="#why-learn" class="px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium text-white hover:text-white hover:bg-white/20 rounded-full transition-colors whitespace-nowrap">Why Learn Arabic</a>
                     <a href="#course-levels" class="px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium text-white hover:text-white hover:bg-white/20 rounded-full transition-colors whitespace-nowrap">Course Level</a>
-                    <a href="#ummul-qura-aak-intensive" class="px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold bg-gradient-to-r from-yellow-200/70 via-yellow-300/55 to-yellow-200/70 text-gray-900 hover:from-yellow-200/80 hover:via-yellow-300/65 hover:to-yellow-200/80 rounded-full transition-colors whitespace-nowrap shadow-sm border border-yellow-200/60 backdrop-blur-md">Ummul Qura - AAK Intensive Arabic Program</a>
+                    <a href="#ummul-qura-aak-intensive" class="aak-attention-pill px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold bg-gradient-to-r from-yellow-200/85 via-yellow-300/65 to-amber-200/85 text-gray-900 hover:from-yellow-200/95 hover:via-yellow-300/75 hover:to-amber-200/95 rounded-full transition-colors whitespace-nowrap border border-yellow-200/70 backdrop-blur-md transform hover:scale-[1.02]">Ummul Qura - AAK Intensive Arabic Program</a>
                 </div>
                 
             </div>
@@ -478,13 +491,74 @@
                         </div>
                     </div>
 
-                    <div class="mt-12 flex justify-center">
-                        <a href="mailto:akademialkhayrofficial@gmail.com?subject=New%20Registration%3A%20Iqra%27%20Arabic%20%40%20Ummul%20Qura%20-%20AAK%20Program&amp;body=Assalamu%20alaikum%2C%0D%0A%0D%0AI%20would%20like%20to%20register%20for%20the%20Iqra%27%20Arabic%20%40%20Ummul%20Qura%20-%20AAK%20Program.%0D%0A%0D%0AFull%20Name%3A%0D%0AContact%20Number%3A%0D%0AEmail%3A%0D%0AMode%20of%20Study%20(Intensive%20%2F%20Normal)%3A%0D%0APreferred%20Start%20Date%3A%0D%0A%0D%0AJazakumullahu%20khairan." class="inline-flex items-center justify-center px-8 py-3 rounded-full bg-purple-600 hover:bg-purple-700 text-white font-bold shadow-md transition text-center">
-                            <div class="flex flex-col items-center leading-tight">
-                                <span>Register Iqra' Arabic Arabic program now</span>
-                                <span class="text-[12px] font-normal opacity-90 font-arabic">سجل الآن</span>
+                    <div class="mt-12">
+                        <div class="rounded-3xl border border-purple-100 bg-white p-6 md:p-8 shadow-sm">
+                            <div class="text-center mb-6">
+                                <h3 class="text-2xl font-extrabold text-gray-900">Registration Form<br><span class="text-base font-normal text-gray-500 font-arabic">نموذج التسجيل</span></h3>
+                                <p class="text-sm text-gray-600 mt-2">
+                                    Fill in the details and submit to open an email with your registration information pre-filled.<br>
+                                    <span class="text-sm text-gray-500 font-arabic">املأ البيانات ثم اضغط إرسال لفتح البريد الإلكتروني مع تعبئة معلومات التسجيل تلقائياً</span>
+                                </p>
                             </div>
-                        </a>
+
+                            <form id="uqProgramRegistrationForm" class="space-y-5">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                    <div>
+                                        <label for="uq_fullName" class="block text-sm font-semibold text-gray-800">Full Name<br><span class="text-xs font-normal text-gray-500 font-arabic">الاسم الكامل</span></label>
+                                        <input id="uq_fullName" name="fullName" type="text" required class="mt-2 w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition bg-gray-50" placeholder="Your full name">
+                                    </div>
+
+                                    <div>
+                                        <label for="uq_contactNo" class="block text-sm font-semibold text-gray-800">Contact Number<br><span class="text-xs font-normal text-gray-500 font-arabic">رقم التواصل</span></label>
+                                        <input id="uq_contactNo" name="contactNo" type="tel" required class="mt-2 w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition bg-gray-50" placeholder="e.g. +60...">
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                    <div>
+                                        <label for="uq_email" class="block text-sm font-semibold text-gray-800">Email<br><span class="text-xs font-normal text-gray-500 font-arabic">البريد الإلكتروني</span></label>
+                                        <input id="uq_email" name="email" type="email" required class="mt-2 w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition bg-gray-50" placeholder="your@email.com">
+                                    </div>
+
+                                    <div>
+                                        <label for="uq_startDate" class="block text-sm font-semibold text-gray-800">Preferred Start Date<br><span class="text-xs font-normal text-gray-500 font-arabic">تاريخ البدء المفضل</span></label>
+                                        <input id="uq_startDate" name="startDate" type="date" required class="mt-2 w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition bg-gray-50">
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                    <div>
+                                        <label for="uq_mode" class="block text-sm font-semibold text-gray-800">Program Mode<br><span class="text-xs font-normal text-gray-500 font-arabic">نمط البرنامج</span></label>
+                                        <select id="uq_mode" name="mode" required class="mt-2 w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition bg-gray-50">
+                                            <option value="" selected disabled>Select program mode</option>
+                                            <option value="Intensive">Intensive Arabic Program (2 months AAK)</option>
+                                            <option value="Normal">Normal Arabic Program (6 months AAK)</option>
+                                        </select>
+                                    </div>
+
+                                    <div>
+                                        <label for="uq_uquDuration" class="block text-sm font-semibold text-gray-800">Ummul Qura Track<br><span class="text-xs font-normal text-gray-500 font-arabic">مسار جامعة أم القرى</span></label>
+                                        <select id="uq_uquDuration" name="uquDuration" required class="mt-2 w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition bg-gray-50">
+                                            <option value="" selected disabled>Select duration</option>
+                                            <option value="1 month (80 hours)">1 month (80 hours)</option>
+                                            <option value="2 weeks (40 hours)">2 weeks (40 hours)</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label for="uq_notes" class="block text-sm font-semibold text-gray-800">Notes (Optional)<br><span class="text-xs font-normal text-gray-500 font-arabic">ملاحظات (اختياري)</span></label>
+                                    <textarea id="uq_notes" name="notes" rows="3" class="mt-2 w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition bg-gray-50" placeholder="Any additional details..."></textarea>
+                                </div>
+
+                                <button type="submit" class="w-full inline-flex items-center justify-center px-8 py-3 rounded-full bg-purple-600 hover:bg-purple-700 text-white font-bold shadow-md transition text-center">
+                                    <div class="flex flex-col items-center leading-tight">
+                                        <span>Submit Registration via Email</span>
+                                        <span class="text-[12px] font-normal opacity-90 font-arabic">إرسال التسجيل عبر البريد الإلكتروني</span>
+                                    </div>
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -546,6 +620,50 @@
                     mobileMenuIcon.classList.add('fa-bars');
                     mobileMenuIcon.classList.remove('fa-times');
                 });
+            });
+        }
+    </script>
+    <script>
+        const uqProgramRegistrationForm = document.getElementById('uqProgramRegistrationForm');
+        if (uqProgramRegistrationForm) {
+            uqProgramRegistrationForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                const formData = new FormData(uqProgramRegistrationForm);
+                const fullName = String(formData.get('fullName') || '').trim();
+                const contactNo = String(formData.get('contactNo') || '').trim();
+                const email = String(formData.get('email') || '').trim();
+                const startDate = String(formData.get('startDate') || '').trim();
+                const mode = String(formData.get('mode') || '').trim();
+                const uquDuration = String(formData.get('uquDuration') || '').trim();
+                const notes = String(formData.get('notes') || '').trim();
+
+                if (!fullName || !contactNo || !email || !startDate || !mode || !uquDuration) {
+                    alert('Please fill in all required fields.');
+                    return;
+                }
+
+                const aakDuration = mode === 'Intensive' ? '2 months (AAK intensive)' : '6 months (AAK normal)';
+                const subject = "New Registration: Iqra' Arabic @ Ummul Qura - AAK Program";
+                const bodyLines = [
+                    'Assalamu alaikum,',
+                    '',
+                    "I would like to register for the Iqra' Arabic @ Ummul Qura - AAK Program.",
+                    '',
+                    `Full Name: ${fullName}`,
+                    `Contact Number: ${contactNo}`,
+                    `Email: ${email}`,
+                    `Program Mode: ${mode}`,
+                    `AAK Duration: ${aakDuration}`,
+                    `Ummul Qura Track: ${uquDuration}`,
+                    `Preferred Start Date: ${startDate}`,
+                    notes ? `Notes: ${notes}` : null,
+                    '',
+                    'Jazakumullahu khairan.'
+                ].filter(Boolean);
+
+                const mailto = `mailto:akademialkhayrofficial@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyLines.join('\n'))}`;
+                window.location.href = mailto;
             });
         }
     </script>
