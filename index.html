@@ -3065,6 +3065,7 @@ This message was submitted via the website contact form.
             if (!clockRoots.length) return;
 
             const stripBidiMarks = (value) => String(value || '').replace(/[\u200e\u200f\u202a-\u202e]/g, '');
+            const hijriDayOffsetDays = -1;
 
             let hijriFormatter = null;
             try {
@@ -3086,8 +3087,26 @@ This message was submitted via the website contact form.
 
             const update = () => {
                 const now = new Date();
+                const hijriDate = new Date(now);
+                hijriDate.setDate(hijriDate.getDate() + hijriDayOffsetDays);
                 const formattedTime = stripBidiMarks(timeFormatter.format(now));
-                const formattedDate = hijriFormatter ? stripBidiMarks(hijriFormatter.format(now)) : '';
+                let formattedDate = '';
+                if (hijriFormatter) {
+                    if (typeof hijriFormatter.formatToParts === 'function') {
+                        const parts = hijriFormatter.formatToParts(hijriDate);
+                        const weekdayValue = hijriFormatter
+                            .formatToParts(now)
+                            .find((part) => part.type === 'weekday')?.value;
+                        formattedDate = stripBidiMarks(
+                            parts
+                                .map((part) => (part.type === 'weekday' && weekdayValue ? { ...part, value: weekdayValue } : part))
+                                .map((part) => part.value)
+                                .join('')
+                        );
+                    } else {
+                        formattedDate = stripBidiMarks(hijriFormatter.format(hijriDate));
+                    }
+                }
 
                 clockRoots.forEach((root) => {
                     const timeEl = root.querySelector('[data-hijri-time]');
