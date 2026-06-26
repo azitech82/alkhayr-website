@@ -430,7 +430,7 @@
                                     <h4 class="text-lg font-bold text-gray-900">Intensive Arabic Program<br><span class="text-sm font-normal text-gray-600 font-arabic">البرنامج المكثف</span></h4>
                                 </div>
                                 <p class="text-gray-700">
-                                    2 months in AAK &amp; 1 month / 2 weeks in Ummul Qura University, Makkah.<br><span class="text-sm text-gray-600 font-arabic">شهران في أكاديمي الخير &amp; شهر / أسبوعان في جامعة أم القرى - مكة</span>
+                                    1 month in AAK &amp; 1 month / 2 weeks in Ummul Qura University, Makkah.<br><span class="text-sm text-gray-600 font-arabic">شهر في أكاديمي الخير &amp; شهر / أسبوعان في جامعة أم القرى - مكة</span>
                                 </p>
                             </div>
 
@@ -494,11 +494,11 @@
                                     <div class="space-y-2 text-gray-700">
                                         <div class="flex items-start gap-2">
                                             <i class="fas fa-bolt text-amber-700 mt-1"></i>
-                                            <p>2 months (Intensive course)<span class="block text-sm text-gray-600 font-arabic">شهران (مكثف)</span></p>
+                                            <p>1 month (Intensive course @AAK Campus)<span class="block text-sm text-gray-600 font-arabic">شهر (مكثف)</span></p>
                                         </div>
                                         <div class="flex items-start gap-2">
                                             <i class="fas fa-calendar-alt text-amber-700 mt-1"></i>
-                                            <p>6 months (Non-intensive course)<span class="block text-sm text-gray-600 font-arabic">ستة أشهر (غير مكثف)</span></p>
+                                            <p>6 months (Non-intensive course @Online)<span class="block text-sm text-gray-600 font-arabic">ستة أشهر (غير مكثف)</span></p>
                                         </div>
                                     </div>
                                 </div>
@@ -598,7 +598,7 @@
                                         <label for="uq_mode" class="block text-sm font-semibold text-gray-800">Program Mode<br><span class="text-xs font-normal text-gray-500 font-arabic">نمط البرنامج</span></label>
                                         <select id="uq_mode" name="mode" required class="mt-2 w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition bg-gray-50">
                                             <option value="" selected disabled>Select program mode</option>
-                                            <option value="Intensive">Intensive Arabic Program (2 months AAK)</option>
+                                            <option value="Intensive">Intensive Arabic Program (1 month AAK)</option>
                                             <option value="Normal">Normal Arabic Program (6 months AAK)</option>
                                         </select>
                                     </div>
@@ -760,7 +760,7 @@
                     return new Date(year, month - 1, 1).toLocaleString('en-US', { month: 'long', year: 'numeric' });
                 })();
 
-                const aakDuration = mode === 'Intensive' ? '2 months (AAK intensive)' : '6 months (AAK normal)';
+                const aakDuration = mode === 'Intensive' ? '1 month (AAK intensive)' : '6 months (AAK normal)';
                 const subject = "New Registration: Iqra' Arabic @ Ummul Qura - AAK Program";
                 const bodyLines = [
                     'Assalamu alaikum,',
