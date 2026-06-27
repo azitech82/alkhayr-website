@@ -312,6 +312,12 @@
                     alert('Please attach transfer slip.');
                     return;
                 }
+                const transferFile = transferSlip.files[0];
+                const maxAttachmentBytes = 5 * 1024 * 1024;
+                if (transferFile && transferFile.size > maxAttachmentBytes) {
+                    alert('Attachment is too large. Please upload a file up to 5MB.');
+                    return;
+                }
 
                 if (requestHoneypot && requestHoneypot.value.trim() !== '') {
                     alert('Please try again.');
@@ -332,8 +338,6 @@
                     alert('Please wait a moment before submitting again.');
                     return;
                 }
-
-                localStorage.setItem(rateLimitKey, String(now));
 
                 const formData = new FormData(iqraPaymentForm);
                 const subject = `Payment Submission: IQRA ARABIA MAKKAH COURSE & UMRAH (${studentName || 'Student'})`;
@@ -360,10 +364,13 @@
                 try {
                     setSubmitting(true);
                     const response = await fetch(formAction, { method: 'POST', body: formData });
-                    if (!response.ok) {
-                        alert('There was an error submitting the form. Please try again.');
+                    const responseData = await response.json().catch(() => null);
+                    if (!response.ok || !responseData?.success) {
+                        const apiMessage = responseData?.message ? `\n\n${responseData.message}` : '';
+                        alert(`There was an error submitting the form. Please try again.${apiMessage}`);
                         return;
                     }
+                    localStorage.setItem(rateLimitKey, String(now));
                     alert('Payment submitted successfully. The school will receive it by email.');
                     iqraPaymentForm.reset();
                 } catch (error) {
