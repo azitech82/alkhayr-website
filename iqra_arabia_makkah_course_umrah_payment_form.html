@@ -138,10 +138,24 @@
                         <div>
                             <p class="block text-sm font-medium text-gray-700 mb-2">Transfer Slip (Bank slip / QR slip)</p>
                             <div class="w-full border border-gray-300 rounded-lg px-5 py-4 bg-white hover:bg-gray-50 transition space-y-3">
-                                <a href="https://drive.google.com/drive/folders/1BZ0X6G2IqtHaf9LnACqbuUcDOXBVE465?usp=share_link" target="_blank" rel="noopener" class="inline-flex items-center justify-center w-full sm:w-auto bg-fuchsia-600 hover:bg-fuchsia-700 text-white font-semibold px-5 py-3 rounded-lg shadow-sm transition">
-                                    <i class="fas fa-cloud-upload-alt mr-2"></i> Upload Transfer Slip (Google Drive)
-                                </a>
-                                <p class="text-xs text-gray-500">Upload your slip to the Google Drive folder, then submit this form.</p>
+                                <div class="flex flex-col sm:flex-row gap-3 sm:items-center">
+                                    <a id="driveUploadLink" href="https://drive.google.com/drive/folders/1BZ0X6G2IqtHaf9LnACqbuUcDOXBVE465?usp=share_link" target="_blank" rel="noopener" class="inline-flex items-center justify-center w-full sm:w-auto bg-fuchsia-600 hover:bg-fuchsia-700 text-white font-semibold px-5 py-3 rounded-lg shadow-sm transition">
+                                        <i class="fas fa-cloud-upload-alt mr-2"></i> Open Google Drive Folder
+                                    </a>
+                                    <button id="copyDriveLinkBtn" type="button" class="inline-flex items-center justify-center w-full sm:w-auto bg-white hover:bg-gray-100 text-gray-900 font-semibold px-5 py-3 rounded-lg border border-gray-300 shadow-sm transition">
+                                        <i class="fas fa-link mr-2 text-fuchsia-700"></i> Copy Link
+                                    </button>
+                                </div>
+                                <div class="text-xs text-gray-600 space-y-1">
+                                    <p class="font-semibold text-gray-700">Phone tips (if you cannot see “Upload”):</p>
+                                    <p>1) Open the folder and sign in to Google Drive.</p>
+                                    <p>2) If you are in Facebook/Instagram browser, tap menu → Open in browser.</p>
+                                    <p>3) If upload is still not available, please contact admin to allow upload access.</p>
+                                </div>
+                                <label class="flex items-start gap-3 text-sm text-gray-700 pt-1">
+                                    <input id="uploadedSlipConfirm" name="uploadedSlipConfirm" type="checkbox" class="mt-1 h-4 w-4 accent-fuchsia-600" required>
+                                    <span>I confirm I have uploaded my transfer slip to the Google Drive folder.</span>
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -251,8 +265,43 @@
         const requestInitAt = Date.now();
         const requestHoneypot = document.getElementById('aak_hp');
         const requestLoadTime = document.getElementById('aak_time');
+        const driveFolderUrl = 'https://drive.google.com/drive/folders/1BZ0X6G2IqtHaf9LnACqbuUcDOXBVE465?usp=share_link';
+        const driveUploadLink = document.getElementById('driveUploadLink');
+        const copyDriveLinkBtn = document.getElementById('copyDriveLinkBtn');
         if (requestLoadTime) {
             requestLoadTime.value = String(requestInitAt);
+        }
+
+        if (driveUploadLink) {
+            const ua = String(navigator.userAgent || '');
+            const isAndroid = /Android/i.test(ua);
+            if (isAndroid) {
+                const folderId = '1BZ0X6G2IqtHaf9LnACqbuUcDOXBVE465';
+                driveUploadLink.href = `intent://drive.google.com/drive/folders/${folderId}#Intent;scheme=https;package=com.google.android.apps.docs;end`;
+            } else {
+                driveUploadLink.href = driveFolderUrl;
+            }
+        }
+
+        if (copyDriveLinkBtn) {
+            copyDriveLinkBtn.addEventListener('click', async () => {
+                const textToCopy = driveFolderUrl;
+                try {
+                    await navigator.clipboard.writeText(textToCopy);
+                    alert('Google Drive folder link copied.');
+                } catch {
+                    const textarea = document.createElement('textarea');
+                    textarea.value = textToCopy;
+                    textarea.setAttribute('readonly', 'true');
+                    textarea.style.position = 'fixed';
+                    textarea.style.left = '-9999px';
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    try { document.execCommand('copy'); } catch {}
+                    textarea.remove();
+                    alert('Google Drive folder link copied.');
+                }
+            });
         }
 
         let requestFirstInteractionAt = null;
