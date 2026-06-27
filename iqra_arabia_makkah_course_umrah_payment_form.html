@@ -98,7 +98,6 @@
                     <input type="hidden" name="from_name" value="Akademi Al Khayr Website">
                     <input type="hidden" name="subject" value="Payment Submission: IQRA ARABIA MAKKAH COURSE & UMRAH">
                     <input type="hidden" name="paymentFormName" value="IQRA ARABIA MAKKAH COURSE & UMRAH">
-                    <input type="hidden" name="ccemail" value="akademialkhayrofficial@gmail.com">
 
                     <div style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">
                         <label for="aak_hp">Do not fill</label>
@@ -355,7 +354,6 @@
                     formData.set('subject', subject);
                     formData.set('message', messageLines.join('\n'));
                     formData.set('from_name', 'Akademi Al Khayr Website');
-                    formData.set('ccemail', 'akademialkhayrofficial@gmail.com');
                     formData.set('name', parentName || studentName || 'IQRA Payment Submission');
                     const response = await fetch(formAction, { method: 'POST', body: formData });
                     const responseData = await response.json().catch(() => null);
