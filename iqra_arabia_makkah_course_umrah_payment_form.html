@@ -92,7 +92,7 @@
                     <p class="text-white/85 mt-2">Payment Submission Form</p>
                 </div>
 
-                <form id="iqraPaymentForm" class="py-8 px-8 sm:px-12 space-y-6" enctype="multipart/form-data">
+                <form id="iqraPaymentForm" class="py-8 px-8 sm:px-12 space-y-6">
                     <input type="text" name="botcheck" style="display:none">
                     <input type="hidden" name="access_key" value="42059c33-4057-4f5d-a021-0a6ca6a62dd5">
                     <input type="hidden" name="from_name" value="Akademi Al Khayr Website">
@@ -136,10 +136,13 @@
                         </div>
 
                         <div>
-                            <label for="transferSlip" class="block text-sm font-medium text-gray-700 mb-2">Transfer Slip (Bank slip / QR slip)</label>
-                            <div class="w-full border border-gray-300 rounded-lg px-5 py-4 bg-white hover:bg-gray-50 transition">
-                                <input type="file" id="transferSlip" name="attachment" class="w-full text-sm text-gray-700 file-input" accept="image/*,application/pdf" required>
-                                <p class="text-xs text-gray-500 mt-2">Attach your bank slip or QR slip (image or PDF).</p>
+                            <label for="transferSlipLink" class="block text-sm font-medium text-gray-700 mb-2">Transfer Slip Link (Bank slip / QR slip)</label>
+                            <div class="w-full border border-gray-300 rounded-lg px-5 py-4 bg-white hover:bg-gray-50 transition space-y-2">
+                                <a href="https://drive.google.com/drive/folders/1BZ0X6G2IqtHaf9LnACqbuUcDOXBVE465?usp=share_link" target="_blank" class="inline-flex items-center justify-center px-4 py-2 rounded-lg bg-fuchsia-100 text-fuchsia-800 font-semibold hover:bg-fuchsia-200 transition w-full sm:w-auto">
+                                    Upload Slip to Google Drive <i class="fas fa-arrow-up-right-from-square ml-2"></i>
+                                </a>
+                                <input type="url" id="transferSlipLink" name="transferSlipLink" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-fuchsia-500 focus:border-fuchsia-500 outline-none transition receipt-input" placeholder="Paste the uploaded file link (Google Drive / OneDrive / Dropbox)" required>
+                                <p class="text-xs text-gray-500">After uploading, open the file, copy the share link, and paste it here. Ensure the file sharing is set so the school can view it.</p>
                             </div>
                         </div>
                     </div>
@@ -286,7 +289,7 @@
                 const paymentDate = String(document.getElementById('paymentDate')?.value || '').trim();
                 const amount = String(document.getElementById('amount')?.value || '').trim();
                 const purpose = String(document.getElementById('purpose')?.value || '').trim();
-                const transferSlip = document.getElementById('transferSlip');
+                const transferSlipLink = String(document.getElementById('transferSlipLink')?.value || '').trim();
 
                 if (parentName.length < 3) {
                     alert('Please enter parent name.');
@@ -308,14 +311,8 @@
                     alert('Please provide detail purpose.');
                     return;
                 }
-                if (!transferSlip || !transferSlip.files || transferSlip.files.length < 1) {
-                    alert('Please attach transfer slip.');
-                    return;
-                }
-                const transferFile = transferSlip.files[0];
-                const maxAttachmentBytes = 5 * 1024 * 1024;
-                if (transferFile && transferFile.size > maxAttachmentBytes) {
-                    alert('Attachment is too large. Please upload a file up to 5MB.');
+                if (!transferSlipLink) {
+                    alert('Please provide transfer slip link.');
                     return;
                 }
 
@@ -353,8 +350,9 @@
                     `Date: ${paymentDate || '-'}`,
                     `Amount (RM): ${amount || '-'}`,
                     `Detail purpose: ${purpose || '-'}`,
+                    `Transfer slip link: ${transferSlipLink || '-'}`,
                     '',
-                    'Transfer slip attached.'
+                    'Transfer slip link provided.'
                 ];
 
                 formData.set('subject', subject);
