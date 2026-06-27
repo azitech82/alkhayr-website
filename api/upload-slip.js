@@ -66,8 +66,21 @@ module.exports = async (req, res) => {
   const privateKey = (process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY || '').replace(/\\n/g, '\n');
   const folderId = process.env.GOOGLE_DRIVE_FOLDER_ID || '1BZ0X6G2IqtHaf9LnACqbuUcDOXBVE465';
 
-  if (!clientEmail || !privateKey || !folderId) {
-    sendJson(res, 500, { success: false, message: 'Server is not configured for uploads.' }, origin);
+  const missing = [];
+  if (!clientEmail) missing.push('GOOGLE_SERVICE_ACCOUNT_EMAIL');
+  if (!privateKey) missing.push('GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY');
+  if (!folderId) missing.push('GOOGLE_DRIVE_FOLDER_ID');
+
+  const looksLikeEmail = typeof clientEmail === 'string' && clientEmail.includes('@');
+  const looksLikePrivateKey = typeof privateKey === 'string' && privateKey.includes('BEGIN PRIVATE KEY');
+
+  if (missing.length > 0 || !looksLikeEmail || !looksLikePrivateKey) {
+    const detailParts = [];
+    if (missing.length > 0) detailParts.push(`Missing: ${missing.join(', ')}`);
+    if (!looksLikeEmail) detailParts.push('Invalid GOOGLE_SERVICE_ACCOUNT_EMAIL');
+    if (!looksLikePrivateKey) detailParts.push('Invalid GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY');
+    const detail = detailParts.length ? ` (${detailParts.join('; ')})` : '';
+    sendJson(res, 500, { success: false, message: `Server is not configured for uploads.${detail}` }, origin);
     return;
   }
 

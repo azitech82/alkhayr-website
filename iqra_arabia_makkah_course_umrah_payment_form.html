@@ -142,6 +142,13 @@
                                 <p class="text-xs text-gray-500 mt-2">Attach your bank slip or QR slip (image or PDF, max 4MB).</p>
                             </div>
                         </div>
+                        <div id="fallbackLinkBlock" class="hidden">
+                            <label for="transferSlipLink" class="block text-sm font-medium text-gray-700 mb-2">Transfer Slip Link</label>
+                            <div class="w-full border border-gray-300 rounded-lg px-5 py-4 bg-white hover:bg-gray-50 transition space-y-2">
+                                <input type="url" id="transferSlipLink" name="transferSlipLink" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-fuchsia-500 focus:border-fuchsia-500 outline-none transition receipt-input" placeholder="Paste slip link" value="">
+                                <p class="text-xs text-gray-500">If upload is temporarily unavailable, paste a shareable link to your slip.</p>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="pt-2">
@@ -245,6 +252,8 @@
     <script>
         const iqraPaymentForm = document.getElementById('iqraPaymentForm');
         const submitButton = document.getElementById('submitButton');
+        const fallbackLinkBlock = document.getElementById('fallbackLinkBlock');
+        const transferSlipLinkInput = document.getElementById('transferSlipLink');
         const formAction = 'https://api.web3forms.com/submit';
         const requestInitAt = Date.now();
         const requestHoneypot = document.getElementById('aak_hp');
@@ -287,6 +296,7 @@
                 const amount = String(document.getElementById('amount')?.value || '').trim();
                 const purpose = String(document.getElementById('purpose')?.value || '').trim();
                 const transferSlip = document.getElementById('transferSlip');
+                const transferSlipLink = String(transferSlipLinkInput?.value || '').trim();
 
                 if (parentName.length < 3) {
                     alert('Please enter parent name.');
@@ -373,26 +383,36 @@
                 try {
                     setSubmitting(true);
                     submitButton.textContent = 'Uploading slip…';
-                    const dataUrl = await toBase64(transferFile);
-                    const base64 = dataUrl.includes(',') ? dataUrl.split(',')[1] : '';
+                    let slipLink = '';
+                    if (transferSlipLink) {
+                        slipLink = transferSlipLink;
+                    } else {
+                        const dataUrl = await toBase64(transferFile);
+                        const base64 = dataUrl.includes(',') ? dataUrl.split(',')[1] : '';
 
-                    const uploadResponse = await fetch('/api/upload-slip', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            filename: transferFile.name,
-                            mimeType: transferFile.type,
-                            dataBase64: base64
-                        })
-                    });
-                    const uploadData = await uploadResponse.json().catch(() => null);
-                    if (!uploadResponse.ok || !uploadData?.success || !uploadData?.webViewLink) {
-                        const uploadMessage = uploadData?.message ? `\n\n${uploadData.message}` : '';
-                        alert(`There was an error submitting the form. Please try again.${uploadMessage}`);
-                        return;
+                        const uploadResponse = await fetch('/api/upload-slip', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                filename: transferFile.name,
+                                mimeType: transferFile.type,
+                                dataBase64: base64
+                            })
+                        });
+                        const uploadData = await uploadResponse.json().catch(() => null);
+                        if (!uploadResponse.ok || !uploadData?.success || !uploadData?.webViewLink) {
+                            const uploadMessage = uploadData?.message ? `\n\n${uploadData.message}` : '';
+                            if (uploadData?.message && String(uploadData.message).includes('Server is not configured for uploads')) {
+                                if (fallbackLinkBlock) fallbackLinkBlock.classList.remove('hidden');
+                                if (transferSlipLinkInput) transferSlipLinkInput.required = true;
+                                alert('Upload system is not ready yet. Please paste your slip link in the new field and submit again.');
+                                return;
+                            }
+                            alert(`There was an error submitting the form. Please try again.${uploadMessage}`);
+                            return;
+                        }
+                        slipLink = String(uploadData.webViewLink || '').trim();
                     }
-
-                    const slipLink = String(uploadData.webViewLink || '').trim();
                     messageLines.splice(messageLines.length - 2, 0, `Transfer slip link: ${slipLink || '-'}`);
 
                     submitButton.textContent = 'Submitting…';
