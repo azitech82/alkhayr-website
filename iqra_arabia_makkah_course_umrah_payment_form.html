@@ -136,17 +136,20 @@
                         </div>
 
                         <div>
-                            <label for="transferSlip" class="block text-sm font-medium text-gray-700 mb-2">Transfer Slip (Bank slip / QR slip)</label>
-                            <div id="fileUploadBlock" class="w-full border border-gray-300 rounded-lg px-5 py-4 bg-white hover:bg-gray-50 transition">
-                                <input type="file" id="transferSlip" class="w-full text-sm text-gray-700 file-input" accept="image/*,application/pdf" required>
-                                <p class="text-xs text-gray-500 mt-2">Attach your bank slip or QR slip (image or PDF, max 4MB).</p>
+                            <p class="block text-sm font-medium text-gray-700 mb-2">Transfer Slip (Bank slip / QR slip)</p>
+                            <div class="w-full border border-gray-300 rounded-lg px-5 py-4 bg-white hover:bg-gray-50 transition space-y-3">
+                                <a href="https://drive.google.com/drive/folders/1BZ0X6G2IqtHaf9LnACqbuUcDOXBVE465?usp=share_link" target="_blank" rel="noopener" class="inline-flex items-center justify-center w-full sm:w-auto bg-fuchsia-600 hover:bg-fuchsia-700 text-white font-semibold px-5 py-3 rounded-lg shadow-sm transition">
+                                    <i class="fas fa-cloud-upload-alt mr-2"></i> Upload Transfer Slip (Google Drive)
+                                </a>
+                                <p class="text-xs text-gray-500">Upload your slip to the Google Drive folder, then paste the shareable link below.</p>
+                                <input type="file" id="transferSlip" class="hidden" accept="image/*,application/pdf" tabindex="-1" aria-hidden="true">
                             </div>
                         </div>
-                        <div id="fallbackLinkBlock" class="hidden">
+                        <div id="fallbackLinkBlock">
                             <label for="transferSlipLink" class="block text-sm font-medium text-gray-700 mb-2">Transfer Slip Link</label>
                             <div class="w-full border border-gray-300 rounded-lg px-5 py-4 bg-white hover:bg-gray-50 transition space-y-2">
-                                <input type="url" id="transferSlipLink" name="transferSlipLink" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-fuchsia-500 focus:border-fuchsia-500 outline-none transition receipt-input" placeholder="Paste slip link" value="">
-                                <p class="text-xs text-gray-500">If upload is temporarily unavailable, paste a shareable link to your slip.</p>
+                                <input type="url" id="transferSlipLink" name="transferSlipLink" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-fuchsia-500 focus:border-fuchsia-500 outline-none transition receipt-input" placeholder="Paste slip link (Google Drive)" value="" required>
+                                <p class="text-xs text-gray-500">Make sure the link access is set to “Anyone with the link can view”.</p>
                             </div>
                         </div>
                     </div>
@@ -252,8 +255,6 @@
     <script>
         const iqraPaymentForm = document.getElementById('iqraPaymentForm');
         const submitButton = document.getElementById('submitButton');
-        const fallbackLinkBlock = document.getElementById('fallbackLinkBlock');
-        const fileUploadBlock = document.getElementById('fileUploadBlock');
         const transferSlipLinkInput = document.getElementById('transferSlipLink');
         const formAction = 'https://api.web3forms.com/submit';
         const requestInitAt = Date.now();
@@ -281,38 +282,6 @@
             submitButton.textContent = isSubmitting ? 'Submitting…' : 'Submit Payment';
         };
 
-        let uploadConfigured = true;
-        const updateSlipMode = () => {
-            const transferSlip = document.getElementById('transferSlip');
-            if (uploadConfigured) {
-                if (fileUploadBlock) fileUploadBlock.classList.remove('hidden');
-                if (fallbackLinkBlock) fallbackLinkBlock.classList.add('hidden');
-                if (transferSlip) transferSlip.required = true;
-                if (transferSlip) transferSlip.disabled = false;
-                if (transferSlipLinkInput) transferSlipLinkInput.required = false;
-                return;
-            }
-            if (fileUploadBlock) fileUploadBlock.classList.add('hidden');
-            if (fallbackLinkBlock) fallbackLinkBlock.classList.remove('hidden');
-            if (transferSlip) transferSlip.required = false;
-            if (transferSlip) transferSlip.disabled = true;
-            if (transferSlipLinkInput) transferSlipLinkInput.required = true;
-        };
-
-        const initUploadStatus = async () => {
-            try {
-                const statusRes = await fetch('/api/upload-slip', { method: 'GET' });
-                const statusJson = await statusRes.json().catch(() => null);
-                uploadConfigured = Boolean(statusJson?.configured);
-            } catch {
-                uploadConfigured = false;
-            } finally {
-                updateSlipMode();
-            }
-        };
-
-        initUploadStatus();
-
         if (iqraPaymentForm) {
             iqraPaymentForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
@@ -328,7 +297,6 @@
                 const paymentDate = String(document.getElementById('paymentDate')?.value || '').trim();
                 const amount = String(document.getElementById('amount')?.value || '').trim();
                 const purpose = String(document.getElementById('purpose')?.value || '').trim();
-                const transferSlip = document.getElementById('transferSlip');
                 const transferSlipLink = String(transferSlipLinkInput?.value || '').trim();
 
                 if (parentName.length < 3) {
@@ -351,30 +319,9 @@
                     alert('Please provide detail purpose.');
                     return;
                 }
-                let transferFile = null;
-                if (uploadConfigured) {
-                    if (!transferSlip || !transferSlip.files || transferSlip.files.length < 1) {
-                        alert('Please attach transfer slip.');
-                        return;
-                    }
-                    transferFile = transferSlip.files[0];
-                    if (!transferFile) {
-                        alert('Please attach transfer slip.');
-                        return;
-                    }
-                    if (!(transferFile.type === 'application/pdf' || transferFile.type.startsWith('image/'))) {
-                        alert('Unsupported file type. Please upload an image or PDF.');
-                        return;
-                    }
-                    if (transferFile.size > 4 * 1024 * 1024) {
-                        alert('File too large. Please upload a file up to 4MB.');
-                        return;
-                    }
-                } else {
-                    if (!transferSlipLink) {
-                        alert('Please paste your slip link.');
-                        return;
-                    }
+                if (!transferSlipLink) {
+                    alert('Please paste your slip link.');
+                    return;
                 }
 
                 if (requestHoneypot && requestHoneypot.value.trim() !== '') {
@@ -399,13 +346,6 @@
 
                 const subject = `Payment Submission: IQRA ARABIA MAKKAH COURSE & UMRAH (${studentName || 'Student'})`;
                 const submittedAt = new Date().toLocaleString();
-                const toBase64 = (file) =>
-                    new Promise((resolve, reject) => {
-                        const reader = new FileReader();
-                        reader.onload = () => resolve(String(reader.result || ''));
-                        reader.onerror = () => reject(new Error('Failed to read file'));
-                        reader.readAsDataURL(file);
-                    });
                 const messageLines = [
                     'AKADEMI AL KHAYR - PAYMENT SUBMISSION',
                     '',
@@ -418,47 +358,12 @@
                     `Amount (RM): ${amount || '-'}`,
                     `Detail purpose: ${purpose || '-'}`,
                     '',
-                    uploadConfigured ? 'Transfer slip uploaded.' : 'Transfer slip link provided.'
+                    'Transfer slip link provided.'
                 ];
 
                 try {
                     setSubmitting(true);
-                    submitButton.textContent = uploadConfigured ? 'Uploading slip…' : 'Submitting…';
-                    let slipLink = '';
-                    if (!uploadConfigured) {
-                        slipLink = transferSlipLink;
-                    } else {
-                        const transferSlipStatusRes = await fetch('/api/upload-slip', { method: 'GET' });
-                        const transferSlipStatusJson = await transferSlipStatusRes.json().catch(() => null);
-                        if (!transferSlipStatusRes.ok || !transferSlipStatusJson?.configured) {
-                            uploadConfigured = false;
-                            updateSlipMode();
-                            if (transferSlipLinkInput) transferSlipLinkInput.focus();
-                            alert('Upload system is not ready yet. Please paste your slip link and submit again.');
-                            return;
-                        }
-
-                        const dataUrl = await toBase64(transferFile);
-                        const base64 = dataUrl.includes(',') ? dataUrl.split(',')[1] : '';
-
-                        const uploadResponse = await fetch('/api/upload-slip', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({
-                                filename: transferFile.name,
-                                mimeType: transferFile.type,
-                                dataBase64: base64
-                            })
-                        });
-                        const uploadData = await uploadResponse.json().catch(() => null);
-                        if (!uploadResponse.ok || !uploadData?.success || !uploadData?.webViewLink) {
-                            const uploadMessage = uploadData?.message ? `\n\n${uploadData.message}` : '';
-                            alert(`There was an error submitting the form. Please try again.${uploadMessage}`);
-                            return;
-                        }
-                        slipLink = String(uploadData.webViewLink || '').trim();
-                    }
-                    messageLines.splice(messageLines.length - 2, 0, `Transfer slip link: ${slipLink || '-'}`);
+                    messageLines.splice(messageLines.length - 2, 0, `Transfer slip link: ${transferSlipLink || '-'}`);
 
                     submitButton.textContent = 'Submitting…';
                     const formData = new FormData(iqraPaymentForm);
