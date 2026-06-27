@@ -137,7 +137,7 @@
 
                         <div>
                             <label for="transferSlip" class="block text-sm font-medium text-gray-700 mb-2">Transfer Slip (Bank slip / QR slip)</label>
-                            <div class="w-full border border-gray-300 rounded-lg px-5 py-4 bg-white hover:bg-gray-50 transition">
+                            <div id="fileUploadBlock" class="w-full border border-gray-300 rounded-lg px-5 py-4 bg-white hover:bg-gray-50 transition">
                                 <input type="file" id="transferSlip" class="w-full text-sm text-gray-700 file-input" accept="image/*,application/pdf" required>
                                 <p class="text-xs text-gray-500 mt-2">Attach your bank slip or QR slip (image or PDF, max 4MB).</p>
                             </div>
@@ -253,6 +253,7 @@
         const iqraPaymentForm = document.getElementById('iqraPaymentForm');
         const submitButton = document.getElementById('submitButton');
         const fallbackLinkBlock = document.getElementById('fallbackLinkBlock');
+        const fileUploadBlock = document.getElementById('fileUploadBlock');
         const transferSlipLinkInput = document.getElementById('transferSlipLink');
         const formAction = 'https://api.web3forms.com/submit';
         const requestInitAt = Date.now();
@@ -279,6 +280,38 @@
             submitButton.classList.toggle('cursor-not-allowed', isSubmitting);
             submitButton.textContent = isSubmitting ? 'Submitting…' : 'Submit Payment';
         };
+
+        let uploadConfigured = true;
+        const updateSlipMode = () => {
+            const transferSlip = document.getElementById('transferSlip');
+            if (uploadConfigured) {
+                if (fileUploadBlock) fileUploadBlock.classList.remove('hidden');
+                if (fallbackLinkBlock) fallbackLinkBlock.classList.add('hidden');
+                if (transferSlip) transferSlip.required = true;
+                if (transferSlip) transferSlip.disabled = false;
+                if (transferSlipLinkInput) transferSlipLinkInput.required = false;
+                return;
+            }
+            if (fileUploadBlock) fileUploadBlock.classList.add('hidden');
+            if (fallbackLinkBlock) fallbackLinkBlock.classList.remove('hidden');
+            if (transferSlip) transferSlip.required = false;
+            if (transferSlip) transferSlip.disabled = true;
+            if (transferSlipLinkInput) transferSlipLinkInput.required = true;
+        };
+
+        const initUploadStatus = async () => {
+            try {
+                const statusRes = await fetch('/api/upload-slip', { method: 'GET' });
+                const statusJson = await statusRes.json().catch(() => null);
+                uploadConfigured = Boolean(statusJson?.configured);
+            } catch {
+                uploadConfigured = false;
+            } finally {
+                updateSlipMode();
+            }
+        };
+
+        initUploadStatus();
 
         if (iqraPaymentForm) {
             iqraPaymentForm.addEventListener('submit', async (e) => {
@@ -318,22 +351,30 @@
                     alert('Please provide detail purpose.');
                     return;
                 }
-                if (!transferSlip || !transferSlip.files || transferSlip.files.length < 1) {
-                    alert('Please attach transfer slip.');
-                    return;
-                }
-                const transferFile = transferSlip.files[0];
-                if (!transferFile) {
-                    alert('Please attach transfer slip.');
-                    return;
-                }
-                if (!(transferFile.type === 'application/pdf' || transferFile.type.startsWith('image/'))) {
-                    alert('Unsupported file type. Please upload an image or PDF.');
-                    return;
-                }
-                if (transferFile.size > 4 * 1024 * 1024) {
-                    alert('File too large. Please upload a file up to 4MB.');
-                    return;
+                let transferFile = null;
+                if (uploadConfigured) {
+                    if (!transferSlip || !transferSlip.files || transferSlip.files.length < 1) {
+                        alert('Please attach transfer slip.');
+                        return;
+                    }
+                    transferFile = transferSlip.files[0];
+                    if (!transferFile) {
+                        alert('Please attach transfer slip.');
+                        return;
+                    }
+                    if (!(transferFile.type === 'application/pdf' || transferFile.type.startsWith('image/'))) {
+                        alert('Unsupported file type. Please upload an image or PDF.');
+                        return;
+                    }
+                    if (transferFile.size > 4 * 1024 * 1024) {
+                        alert('File too large. Please upload a file up to 4MB.');
+                        return;
+                    }
+                } else {
+                    if (!transferSlipLink) {
+                        alert('Please paste your slip link.');
+                        return;
+                    }
                 }
 
                 if (requestHoneypot && requestHoneypot.value.trim() !== '') {
@@ -377,16 +418,26 @@
                     `Amount (RM): ${amount || '-'}`,
                     `Detail purpose: ${purpose || '-'}`,
                     '',
-                    'Transfer slip uploaded.'
+                    uploadConfigured ? 'Transfer slip uploaded.' : 'Transfer slip link provided.'
                 ];
 
                 try {
                     setSubmitting(true);
-                    submitButton.textContent = 'Uploading slip…';
+                    submitButton.textContent = uploadConfigured ? 'Uploading slip…' : 'Submitting…';
                     let slipLink = '';
-                    if (transferSlipLink) {
+                    if (!uploadConfigured) {
                         slipLink = transferSlipLink;
                     } else {
+                        const transferSlipStatusRes = await fetch('/api/upload-slip', { method: 'GET' });
+                        const transferSlipStatusJson = await transferSlipStatusRes.json().catch(() => null);
+                        if (!transferSlipStatusRes.ok || !transferSlipStatusJson?.configured) {
+                            uploadConfigured = false;
+                            updateSlipMode();
+                            if (transferSlipLinkInput) transferSlipLinkInput.focus();
+                            alert('Upload system is not ready yet. Please paste your slip link and submit again.');
+                            return;
+                        }
+
                         const dataUrl = await toBase64(transferFile);
                         const base64 = dataUrl.includes(',') ? dataUrl.split(',')[1] : '';
 
@@ -402,12 +453,6 @@
                         const uploadData = await uploadResponse.json().catch(() => null);
                         if (!uploadResponse.ok || !uploadData?.success || !uploadData?.webViewLink) {
                             const uploadMessage = uploadData?.message ? `\n\n${uploadData.message}` : '';
-                            if (uploadData?.message && String(uploadData.message).includes('Server is not configured for uploads')) {
-                                if (fallbackLinkBlock) fallbackLinkBlock.classList.remove('hidden');
-                                if (transferSlipLinkInput) transferSlipLinkInput.required = true;
-                                alert('Upload system is not ready yet. Please paste your slip link in the new field and submit again.');
-                                return;
-                            }
                             alert(`There was an error submitting the form. Please try again.${uploadMessage}`);
                             return;
                         }

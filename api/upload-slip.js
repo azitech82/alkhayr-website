@@ -57,11 +57,6 @@ module.exports = async (req, res) => {
     return;
   }
 
-  if (req.method !== 'POST') {
-    sendJson(res, 405, { success: false, message: 'Method not allowed' }, origin);
-    return;
-  }
-
   const clientEmail = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
   const privateKey = (process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY || '').replace(/\\n/g, '\n');
   const folderId = process.env.GOOGLE_DRIVE_FOLDER_ID || '1BZ0X6G2IqtHaf9LnACqbuUcDOXBVE465';
@@ -73,6 +68,17 @@ module.exports = async (req, res) => {
 
   const looksLikeEmail = typeof clientEmail === 'string' && clientEmail.includes('@');
   const looksLikePrivateKey = typeof privateKey === 'string' && privateKey.includes('BEGIN PRIVATE KEY');
+
+  if (req.method === 'GET') {
+    const configured = missing.length === 0 && looksLikeEmail && looksLikePrivateKey;
+    sendJson(res, 200, { success: true, configured }, origin);
+    return;
+  }
+
+  if (req.method !== 'POST') {
+    sendJson(res, 405, { success: false, message: 'Method not allowed' }, origin);
+    return;
+  }
 
   if (missing.length > 0 || !looksLikeEmail || !looksLikePrivateKey) {
     const detailParts = [];
