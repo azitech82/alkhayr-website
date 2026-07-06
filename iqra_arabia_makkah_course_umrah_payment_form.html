@@ -88,7 +88,7 @@
                     <div class="flex justify-center mb-4">
                         <img src="logo%20AAK%20(white%20BG).png" alt="Akademi Al Khayr Logo" class="h-20 w-auto object-contain">
                     </div>
-                    <h2 class="text-2xl sm:text-3xl font-bold text-white">IQRA ARABIA MAKKAH COURSE &amp; UMRAH</h2>
+                    <h2 id="paymentProgramTitle" class="text-2xl sm:text-3xl font-bold text-white">IQRA ARABIA MAKKAH COURSE &amp; UMRAH</h2>
                     <p class="text-white/85 mt-2">Payment Submission Form</p>
                 </div>
 
@@ -265,9 +265,39 @@
         const requestInitAt = Date.now();
         const requestHoneypot = document.getElementById('aak_hp');
         const requestLoadTime = document.getElementById('aak_time');
-        const driveFolderUrl = 'https://drive.google.com/drive/folders/1BZ0X6G2IqtHaf9LnACqbuUcDOXBVE465?usp=share_link';
         const driveUploadLink = document.getElementById('driveUploadLink');
         const copyDriveLinkBtn = document.getElementById('copyDriveLinkBtn');
+        const DEFAULT_PROGRAM_NAME = 'IQRA ARABIA MAKKAH COURSE & UMRAH';
+        const DEFAULT_DRIVE_FOLDER_URL = 'https://drive.google.com/drive/folders/1BZ0X6G2IqtHaf9LnACqbuUcDOXBVE465?usp=share_link';
+        const PERKAMPUNGAN_ILMU_SPM_DRIVE_FOLDER_URL = 'https://drive.google.com/drive/folders/1eyZmejAXUHuxJJsM_agL5On2uqdgYVWh?usp=share_link';
+        const normalizeProgramName = (value) => String(value || '').replace(/\s+/g, ' ').trim();
+        const readProgramNameFromUrl = () => {
+            const params = new URLSearchParams(window.location.search || '');
+            const candidate = normalizeProgramName(params.get('program') || params.get('paymentFormName') || params.get('title'));
+            if (!candidate) return DEFAULT_PROGRAM_NAME;
+            if (candidate.length > 80) return DEFAULT_PROGRAM_NAME;
+            return candidate;
+        };
+        const programName = readProgramNameFromUrl();
+        const programNameUpper = programName.toUpperCase();
+        const programKey = programNameUpper.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '').slice(0, 48) || 'default';
+        const driveFolderUrl = programKey === 'perkampungan_ilmu_spm' ? PERKAMPUNGAN_ILMU_SPM_DRIVE_FOLDER_URL : DEFAULT_DRIVE_FOLDER_URL;
+        const driveFolderIdMatch = driveFolderUrl.match(/\/folders\/([a-zA-Z0-9_-]+)/);
+        const driveFolderId = driveFolderIdMatch ? driveFolderIdMatch[1] : null;
+        const paymentProgramTitle = document.getElementById('paymentProgramTitle');
+        if (paymentProgramTitle) {
+            paymentProgramTitle.textContent = programNameUpper;
+        }
+        const metaDescription = document.querySelector('meta[name="description"]');
+        if (metaDescription) {
+            metaDescription.setAttribute('content', `Payment submission form for ${programNameUpper}.`);
+        }
+        if (iqraPaymentForm) {
+            const subjectInput = iqraPaymentForm.querySelector('input[name="subject"]');
+            const paymentFormNameInput = iqraPaymentForm.querySelector('input[name="paymentFormName"]');
+            if (subjectInput) subjectInput.value = `Payment Submission: ${programNameUpper}`;
+            if (paymentFormNameInput) paymentFormNameInput.value = programNameUpper;
+        }
         if (requestLoadTime) {
             requestLoadTime.value = String(requestInitAt);
         }
@@ -275,9 +305,8 @@
         if (driveUploadLink) {
             const ua = String(navigator.userAgent || '');
             const isAndroid = /Android/i.test(ua);
-            if (isAndroid) {
-                const folderId = '1BZ0X6G2IqtHaf9LnACqbuUcDOXBVE465';
-                driveUploadLink.href = `intent://drive.google.com/drive/folders/${folderId}#Intent;scheme=https;package=com.google.android.apps.docs;end`;
+            if (isAndroid && driveFolderId) {
+                driveUploadLink.href = `intent://drive.google.com/drive/folders/${driveFolderId}#Intent;scheme=https;package=com.google.android.apps.docs;end`;
             } else {
                 driveUploadLink.href = driveFolderUrl;
             }
@@ -329,7 +358,7 @@
                 const now = Date.now();
                 const elapsedMs = now - requestInitAt;
                 const isWebDriver = navigator.webdriver === true;
-                const rateLimitKey = 'aak_iqra_payment_last_submit_at';
+                const rateLimitKey = `aak_payment_last_submit_at_${programKey}`;
                 const lastSubmitAt = Number(localStorage.getItem(rateLimitKey) || '0');
 
                 const parentName = String(document.getElementById('parentName')?.value || '').trim();
@@ -379,12 +408,12 @@
                     return;
                 }
 
-                const subject = `Payment Submission: IQRA ARABIA MAKKAH COURSE & UMRAH (${studentName || 'Student'})`;
+                const subject = `Payment Submission: ${programNameUpper} (${studentName || 'Student'})`;
                 const submittedAt = new Date().toLocaleString();
                 const messageLines = [
                     'AKADEMI AL KHAYR - PAYMENT SUBMISSION',
                     '',
-                    `Form: IQRA ARABIA MAKKAH COURSE & UMRAH`,
+                    `Form: ${programNameUpper}`,
                     `Submitted at: ${submittedAt}`,
                     '--------------------------------',
                     `Parent: ${parentName || '-'}`,
@@ -403,7 +432,7 @@
                     formData.set('subject', subject);
                     formData.set('message', messageLines.join('\n'));
                     formData.set('from_name', 'Akademi Al Khayr Website');
-                    formData.set('name', parentName || studentName || 'IQRA Payment Submission');
+                    formData.set('name', parentName || studentName || `${programNameUpper} Payment Submission`);
                     const response = await fetch(formAction, { method: 'POST', body: formData });
                     const responseData = await response.json().catch(() => null);
                     if (!response.ok || !responseData?.success) {
