@@ -145,6 +145,9 @@
                                     <button id="copyDriveLinkBtn" type="button" class="inline-flex items-center justify-center w-full sm:w-auto bg-white hover:bg-gray-100 text-gray-900 font-semibold px-5 py-3 rounded-lg border border-gray-300 shadow-sm transition">
                                         <i class="fas fa-link mr-2 text-fuchsia-700"></i> Copy Link
                                     </button>
+                                    <a id="whatsappSendBtn" href="#" class="inline-flex items-center justify-center w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white font-semibold px-5 py-3 rounded-lg shadow-sm transition">
+                                        <i class="fab fa-whatsapp mr-2"></i> Send via WhatsApp
+                                    </a>
                                 </div>
                                 <div class="text-xs text-gray-600 space-y-1">
                                     <p class="font-semibold text-gray-700">Phone tips (if you cannot see “Upload / +”):</p>
@@ -152,11 +155,23 @@
                                     <p>2) If you cannot create a new folder, that is normal. Just use “Upload / +” and upload your slip photo/PDF directly into the folder.</p>
                                     <p>3) If you are in Facebook/Instagram browser, tap menu → Open in browser.</p>
                                     <p>4) If “Upload” is still missing, you likely do not have upload access. Please contact admin.</p>
+                                    <p class="pt-1"><span class="font-semibold text-gray-700">Alternative:</span> If you cannot upload to Drive, tap “Send via WhatsApp” and send your slip photo/PDF to the school.</p>
                                 </div>
-                                <label class="flex items-start gap-3 text-sm text-gray-700 pt-1">
-                                    <input id="uploadedSlipConfirm" name="uploadedSlipConfirm" type="checkbox" class="mt-1 h-4 w-4 accent-fuchsia-600" required>
-                                    <span>I confirm I have uploaded my transfer slip to the Google Drive folder.</span>
-                                </label>
+                                <div class="pt-1 space-y-2">
+                                    <label class="flex items-start gap-3 text-sm text-gray-700">
+                                        <input id="uploadedSlipConfirmDrive" name="uploadedSlipConfirmDrive" type="checkbox" class="mt-1 h-4 w-4 accent-fuchsia-600">
+                                        <span>I confirm I have uploaded my transfer slip to the Google Drive folder.</span>
+                                    </label>
+                                    <div class="flex flex-col sm:flex-row gap-3 sm:items-center">
+                                        <label class="flex items-start gap-3 text-sm text-gray-700 flex-1">
+                                            <input id="uploadedSlipConfirmWhatsApp" name="uploadedSlipConfirmWhatsApp" type="checkbox" class="mt-1 h-4 w-4 accent-green-600">
+                                            <span>I confirm I have sent my transfer slip via WhatsApp to the school.</span>
+                                        </label>
+                                        <button id="copyWhatsAppMessageBtn" type="button" class="inline-flex items-center justify-center w-full sm:w-auto bg-white hover:bg-gray-100 text-gray-900 font-semibold px-5 py-3 rounded-lg border border-gray-300 shadow-sm transition">
+                                            <i class="fas fa-copy mr-2 text-green-700"></i> Copy Message
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -267,9 +282,14 @@
         const requestLoadTime = document.getElementById('aak_time');
         const driveUploadLink = document.getElementById('driveUploadLink');
         const copyDriveLinkBtn = document.getElementById('copyDriveLinkBtn');
+        const whatsappSendBtn = document.getElementById('whatsappSendBtn');
+        const copyWhatsAppMessageBtn = document.getElementById('copyWhatsAppMessageBtn');
+        const uploadedSlipConfirmDrive = document.getElementById('uploadedSlipConfirmDrive');
+        const uploadedSlipConfirmWhatsApp = document.getElementById('uploadedSlipConfirmWhatsApp');
         const DEFAULT_PROGRAM_NAME = 'IQRA ARABIA MAKKAH COURSE & UMRAH';
         const DEFAULT_DRIVE_FOLDER_URL = 'https://drive.google.com/drive/folders/1BZ0X6G2IqtHaf9LnACqbuUcDOXBVE465?usp=share_link';
         const PERKAMPUNGAN_ILMU_SPM_DRIVE_FOLDER_URL = 'https://drive.google.com/drive/folders/1eyZmejAXUHuxJJsM_agL5On2uqdgYVWh?usp=share_link';
+        const SCHOOL_WHATSAPP_NUMBER = '60193818616';
         const normalizeProgramName = (value) => String(value || '').replace(/\s+/g, ' ').trim();
         const readProgramNameFromUrl = () => {
             const params = new URLSearchParams(window.location.search || '');
@@ -333,6 +353,77 @@
             });
         }
 
+        const buildWhatsAppMessage = () => {
+            const parentName = String(document.getElementById('parentName')?.value || '').trim();
+            const studentName = String(document.getElementById('studentName')?.value || '').trim();
+            const paymentDate = String(document.getElementById('paymentDate')?.value || '').trim();
+            const amount = String(document.getElementById('amount')?.value || '').trim();
+            const purpose = String(document.getElementById('purpose')?.value || '').trim();
+            const messageLines = [
+                `Assalamualaikum. Saya ingin hantar resit bayaran.`,
+                ``,
+                `Program: ${programNameUpper}`,
+                `Nama ibu/bapa: ${parentName || '-'}`,
+                `Nama pelajar: ${studentName || '-'}`,
+                `Tarikh: ${paymentDate || '-'}`,
+                `Jumlah (RM): ${amount || '-'}`,
+                `Tujuan: ${purpose || '-'}`,
+                ``,
+                `Resit: (saya lampirkan gambar/PDF di WhatsApp ini)`
+            ];
+            return messageLines.join('\n');
+        };
+
+        const openWhatsApp = () => {
+            const message = buildWhatsAppMessage();
+            const url = `https://wa.me/${SCHOOL_WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank', 'noopener');
+        };
+
+        if (whatsappSendBtn) {
+            whatsappSendBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                openWhatsApp();
+            });
+        }
+
+        if (copyWhatsAppMessageBtn) {
+            copyWhatsAppMessageBtn.addEventListener('click', async () => {
+                const textToCopy = buildWhatsAppMessage();
+                try {
+                    await navigator.clipboard.writeText(textToCopy);
+                    alert('WhatsApp message copied.');
+                } catch {
+                    const textarea = document.createElement('textarea');
+                    textarea.value = textToCopy;
+                    textarea.setAttribute('readonly', 'true');
+                    textarea.style.position = 'fixed';
+                    textarea.style.left = '-9999px';
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    try { document.execCommand('copy'); } catch {}
+                    textarea.remove();
+                    alert('WhatsApp message copied.');
+                }
+            });
+        }
+
+        const syncReceiptMethod = (checkedId) => {
+            if (checkedId === 'drive' && uploadedSlipConfirmDrive?.checked) {
+                if (uploadedSlipConfirmWhatsApp) uploadedSlipConfirmWhatsApp.checked = false;
+            }
+            if (checkedId === 'whatsapp' && uploadedSlipConfirmWhatsApp?.checked) {
+                if (uploadedSlipConfirmDrive) uploadedSlipConfirmDrive.checked = false;
+            }
+        };
+
+        if (uploadedSlipConfirmDrive) {
+            uploadedSlipConfirmDrive.addEventListener('change', () => syncReceiptMethod('drive'));
+        }
+        if (uploadedSlipConfirmWhatsApp) {
+            uploadedSlipConfirmWhatsApp.addEventListener('change', () => syncReceiptMethod('whatsapp'));
+        }
+
         let requestFirstInteractionAt = null;
         const markRequestInteraction = () => {
             if (requestFirstInteractionAt === null) {
@@ -366,6 +457,8 @@
                 const paymentDate = String(document.getElementById('paymentDate')?.value || '').trim();
                 const amount = String(document.getElementById('amount')?.value || '').trim();
                 const purpose = String(document.getElementById('purpose')?.value || '').trim();
+                const hasConfirmedDrive = uploadedSlipConfirmDrive?.checked === true;
+                const hasConfirmedWhatsApp = uploadedSlipConfirmWhatsApp?.checked === true;
 
                 if (parentName.length < 3) {
                     alert('Please enter parent name.');
@@ -385,6 +478,11 @@
                 }
                 if (purpose.length < 5) {
                     alert('Please provide detail purpose.');
+                    return;
+                }
+
+                if (!hasConfirmedDrive && !hasConfirmedWhatsApp) {
+                    alert('Please upload your transfer slip to Google Drive OR send it via WhatsApp, then tick the confirmation.');
                     return;
                 }
 
@@ -410,6 +508,7 @@
 
                 const subject = `Payment Submission: ${programNameUpper} (${studentName || 'Student'})`;
                 const submittedAt = new Date().toLocaleString();
+                const receiptMethod = hasConfirmedWhatsApp ? 'WhatsApp' : 'Google Drive folder';
                 const messageLines = [
                     'AKADEMI AL KHAYR - PAYMENT SUBMISSION',
                     '',
@@ -421,8 +520,9 @@
                     `Date: ${paymentDate || '-'}`,
                     `Amount (RM): ${amount || '-'}`,
                     `Detail purpose: ${purpose || '-'}`,
+                    `Receipt method: ${receiptMethod}`,
                     '',
-                    'Transfer slip uploaded to Google Drive folder.'
+                    hasConfirmedWhatsApp ? 'Transfer slip sent via WhatsApp.' : 'Transfer slip uploaded to Google Drive folder.'
                 ];
 
                 try {
