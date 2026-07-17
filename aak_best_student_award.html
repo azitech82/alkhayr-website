@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18106017455"></script> 
+    <script> 
+      window.dataLayer = window.dataLayer || []; 
+      function gtag(){dataLayer.push(arguments);} 
+      gtag('js', new Date()); 
+    
+      gtag('config', 'AW-18106017455'); 
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AAK Best Student Award | Akademi Al Khayr</title>
+    <link rel="icon" type="image/png" href="logo%20AAK%20(white%20BG).png">
+    <meta name="description" content="AAK Best Student Award celebrates outstanding students who excel in akhlaq, academics, and service to the community.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        html {
+            width: 100%;
+            overflow-x: hidden;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #fdfbf7;
+            width: 100%;
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        #navbar {
+            background-color: transparent;
+            box-shadow: none;
+            transition: all 0.3s ease;
+        }
+        #navbar.scrolled {
+            background-color: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(8px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        
+        #navbar .nav-text-main { color: #ffffff; }
+        #navbar.scrolled .nav-text-main { color: #2d2a26; }
+        
+        #navbar .nav-text-accent { color: #e9d5ff; }
+        #navbar.scrolled .nav-text-accent { color: #7e22ce; }
+        
+        #navbar .nav-item { color: rgba(255, 255, 255, 0.9); }
+        #navbar.scrolled .nav-item { color: #57534e; }
+        #navbar .nav-item:hover { color: #ffffff; }
+        #navbar.scrolled .nav-item:hover { color: #7e22ce; }
+        #navbar.scrolled #mobile-menu-button { color: #4b5563; border-color: #e5e7eb; }
+        #navbar.scrolled #mobile-menu-button:hover { background-color: #f3f4f6; }
+        
+        #navbar .social-icon { color: rgba(255, 255, 255, 0.8); }
+        #navbar.scrolled .social-icon { color: #a8a29e; }
+        #navbar .social-icon:hover { color: #ffffff; }
+        #navbar.scrolled .social-icon:hover { color: #7e22ce; }
+        
+        .page-header {
+            background:
+                radial-gradient(900px circle at 20% 20%, rgba(168, 85, 247, 0.35), transparent 55%),
+                radial-gradient(900px circle at 80% 30%, rgba(16, 185, 129, 0.25), transparent 55%),
+                linear-gradient(135deg, rgba(45, 10, 78, 0.92), rgba(45, 10, 78, 0.70));
+            height: 420px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .page-header::before {
+            content: "";
+            position: absolute;
+            inset: -1px;
+            background:
+                radial-gradient(600px circle at 10% 90%, rgba(255, 255, 255, 0.18), transparent 55%),
+                radial-gradient(600px circle at 90% 10%, rgba(255, 255, 255, 0.12), transparent 55%);
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="text-stone-800 antialiased">
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 sm:h-20 landscape:h-16 lg:h-20 items-center">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center">
+                        <img src="logo%20AAK%20(white%20BG).png" alt="Akademi Al Khayr Logo" class="h-12 sm:h-16 landscape:h-12 lg:h-16 w-auto object-contain mr-3">
+                        <div>
+                            <h1 class="text-base sm:text-xl landscape:text-lg lg:text-xl font-bold leading-none tracking-tight nav-text-main">AKADEMI</h1>
+                            <h1 class="text-base sm:text-xl landscape:text-lg lg:text-xl font-bold leading-none tracking-tight nav-text-accent">AL KHAYR</h1>
+                        </div>
+                    </a>
+                </div>
+                <div class="hidden lg:flex space-x-8">
+                    <a href="index.html" class="font-medium transition nav-item">Home</a>
+                    <a href="about.html" class="font-medium transition nav-item">About</a>
+                    <a href="index.html#programs" class="font-medium transition nav-item">Programs</a>
+                    <a href="index.html#contact" class="font-medium transition nav-item">Contact</a>
+                    <div class="relative group">
+                        <button class="font-medium transition flex items-center focus:outline-none nav-item">
+                            More <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                        </button>
+                        <div class="absolute top-full left-0 mt-2 w-64 bg-white rounded-xl shadow-xl border border-gray-100 py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top z-50">
+                            <a href="fees.html" class="block px-4 py-3 text-sm lg:text-base text-gray-600 hover:bg-purple-50 hover:text-purple-600 transition border-b border-gray-50 last:border-0">
+                                <i class="fas fa-credit-card mr-2 text-purple-400"></i> Fees payment
+                            </a>
+                            <a href="forms.html" class="block px-4 py-3 text-sm lg:text-base text-gray-600 hover:bg-purple-50 hover:text-purple-600 transition border-b border-gray-50">
+                                <i class="fas fa-file-alt mr-2 text-purple-400"></i> Forms
+                            </a>
+                            <a href="booking_aak_chalet.html" class="block px-4 py-3 text-sm lg:text-base text-gray-600 hover:bg-purple-50 hover:text-purple-600 transition border-b border-gray-50">
+                                <i class="fas fa-home mr-2 text-purple-400"></i> Booking AAK Chalet
+                            </a>
+                            <a href="index.html#location" class="block px-4 py-3 text-sm lg:text-base text-gray-600 hover:bg-purple-50 hover:text-purple-600 transition border-b border-gray-50">
+                                <i class="fas fa-map-marker-alt mr-2 text-purple-400"></i> Visit
+                            </a>
+                            <a href="Download/AAK%20TAKWIM%202026.pdf" target="_blank" class="block px-4 py-3 text-sm lg:text-base text-gray-600 hover:bg-purple-50 hover:text-purple-600 transition border-b border-gray-50">
+                                <i class="fas fa-calendar-alt mr-2 text-purple-400"></i> AAK Takwim 2026
+                            </a>
+                            <a href="Download/GuideBook%20AAK_2026%20(1).pdf" target="_blank" class="block px-4 py-3 text-sm lg:text-base text-gray-600 hover:bg-purple-50 hover:text-purple-600 transition border-b border-gray-50">
+                                <i class="fas fa-book-open mr-2 text-purple-400"></i> Guidebook AAK 2026
+                            </a>
+                            <a href="gallery.html" class="block px-4 py-3 text-sm lg:text-base text-gray-600 hover:bg-purple-50 hover:text-purple-600 transition">
+                                <i class="fas fa-images mr-2 text-purple-400"></i> Gallery
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="hidden lg:flex items-center space-x-4">
+                    <a href="https://www.facebook.com/akademialkhayrofficial/" target="_blank" class="transition social-icon">
+                        <i class="fab fa-facebook-f text-xl"></i>
+                    </a>
+                    <a href="https://www.instagram.com/akademialkhayrofficial/?hl=en" target="_blank" class="transition social-icon">
+                        <i class="fab fa-instagram text-xl"></i>
+                    </a>
+                    <a href="registration.html" class="inline-flex items-center justify-center px-6 py-2 border border-transparent text-sm font-medium rounded-full text-white bg-purple-600 hover:bg-purple-700 transition shadow-md text-center">
+                        <div class="flex flex-col items-center leading-tight">
+                            <span>Apply Now</span>
+                            <span class="text-[10px] font-normal opacity-90">سجل الآن</span>
+                        </div>
+                    </a>
+                    <a href="https://class.akademialkhayr.com/login" target="_blank" class="w-10 h-10 flex items-center justify-center rounded-full bg-white text-purple-600 hover:bg-purple-50 transition shadow-md border border-purple-100" title="Parent & Staff Login">
+                        <i class="fas fa-user"></i>
+                    </a>
+                </div>
+                <button id="mobile-menu-button" class="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-full border border-white/30 text-white hover:bg-white/10 transition">
+                    <i id="mobile-menu-icon" class="fas fa-bars text-lg"></i>
+                </button>
+            </div>
+            <div id="mobile-menu" class="lg:hidden hidden pb-4">
+                <div class="mobile-menu-panel bg-white/95 rounded-2xl shadow-xl border border-white/40 px-4 py-4 space-y-3 max-h-[85vh] overflow-y-auto">
+                    <a href="index.html" class="block font-semibold text-gray-800">Home</a>
+                    <a href="about.html" class="block font-semibold text-gray-800">About</a>
+                    <a href="index.html#programs" class="block font-semibold text-gray-800">Programs</a>
+                    <a href="forms.html" class="block font-semibold text-gray-800">Forms</a>
+                    <a href="fees.html" class="block font-semibold text-gray-800">Fees Payment</a>
+                    <a href="booking_aak_chalet.html" class="block font-semibold text-gray-800">Booking AAK Chalet</a>
+                    <a href="gallery.html" class="block font-semibold text-gray-800">Gallery</a>
+                    <details class="group">
+                        <summary class="block font-semibold text-gray-800 flex justify-between items-center cursor-pointer list-none" style="list-style: none;">
+                            Download
+                            <i class="fas fa-chevron-down text-sm transition-transform duration-200 group-open:rotate-180"></i>
+                        </summary>
+                        <div class="pl-4 mt-3 space-y-3">
+                            <a href="Download/AAK%20TAKWIM%202026.pdf" target="_blank" class="block font-medium text-gray-700">AAK Takwim</a>
+                            <a href="Download/GuideBook%20AAK_2026%20(1).pdf" target="_blank" class="block font-medium text-gray-700">AAK Guidebook 2026</a>
+                        </div>
+                    </details>
+                    <div class="flex items-center gap-4 pt-2">
+                        <a href="https://wa.me/60193818616" target="_blank" class="text-gray-600 hover:text-purple-600 transition">
+                            <i class="fab fa-whatsapp text-xl"></i>
+                        </a>
+                        <a href="https://www.facebook.com/akademialkhayrofficial/" target="_blank" class="text-gray-600 hover:text-purple-600 transition">
+                            <i class="fab fa-facebook-f text-xl"></i>
+                        </a>
+                        <a href="https://www.instagram.com/akademialkhayrofficial/?hl=en" target="_blank" class="text-gray-600 hover:text-purple-600 transition">
+                            <i class="fab fa-instagram text-xl"></i>
+                        </a>
+                        <a href="https://class.akademialkhayr.com/login" target="_blank" class="w-9 h-9 flex items-center justify-center rounded-full bg-white text-purple-600 border border-purple-100 shadow-sm">
+                            <i class="fas fa-user"></i>
+                        </a>
+                    </div>
+                    <a href="registration.html" class="mt-2 inline-flex items-center justify-center w-full px-6 py-3 text-sm font-semibold rounded-full text-white bg-purple-600 hover:bg-purple-700 transition shadow-md text-center">
+                        <div class="flex flex-col items-center leading-tight">
+                            <span>Apply Now</span>
+                            <span class="text-[10px] font-normal opacity-90">سجل الآن</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <header class="page-header">
+        <div class="max-w-5xl mx-auto px-4 z-10 relative">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/15 backdrop-blur-sm text-white/90 text-xs sm:text-sm font-semibold">
+                <i class="fas fa-trophy"></i>
+                AAK’s Family
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold mt-5 mb-4">AAK Best Student Award</h1>
+            <p class="text-lg md:text-xl opacity-90 max-w-3xl mx-auto">
+                Celebrating students who shine in akhlaq, academics, and service — for the sake of Allah.
+            </p>
+            <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+                <a href="suggestion_form.html" class="inline-flex items-center justify-center px-7 py-3 rounded-full text-sm font-semibold text-purple-900 bg-white hover:bg-purple-50 transition shadow-lg">
+                    Recommend a Student
+                    <i class="fas fa-arrow-right ml-2 text-xs"></i>
+                </a>
+                <a href="about.html#aak-family" class="inline-flex items-center justify-center px-7 py-3 rounded-full text-sm font-semibold text-white border border-white/30 hover:bg-white/10 transition">
+                    Back to AAK Family
+                </a>
+            </div>
+        </div>
+    </header>
+    
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <section class="max-w-5xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="lg:col-span-2 bg-white rounded-3xl shadow-xl border border-purple-100 p-8 md:p-10 relative overflow-hidden">
+                    <div class="absolute -top-24 -right-24 w-64 h-64 rounded-full bg-purple-600/10 blur-2xl"></div>
+                    <div class="relative">
+                        <h2 class="text-3xl md:text-4xl font-bold text-purple-900">About the Award</h2>
+                        <p class="text-stone-700 mt-4 leading-relaxed">
+                            The AAK Best Student Award is a yearly recognition for students who demonstrate excellent character (akhlaq),
+                            strong academic effort, and meaningful contribution to the AAK community.
+                        </p>
+                        <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <div class="rounded-2xl border border-purple-100 bg-purple-50/40 p-4">
+                                <div class="w-10 h-10 rounded-xl bg-purple-600 text-white flex items-center justify-center shadow-sm">
+                                    <i class="fas fa-heart"></i>
+                                </div>
+                                <p class="mt-3 font-semibold text-purple-900">Akhlaq</p>
+                                <p class="text-sm text-stone-600 mt-1">Adab, discipline, and integrity.</p>
+                            </div>
+                            <div class="rounded-2xl border border-purple-100 bg-purple-50/40 p-4">
+                                <div class="w-10 h-10 rounded-xl bg-fuchsia-600 text-white flex items-center justify-center shadow-sm">
+                                    <i class="fas fa-graduation-cap"></i>
+                                </div>
+                                <p class="mt-3 font-semibold text-purple-900">Academics</p>
+                                <p class="text-sm text-stone-600 mt-1">Consistency, progress, and effort.</p>
+                            </div>
+                            <div class="rounded-2xl border border-purple-100 bg-purple-50/40 p-4">
+                                <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center shadow-sm">
+                                    <i class="fas fa-hands-helping"></i>
+                                </div>
+                                <p class="mt-3 font-semibold text-purple-900">Service</p>
+                                <p class="text-sm text-stone-600 mt-1">Helping others and leading by example.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-3xl shadow-xl border border-purple-100 p-8 md:p-10">
+                    <h3 class="text-2xl font-bold text-purple-900">Eligibility</h3>
+                    <ul class="mt-4 space-y-3 text-stone-700">
+                        <li class="flex gap-3">
+                            <span class="mt-1 w-6 h-6 rounded-full bg-purple-50 text-purple-700 flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-check text-xs"></i>
+                            </span>
+                            Active student of Akademi Al Khayr
+                        </li>
+                        <li class="flex gap-3">
+                            <span class="mt-1 w-6 h-6 rounded-full bg-purple-50 text-purple-700 flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-check text-xs"></i>
+                            </span>
+                            Strong attendance and discipline record
+                        </li>
+                        <li class="flex gap-3">
+                            <span class="mt-1 w-6 h-6 rounded-full bg-purple-50 text-purple-700 flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-check text-xs"></i>
+                            </span>
+                            Consistent academic effort and improvement
+                        </li>
+                        <li class="flex gap-3">
+                            <span class="mt-1 w-6 h-6 rounded-full bg-purple-50 text-purple-700 flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-check text-xs"></i>
+                            </span>
+                            Positive contribution to the community
+                        </li>
+                    </ul>
+                    <div class="mt-7 rounded-2xl bg-gradient-to-r from-purple-700 to-fuchsia-600 text-white p-5 shadow-lg">
+                        <p class="text-sm font-semibold tracking-wide uppercase text-white/80">Note</p>
+                        <p class="mt-1 text-sm leading-relaxed">
+                            Final selection is based on a holistic review by AAK’s management and teachers.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="max-w-5xl mx-auto mt-14">
+            <div class="bg-white rounded-3xl shadow-xl border border-purple-100 p-8 md:p-10">
+                <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+                    <div>
+                        <h2 class="text-3xl md:text-4xl font-bold text-purple-900">How It Works</h2>
+                        <p class="text-stone-700 mt-3 max-w-2xl">
+                            Parents and teachers can recommend a student. The final decision considers character, effort, and contribution across the year.
+                        </p>
+                    </div>
+                    <a href="suggestion_form.html" class="inline-flex items-center justify-center px-7 py-3 rounded-full text-sm font-semibold text-white bg-purple-600 hover:bg-purple-700 transition shadow-md">
+                        Submit Recommendation
+                        <i class="fas fa-paper-plane ml-2 text-xs"></i>
+                    </a>
+                </div>
+                
+                <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="rounded-3xl border border-purple-100 bg-purple-50/40 p-6">
+                        <div class="w-10 h-10 rounded-full bg-purple-900 text-white flex items-center justify-center font-bold">1</div>
+                        <p class="mt-4 font-semibold text-purple-900">Recommend</p>
+                        <p class="text-sm text-stone-600 mt-2">Share why the student deserves recognition (character, progress, and impact).</p>
+                    </div>
+                    <div class="rounded-3xl border border-purple-100 bg-purple-50/40 p-6">
+                        <div class="w-10 h-10 rounded-full bg-purple-900 text-white flex items-center justify-center font-bold">2</div>
+                        <p class="mt-4 font-semibold text-purple-900">Review</p>
+                        <p class="text-sm text-stone-600 mt-2">Teachers and management review records, feedback, and yearly performance.</p>
+                    </div>
+                    <div class="rounded-3xl border border-purple-100 bg-purple-50/40 p-6">
+                        <div class="w-10 h-10 rounded-full bg-purple-900 text-white flex items-center justify-center font-bold">3</div>
+                        <p class="mt-4 font-semibold text-purple-900">Celebrate</p>
+                        <p class="text-sm text-stone-600 mt-2">Award is announced and celebrated with the AAK community.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="max-w-5xl mx-auto mt-14">
+            <div class="rounded-3xl bg-gradient-to-r from-purple-900 via-fuchsia-700 to-emerald-600 text-white p-9 md:p-12 shadow-2xl relative overflow-hidden">
+                <div class="absolute -top-28 -left-24 w-72 h-72 rounded-full bg-white/10 blur-2xl"></div>
+                <div class="absolute -bottom-28 -right-24 w-72 h-72 rounded-full bg-white/10 blur-2xl"></div>
+                <div class="relative flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+                    <div>
+                        <h2 class="text-3xl md:text-4xl font-bold">Know a deserving student?</h2>
+                        <p class="mt-3 text-white/90 max-w-2xl">
+                            Recommend them for the AAK Best Student Award and help us celebrate excellence in character and learning.
+                        </p>
+                    </div>
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <a href="suggestion_form.html" class="inline-flex items-center justify-center px-7 py-3 rounded-full text-sm font-semibold text-purple-900 bg-white hover:bg-purple-50 transition shadow-lg">
+                            Recommend Now
+                            <i class="fas fa-arrow-right ml-2 text-xs"></i>
+                        </a>
+                        <a href="index.html#contact" class="inline-flex items-center justify-center px-7 py-3 rounded-full text-sm font-semibold text-white border border-white/30 hover:bg-white/10 transition">
+                            Contact AAK
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="bg-gray-900 text-white py-6 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex space-x-6 mb-6 md:mb-0">
+                    <a href="https://www.facebook.com/akademialkhayrofficial/" target="_blank" class="text-gray-400 hover:text-white transition"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/akademialkhayrofficial/?hl=en" target="_blank" class="text-gray-400 hover:text-white transition"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-youtube"></i></a>
+                </div>
+                <div class="text-gray-400 text-sm">
+                    &copy; 2026 Akademi Al Khayr. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        const navbar = document.getElementById('navbar');
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuIcon = document.getElementById('mobile-menu-icon');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        
+        if (mobileMenuButton && mobileMenu && mobileMenuIcon) {
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                const isOpen = !mobileMenu.classList.contains('hidden');
+                mobileMenuIcon.classList.toggle('fa-bars', !isOpen);
+                mobileMenuIcon.classList.toggle('fa-times', isOpen);
+            });
+        }
+    </script>
+</body>
+</html>
