@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18106017455"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'AW-18106017455');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disciplinary Report Form | Akademi Al Khayr</title>
+    <link rel="icon" type="image/png" href="logo%20AAK%20(white%20BG).png">
+    <meta name="description" content="Disciplinary Report Form for Akademi Al Khayr.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Poppins', sans-serif; }
+        .receipt-input { font-size: 1rem; font-weight: 400; color: #111827; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <nav class="bg-white/75 backdrop-blur fixed w-full z-50 shadow-sm transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <a href="index.html" class="flex items-center">
+                    <img src="logo%20AAK%20(white%20BG).png" alt="Akademi Al Khayr Logo" class="h-16 w-auto object-contain mr-3">
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-900 leading-none tracking-tight">AKADEMI</h1>
+                        <h1 class="text-xl font-bold text-purple-600 leading-none tracking-tight">AL KHAYR</h1>
+                    </div>
+                </a>
+                <div class="hidden md:flex space-x-8">
+                    <a href="index.html" class="text-gray-600 hover:text-purple-600 font-medium transition">Home</a>
+                    <a href="about.html" class="text-gray-600 hover:text-purple-600 font-medium transition">About</a>
+                    <a href="index.html#programs" class="text-gray-600 hover:text-purple-600 font-medium transition">Programs</a>
+                    <a href="index.html#contact" class="text-gray-600 hover:text-purple-600 font-medium transition">Contact</a>
+                </div>
+                <button id="mobile-menu-button" class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-full border border-gray-300 text-gray-600 hover:bg-gray-100 transition">
+                    <i id="mobile-menu-icon" class="fas fa-bars text-lg"></i>
+                </button>
+            </div>
+            <div id="mobile-menu" class="md:hidden hidden pb-4">
+                <div class="mobile-menu-panel bg-white/95 rounded-2xl shadow-xl border border-white/40 px-4 py-4 space-y-3">
+                    <a href="index.html" class="block font-semibold text-gray-800">Home</a>
+                    <a href="about.html" class="block font-semibold text-gray-800">About</a>
+                    <a href="index.html#programs" class="block font-semibold text-gray-800">Programs</a>
+                    <a href="forms.html" class="block font-semibold text-gray-800">Forms</a>
+                    <a href="fees.html" class="block font-semibold text-gray-800">Fees Payment</a>
+                    <a href="booking_aak_chalet.html" class="block font-semibold text-gray-800">Booking AAK Chalet</a>
+                    <a href="gallery.html" class="block font-semibold text-gray-800">Gallery</a>
+                    <details class="group">
+                        <summary class="block font-semibold text-gray-800 flex justify-between items-center cursor-pointer list-none" style="list-style: none;">
+                            Download
+                            <i class="fas fa-chevron-down text-sm transition-transform duration-200 group-open:rotate-180"></i>
+                        </summary>
+                        <div class="pl-4 mt-3 space-y-3">
+                            <a href="Download/AAK%20TAKWIM%202026.pdf" target="_blank" class="block font-medium text-gray-700">AAK Takwim</a>
+                            <a href="Download/GuideBook%20AAK_2026%20(1).pdf" target="_blank" class="block font-medium text-gray-700">AAK Guidebook 2026</a>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="min-h-screen pt-32 pb-16 px-4 sm:px-6 lg:px-8 bg-gray-50 flex items-center justify-center">
+        <div class="max-w-3xl w-full bg-white rounded-2xl shadow-xl overflow-hidden">
+            <div class="bg-purple-600 py-6 px-8 text-center">
+                <div class="flex justify-center mb-4">
+                    <img src="logo%20AAK%20(white%20BG).png" alt="Akademi Al Khayr Logo" class="h-20 w-auto object-contain">
+                </div>
+                <h2 class="text-3xl font-bold text-white">Disciplinary Report Form</h2>
+                <p class="text-purple-100 mt-2">Please provide the details and upload any supporting proof.</p>
+            </div>
+
+            <form id="disciplinaryReportForm" class="py-8 px-8 sm:px-12 space-y-6">
+                <input type="text" name="botcheck" style="display:none">
+                <input type="hidden" name="access_key" value="42059c33-4057-4f5d-a021-0a6ca6a62dd5">
+                <input type="hidden" name="from_name" value="Akademi Al Khayr Website">
+                <input type="hidden" name="subject" value="New Disciplinary Report Submission">
+
+                <div style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">
+                    <label for="aak_hp">Do not fill</label>
+                    <input id="aak_hp" type="text" name="aak_hp" tabindex="-1" autocomplete="off" inputmode="text">
+                </div>
+                <input id="aak_time" type="hidden" name="aak_time" value="">
+
+                <div class="space-y-6">
+                    <h3 class="text-xl font-semibold text-gray-900 border-b pb-2">Your Details</h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div>
+                            <label for="reporterName" class="block text-sm font-medium text-gray-700 mb-1">Name (Optional)</label>
+                            <input type="text" id="reporterName" name="reporterName" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition receipt-input" placeholder="Leave blank if anonymous">
+                        </div>
+                        <div>
+                            <label for="contactNo" class="block text-sm font-medium text-gray-700 mb-1">Contact No (Optional)</label>
+                            <input type="tel" id="contactNo" name="contactNo" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition receipt-input" placeholder="Enter contact number">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email (Optional)</label>
+                            <input type="email" id="email" name="email" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition receipt-input" placeholder="Enter email address">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">I am a...</label>
+                        <select id="reporterRole" name="reporterRole" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition receipt-input" required>
+                            <option value="" disabled selected>Select your role</option>
+                            <option value="Student">Student</option>
+                            <option value="Teacher">Teacher</option>
+                            <option value="Staff">Staff</option>
+                            <option value="Parent">Parent</option>
+                            <option value="Outsider">Outsider</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-900 border-b pb-2">Disciplinary Issue</h3>
+                        <label for="issueDetails" class="block text-sm font-medium text-gray-700 mb-1 mt-4">Details</label>
+                        <textarea id="issueDetails" name="issueDetails" rows="6" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition receipt-input" placeholder="Describe what happened, when, and who was involved (if known)..." required></textarea>
+                    </div>
+
+                    <div class="rounded-xl border border-gray-200 bg-gray-50 p-5">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-purple-50 border border-purple-100 flex items-center justify-center text-purple-700 flex-shrink-0">
+                                <i class="fas fa-paperclip text-xl"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-lg font-bold text-gray-900">Attachment / Proof</h3>
+                                <p class="text-sm text-gray-600 mt-1">Upload supporting document/photo/video to the Google Drive folder.</p>
+                            </div>
+                        </div>
+
+                        <div class="mt-5 w-full border border-gray-200 rounded-2xl px-5 py-4 bg-white space-y-3">
+                            <p class="text-sm font-semibold text-gray-900">Google Drive upload folder</p>
+                            <input type="hidden" name="proofDriveFolder" value="https://drive.google.com/drive/folders/1Em6n3iAuRKych0DjYQMNLhkCDaUi1KcV?usp=share_link">
+                            <div class="flex flex-col sm:flex-row gap-3 sm:items-center">
+                                <a id="driveUploadLink" href="https://drive.google.com/drive/folders/1Em6n3iAuRKych0DjYQMNLhkCDaUi1KcV?usp=share_link" target="_blank" rel="noopener" class="inline-flex items-center justify-center w-full sm:w-auto bg-purple-600 hover:bg-purple-700 text-white font-semibold px-5 py-3 rounded-lg shadow-sm transition">
+                                    <i class="fas fa-cloud-upload-alt mr-2"></i> Open Google Drive Folder
+                                </a>
+                                <button id="copyDriveLinkBtn" type="button" class="inline-flex items-center justify-center w-full sm:w-auto bg-white hover:bg-gray-100 text-gray-900 font-semibold px-5 py-3 rounded-lg border border-gray-300 shadow-sm transition">
+                                    <i class="fas fa-link mr-2 text-purple-700"></i> Copy Link
+                                </button>
+                            </div>
+                            <div class="text-xs text-gray-600 space-y-1">
+                                <p class="font-semibold text-gray-700">Phone tips (if you cannot see “Upload / +”):</p>
+                                <p>1) Open the folder and make sure you are signed in to Google Drive (best: open in the Google Drive app).</p>
+                                <p>2) If you cannot create a new folder, that is normal. Just use “Upload / +” and upload your file directly into the folder.</p>
+                                <p>3) If you are in Facebook/Instagram browser, tap menu → Open in browser.</p>
+                                <p>4) If “Upload” is still missing, you likely do not have upload access. Please contact admin.</p>
+                            </div>
+                            <label class="flex items-start gap-3 text-sm text-gray-700 pt-1">
+                                <input id="uploadedProofConfirm" name="uploadedProofConfirm" type="checkbox" class="mt-1 h-4 w-4 accent-purple-600" required>
+                                <span>I confirm I have uploaded the attachment/proof to the Google Drive folder.</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-2">
+                    <button id="submitButton" type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-4 rounded-lg shadow-md hover:shadow-lg transition duration-300 transform hover:-translate-y-0.5">
+                        Submit Report
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <footer class="bg-gray-900 text-white py-8 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-gray-400 text-sm">&copy; 2026 Akademi Al Khayr. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuIcon = document.getElementById('mobile-menu-icon');
+        if (mobileMenuButton && mobileMenu && mobileMenuIcon) {
+            mobileMenuButton.addEventListener('click', () => {
+                const isOpen = !mobileMenu.classList.contains('hidden');
+                mobileMenu.classList.toggle('hidden');
+                mobileMenuIcon.classList.toggle('fa-bars', isOpen);
+                mobileMenuIcon.classList.toggle('fa-times', !isOpen);
+            });
+            mobileMenu.querySelectorAll('a').forEach((link) => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                    mobileMenuIcon.classList.add('fa-bars');
+                    mobileMenuIcon.classList.remove('fa-times');
+                });
+            });
+        }
+    </script>
+
+    <script>
+        const disciplinaryReportForm = document.getElementById('disciplinaryReportForm');
+        const submitButton = document.getElementById('submitButton');
+        const formAction = 'https://api.web3forms.com/submit';
+        const requestInitAt = Date.now();
+        const requestHoneypot = document.getElementById('aak_hp');
+        const requestLoadTime = document.getElementById('aak_time');
+        const driveFolderUrl = 'https://drive.google.com/drive/folders/1Em6n3iAuRKych0DjYQMNLhkCDaUi1KcV?usp=share_link';
+        const driveUploadLink = document.getElementById('driveUploadLink');
+        const copyDriveLinkBtn = document.getElementById('copyDriveLinkBtn');
+        const uploadedProofConfirm = document.getElementById('uploadedProofConfirm');
+        if (requestLoadTime) {
+            requestLoadTime.value = String(requestInitAt);
+        }
+
+        if (driveUploadLink) {
+            const ua = String(navigator.userAgent || '');
+            const isAndroid = /Android/i.test(ua);
+            if (isAndroid) {
+                const folderId = '1Em6n3iAuRKych0DjYQMNLhkCDaUi1KcV';
+                driveUploadLink.href = `intent://drive.google.com/drive/folders/${folderId}#Intent;scheme=https;package=com.google.android.apps.docs;end`;
+            } else {
+                driveUploadLink.href = driveFolderUrl;
+            }
+        }
+
+        if (copyDriveLinkBtn) {
+            copyDriveLinkBtn.addEventListener('click', async () => {
+                const textToCopy = driveFolderUrl;
+                try {
+                    await navigator.clipboard.writeText(textToCopy);
+                    alert('Google Drive folder link copied.');
+                } catch {
+                    const textarea = document.createElement('textarea');
+                    textarea.value = textToCopy;
+                    textarea.setAttribute('readonly', 'true');
+                    textarea.style.position = 'fixed';
+                    textarea.style.left = '-9999px';
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    try { document.execCommand('copy'); } catch {}
+                    textarea.remove();
+                    alert('Google Drive folder link copied.');
+                }
+            });
+        }
+
+        let requestFirstInteractionAt = null;
+        const markRequestInteraction = () => {
+            if (requestFirstInteractionAt === null) {
+                requestFirstInteractionAt = Date.now();
+            }
+        };
+        ['pointerdown', 'keydown', 'touchstart', 'focusin'].forEach((eventName) => {
+            window.addEventListener(eventName, markRequestInteraction, { once: true, capture: true });
+        });
+
+        const setSubmitting = (isSubmitting) => {
+            if (!submitButton) return;
+            submitButton.disabled = isSubmitting;
+            submitButton.classList.toggle('opacity-70', isSubmitting);
+            submitButton.classList.toggle('cursor-not-allowed', isSubmitting);
+            submitButton.textContent = isSubmitting ? 'Submitting…' : 'Submit Report';
+        };
+
+        if (disciplinaryReportForm) {
+            disciplinaryReportForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const now = Date.now();
+                const elapsedMs = now - requestInitAt;
+                const isWebDriver = navigator.webdriver === true;
+                const rateLimitKey = 'aak_disciplinary_report_last_submit_at';
+                const lastSubmitAt = Number(localStorage.getItem(rateLimitKey) || '0');
+
+                const role = String(document.getElementById('reporterRole')?.value || '').trim();
+                const issueDetails = String(document.getElementById('issueDetails')?.value || '').trim();
+
+                if (role.length < 2) {
+                    alert('Please select your role.');
+                    return;
+                }
+                if (issueDetails.length < 10) {
+                    alert('Please provide more details about the issue.');
+                    return;
+                }
+                if (uploadedProofConfirm && uploadedProofConfirm.checked !== true) {
+                    alert('Please upload your attachment/proof to Google Drive and confirm.');
+                    return;
+                }
+
+                if (requestHoneypot && requestHoneypot.value.trim() !== '') {
+                    alert('Please try again.');
+                    return;
+                }
+
+                if (requestFirstInteractionAt === null) {
+                    alert('Please interact with the page and try again.');
+                    return;
+                }
+
+                if (elapsedMs < 3500 || (isWebDriver && elapsedMs < 8000)) {
+                    alert('Please wait a moment and submit again.');
+                    return;
+                }
+
+                if (lastSubmitAt && now - lastSubmitAt < 45000) {
+                    alert('Please wait a moment before submitting again.');
+                    return;
+                }
+
+                localStorage.setItem(rateLimitKey, String(now));
+
+                setSubmitting(true);
+                try {
+                    const formData = new FormData(disciplinaryReportForm);
+                    const response = await fetch(formAction, { method: 'POST', body: formData });
+                    if (response.ok) {
+                        alert('Report submitted successfully.');
+                        disciplinaryReportForm.reset();
+                        return;
+                    }
+                    alert('There was an error submitting the form. Please try again.');
+                } catch {
+                    alert('There was an error submitting the form. Please try again.');
+                } finally {
+                    setSubmitting(false);
+                }
+            });
+        }
+    </script>
+</body>
+</html>
