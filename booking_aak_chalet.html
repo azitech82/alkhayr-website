@@ -412,15 +412,27 @@
         }
 
         // Form handling
+        const getFieldValue = (id) => {
+            const el = document.getElementById(id);
+            return ((el && el.value) ? String(el.value) : '').trim();
+        };
+
+        const formatDate = (isoDate) => {
+            if (!isoDate) return '';
+            const d = new Date(`${isoDate}T00:00:00`);
+            if (Number.isNaN(d.getTime())) return isoDate;
+            return d.toLocaleDateString('en-MY');
+        };
+
         const buildReservationMessage = () => {
-            const firstName = document.getElementById('firstName').value || '-';
-            const lastName = document.getElementById('lastName').value || '-';
-            const email = document.getElementById('email').value || '-';
-            const phone = document.getElementById('phone').value || '-';
-            const checkIn = document.getElementById('checkIn').value || '-';
-            const checkOut = document.getElementById('checkOut').value || '-';
-            const guests = document.getElementById('guests').value || '-';
-            const message = document.getElementById('message').value || '-';
+            const firstName = getFieldValue('firstName');
+            const lastName = getFieldValue('lastName');
+            const email = getFieldValue('email');
+            const phone = getFieldValue('phone');
+            const checkIn = formatDate(getFieldValue('checkIn'));
+            const checkOut = formatDate(getFieldValue('checkOut'));
+            const guests = getFieldValue('guests') || '-';
+            const message = getFieldValue('message') || '-';
 
             const emailSubject = `New Chalet Booking Request: ${firstName} ${lastName}`;
             const emailBody = `
@@ -500,6 +512,11 @@ Submitted via AAK Website
         });
 
         document.getElementById('submitWhatsapp').addEventListener('click', () => {
+            if (!reservationForm) return;
+            if (!reservationForm.checkValidity()) {
+                reservationForm.reportValidity();
+                return;
+            }
             const { emailBody } = buildReservationMessage();
             const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(emailBody)}`;
             window.open(whatsappUrl, '_blank');
