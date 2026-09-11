@@ -260,6 +260,7 @@
                 <!-- Links -->
                 <div class="flex items-center px-1 sm:px-2 space-x-0.5 sm:space-x-1 overflow-x-auto no-scrollbar">
                     <a href="#pmmm-mastery" class="px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium text-white hover:text-white hover:bg-white/20 rounded-full transition-colors whitespace-nowrap">Mastery</a>
+                    <a href="#memorisation-category" class="px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium text-white hover:text-white hover:bg-white/20 rounded-full transition-colors whitespace-nowrap">Mode</a>
                     <a href="#halaqah-session" class="px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium text-white hover:text-white hover:bg-white/20 rounded-full transition-colors whitespace-nowrap">Halaqah</a>
                     <a href="#memorisation-test" class="px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium text-white hover:text-white hover:bg-white/20 rounded-full transition-colors whitespace-nowrap">Hifz test</a>
                     <button id="tasmi-open" type="button" class="group relative overflow-visible px-3 sm:px-4 py-2 pr-7 text-xs sm:text-sm font-extrabold text-gray-900 bg-gradient-to-r from-emerald-50 to-teal-50 hover:from-emerald-100 hover:to-teal-100 rounded-full whitespace-nowrap flex items-center gap-1 border border-[#25D366]/60 shadow-lg shadow-[#25D366]/25 hover:shadow-[#25D366]/40 hover:-translate-y-0.5 hover:border-[#25D366] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#25D366]/50 focus:ring-offset-2 focus:ring-offset-transparent">
@@ -428,6 +429,133 @@
             </div>
         </div>
     </section>
+
+    <section id="memorisation-category" class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-3">Memorisation Category<br><span class="text-lg font-normal text-gray-500">(Mode of Memorisation)</span></h2>
+                <div class="w-40 h-1 bg-purple-800 mx-auto rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white rounded-2xl shadow-lg border border-purple-100 p-6 relative overflow-hidden">
+                    <div class="absolute -top-10 -right-10 w-32 h-32 bg-purple-100 rounded-full"></div>
+                    <div class="relative">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 rounded-xl bg-purple-700 text-white flex items-center justify-center font-extrabold shadow">1</div>
+                            <div class="text-xl font-extrabold text-purple-800">Full PMMM</div>
+                        </div>
+                        <div class="text-gray-700 font-medium">Memorisation started from Surah Al Baqarah</div>
+                    </div>
+                </div>
+
+                <button id="light-pmmm-open" type="button" class="text-left bg-white rounded-2xl shadow-lg border border-blue-100 p-6 relative overflow-hidden hover:-translate-y-0.5 hover:shadow-xl transition focus:outline-none focus:ring-2 focus:ring-blue-500/40">
+                    <div class="absolute -top-10 -right-10 w-32 h-32 bg-blue-100 rounded-full"></div>
+                    <div class="relative">
+                        <div class="flex items-center justify-between gap-3 mb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-blue-700 text-white flex items-center justify-center font-extrabold shadow">2</div>
+                                <div class="text-xl font-extrabold text-blue-800">Light PMMM</div>
+                            </div>
+                            <div class="flex items-center gap-2 text-blue-700 font-semibold text-sm">
+                                <span class="px-2 py-1 rounded-full bg-blue-50 border border-blue-100">14 surah</span>
+                                <i class="fas fa-chevron-right"></i>
+                            </div>
+                        </div>
+                        <div class="text-gray-700 font-medium">Memorisation of selective surah</div>
+                    </div>
+                </button>
+
+                <div class="bg-white rounded-2xl shadow-lg border border-emerald-100 p-6 relative overflow-hidden">
+                    <div class="absolute -top-10 -right-10 w-32 h-32 bg-emerald-100 rounded-full"></div>
+                    <div class="relative">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 rounded-xl bg-emerald-700 text-white flex items-center justify-center font-extrabold shadow">3</div>
+                            <div class="text-xl font-extrabold text-emerald-800">Super Light PMMM</div>
+                        </div>
+                        <div class="text-gray-700 font-medium">Memorisation start on Juz 30</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="light-pmmm-modal" class="hidden fixed inset-0 z-50">
+        <div id="light-pmmm-overlay" class="absolute inset-0 bg-black/50"></div>
+        <div class="relative min-h-full flex items-center justify-center p-4">
+            <div class="w-full max-w-2xl bg-white rounded-2xl shadow-2xl overflow-hidden">
+                <div class="px-6 py-4 bg-gradient-to-r from-blue-700 to-blue-600 text-white flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 rounded-lg bg-white/15 flex items-center justify-center font-extrabold">14</div>
+                        <h3 class="text-lg font-semibold">Surah for Light PMMM</h3>
+                    </div>
+                    <button id="light-pmmm-close" type="button" class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 transition flex items-center justify-center" aria-label="Close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 bg-gray-50">
+                            <div class="w-9 h-9 rounded-lg bg-blue-700 text-white font-extrabold flex items-center justify-center">1</div>
+                            <div class="font-semibold text-gray-900">AL-MULK</div>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 bg-gray-50">
+                            <div class="w-9 h-9 rounded-lg bg-blue-700 text-white font-extrabold flex items-center justify-center">8</div>
+                            <div class="font-semibold text-gray-900">YA-SIN</div>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 bg-gray-50">
+                            <div class="w-9 h-9 rounded-lg bg-blue-700 text-white font-extrabold flex items-center justify-center">2</div>
+                            <div class="font-semibold text-gray-900">AS-SAJDAH</div>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 bg-gray-50">
+                            <div class="w-9 h-9 rounded-lg bg-blue-700 text-white font-extrabold flex items-center justify-center">9</div>
+                            <div class="font-semibold text-gray-900">LUQMAN</div>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 bg-gray-50">
+                            <div class="w-9 h-9 rounded-lg bg-blue-700 text-white font-extrabold flex items-center justify-center">3</div>
+                            <div class="font-semibold text-gray-900">AL-INSAN</div>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 bg-gray-50">
+                            <div class="w-9 h-9 rounded-lg bg-blue-700 text-white font-extrabold flex items-center justify-center">10</div>
+                            <div class="font-semibold text-gray-900">MARYAM</div>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 bg-gray-50">
+                            <div class="w-9 h-9 rounded-lg bg-blue-700 text-white font-extrabold flex items-center justify-center">4</div>
+                            <div class="font-semibold text-gray-900">AL-JUMU'AH</div>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 bg-gray-50">
+                            <div class="w-9 h-9 rounded-lg bg-blue-700 text-white font-extrabold flex items-center justify-center">11</div>
+                            <div class="font-semibold text-gray-900">TAHA</div>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 bg-gray-50">
+                            <div class="w-9 h-9 rounded-lg bg-blue-700 text-white font-extrabold flex items-center justify-center">5</div>
+                            <div class="font-semibold text-gray-900">AL-KAHF</div>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 bg-gray-50">
+                            <div class="w-9 h-9 rounded-lg bg-blue-700 text-white font-extrabold flex items-center justify-center">12</div>
+                            <div class="font-semibold text-gray-900">AR-RAHMAN</div>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 bg-gray-50">
+                            <div class="w-9 h-9 rounded-lg bg-blue-700 text-white font-extrabold flex items-center justify-center">6</div>
+                            <div class="font-semibold text-gray-900">AL-HUJURAT</div>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 bg-gray-50">
+                            <div class="w-9 h-9 rounded-lg bg-blue-700 text-white font-extrabold flex items-center justify-center">13</div>
+                            <div class="font-semibold text-gray-900">AL-WAQI'AH</div>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 bg-gray-50">
+                            <div class="w-9 h-9 rounded-lg bg-blue-700 text-white font-extrabold flex items-center justify-center">7</div>
+                            <div class="font-semibold text-gray-900">QAF</div>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 bg-gray-50">
+                            <div class="w-9 h-9 rounded-lg bg-blue-700 text-white font-extrabold flex items-center justify-center">14</div>
+                            <div class="font-semibold text-gray-900">AS-SAFFAT</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Halaqah Session Section -->
     <section id="halaqah-session" class="py-16 bg-white">
@@ -840,6 +968,36 @@
                 button.addEventListener('click', () => {
                     openWhatsApp(button.getAttribute('data-tasmi-number'));
                 });
+            });
+        })();
+    </script>
+    <script>
+        (() => {
+            const openButton = document.getElementById('light-pmmm-open');
+            const modal = document.getElementById('light-pmmm-modal');
+            const overlay = document.getElementById('light-pmmm-overlay');
+            const closeButton = document.getElementById('light-pmmm-close');
+
+            if (!openButton || !modal || !overlay || !closeButton) return;
+
+            const openModal = () => {
+                modal.classList.remove('hidden');
+                document.body.classList.add('overflow-hidden');
+            };
+
+            const closeModal = () => {
+                modal.classList.add('hidden');
+                document.body.classList.remove('overflow-hidden');
+            };
+
+            openButton.addEventListener('click', openModal);
+            closeButton.addEventListener('click', closeModal);
+            overlay.addEventListener('click', closeModal);
+
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape' && !modal.classList.contains('hidden')) {
+                    closeModal();
+                }
             });
         })();
     </script>
