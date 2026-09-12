@@ -495,7 +495,7 @@
     <div id="light-pmmm-modal" class="hidden fixed inset-0 z-50">
         <div id="light-pmmm-overlay" class="absolute inset-0 bg-black/50"></div>
         <div class="relative min-h-full flex items-center justify-center p-4">
-            <div class="w-full max-w-2xl bg-white rounded-2xl shadow-2xl overflow-hidden">
+            <div class="w-full max-w-2xl max-h-[85vh] bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col">
                 <div class="px-6 py-4 bg-gradient-to-r from-blue-700 to-blue-600 text-white flex items-center justify-between">
                     <div class="flex items-center gap-2">
                         <div class="w-8 h-8 rounded-lg bg-white/15 flex items-center justify-center font-extrabold">14</div>
@@ -505,59 +505,59 @@
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
-                <div class="p-6">
+                <div class="p-6 overflow-y-auto" style="-webkit-overflow-scrolling: touch;">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 bg-gray-50">
                             <div class="w-9 h-9 rounded-lg bg-blue-700 text-white font-extrabold flex items-center justify-center">1</div>
                             <div class="font-semibold text-gray-900">AL-MULK</div>
                         </div>
                         <div class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 bg-gray-50">
-                            <div class="w-9 h-9 rounded-lg bg-blue-700 text-white font-extrabold flex items-center justify-center">8</div>
-                            <div class="font-semibold text-gray-900">YA-SIN</div>
-                        </div>
-                        <div class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 bg-gray-50">
                             <div class="w-9 h-9 rounded-lg bg-blue-700 text-white font-extrabold flex items-center justify-center">2</div>
                             <div class="font-semibold text-gray-900">AS-SAJDAH</div>
-                        </div>
-                        <div class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 bg-gray-50">
-                            <div class="w-9 h-9 rounded-lg bg-blue-700 text-white font-extrabold flex items-center justify-center">9</div>
-                            <div class="font-semibold text-gray-900">LUQMAN</div>
                         </div>
                         <div class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 bg-gray-50">
                             <div class="w-9 h-9 rounded-lg bg-blue-700 text-white font-extrabold flex items-center justify-center">3</div>
                             <div class="font-semibold text-gray-900">AL-INSAN</div>
                         </div>
                         <div class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 bg-gray-50">
-                            <div class="w-9 h-9 rounded-lg bg-blue-700 text-white font-extrabold flex items-center justify-center">10</div>
-                            <div class="font-semibold text-gray-900">MARYAM</div>
-                        </div>
-                        <div class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 bg-gray-50">
                             <div class="w-9 h-9 rounded-lg bg-blue-700 text-white font-extrabold flex items-center justify-center">4</div>
                             <div class="font-semibold text-gray-900">AL-JUMU'AH</div>
-                        </div>
-                        <div class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 bg-gray-50">
-                            <div class="w-9 h-9 rounded-lg bg-blue-700 text-white font-extrabold flex items-center justify-center">11</div>
-                            <div class="font-semibold text-gray-900">TAHA</div>
                         </div>
                         <div class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 bg-gray-50">
                             <div class="w-9 h-9 rounded-lg bg-blue-700 text-white font-extrabold flex items-center justify-center">5</div>
                             <div class="font-semibold text-gray-900">AL-KAHF</div>
                         </div>
                         <div class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 bg-gray-50">
-                            <div class="w-9 h-9 rounded-lg bg-blue-700 text-white font-extrabold flex items-center justify-center">12</div>
-                            <div class="font-semibold text-gray-900">AR-RAHMAN</div>
-                        </div>
-                        <div class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 bg-gray-50">
                             <div class="w-9 h-9 rounded-lg bg-blue-700 text-white font-extrabold flex items-center justify-center">6</div>
                             <div class="font-semibold text-gray-900">AL-HUJURAT</div>
                         </div>
                         <div class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 bg-gray-50">
-                            <div class="w-9 h-9 rounded-lg bg-blue-700 text-white font-extrabold flex items-center justify-center">13</div>
-                            <div class="font-semibold text-gray-900">AL-WAQI'AH</div>
-                        </div>
-                        <div class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 bg-gray-50">
                             <div class="w-9 h-9 rounded-lg bg-blue-700 text-white font-extrabold flex items-center justify-center">7</div>
                             <div class="font-semibold text-gray-900">QAF</div>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 bg-gray-50">
+                            <div class="w-9 h-9 rounded-lg bg-blue-700 text-white font-extrabold flex items-center justify-center">8</div>
+                            <div class="font-semibold text-gray-900">YA-SIN</div>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 bg-gray-50">
+                            <div class="w-9 h-9 rounded-lg bg-blue-700 text-white font-extrabold flex items-center justify-center">9</div>
+                            <div class="font-semibold text-gray-900">LUQMAN</div>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 bg-gray-50">
+                            <div class="w-9 h-9 rounded-lg bg-blue-700 text-white font-extrabold flex items-center justify-center">10</div>
+                            <div class="font-semibold text-gray-900">MARYAM</div>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 bg-gray-50">
+                            <div class="w-9 h-9 rounded-lg bg-blue-700 text-white font-extrabold flex items-center justify-center">11</div>
+                            <div class="font-semibold text-gray-900">TAHA</div>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 bg-gray-50">
+                            <div class="w-9 h-9 rounded-lg bg-blue-700 text-white font-extrabold flex items-center justify-center">12</div>
+                            <div class="font-semibold text-gray-900">AR-RAHMAN</div>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 bg-gray-50">
+                            <div class="w-9 h-9 rounded-lg bg-blue-700 text-white font-extrabold flex items-center justify-center">13</div>
+                            <div class="font-semibold text-gray-900">AL-WAQI'AH</div>
                         </div>
                         <div class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 bg-gray-50">
                             <div class="w-9 h-9 rounded-lg bg-blue-700 text-white font-extrabold flex items-center justify-center">14</div>
