@@ -848,9 +848,9 @@
         }
     </style>
 </head>
-<body class="text-gray-800 relative aak-preload-active">
+<body class="text-gray-800 relative">
 
-    <div id="info-board-overlay" class="info-board-overlay" aria-live="polite" role="dialog" aria-modal="true" aria-label="Latest updates from Akademi Al Khayr">
+    <div id="info-board-overlay" class="info-board-overlay is-hidden" aria-live="polite" role="dialog" aria-modal="true" aria-label="Latest updates from Akademi Al Khayr">
         <div class="info-board-wrapper">
             <div class="aak-hijri-clock aak-hijri-clock--mobile block lg:hidden" dir="rtl" lang="ar">
                 <div class="aak-hijri-clock-card">
@@ -914,7 +914,7 @@
                     </div>
                 </a>
                 <div class="hidden lg:flex space-x-8">
-                    <a href="#" class="font-medium transition nav-item">Home</a>
+                    <a id="nav-home" href="#" class="font-medium transition nav-item">Home</a>
                     <a href="about.html" class="font-medium transition nav-item">About</a>
                     <a href="#programs" class="font-medium transition nav-item">Programs</a>
                     <a href="#contact" class="font-medium transition nav-item">Contact</a>
@@ -989,7 +989,7 @@
             </div>
             <div id="mobile-menu" class="lg:hidden hidden pb-4">
                 <div class="mobile-menu-panel bg-white/95 rounded-2xl shadow-xl border border-white/40 px-4 py-4 space-y-3 max-h-[85vh] overflow-y-auto">
-                    <a href="#" class="block font-semibold text-gray-800">Home</a>
+                    <a id="mobile-nav-home" href="#" class="block font-semibold text-gray-800">Home</a>
                     <a href="about.html" class="block font-semibold text-gray-800">About</a>
                     <a href="#programs" class="block font-semibold text-gray-800">Programs</a>
                     <a href="forms.html" class="block font-semibold text-gray-800">Forms</a>
@@ -1450,6 +1450,27 @@
             document.body.classList.remove('aak-preload-active');
         };
 
+        const showInfoBoard = () => {
+            if (!infoBoardOverlay) return;
+            infoBoardAutoCloseStopped = false;
+            if (infoBoardTimerId) {
+                window.clearTimeout(infoBoardTimerId);
+                infoBoardTimerId = null;
+            }
+            if (infoBoardProgress) {
+                infoBoardProgress.classList.remove('is-paused');
+            }
+            if (ayahBoardProgress) {
+                ayahBoardProgress.classList.remove('is-paused');
+            }
+            if (infoBoardIframeOverlay) {
+                infoBoardIframeOverlay.style.display = '';
+            }
+            infoBoardOverlay.classList.remove('is-hidden');
+            document.body.classList.add('aak-preload-active');
+            startInfoBoardTimer();
+        };
+
         const stopInfoBoardAutoClose = () => {
             if (infoBoardAutoCloseStopped) return;
             infoBoardAutoCloseStopped = true;
@@ -1565,7 +1586,29 @@
             }
         });
 
-        document.addEventListener('DOMContentLoaded', startInfoBoardTimer);
+        document.addEventListener('DOMContentLoaded', () => {
+            const hash = window.location.hash || '';
+            const shouldShowOnLoad = hash === '' || hash === '#';
+            if (shouldShowOnLoad) {
+                showInfoBoard();
+                return;
+            }
+            hideInfoBoard();
+        });
+
+        const navHomeLink = document.getElementById('nav-home');
+        const mobileNavHomeLink = document.getElementById('mobile-nav-home');
+        [navHomeLink, mobileNavHomeLink].forEach((link) => {
+            if (!link) return;
+            link.addEventListener('click', (event) => {
+                event.preventDefault();
+                if (window.history && window.history.replaceState) {
+                    window.history.replaceState(null, document.title, window.location.pathname + window.location.search);
+                }
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                showInfoBoard();
+            });
+        });
     </script>
 
     <script>
