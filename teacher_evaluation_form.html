@@ -167,7 +167,7 @@
                         <textarea id="notes" name="notes" rows="4" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none transition receipt-input" placeholder="Any notes or reflections..."></textarea>
                     </div>
 
-                    <div class="pt-2">
+                    <div id="submitRow" class="pt-2">
                         <button id="submitBtn" type="submit" class="w-full bg-sky-600 hover:bg-sky-700 text-white font-bold py-3 px-4 rounded-lg shadow-md hover:shadow-lg transition duration-300 transform hover:-translate-y-0.5">
                             Submit Evaluation
                         </button>
@@ -217,6 +217,7 @@
         const resultDetail = document.getElementById('resultDetail');
         const resultBar = document.getElementById('resultBar');
         const submitBtn = document.getElementById('submitBtn');
+        const submitRow = document.getElementById('submitRow');
 
         const requestInitAt = Date.now();
         const requestHoneypot = document.getElementById('aak_hp');
@@ -537,6 +538,10 @@
                 }
 
                 showResult(score);
+                submitBtn.textContent = 'Submitted';
+                if (submitRow) {
+                    submitRow.classList.add('hidden');
+                }
                 evaluationForm.querySelectorAll('input, select, textarea, button').forEach((el) => {
                     el.disabled = true;
                 });
