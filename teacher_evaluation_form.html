@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18106017455"></script> 
+    <script> 
+      window.dataLayer = window.dataLayer || []; 
+      function gtag(){dataLayer.push(arguments);} 
+      gtag('js', new Date()); 
+      gtag('config', 'AW-18106017455'); 
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Evaluation Form | Akademi Al Khayr</title>
+    <link rel="icon" type="image/png" href="logo%20AAK%20(white%20BG).png">
+    <meta name="description" content="Teacher Evaluation Form for Akademi Al Khayr.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Poppins', sans-serif; }
+        .receipt-input { font-size: 1rem; font-weight: 400; color: #111827; }
+        .likert-radio:checked + .likert-chip { background: #0284c7; border-color: #0284c7; color: #ffffff; box-shadow: 0 8px 14px -10px rgba(2, 132, 199, 0.8); }
+        .likert-radio:focus-visible + .likert-chip { outline: 2px solid #0ea5e9; outline-offset: 2px; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <nav class="bg-white/75 backdrop-blur fixed w-full z-50 shadow-sm transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <a href="index.html" class="flex items-center">
+                    <img src="logo%20AAK%20(white%20BG).png" alt="Akademi Al Khayr Logo" class="h-16 w-auto object-contain mr-3">
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-900 leading-none tracking-tight">AKADEMI</h1>
+                        <h1 class="text-xl font-bold text-sky-600 leading-none tracking-tight">AL KHAYR</h1>
+                    </div>
+                </a>
+                <div class="hidden md:flex space-x-8">
+                    <a href="index.html" class="text-gray-600 hover:text-sky-600 font-medium transition">Home</a>
+                    <a href="about.html" class="text-gray-600 hover:text-sky-600 font-medium transition">About</a>
+                    <a href="index.html#programs" class="text-gray-600 hover:text-sky-600 font-medium transition">Programs</a>
+                    <a href="index.html#contact" class="text-gray-600 hover:text-sky-600 font-medium transition">Contact</a>
+                </div>
+                <button id="mobile-menu-button" class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-full border border-gray-300 text-gray-600 hover:bg-gray-100 transition">
+                    <i id="mobile-menu-icon" class="fas fa-bars text-lg"></i>
+                </button>
+            </div>
+            <div id="mobile-menu" class="md:hidden hidden pb-4">
+                <div class="bg-white/95 rounded-2xl shadow-xl border border-white/40 px-4 py-4 space-y-3">
+                    <a href="index.html" class="block font-semibold text-gray-800">Home</a>
+                    <a href="about.html" class="block font-semibold text-gray-800">About</a>
+                    <a href="index.html#programs" class="block font-semibold text-gray-800">Programs</a>
+                    <a href="forms.html" class="block font-semibold text-gray-800">Forms</a>
+                    <a href="fees.html" class="block font-semibold text-gray-800">Fees Payment</a>
+                    <a href="booking_aak_chalet.html" class="block font-semibold text-gray-800">Booking AAK Chalet</a>
+                    <a href="gallery.html" class="block font-semibold text-gray-800">Gallery</a>
+                    <details class="group">
+                        <summary class="block font-semibold text-gray-800 flex justify-between items-center cursor-pointer list-none" style="list-style: none;">
+                            Download
+                            <i class="fas fa-chevron-down text-sm transition-transform duration-200 group-open:rotate-180"></i>
+                        </summary>
+                        <div class="pl-4 mt-3 space-y-3">
+                            <a href="Download/AAK%20TAKWIM%202026.pdf" target="_blank" class="block font-medium text-gray-700">AAK Takwim</a>
+                            <a href="Download/GuideBook%20AAK_2026%20(1).pdf" target="_blank" class="block font-medium text-gray-700">AAK Guidebook 2026</a>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="min-h-screen pt-32 pb-16 px-4 sm:px-6 lg:px-8 bg-gray-50 flex items-center justify-center">
+        <div class="max-w-4xl w-full bg-white rounded-2xl shadow-xl overflow-hidden">
+            <div class="bg-gradient-to-br from-sky-600 via-sky-600 to-indigo-700 py-7 px-8 text-center">
+                <div class="flex justify-center mb-4">
+                    <img src="logo%20AAK%20(white%20BG).png" alt="Akademi Al Khayr Logo" class="h-20 w-auto object-contain">
+                </div>
+                <h2 class="text-3xl font-bold text-white">Teacher Evaluation Form</h2>
+                <p class="text-sky-100 mt-2">Select assessment type and rate each statement from 1 to 5.</p>
+            </div>
+
+            <div class="px-8 sm:px-12 py-8">
+                <div class="rounded-2xl border border-sky-100 bg-gradient-to-br from-sky-50 via-white to-indigo-50 p-5 sm:p-6 mb-8">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900">Likert Scale</h3>
+                            <p class="text-sm text-gray-600">1 = Strongly Disagree, 2 = Disagree, 3 = Neutral, 4 = Agree, 5 = Strongly Agree</p>
+                        </div>
+                        <a href="forms.html" class="inline-flex items-center justify-center px-4 py-2 rounded-full bg-white text-sky-700 border border-sky-200 font-semibold hover:bg-sky-50 transition">
+                            Back to Forms
+                        </a>
+                    </div>
+                </div>
+
+                <form id="teacherEvaluationForm" class="space-y-8">
+                    <input type="text" name="botcheck" style="display:none">
+                    <input type="hidden" name="access_key" value="42059c33-4057-4f5d-a021-0a6ca6a62dd5">
+                    <input type="hidden" name="from_name" value="Akademi Al Khayr Website">
+                    <input type="hidden" name="subject" value="Teacher Evaluation Form Submission">
+
+                    <div style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">
+                        <label for="aak_hp">Do not fill</label>
+                        <input id="aak_hp" type="text" name="aak_hp" tabindex="-1" autocomplete="off" inputmode="text">
+                    </div>
+                    <input id="aak_time" type="hidden" name="aak_time" value="">
+
+                    <input id="evaluation_percentage" type="hidden" name="evaluation_percentage" value="">
+                    <input id="evaluation_weighted_score" type="hidden" name="evaluation_weighted_score" value="">
+                    <input id="evaluation_max_weighted_score" type="hidden" name="evaluation_max_weighted_score" value="">
+                    <input id="assessment_type" type="hidden" name="assessment_type" value="Self">
+
+                    <div class="space-y-6">
+                        <h3 class="text-xl font-semibold text-gray-900 border-b pb-2">Teacher Details</h3>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="md:col-span-3">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Assessment Type</label>
+                                <div class="flex flex-col sm:flex-row gap-3">
+                                    <label class="flex items-center gap-3 px-4 py-3 rounded-xl border border-gray-200 bg-white hover:bg-sky-50 hover:border-sky-200 transition cursor-pointer">
+                                        <input class="h-4 w-4 text-sky-600 focus:ring-sky-500" type="radio" name="assessment_type_ui" value="Self" checked>
+                                        <div class="leading-tight">
+                                            <div class="font-semibold text-gray-900">Self Assessment</div>
+                                            <div class="text-xs text-gray-600">Use “I / Saya …” statements</div>
+                                        </div>
+                                    </label>
+                                    <label class="flex items-center gap-3 px-4 py-3 rounded-xl border border-gray-200 bg-white hover:bg-sky-50 hover:border-sky-200 transition cursor-pointer">
+                                        <input class="h-4 w-4 text-sky-600 focus:ring-sky-500" type="radio" name="assessment_type_ui" value="Student">
+                                        <div class="leading-tight">
+                                            <div class="font-semibold text-gray-900">Student Assessment</div>
+                                            <div class="text-xs text-gray-600">Use “My teacher / Guru saya …” statements</div>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="md:col-span-2">
+                                <label for="teacherName" class="block text-sm font-medium text-gray-700 mb-1">Teacher Name</label>
+                                <input type="text" id="teacherName" name="teacherName" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none transition receipt-input" placeholder="Enter teacher name" required>
+                            </div>
+                            <div>
+                                <label for="evaluationDate" class="block text-sm font-medium text-gray-700 mb-1">Date</label>
+                                <input type="date" id="evaluationDate" name="evaluationDate" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none transition receipt-input" required>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="md:col-span-2">
+                                <label for="teacherEmail" class="block text-sm font-medium text-gray-700 mb-1">Email (Optional)</label>
+                                <input type="email" id="teacherEmail" name="teacherEmail" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none transition receipt-input" placeholder="Enter email (optional)">
+                            </div>
+                            <div>
+                                <label for="subjectTaught" class="block text-sm font-medium text-gray-700 mb-1">Subject (Optional)</label>
+                                <input type="text" id="subjectTaught" name="subjectTaught" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none transition receipt-input" placeholder="e.g. Bahasa, Math">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-6 pt-2">
+                        <h3 class="text-xl font-semibold text-gray-900 border-b pb-2">Evaluation Items</h3>
+
+                        <div id="questions" class="space-y-5"></div>
+                    </div>
+
+                    <div class="space-y-6 pt-2">
+                        <h3 class="text-xl font-semibold text-gray-900 border-b pb-2">Notes (Optional)</h3>
+                        <textarea id="notes" name="notes" rows="4" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none transition receipt-input" placeholder="Any notes or reflections..."></textarea>
+                    </div>
+
+                    <div class="pt-2">
+                        <button id="submitBtn" type="submit" class="w-full bg-sky-600 hover:bg-sky-700 text-white font-bold py-3 px-4 rounded-lg shadow-md hover:shadow-lg transition duration-300 transform hover:-translate-y-0.5">
+                            Submit Evaluation
+                        </button>
+                    </div>
+                </form>
+
+                <div id="resultPanel" class="hidden mt-10 rounded-2xl border border-emerald-200 bg-gradient-to-br from-emerald-50 via-white to-sky-50 p-6">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-900">Your Result</h3>
+                            <p class="text-gray-700 mt-1">Overall weighted score</p>
+                        </div>
+                        <div class="text-left sm:text-right">
+                            <div class="text-4xl font-extrabold text-emerald-600" id="resultPercentage">0%</div>
+                            <div class="text-sm text-gray-600" id="resultDetail"></div>
+                        </div>
+                    </div>
+                    <div class="mt-5">
+                        <div class="h-3 bg-white rounded-full border border-emerald-200 overflow-hidden">
+                            <div id="resultBar" class="h-full bg-gradient-to-r from-emerald-500 via-sky-500 to-indigo-600 w-0 transition-all duration-500"></div>
+                        </div>
+                    </div>
+                    <div class="mt-6 flex flex-col sm:flex-row gap-3">
+                        <button id="newSubmissionBtn" type="button" class="inline-flex items-center justify-center px-5 py-3 rounded-lg bg-white border border-gray-200 text-gray-900 font-semibold hover:bg-gray-50 transition">
+                            Submit Another Response
+                        </button>
+                        <a href="forms.html" class="inline-flex items-center justify-center px-5 py-3 rounded-lg bg-sky-600 text-white font-semibold hover:bg-sky-700 transition">
+                            Back to Forms
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-900 text-white py-8 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-gray-400 text-sm">&copy; 2026 Akademi Al Khayr. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const evaluationForm = document.getElementById('teacherEvaluationForm');
+        const questionsRoot = document.getElementById('questions');
+        const resultPanel = document.getElementById('resultPanel');
+        const resultPercentage = document.getElementById('resultPercentage');
+        const resultDetail = document.getElementById('resultDetail');
+        const resultBar = document.getElementById('resultBar');
+        const submitBtn = document.getElementById('submitBtn');
+
+        const requestInitAt = Date.now();
+        const requestHoneypot = document.getElementById('aak_hp');
+        const requestLoadTime = document.getElementById('aak_time');
+        if (requestLoadTime) {
+            requestLoadTime.value = String(requestInitAt);
+        }
+
+        let requestFirstInteractionAt = null;
+        const markInteraction = () => {
+            if (requestFirstInteractionAt === null) {
+                requestFirstInteractionAt = Date.now();
+            }
+        };
+        ['pointerdown', 'keydown', 'touchstart', 'focusin'].forEach((eventName) => {
+            window.addEventListener(eventName, markInteraction, { once: true, capture: true });
+        });
+
+        let assessmentType = 'Self';
+
+        const QUESTIONS = [
+            {
+                id: 'q1',
+                en: {
+                    self: 'I make lessons engaging, encourage participation, and use creative methods.',
+                    student: 'My teacher makes lessons engaging, encourages participation, and uses creative methods.'
+                },
+                bm: {
+                    self: 'Saya menjadikan pembelajaran menarik, menggalakkan penyertaan, dan menggunakan kaedah kreatif.',
+                    student: 'Guru saya menjadikan pembelajaran menarik, menggalakkan penyertaan, dan menggunakan kaedah kreatif.'
+                },
+                weight: 2
+            },
+            {
+                id: 'q2',
+                en: {
+                    self: "I ask questions to check students' understanding and explain concepts clearly.",
+                    student: "My teacher asks questions to check students' understanding and explains concepts clearly."
+                },
+                bm: {
+                    self: 'Saya bertanya soalan untuk menguji pemahaman pelajar dan menerangkan konsep dengan jelas.',
+                    student: 'Guru saya bertanya soalan untuk menguji pemahaman pelajar dan menerangkan konsep dengan jelas.'
+                },
+                weight: 2
+            },
+            {
+                id: 'q3',
+                en: {
+                    self: 'I give relevant assignments, return them on time, and use class time effectively.',
+                    student: 'My teacher gives relevant assignments, returns them on time, and uses class time effectively.'
+                },
+                bm: {
+                    self: 'Saya memberikan tugasan yang berkaitan, memulangkannya tepat pada masanya, dan menggunakan masa kelas dengan berkesan.',
+                    student: 'Guru saya memberikan tugasan yang berkaitan, memulangkannya tepat pada masanya, dan menggunakan masa kelas dengan berkesan.'
+                },
+                weight: 2
+            },
+            {
+                id: 'q4',
+                en: {
+                    self: 'I encourage critical thinking, problem-solving, and open discussions.',
+                    student: 'My teacher encourages critical thinking, problem-solving, and open discussions.'
+                },
+                bm: {
+                    self: 'Saya menggalakkan pemikiran kritis, penyelesaian masalah, dan perbincangan terbuka.',
+                    student: 'Guru saya menggalakkan pemikiran kritis, penyelesaian masalah, dan perbincangan terbuka.'
+                },
+                weight: 2
+            },
+            {
+                id: 'q5',
+                en: {
+                    self: 'I have strong subject knowledge and prepare useful materials.',
+                    student: 'My teacher has strong subject knowledge and prepares useful materials.'
+                },
+                bm: {
+                    self: 'Saya mempunyai pengetahuan mendalam dalam subjek dan menyediakan bahan yang berguna.',
+                    student: 'Guru saya mempunyai pengetahuan mendalam dalam subjek dan menyediakan bahan yang berguna.'
+                },
+                weight: 2
+            },
+            {
+                id: 'q6',
+                en: {
+                    self: 'I use a variety of activities, multimedia, and teaching aids.',
+                    student: 'My teacher uses a variety of activities, multimedia, and teaching aids.'
+                },
+                bm: {
+                    self: 'Saya menggunakan pelbagai aktiviti, multimedia, dan bahan bantu mengajar.',
+                    student: 'Guru saya menggunakan pelbagai aktiviti, multimedia, dan bahan bantu mengajar.'
+                },
+                weight: 2
+            },
+            {
+                id: 'q7',
+                en: {
+                    self: 'I am well-organized, approachable, and willing to help students when needed.',
+                    student: 'My teacher is well-organized, approachable, and willing to help students when needed.'
+                },
+                bm: {
+                    self: 'Saya teratur, mesra, dan bersedia membantu pelajar apabila diperlukan.',
+                    student: 'Guru saya teratur, mesra, dan bersedia membantu pelajar apabila diperlukan.'
+                },
+                weight: 2
+            },
+            {
+                id: 'q8',
+                en: {
+                    self: 'I incorporate an Islamic perspective, practise Islamic obligations, and maintain ethical interactions.',
+                    student: 'My teacher incorporates an Islamic perspective, practises Islamic obligations, and maintains ethical interactions.'
+                },
+                bm: {
+                    self: 'Saya menerapkan perspektif Islam, melaksanakan tuntutan sebagai seorang muslim dan mengekalkan interaksi yang beretika.',
+                    student: 'Guru saya menerapkan perspektif Islam, melaksanakan tuntutan sebagai seorang muslim dan mengekalkan interaksi yang beretika.'
+                },
+                weight: 5
+            },
+            {
+                id: 'q9',
+                en: {
+                    self: 'I practise Islamic duties in daily life (eg. congregation prayer etc.) and encourage students to follow them.',
+                    student: 'My teacher practises Islamic duties in daily life (eg. congregation prayer etc.) and encourages students to follow them.'
+                },
+                bm: {
+                    self: 'Saya mengamalkan kewajipan sebagai seorang muslim dalam kehidupan seharian (solat berjemaah dsb) dan menggalakkan pelajar mengikutinya.',
+                    student: 'Guru saya mengamalkan kewajipan sebagai seorang muslim dalam kehidupan seharian (solat berjemaah dsb) dan menggalakkan pelajar mengikutinya.'
+                },
+                weight: 5
+            },
+            {
+                id: 'q10',
+                en: {
+                    self: "I strive to go the 'extra mile' with innovative teaching strategies, support beyond the classroom, and continuous professional development.",
+                    student: "My teacher strives to go the 'extra mile' with innovative teaching strategies, support beyond the classroom, and continuous professional development."
+                },
+                bm: {
+                    self: 'Saya berusaha untuk melangkah lebih jauh dengan menerapkan strategi pengajaran yang inovatif, memberikan sokongan di luar bilik darjah, dan melibatkan diri dalam pembangunan profesional yang berterusan.',
+                    student: 'Guru saya berusaha untuk melangkah lebih jauh dengan menerapkan strategi pengajaran yang inovatif, memberikan sokongan di luar bilik darjah, dan melibatkan diri dalam pembangunan profesional yang berterusan.'
+                },
+                weight: 5
+            },
+            {
+                id: 'q11',
+                en: {
+                    self: 'Overall, I demonstrate strong teaching performance.',
+                    student: 'Overall, my teacher demonstrates strong teaching performance.'
+                },
+                bm: {
+                    self: 'Secara keseluruhan, saya menunjukkan prestasi pengajaran yang baik.',
+                    student: 'Secara keseluruhan, guru saya menunjukkan prestasi pengajaran yang baik.'
+                },
+                weight: 5
+            }
+        ];
+
+        const likertOptions = [
+            { value: 1, label: '1' },
+            { value: 2, label: '2' },
+            { value: 3, label: '3' },
+            { value: 4, label: '4' },
+            { value: 5, label: '5' }
+        ];
+
+        const renderQuestions = () => {
+            const saved = QUESTIONS.reduce((acc, q) => {
+                const checked = document.querySelector(`input[name="${q.id}"]:checked`);
+                if (checked) {
+                    acc[q.id] = checked.value;
+                }
+                return acc;
+            }, {});
+
+            questionsRoot.innerHTML = QUESTIONS.map((q, idx) => {
+                const enText = assessmentType === 'Student' ? q.en.student : q.en.self;
+                const bmText = assessmentType === 'Student' ? q.bm.student : q.bm.self;
+                const chips = likertOptions.map((opt) => {
+                    const inputId = `${q.id}_${opt.value}`;
+                    return `
+                        <label class="flex items-center justify-center">
+                            <input class="likert-radio sr-only" type="radio" id="${inputId}" name="${q.id}" value="${opt.value}" required>
+                            <span class="likert-chip w-12 h-11 sm:w-14 sm:h-12 rounded-xl border border-gray-200 bg-white text-gray-900 font-bold flex items-center justify-center shadow-sm hover:bg-sky-50 hover:border-sky-200 transition cursor-pointer">
+                                ${opt.label}
+                            </span>
+                        </label>
+                    `;
+                }).join('');
+
+                return `
+                    <fieldset class="rounded-2xl border border-gray-200 bg-white p-5 sm:p-6 shadow-sm">
+                        <legend class="sr-only">Question ${idx + 1}</legend>
+                        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                            <div class="flex-1">
+                                <div class="text-sm font-semibold text-sky-700">Construct ${idx + 1}</div>
+                                <div class="text-base sm:text-lg font-bold text-gray-900 mt-1">${enText}</div>
+                                <div class="text-sm text-gray-600 italic mt-1">${bmText}</div>
+                            </div>
+                            <div class="shrink-0">
+                                <div class="grid grid-cols-5 gap-2">${chips}</div>
+                            </div>
+                        </div>
+                    </fieldset>
+                `;
+            }).join('');
+
+            Object.entries(saved).forEach(([qid, val]) => {
+                const el = document.querySelector(`input[name="${qid}"][value="${val}"]`);
+                if (el) {
+                    el.checked = true;
+                }
+            });
+        };
+
+        renderQuestions();
+
+        const evaluationDate = document.getElementById('evaluationDate');
+        if (evaluationDate && !evaluationDate.value) {
+            evaluationDate.valueAsDate = new Date();
+        }
+
+        const assessmentTypeInputs = Array.from(document.querySelectorAll('input[name="assessment_type_ui"]'));
+        const assessmentTypeHidden = document.getElementById('assessment_type');
+        assessmentTypeInputs.forEach((input) => {
+            input.addEventListener('change', () => {
+                const nextType = assessmentTypeInputs.find((x) => x.checked)?.value || 'Self';
+                assessmentType = nextType;
+                if (assessmentTypeHidden) {
+                    assessmentTypeHidden.value = nextType;
+                }
+                renderQuestions();
+            });
+        });
+
+        const computeScore = () => {
+            let weighted = 0;
+            let maxWeighted = 0;
+
+            for (const q of QUESTIONS) {
+                const checked = document.querySelector(`input[name="${q.id}"]:checked`);
+                if (!checked) {
+                    return null;
+                }
+                const value = Number(checked.value);
+                weighted += value * q.weight;
+                maxWeighted += 5 * q.weight;
+            }
+
+            const percentage = (weighted / maxWeighted) * 100;
+            return {
+                weighted,
+                maxWeighted,
+                percentage
+            };
+        };
+
+        const showResult = ({ weighted, maxWeighted, percentage }) => {
+            const pctText = `${percentage.toFixed(1)}%`;
+            resultPercentage.textContent = pctText;
+            resultDetail.textContent = `${weighted} / ${maxWeighted}`;
+            resultBar.style.width = `${Math.min(100, Math.max(0, percentage))}%`;
+            resultPanel.classList.remove('hidden');
+            resultPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        };
+
+        evaluationForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const now = Date.now();
+            const elapsedMs = now - requestInitAt;
+            const isWebDriver = navigator.webdriver === true;
+            const rateLimitKey = 'aak_teacher_eval_last_submit_at';
+            const lastSubmitAt = Number(localStorage.getItem(rateLimitKey) || '0');
+
+            if (requestHoneypot && requestHoneypot.value.trim() !== '') {
+                alert('Please try again.');
+                return;
+            }
+
+            if (requestFirstInteractionAt === null) {
+                alert('Please interact with the page and try again.');
+                return;
+            }
+
+            if (elapsedMs < 2000 || (isWebDriver && elapsedMs < 5000)) {
+                alert('Please wait a moment and submit again.');
+                return;
+            }
+
+            if (lastSubmitAt && now - lastSubmitAt < 30000) {
+                alert('Please wait a moment before submitting again.');
+                return;
+            }
+
+            const score = computeScore();
+            if (!score) {
+                alert('Please answer all items before submitting.');
+                return;
+            }
+
+            localStorage.setItem(rateLimitKey, String(now));
+
+            document.getElementById('evaluation_percentage').value = score.percentage.toFixed(1);
+            document.getElementById('evaluation_weighted_score').value = String(score.weighted);
+            document.getElementById('evaluation_max_weighted_score').value = String(score.maxWeighted);
+
+            submitBtn.disabled = true;
+            submitBtn.classList.add('opacity-70', 'cursor-not-allowed');
+            submitBtn.textContent = 'Submitting...';
+
+            try {
+                const formData = new FormData(evaluationForm);
+                const response = await fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error('Submit failed');
+                }
+
+                showResult(score);
+                evaluationForm.querySelectorAll('input, select, textarea, button').forEach((el) => {
+                    el.disabled = true;
+                });
+            } catch (err) {
+                alert('There was an error submitting the form. Please try again.');
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+                submitBtn.textContent = 'Submit Evaluation';
+            }
+        });
+
+        const newSubmissionBtn = document.getElementById('newSubmissionBtn');
+        if (newSubmissionBtn) {
+            newSubmissionBtn.addEventListener('click', () => {
+                window.location.reload();
+            });
+        }
+
+        const btn = document.getElementById('mobile-menu-button');
+        const menu = document.getElementById('mobile-menu');
+        const icon = document.getElementById('mobile-menu-icon');
+
+        if (btn && menu && icon) {
+            btn.addEventListener('click', () => {
+                menu.classList.toggle('hidden');
+                if (menu.classList.contains('hidden')) {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                } else {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
