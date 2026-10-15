@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18106017455"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'AW-18106017455');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teaching Application | Akademi Al Khayr</title>
+    <link rel="icon" type="image/png" href="logo%20AAK%20(white%20BG).png">
+    <meta name="description" content="Teaching application form for Akademi Al Khayr.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Poppins', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <nav class="bg-white/75 backdrop-blur fixed w-full z-50 shadow-sm transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <a href="index.html" class="flex items-center">
+                    <img src="logo%20AAK%20(white%20BG).png" alt="Akademi Al Khayr Logo" class="h-16 w-auto object-contain mr-3">
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-900 leading-none tracking-tight">AKADEMI</h1>
+                        <h1 class="text-xl font-bold text-purple-600 leading-none tracking-tight">AL KHAYR</h1>
+                    </div>
+                </a>
+                <div class="hidden md:flex space-x-8">
+                    <a href="index.html" class="text-gray-600 hover:text-purple-600 font-medium transition">Home</a>
+                    <a href="about.html" class="text-gray-600 hover:text-purple-600 font-medium transition">About</a>
+                    <a href="index.html#programs" class="text-gray-600 hover:text-purple-600 font-medium transition">Programs</a>
+                    <a href="index.html#contact" class="text-gray-600 hover:text-purple-600 font-medium transition">Contact</a>
+                </div>
+                <button id="mobile-menu-button" class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-full border border-gray-300 text-gray-600 hover:bg-gray-100 transition">
+                    <i id="mobile-menu-icon" class="fas fa-bars text-lg"></i>
+                </button>
+            </div>
+            <div id="mobile-menu" class="md:hidden hidden pb-4">
+                <div class="mobile-menu-panel bg-white/95 rounded-2xl shadow-xl border border-white/40 px-4 py-4 space-y-3">
+                    <a href="index.html" class="block font-semibold text-gray-800">Home</a>
+                    <a href="about.html" class="block font-semibold text-gray-800">About</a>
+                    <a href="index.html#programs" class="block font-semibold text-gray-800">Programs</a>
+                    <a href="forms.html" class="block font-semibold text-gray-800">Forms</a>
+                    <a href="fees.html" class="block font-semibold text-gray-800">Fees Payment</a>
+                    <a href="booking_aak_chalet.html" class="block font-semibold text-gray-800">Booking AAK Chalet</a>
+                    <a href="gallery.html" class="block font-semibold text-gray-800">Gallery</a>
+                    <details class="group">
+                        <summary class="block font-semibold text-gray-800 flex justify-between items-center cursor-pointer list-none" style="list-style: none;">
+                            Download
+                            <i class="fas fa-chevron-down text-sm transition-transform duration-200 group-open:rotate-180"></i>
+                        </summary>
+                        <div class="pl-4 mt-3 space-y-3">
+                            <a href="Download/AAK%20TAKWIM%202026.pdf" target="_blank" class="block font-medium text-gray-700">AAK Takwim</a>
+                            <a href="Download/GuideBook%20AAK_2026%20(1).pdf" target="_blank" class="block font-medium text-gray-700">AAK Guidebook 2026</a>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="min-h-screen pt-32 pb-16 px-4 sm:px-6 lg:px-8 bg-gray-50 flex items-center justify-center">
+        <div class="max-w-3xl w-full bg-white rounded-2xl shadow-xl overflow-hidden">
+            <div class="bg-purple-600 py-6 px-8 text-center">
+                <div class="flex justify-center mb-4">
+                    <img src="logo%20AAK%20(white%20BG).png" alt="Akademi Al Khayr Logo" class="h-20 w-auto object-contain">
+                </div>
+                <h2 class="text-3xl font-bold text-white">Teaching Application</h2>
+                <p class="text-purple-100 mt-2">Your submission will be emailed to the school for review and record.</p>
+            </div>
+
+            <div class="px-8 sm:px-12 pt-8">
+                <div class="rounded-2xl bg-purple-50 border border-purple-100 p-5">
+                    <div class="flex items-start gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-white border border-purple-100 flex items-center justify-center text-purple-700">
+                            <i class="fas fa-chalkboard-user"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-semibold text-gray-900 mb-2">Application Instructions</h3>
+                            <ul class="text-sm text-gray-700 leading-relaxed space-y-1 list-disc pl-5">
+                                <li>Please complete the details below using accurate information.</li>
+                                <li>Please upload your resume/CV using the link at the end of this form.</li>
+                                <li>Only shortlisted applicants will be contacted for the next step.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <form id="teachingApplicationForm" class="py-8 px-8 sm:px-12 space-y-6">
+                <input type="text" name="botcheck" style="display:none">
+                <input type="hidden" name="access_key" value="42059c33-4057-4f5d-a021-0a6ca6a62dd5">
+                <input type="hidden" name="from_name" value="Akademi Al Khayr Website">
+                <input type="hidden" name="subject" value="Teaching Application">
+
+                <div style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">
+                    <label for="aak_hp">Do not fill</label>
+                    <input id="aak_hp" type="text" name="aak_hp" tabindex="-1" autocomplete="off" inputmode="text">
+                </div>
+                <input id="aak_time" type="hidden" name="aak_time" value="">
+
+                <input type="hidden" id="resumeDriveLink" name="resumeDriveLink" value="https://drive.google.com/drive/folders/1DO95mkNMcbped30o5I0-00Wg-ARoXXXi?usp=share_link">
+
+                <div class="space-y-6">
+                    <h3 class="text-xl font-semibold text-gray-900 border-b pb-2">Personal Information</h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="fullName" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                            <input type="text" id="fullName" name="fullName" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition" placeholder="Enter your full name" required>
+                        </div>
+
+                        <div>
+                            <label for="icPassport" class="block text-sm font-medium text-gray-700 mb-1">IC / Passport No.</label>
+                            <input type="text" id="icPassport" name="icPassport" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition" placeholder="Enter IC / passport number" required>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div>
+                            <label for="dob" class="block text-sm font-medium text-gray-700 mb-1">Date of Birth</label>
+                            <input type="date" id="dob" name="dob" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition" required>
+                        </div>
+                        <div>
+                            <label for="gender" class="block text-sm font-medium text-gray-700 mb-1">Gender</label>
+                            <select id="gender" name="gender" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition" required>
+                                <option value="" disabled selected>Select gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="nationality" class="block text-sm font-medium text-gray-700 mb-1">Nationality</label>
+                            <input type="text" id="nationality" name="nationality" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition" placeholder="e.g., Malaysian" required>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition" placeholder="e.g., +60xxxxxxxxx" required>
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                            <input type="email" id="email" name="email" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition" placeholder="Enter your email address" required>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="address" class="block text-sm font-medium text-gray-700 mb-1">Home Address</label>
+                        <textarea id="address" name="address" rows="3" class="w-full px-5 pt-3 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition resize-y" placeholder="Enter your home address" required></textarea>
+                    </div>
+                </div>
+
+                <div class="space-y-6 pt-6">
+                    <h3 class="text-xl font-semibold text-gray-900 border-b pb-2">Educational Background</h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="highestQualification" class="block text-sm font-medium text-gray-700 mb-1">Highest Qualification</label>
+                            <input type="text" id="highestQualification" name="highestQualification" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition" placeholder="e.g., Bachelor's / Master's / PhD" required>
+                        </div>
+                        <div>
+                            <label for="major" class="block text-sm font-medium text-gray-700 mb-1">Major / Specialisation</label>
+                            <input type="text" id="major" name="major" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition" placeholder="e.g., Islamic Studies / Mathematics" required>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="md:col-span-2">
+                            <label for="institution" class="block text-sm font-medium text-gray-700 mb-1">Institution / University</label>
+                            <input type="text" id="institution" name="institution" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition" placeholder="Enter institution name" required>
+                        </div>
+                        <div>
+                            <label for="graduationYear" class="block text-sm font-medium text-gray-700 mb-1">Year Completed</label>
+                            <input type="number" id="graduationYear" name="graduationYear" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition" placeholder="e.g., 2023" min="1950" max="2100" required>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="certifications" class="block text-sm font-medium text-gray-700 mb-1">Professional Certifications (Optional)</label>
+                        <textarea id="certifications" name="certifications" rows="3" class="w-full px-5 pt-3 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition resize-y" placeholder="e.g., Teaching Permit, IELTS, Tahfiz certification, etc."></textarea>
+                    </div>
+                </div>
+
+                <div class="space-y-6 pt-6">
+                    <h3 class="text-xl font-semibold text-gray-900 border-b pb-2">Teaching / Working Experience</h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div>
+                            <label for="yearsExperience" class="block text-sm font-medium text-gray-700 mb-1">Total Years of Experience</label>
+                            <input type="number" id="yearsExperience" name="yearsExperience" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition" placeholder="e.g., 5" min="0" required>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label for="previousEmployer" class="block text-sm font-medium text-gray-700 mb-1">Most Recent Workplace / School</label>
+                            <input type="text" id="previousEmployer" name="previousEmployer" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition" placeholder="Enter most recent workplace/school" required>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="subjects" class="block text-sm font-medium text-gray-700 mb-1">Subjects / Areas You Can Teach</label>
+                            <input type="text" id="subjects" name="subjects" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition" placeholder="e.g., Quran, Arabic, Math, English" required>
+                        </div>
+                        <div>
+                            <label for="levels" class="block text-sm font-medium text-gray-700 mb-1">Levels You Can Teach</label>
+                            <input type="text" id="levels" name="levels" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition" placeholder="e.g., Primary / Secondary / SPM / IGCSE" required>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="experienceDetails" class="block text-sm font-medium text-gray-700 mb-1">Experience Details</label>
+                        <textarea id="experienceDetails" name="experienceDetails" rows="5" class="w-full px-5 pt-3 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition resize-y" placeholder="Please describe your teaching/work experience (roles, duration, achievements, etc.)" required></textarea>
+                    </div>
+
+                    <div>
+                        <label for="availability" class="block text-sm font-medium text-gray-700 mb-1">Availability / Notice Period (Optional)</label>
+                        <input type="text" id="availability" name="availability" class="w-full px-5 pt-2 pb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition" placeholder="e.g., Immediately / 1 month notice / Weekends only">
+                    </div>
+                </div>
+
+                <div class="space-y-6 pt-6">
+                    <h3 class="text-xl font-semibold text-gray-900 border-b pb-2">Resume / CV Upload (Google Drive)</h3>
+
+                    <div class="rounded-2xl border border-purple-200 bg-purple-50 p-5 space-y-4">
+                        <div class="flex items-start gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-white border border-purple-200 flex items-center justify-center text-purple-700">
+                                <i class="fas fa-file-arrow-up"></i>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-sm text-gray-800 leading-relaxed">
+                                    Please upload your resume/CV to the folder below. After uploading, tick the confirmation checkbox.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <a id="resumeOpenLink" href="https://drive.google.com/drive/folders/1DO95mkNMcbped30o5I0-00Wg-ARoXXXi?usp=share_link" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 rounded-xl bg-white border border-purple-200 px-4 py-3 text-sm font-semibold text-purple-700 hover:bg-purple-100 transition">
+                                <i class="fas fa-folder-open"></i> Open Folder
+                            </a>
+                            <button id="copyDriveLinkBtn" type="button" class="inline-flex items-center justify-center gap-2 rounded-xl bg-purple-600 hover:bg-purple-700 px-4 py-3 text-sm font-semibold text-white transition">
+                                <i class="fas fa-copy"></i> Copy Link
+                            </button>
+                            <div id="copyDriveLinkStatus" class="hidden sm:flex items-center text-sm font-medium text-emerald-700"></div>
+                        </div>
+
+                        <label class="inline-flex items-start gap-3 rounded-xl border border-purple-200 bg-white px-4 py-3 cursor-pointer hover:bg-purple-50 transition">
+                            <input id="resumeUploaded" type="checkbox" name="resumeUploaded" value="Yes" class="mt-1 form-checkbox text-purple-600 focus:ring-purple-500 h-4 w-4" required>
+                            <span class="text-sm text-gray-700">I confirm that I have uploaded my resume/CV to the Google Drive folder above.</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="space-y-3 pt-2">
+                    <label class="inline-flex items-start gap-3 rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 cursor-pointer hover:bg-gray-100 transition">
+                        <input id="infoAccurate" type="checkbox" name="infoAccurate" value="Yes" class="mt-1 form-checkbox text-purple-600 focus:ring-purple-500 h-4 w-4" required>
+                        <span class="text-sm text-gray-700">I declare that the information provided is true and accurate.</span>
+                    </label>
+                </div>
+
+                <div id="formError" class="hidden rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"></div>
+                <div id="formSuccess" class="hidden rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800"></div>
+
+                <div class="pt-6 space-y-3">
+                    <button id="submitButton" type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-4 rounded-lg shadow-md hover:shadow-lg transition duration-300 transform hover:-translate-y-0.5">
+                        Submit Application
+                    </button>
+                    <a href="forms.html" class="block text-center text-sm text-gray-500 hover:text-gray-900 font-medium transition-colors">
+                        <i class="fas fa-arrow-left mr-2"></i> Back to Forms
+                    </a>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <footer class="bg-gray-900 text-white py-8 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-gray-400 text-sm">&copy; 2026 Akademi Al Khayr. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const teachingApplicationForm = document.getElementById('teachingApplicationForm');
+        const formAction = 'https://api.web3forms.com/submit';
+        const initAt = Date.now();
+        const honeypot = document.getElementById('aak_hp');
+        const loadTime = document.getElementById('aak_time');
+        const formError = document.getElementById('formError');
+        const formSuccess = document.getElementById('formSuccess');
+        const submitButton = document.getElementById('submitButton');
+
+        const copyDriveLinkBtn = document.getElementById('copyDriveLinkBtn');
+        const copyDriveLinkStatus = document.getElementById('copyDriveLinkStatus');
+        const resumeDriveLink = String(document.getElementById('resumeDriveLink')?.value || '').trim();
+
+        if (loadTime) {
+            loadTime.value = String(initAt);
+        }
+
+        let firstInteractionAt = null;
+        const markInteraction = () => {
+            if (firstInteractionAt === null) {
+                firstInteractionAt = Date.now();
+            }
+        };
+        ['pointerdown', 'keydown', 'touchstart', 'focusin'].forEach((eventName) => {
+            window.addEventListener(eventName, markInteraction, { once: true, capture: true });
+        });
+
+        const showMessage = (type, message) => {
+            if (formError) {
+                formError.classList.add('hidden');
+                formError.textContent = '';
+            }
+            if (formSuccess) {
+                formSuccess.classList.add('hidden');
+                formSuccess.textContent = '';
+            }
+
+            const box = type === 'success' ? formSuccess : formError;
+            if (!box) return;
+            box.textContent = message;
+            box.classList.remove('hidden');
+        };
+
+        const setCopyStatus = (text, isError = false) => {
+            if (!copyDriveLinkStatus) return;
+            copyDriveLinkStatus.classList.remove('hidden');
+            copyDriveLinkStatus.classList.toggle('text-emerald-700', !isError);
+            copyDriveLinkStatus.classList.toggle('text-red-700', isError);
+            copyDriveLinkStatus.textContent = text;
+            window.setTimeout(() => {
+                copyDriveLinkStatus.classList.add('hidden');
+                copyDriveLinkStatus.textContent = '';
+            }, 2500);
+        };
+
+        if (copyDriveLinkBtn) {
+            copyDriveLinkBtn.addEventListener('click', async () => {
+                if (!resumeDriveLink) {
+                    setCopyStatus('Link not available.', true);
+                    return;
+                }
+
+                try {
+                    if (navigator.clipboard && window.isSecureContext) {
+                        await navigator.clipboard.writeText(resumeDriveLink);
+                    } else {
+                        const temp = document.createElement('textarea');
+                        temp.value = resumeDriveLink;
+                        temp.setAttribute('readonly', '');
+                        temp.style.position = 'absolute';
+                        temp.style.left = '-9999px';
+                        document.body.appendChild(temp);
+                        temp.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(temp);
+                    }
+                    setCopyStatus('Link copied.');
+                } catch (e) {
+                    setCopyStatus('Unable to copy link. Please open the folder.', true);
+                }
+            });
+        }
+
+        teachingApplicationForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            showMessage('error', '');
+
+            const now = Date.now();
+            const elapsedMs = now - initAt;
+            const isWebDriver = navigator.webdriver === true;
+            const rateLimitKey = 'aak_teaching_application_last_submit_at';
+            const lastSubmitAt = Number(localStorage.getItem(rateLimitKey) || '0');
+
+            const fullName = String(document.getElementById('fullName')?.value || '').trim();
+            const icPassport = String(document.getElementById('icPassport')?.value || '').trim();
+            const dob = String(document.getElementById('dob')?.value || '').trim();
+            const gender = String(document.getElementById('gender')?.value || '').trim();
+            const nationality = String(document.getElementById('nationality')?.value || '').trim();
+            const phone = String(document.getElementById('phone')?.value || '').trim();
+            const email = String(document.getElementById('email')?.value || '').trim();
+            const address = String(document.getElementById('address')?.value || '').trim();
+            const highestQualification = String(document.getElementById('highestQualification')?.value || '').trim();
+            const major = String(document.getElementById('major')?.value || '').trim();
+            const institution = String(document.getElementById('institution')?.value || '').trim();
+            const graduationYear = String(document.getElementById('graduationYear')?.value || '').trim();
+            const yearsExperience = String(document.getElementById('yearsExperience')?.value || '').trim();
+            const previousEmployer = String(document.getElementById('previousEmployer')?.value || '').trim();
+            const subjects = String(document.getElementById('subjects')?.value || '').trim();
+            const levels = String(document.getElementById('levels')?.value || '').trim();
+            const experienceDetails = String(document.getElementById('experienceDetails')?.value || '').trim();
+            const resumeUploaded = document.getElementById('resumeUploaded')?.checked === true;
+            const infoAccurate = document.getElementById('infoAccurate')?.checked === true;
+
+            if (fullName.length < 3) {
+                showMessage('error', 'Please enter your full name.');
+                return;
+            }
+            if (icPassport.length < 5) {
+                showMessage('error', 'Please enter your IC / passport number.');
+                return;
+            }
+            if (!dob) {
+                showMessage('error', 'Please select your date of birth.');
+                return;
+            }
+            if (!gender) {
+                showMessage('error', 'Please select your gender.');
+                return;
+            }
+            if (nationality.length < 2) {
+                showMessage('error', 'Please enter your nationality.');
+                return;
+            }
+            if (phone.length < 7) {
+                showMessage('error', 'Please enter a valid phone number.');
+                return;
+            }
+            if (email.length < 5 || !email.includes('@')) {
+                showMessage('error', 'Please enter a valid email address.');
+                return;
+            }
+            if (address.length < 10) {
+                showMessage('error', 'Please enter your home address.');
+                return;
+            }
+            if (highestQualification.length < 2) {
+                showMessage('error', 'Please enter your highest qualification.');
+                return;
+            }
+            if (major.length < 2) {
+                showMessage('error', 'Please enter your major/specialisation.');
+                return;
+            }
+            if (institution.length < 2) {
+                showMessage('error', 'Please enter your institution/university.');
+                return;
+            }
+            if (!graduationYear || Number(graduationYear) < 1950) {
+                showMessage('error', 'Please enter a valid year completed.');
+                return;
+            }
+            if (yearsExperience === '' || Number(yearsExperience) < 0) {
+                showMessage('error', 'Please enter your total years of experience.');
+                return;
+            }
+            if (previousEmployer.length < 2) {
+                showMessage('error', 'Please enter your most recent workplace/school.');
+                return;
+            }
+            if (subjects.length < 2) {
+                showMessage('error', 'Please enter the subjects/areas you can teach.');
+                return;
+            }
+            if (levels.length < 2) {
+                showMessage('error', 'Please enter the levels you can teach.');
+                return;
+            }
+            if (experienceDetails.length < 10) {
+                showMessage('error', 'Please provide your experience details.');
+                return;
+            }
+            if (!resumeUploaded) {
+                showMessage('error', 'Please upload your resume/CV and tick the confirmation.');
+                return;
+            }
+            if (!infoAccurate) {
+                showMessage('error', 'Please confirm that the information provided is accurate.');
+                return;
+            }
+
+            if (honeypot && honeypot.value.trim() !== '') {
+                showMessage('error', 'Please try again.');
+                return;
+            }
+
+            if (firstInteractionAt === null) {
+                showMessage('error', 'Please interact with the page and try again.');
+                return;
+            }
+
+            if (elapsedMs < 3500 || (isWebDriver && elapsedMs < 8000)) {
+                showMessage('error', 'Please wait a moment and submit again.');
+                return;
+            }
+
+            if (lastSubmitAt && now - lastSubmitAt < 45000) {
+                showMessage('error', 'Please wait a moment before submitting again.');
+                return;
+            }
+
+            localStorage.setItem(rateLimitKey, String(now));
+
+            if (submitButton) {
+                submitButton.disabled = true;
+                submitButton.classList.add('opacity-70', 'cursor-not-allowed');
+            }
+
+            try {
+                const formData = new FormData(teachingApplicationForm);
+                const response = await fetch(formAction, { method: 'POST', body: formData });
+                if (!response.ok) {
+                    showMessage('error', 'There was an error submitting the form. Please try again.');
+                    return;
+                }
+                showMessage('success', 'Submitted successfully. Thank you for applying.');
+                teachingApplicationForm.reset();
+            } catch (error) {
+                showMessage('error', 'There was an error submitting the form. Please try again.');
+            } finally {
+                if (submitButton) {
+                    submitButton.disabled = false;
+                    submitButton.classList.remove('opacity-70', 'cursor-not-allowed');
+                }
+            }
+        });
+
+        const btn = document.getElementById('mobile-menu-button');
+        const menu = document.getElementById('mobile-menu');
+        const icon = document.getElementById('mobile-menu-icon');
+
+        if (btn && menu && icon) {
+            btn.addEventListener('click', () => {
+                menu.classList.toggle('hidden');
+                if (menu.classList.contains('hidden')) {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                    btn.classList.remove('bg-white/20');
+                } else {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                    btn.classList.add('bg-white/20');
+                }
+            });
+        }
+    </script>
+    <script src="chatbot.js"></script>
+</body>
+</html>
