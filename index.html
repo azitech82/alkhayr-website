@@ -760,16 +760,16 @@
             padding: 0.8rem;
             border-radius: 1.25rem;
             background:
-                radial-gradient(circle at top right, rgba(59, 130, 246, 0.18), transparent 38%),
-                linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-            color: #0f172a;
+                radial-gradient(circle at top right, rgba(96, 165, 250, 0.12), transparent 35%),
+                linear-gradient(180deg, #1f2937 0%, #111827 100%);
+            color: #f8fafc;
             min-height: 0;
             text-decoration: none;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
         .info-board-feed-shell:hover {
             transform: translateY(-2px);
-            box-shadow: 0 18px 36px rgba(15, 23, 42, 0.10);
+            box-shadow: 0 18px 36px rgba(2, 6, 23, 0.22);
         }
         .info-board-feed-kicker {
             display: inline-flex;
@@ -777,8 +777,8 @@
             gap: 0.35rem;
             padding: 0.32rem 0.65rem;
             border-radius: 9999px;
-            background: rgba(59, 130, 246, 0.10);
-            color: #2563eb;
+            background: rgba(59, 130, 246, 0.16);
+            color: #93c5fd;
         }
         .info-board-feed-logo {
             width: 3rem;
@@ -803,9 +803,9 @@
             justify-content: space-between;
             border-radius: 1.1rem;
             padding: 1rem 1rem 0.95rem;
-            background: rgba(255, 255, 255, 0.98);
-            border: 1px solid rgba(226, 232, 240, 0.95);
-            box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+            background: rgba(31, 41, 55, 0.92);
+            border: 1px solid rgba(71, 85, 105, 0.45);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
         }
         .info-board-feed-post-body {
             display: flex;
@@ -820,31 +820,43 @@
             justify-content: space-between;
             gap: 0.75rem;
         }
-        .info-board-feed-avatar {
-            width: 2.4rem;
-            height: 2.4rem;
-            border-radius: 9999px;
-            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
-            color: #ffffff;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            box-shadow: 0 10px 24px rgba(37, 99, 235, 0.22);
-        }
         .info-board-feed-post-meta {
             display: flex;
             align-items: center;
             gap: 0.35rem;
-            color: #64748b;
+            color: #cbd5e1;
             font-size: 0.72rem;
             font-weight: 600;
+            flex-wrap: wrap;
         }
         .info-board-feed-post-copy {
             font-size: 0.95rem;
             line-height: 1.65;
-            color: #334155;
+            color: #f8fafc;
             margin-top: 0.15rem;
+        }
+        .info-board-feed-media {
+            position: relative;
+            min-height: 10.6rem;
+            border-radius: 1rem;
+            overflow: hidden;
+            background:
+                linear-gradient(180deg, rgba(15, 23, 42, 0.16), rgba(15, 23, 42, 0.46)),
+                var(--info-board-feed-media-image, url("https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=purple%20video%20title%20card%2C%20Arabic%20headline%20at%20top%2C%20large%20white%20text%20PART%201%2C%20social%20media%20reel%20thumbnail%2C%20clean%20graphic%20design%2C%20realistic%20digital%20poster&image_size=landscape_16_9")) center/cover no-repeat;
+            border: 1px solid rgba(148, 163, 184, 0.24);
+        }
+        .info-board-feed-media-badge {
+            position: absolute;
+            left: 0.9rem;
+            bottom: 0.9rem;
+            display: inline-flex;
+            flex-direction: column;
+            gap: 0.15rem;
+            padding: 0.65rem 0.75rem;
+            border-radius: 0.9rem;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(8px);
+            color: #ffffff;
         }
         .info-board-feed-tags {
             display: flex;
@@ -856,8 +868,8 @@
             align-items: center;
             border-radius: 9999px;
             padding: 0.24rem 0.58rem;
-            background: #eff6ff;
-            color: #2563eb;
+            background: rgba(59, 130, 246, 0.16);
+            color: #bfdbfe;
             font-size: 0.68rem;
             font-weight: 700;
             letter-spacing: 0.02em;
@@ -869,8 +881,8 @@
             gap: 0.75rem;
             margin-top: 0.85rem;
             padding-top: 0.75rem;
-            border-top: 1px solid rgba(226, 232, 240, 0.9);
-            color: #64748b;
+            border-top: 1px solid rgba(71, 85, 105, 0.65);
+            color: #cbd5e1;
             font-size: 0.74rem;
             font-weight: 700;
         }
@@ -884,7 +896,7 @@
             display: inline-flex;
             align-items: center;
             gap: 0.45rem;
-            color: #2563eb;
+            color: #93c5fd;
             font-size: 0.74rem;
             font-weight: 800;
         }
@@ -999,7 +1011,7 @@
         <div class="info-board-panel info-board-panel--fb text-white">
             <div id="info-board-card" class="info-board-card rounded-[1.75rem]">
                 <div class="info-board-embed">
-                    <a href="https://www.facebook.com/akademialkhayrofficial/" target="_blank" rel="noopener" class="info-board-feed-shell" aria-label="Open Akademi Al Khayr Facebook page">
+                    <a id="facebook-latest-link" href="https://www.facebook.com/reel/1090045113908391/" target="_blank" rel="noopener" class="info-board-feed-shell" aria-label="Open latest Akademi Al Khayr Facebook reel">
                         <div class="info-board-feed-list">
                             <article class="info-board-feed-post">
                                 <div class="info-board-feed-post-body">
@@ -1011,35 +1023,41 @@
                                                     <i class="fab fa-facebook-f text-[10px]"></i>
                                                     Latest Facebook Post
                                                 </p>
-                                                <p class="mt-2 truncate text-[1.15rem] font-extrabold leading-tight text-slate-900">Akademi Al Khayr</p>
+                                                <p class="mt-2 truncate text-[1.15rem] font-extrabold leading-tight text-white">Akademi Al Khayr</p>
                                                 <div class="info-board-feed-post-meta mt-1">
-                                                    <span>20 Oct 2026</span>
+                                                    <span id="facebook-latest-author">Published by Arif Azhar</span>
                                                     <span>&middot;</span>
-                                                    <span>8:30 AM</span>
+                                                    <span id="facebook-latest-time">20h</span>
                                                     <span>&middot;</span>
-                                                    <span>11K followers</span>
+                                                    <span id="facebook-latest-duration">0:00 / 2:33</span>
                                                 </div>
                                             </div>
                                         </div>
                                         <i class="fas fa-arrow-up-right-from-square text-slate-300"></i>
                                     </div>
-                                    <p class="info-board-feed-post-copy">
-                                        Registration notices and class reminders are shared here first for parents and students. Tap this card to open the official Facebook page and view the latest post directly.
+                                    <p id="facebook-latest-title" class="info-board-feed-post-copy">
+                                        TRAVELOG EPISOD 1 - GRADUATION DAY | KURSUS INTENSIF BAHASA ARAB DI UNIVERSITI UMMUL QURA, ARAB SAUDI
                                     </p>
-                                    <div class="info-board-feed-tags">
-                                        <span class="info-board-feed-tag">Announcement</span>
-                                        <span class="info-board-feed-tag">Registration</span>
-                                        <span class="info-board-feed-tag">Official Page</span>
+                                    <div id="facebook-latest-media" class="info-board-feed-media">
+                                        <div class="info-board-feed-media-badge">
+                                            <span class="text-[10px] font-semibold uppercase tracking-[0.24em] text-blue-200">Recent Post</span>
+                                            <span id="facebook-latest-badge" class="text-lg font-extrabold leading-none">Part 1</span>
+                                        </div>
+                                    </div>
+                                    <div id="facebook-latest-tags" class="info-board-feed-tags">
+                                        <span class="info-board-feed-tag">Travelog</span>
+                                        <span class="info-board-feed-tag">Graduation Day</span>
+                                        <span class="info-board-feed-tag">Arabic Course</span>
                                     </div>
                                 </div>
                                 <div class="info-board-feed-post-footer">
-                                    <div class="info-board-feed-post-engagement">
-                                        <span><i class="far fa-thumbs-up mr-1"></i> 245</span>
-                                        <span><i class="far fa-comment mr-1"></i> 18</span>
+                                    <div id="facebook-latest-engagement" class="info-board-feed-post-engagement">
+                                        <span id="facebook-latest-reactions"><i class="far fa-thumbs-up mr-1"></i> 12 reactions</span>
+                                        <span id="facebook-latest-views"><i class="far fa-circle-play mr-1"></i> Reel preview</span>
                                     </div>
-                                    <span class="info-board-feed-link-hint">
+                                    <span id="facebook-latest-link-hint" class="info-board-feed-link-hint">
                                         <i class="fab fa-facebook-f"></i>
-                                        Open on Facebook
+                                        Open latest reel
                                     </span>
                                 </div>
                             </article>
@@ -3295,6 +3313,85 @@ This message was submitted via the website contact form.
                 window.setTimeout(tick, Math.max(250, msUntilNextMinute));
             };
             tick();
+        })();
+    </script>
+    <script>
+        (function () {
+            const cardLink = document.getElementById('facebook-latest-link');
+            const titleEl = document.getElementById('facebook-latest-title');
+            const authorEl = document.getElementById('facebook-latest-author');
+            const timeEl = document.getElementById('facebook-latest-time');
+            const durationEl = document.getElementById('facebook-latest-duration');
+            const mediaEl = document.getElementById('facebook-latest-media');
+            const badgeEl = document.getElementById('facebook-latest-badge');
+            const tagsEl = document.getElementById('facebook-latest-tags');
+            const reactionsEl = document.getElementById('facebook-latest-reactions');
+            const viewsEl = document.getElementById('facebook-latest-views');
+            const linkHintEl = document.getElementById('facebook-latest-link-hint');
+
+            if (!cardLink || !titleEl || !mediaEl) return;
+
+            const decodeHtml = (value) => {
+                const textarea = document.createElement('textarea');
+                textarea.innerHTML = value || '';
+                return textarea.value;
+            };
+
+            const shortenText = (value, maxLength) => {
+                const text = String(value || '').replace(/\s+/g, ' ').trim();
+                if (text.length <= maxLength) return text;
+                return `${text.slice(0, Math.max(0, maxLength - 1)).trimEnd()}...`;
+            };
+
+            const buildTags = (text) => {
+                const hashtagMatches = Array.from(new Set((text.match(/#[^\s#]+/g) || []).slice(0, 3)));
+                if (hashtagMatches.length) {
+                    return hashtagMatches.map((tag) => tag.replace(/^#/, '').replace(/([a-z])([A-Z])/g, '$1 $2'));
+                }
+
+                return ['Latest Post', 'Facebook', 'Akademi Al Khayr'];
+            };
+
+            fetch('/api/facebook-latest')
+                .then((response) => {
+                    if (!response.ok) throw new Error('Failed to load latest Facebook post.');
+                    return response.json();
+                })
+                .then((payload) => {
+                    if (!payload || !payload.success || !payload.latestPost) return;
+
+                    const post = payload.latestPost;
+                    const fullText = decodeHtml(post.fullText || post.title || '');
+                    const displayTitle = shortenText(fullText || 'Latest Facebook post', 210);
+                    const tagLabels = buildTags(fullText);
+
+                    cardLink.href = post.postUrl || cardLink.href;
+                    cardLink.setAttribute('aria-label', `Open latest Akademi Al Khayr Facebook post: ${displayTitle}`);
+                    titleEl.textContent = displayTitle;
+                    if (authorEl) authorEl.textContent = 'Akademi Al Khayr';
+                    if (timeEl) timeEl.textContent = post.relativeTime || 'Latest';
+                    if (durationEl) durationEl.textContent = post.duration ? `0:00 / ${post.duration}` : 'Video post';
+                    if (badgeEl) badgeEl.textContent = post.duration || 'Latest';
+                    if (reactionsEl) reactionsEl.innerHTML = `<i class="far fa-thumbs-up mr-1"></i> ${post.reactions || 'Open on Facebook'}`;
+                    if (viewsEl) viewsEl.innerHTML = `<i class="far fa-circle-play mr-1"></i> ${post.views || 'Video post'}`;
+                    if (linkHintEl) linkHintEl.innerHTML = '<i class="fab fa-facebook-f"></i> Open latest post';
+
+                    if (tagsEl) {
+                        tagsEl.innerHTML = tagLabels
+                            .map((label) => `<span class="info-board-feed-tag">${label}</span>`)
+                            .join('');
+                    }
+
+                    if (post.thumbnailUrl) {
+                        mediaEl.style.setProperty(
+                            '--info-board-feed-media-image',
+                            `url("${post.thumbnailUrl.replace(/"/g, '\\"')}")`
+                        );
+                    }
+                })
+                .catch(() => {
+                    // Keep the current fallback card if the feed source is unavailable.
+                });
         })();
     </script>
 </body>
