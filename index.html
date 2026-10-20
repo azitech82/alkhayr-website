@@ -754,15 +754,19 @@
             background: rgba(255, 255, 255, 0.22);
             box-shadow: 0 14px 28px rgba(2, 6, 23, 0.32);
         }
-        .info-board-iframe {
-            width: 100%;
-            max-width: 100%;
-            height: 100%;
+        .fb-page,
+        .fb-page span,
+        .fb-page iframe {
+            width: 100% !important;
+            max-width: 100% !important;
+            height: 100% !important;
             border: 0;
-            background: #ffffff;
             margin: 0 auto;
             display: block;
             transform: none;
+        }
+        .fb-page iframe {
+            background: #ffffff;
         }
         @keyframes info-board-progress {
             from {
@@ -834,10 +838,12 @@
                 max-width: 500px;
                 height: calc(26.4rem - 1.6rem);
             }
-            .info-board-iframe {
-                width: 100%;
-                max-width: 100%;
-                height: 100%;
+            .fb-page,
+            .fb-page span,
+            .fb-page iframe {
+                width: 100% !important;
+                max-width: 100% !important;
+                height: 100% !important;
                 transform: none;
             }
             .info-board-progress {
@@ -847,6 +853,9 @@
     </style>
 </head>
 <body class="text-gray-800 relative">
+    <!-- Facebook SDK for JavaScript -->
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v21.0"></script>
 
     <div id="info-board-overlay" class="info-board-overlay is-hidden" aria-live="polite" role="dialog" aria-modal="true" aria-label="Latest updates from Akademi Al Khayr">
         <div class="info-board-wrapper">
@@ -879,14 +888,37 @@
             <div id="info-board-card" class="info-board-card rounded-[1.75rem]">
                 <div class="info-board-embed">
                     <div id="info-board-iframe-overlay" class="absolute inset-0 z-10" aria-hidden="true"></div>
-                    <iframe
-                        id="info-board-iframe"
-                        class="info-board-iframe"
-                        title="Akademi Al Khayr Facebook recent posts"
-                        loading="eager"
-                        allow="encrypted-media; web-share"
-                        src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fakademialkhayrofficial%2F&tabs=timeline&width=500&height=397&small_header=true&adapt_container_width=true&hide_cover=true&show_facepile=false"
-                    ></iframe>
+                    
+                    <!-- Fallback / Loading State -->
+                    <div id="fb-fallback" class="absolute inset-0 flex flex-col items-center justify-center bg-white p-6 text-center z-0">
+                        <i class="fab fa-facebook text-4xl text-blue-600 mb-3 opacity-20"></i>
+                        <p class="text-gray-500 text-sm mb-4">The Facebook feed is taking longer than expected or is blocked by your browser settings.</p>
+                        <div class="flex flex-col gap-2 w-full max-w-[200px] mx-auto">
+                            <a href="https://www.facebook.com/akademialkhayrofficial/" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-md hover:bg-blue-700 transition">
+                                <i class="fab fa-facebook"></i>
+                                View on Facebook
+                            </a>
+                            <button onclick="window.location.reload()" class="text-xs text-blue-600 hover:underline">
+                                <i class="fas fa-sync-alt mr-1"></i> Try Refreshing
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Facebook Page Plugin (SDK Version) -->
+                    <div id="fb-container" class="fb-page relative z-10 opacity-0 transition-opacity duration-500" 
+                        data-href="https://www.facebook.com/akademialkhayrofficial/" 
+                        data-tabs="timeline" 
+                        data-width="500" 
+                        data-height="397" 
+                        data-small-header="true" 
+                        data-adapt-container-width="true" 
+                        data-hide-cover="true" 
+                        data-show-facepile="false">
+                        <blockquote cite="https://www.facebook.com/akademialkhayrofficial/" class="fb-xfbml-parse-ignore">
+                            <a href="https://www.facebook.com/akademialkhayrofficial/">Akademi Al Khayr</a>
+                        </blockquote>
+                    </div>
+
                     <a href="https://www.facebook.com/akademialkhayrofficial/" target="_blank" rel="noopener" class="absolute bottom-3 left-3 right-3 z-20 inline-flex items-center justify-center gap-2 rounded-xl bg-white/90 px-4 py-2 text-sm font-semibold text-gray-900 shadow-lg transition hover:bg-white">
                         <i class="fab fa-facebook text-blue-600"></i>
                         Open on Facebook
@@ -1436,7 +1468,7 @@
         const ayahBoardCard = document.getElementById('ayah-board-card');
         const infoBoardClose = document.getElementById('info-board-close');
         const infoBoardEmbed = infoBoardCard ? infoBoardCard.querySelector('.info-board-embed') : null;
-        const infoBoardFrame = document.getElementById('info-board-iframe');
+        const infoBoardFrame = infoBoardEmbed ? infoBoardEmbed.querySelector('.fb-page') : null;
         const infoBoardIframeOverlay = document.getElementById('info-board-iframe-overlay');
         const infoBoardProgress = document.getElementById('info-board-progress');
         const ayahBoardProgress = document.getElementById('ayah-board-progress');
@@ -1470,6 +1502,27 @@
             }
             infoBoardOverlay.classList.remove('is-hidden');
             document.body.classList.add('aak-preload-active');
+            
+            // Re-parse Facebook XFBML if SDK is loaded
+            if (window.FB) {
+                window.FB.XFBML.parse(infoBoardEmbed);
+                
+                // Monitor if the feed actually loads
+                setTimeout(() => {
+                    const fbContainer = document.getElementById('fb-container');
+                    const fbIframe = fbContainer ? fbContainer.querySelector('iframe') : null;
+                    if (fbIframe) {
+                        // If iframe height is very small, it only loaded the header, not the timeline
+                        // Or if it's still blank white. 
+                        // Note: we can't read iframe content due to CORS, but we can check height.
+                        const height = fbIframe.offsetHeight;
+                        if (height > 150) {
+                            fbContainer.classList.remove('opacity-0');
+                        }
+                    }
+                }, 3000);
+            }
+            
             startInfoBoardTimer();
         };
 
@@ -1538,7 +1591,8 @@
 
             // Fallback for mobile iframe interaction detection
             const checkFocusInterval = setInterval(() => {
-                if (document.activeElement === infoBoardFrame) {
+                const active = document.activeElement;
+                if (active && active.tagName === 'IFRAME' && infoBoardEmbed && infoBoardEmbed.contains(active)) {
                     stopInfoBoardAutoClose();
                     clearInterval(checkFocusInterval);
                 }
@@ -1583,7 +1637,8 @@
         window.addEventListener('scroll', stopInfoBoardAutoClose, { passive: true });
 
         window.addEventListener('blur', () => {
-            if (document.activeElement === infoBoardFrame) {
+            const active = document.activeElement;
+            if (active && active.tagName === 'IFRAME' && infoBoardEmbed && infoBoardEmbed.contains(active)) {
                 stopInfoBoardAutoClose();
             }
         });
