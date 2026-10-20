@@ -1,5 +1,5 @@
 const FEED_SOURCE_URL =
-  'https://r.jina.ai/http://https://www.facebook.com/akademialkhayrofficial/videos';
+  'https://r.jina.ai/https://www.facebook.com/akademialkhayrofficial/videos';
 const FACEBOOK_PAGE_URL = 'https://www.facebook.com/akademialkhayrofficial/';
 
 const sendJson = (res, statusCode, body, origin) => {
