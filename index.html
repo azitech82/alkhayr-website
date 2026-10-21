@@ -793,11 +793,28 @@
         .info-board-feed-list {
             flex: 1 1 auto;
             min-height: 0;
-            display: flex;
+            display: block;
+            overflow-y: auto;
+            padding-right: 0.2rem;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(148, 163, 184, 0.5) transparent;
+        }
+        .info-board-feed-list::-webkit-scrollbar {
+            width: 0.35rem;
+        }
+        .info-board-feed-list::-webkit-scrollbar-thumb {
+            background: rgba(148, 163, 184, 0.45);
+            border-radius: 9999px;
+        }
+        .info-board-feed-list::-webkit-scrollbar-track {
+            background: transparent;
         }
         .info-board-feed-post {
             width: 100%;
-            height: 100%;
+            min-height: 100%;
+            height: auto;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
